@@ -1,8 +1,8 @@
-import drippingMobile from "../assets/svg/m-errorTop.svg";
-import cloudsMobile from "../assets/svg/m-errorBottom.svg";
-import drippingWeb from "../assets/svg/w-errorTop.svg";
-import cloudsWeb1 from "../assets/svg/w-errorBottom1.svg";
-import cloudsWeb2 from "../assets/svg/w-errorBottom2.svg";
+import drippingMobile from "../assets/svg/m-error-top.svg";
+import cloudsMobile from "../assets/svg/m-error-bottom.svg";
+import drippingWeb from "../assets/svg/w-error-top.svg";
+import cloudsWeb1 from "../assets/svg/w-error-bottom1.svg";
+import cloudsWeb2 from "../assets/svg/w-error-bottom2.svg";
 import { Link } from "react-router-dom";
 import { urls } from "../common/routes";
 import "../assets/styles/App.css";

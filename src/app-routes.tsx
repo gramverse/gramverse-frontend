@@ -1,15 +1,15 @@
 import { Routes, Route } from "react-router-dom";
-import { Signup, SignupMoblie } from "./routeComponents/signup";
-import { Login, LoginMobile } from "./routeComponents/login";
-import { Main, MainMobile } from "./routeComponents/main";
-import { Explore, ExploreMobile } from "./routeComponents/explore";
-import { MyPage, MyPageMobile } from "./routeComponents/myPage";
-import { Authroize, AuthroizeMobile } from "./routeComponents/authorize";
-import { UrlErrorPage, UrlErrorPageMobile } from "./errors/urlErrorPage";
+import { Signup, SignupMoblie } from "./route-components/signup";
+import { Login, LoginMobile } from "./route-components/login";
+import { Main, MainMobile } from "./route-components/main";
+import { Explore, ExploreMobile } from "./route-components/explore";
+import { MyPage, MyPageMobile } from "./route-components/myPage";
+import { Authroize, AuthroizeMobile } from "./route-components/authorize";
+import { UrlErrorPage, UrlErrorPageMobile } from "./errors/url-error-page";
 import {
   ServerErrorPage,
   ServerErrorPageMoblie,
-} from "./errors/serverErrorPage";
+} from "./errors/server-error-page";
 
 import { urls } from "./common/routes";
 

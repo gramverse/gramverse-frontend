@@ -1,5 +1,5 @@
 import "./assets/styles/App.css";
-import { AppRoutes, AppRoutesMobile } from "./appRoutes";
+import { AppRoutes, AppRoutesMobile } from "./app-routes";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 function App() {
