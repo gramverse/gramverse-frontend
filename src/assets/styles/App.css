@@ -1,0 +1,46 @@
+@import url(fontStyles.css);
+
+:root {
+  padding: 0px;
+}
+body {
+  margin: 0px;
+}
+* {
+  font-family: IRANSans;
+  color: #17494d;
+}
+
+.linkClass {
+  text-decoration: none;
+  align-content: center;
+  vertical-align: middle;
+  color: white;
+  width: 158px;
+  height: 36px;
+  padding: 8px 16px 8px 16px;
+  gap: 8px;
+  border-radius: 16px;
+  border: none;
+  background: #ea5a69;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  text-align: center;
+}
+
+.errorMsg {
+  border: 1px solid #cdcdcd;
+  border-radius: 25px;
+  direction: rtl;
+  text-align: center;
+  width: 485px;
+  height: 450px;
+  top: 287px;
+  left: 477px;
+  padding: 64px 0px 64px 0px;
+  gap: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
