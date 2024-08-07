@@ -1,9 +1,9 @@
 import { Routes, Route } from "react-router-dom";
-import { Signup, SignupMoblie } from "./route-components/signup";
+import { Signup, SignupMoblie } from "./route-components/sign-up";
 import { Login, LoginMobile } from "./route-components/login";
 import { Main, MainMobile } from "./route-components/main";
 import { Explore, ExploreMobile } from "./route-components/explore";
-import { MyPage, MyPageMobile } from "./route-components/myPage";
+import { MyPage, MyPageMobile } from "./route-components/my-page";
 import { Authroize, AuthroizeMobile } from "./route-components/authorize";
 import { UrlErrorPage, UrlErrorPageMobile } from "./errors/url-error-page";
 import {
