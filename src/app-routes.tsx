@@ -14,6 +14,7 @@ import {
   ForgetPasswordMobile,
 } from "./route-components/reset-password/forget-password";
 import { ForgetPasswordInfo } from "./route-components/reset-password/forget-password-info";
+import { EditProfile } from "./route-components/edit-profile";
 import {
   ResetPassWord,
   ResetPassWordMobile,
@@ -33,6 +34,7 @@ export const AppRoutes = () => {
         path={urls.forgetPasswordInfo}
         element={<ForgetPasswordInfo />}
       ></Route>
+      <Route path={urls.editProfile} element={<EditProfile/>}></Route>
       <Route path={urls.main} element={<Main></Main>}>
         <Route path={urls.myPage} element={<MyPage></MyPage>}></Route>
         <Route></Route>

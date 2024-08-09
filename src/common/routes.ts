@@ -9,5 +9,6 @@ export const urls = {
   confirmEmail: "confirm-email",
   forgetPassword: "forget-password",
   forgetPasswordInfo: "forget-password-info",
+  editProfile: "edit-profile",
   notFound: "not-found",
 };
