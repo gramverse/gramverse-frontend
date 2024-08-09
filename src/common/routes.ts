@@ -10,4 +10,5 @@ export const urls = {
   forgetPassword: "forget-password",
   forgetPasswordInfo: "forget-password-info",
   editProfile: "edit-profile",
+  notFound: "not-found",
 };

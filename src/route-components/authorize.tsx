@@ -55,7 +55,7 @@ const AuthorizeComponent = ({ defaultValue }: { defaultValue: number }) => {
   };
 
   return (
-    <div className="flex bg-[#f5f5f5] flex-col items-center justify-center w-fit">
+    <div className="flex bgColor flex-col items-center justify-center w-fit">
       <img src={rahnema} alt="" className="my-5" />
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
@@ -119,10 +119,10 @@ const AuthorizeComponent = ({ defaultValue }: { defaultValue: number }) => {
 export const Authroize = () => {
   return (
     <div
-      className="w-full h-screen bg-white flex justify-center items-center"
+      className="w-full h-screen overflow-hidden bg-white flex justify-center items-center"
       style={{ backgroundImage: `url(${background})` }}
     >
-      <div className="w-[485px] bg-[#f5f5f5] rounded-3xl h-fit flex justify-center items-center">
+      <div className="w-[485px] bgColor overflow-hidden rounded-3xl h-fit flex justify-center items-center">
         <AuthorizeComponent defaultValue={0}></AuthorizeComponent>
       </div>
     </div>
@@ -132,7 +132,7 @@ export const Authroize = () => {
 export const AuthroizeMobile = () => {
   return (
     <>
-      <div className="h-screen bg-[#f5f5f5] h- w-fit p-10 flex flex-col justify-center items-center">
+      <div className="h-screen bgColor overflow-hidden w-fit p-10 flex flex-col justify-center items-center">
         <AuthorizeComponent defaultValue={0}></AuthorizeComponent>
       </div>
     </>
