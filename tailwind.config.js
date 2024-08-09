@@ -15,9 +15,6 @@ export default {
         'form-bg' : '#F5F5F5',
         'form-border' : '#CDCDCD',
       },
-      backgroundImage: {
-        'reset-password': "url('/assets/svg/reset-password-bg.svg')",
-      }
     },
   },
   plugins: [],

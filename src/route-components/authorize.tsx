@@ -92,7 +92,7 @@ const AuthorizeComponent = ({ defaultValue }: { defaultValue: number }) => {
             <Button>
               <Link
                 className="text-red-400 text-md no-underline"
-                to={`/${urls.resetPassword}`}
+                to={`/${urls.forgetPassword}`}
               >
                 فراموشی رمز عبور
               </Link>

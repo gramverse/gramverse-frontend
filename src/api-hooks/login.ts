@@ -13,7 +13,7 @@ export const useLogin = () => {
   const client = useHttpClient();
   const registerMutation = useMutation({
     mutationFn: async (formData: LoginFormData) => {
-      const response = await client.post("login", {
+      const response = await client.post("/users/login", {
         json: formData,
       });
       return response;

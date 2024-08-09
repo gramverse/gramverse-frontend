@@ -1,7 +1,12 @@
+import { useLocation } from "react-router-dom";
+
 export const Explore = () => {
+  const location = useLocation();
+
+
   return (
     <>
-      <h1>explore</h1>
+      <h1>{location.state.username}</h1>
     </>
   );
 };
