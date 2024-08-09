@@ -1,5 +1,21 @@
-const invalidLogin = " ‌نام کاربری یا رمز عبور اشتباه می‌باشد";
-
 export const errorMessages = {
-  invalidLogin,
+  1001: "شما دسترسی ندارید",
+  1002: "نام‌ کاربری اشتباه است",
+  1003: "رمز عبور اشتباه است",
+  1004: "ایمیل اشتباه است",
+  1005: "اینک به ایمیل شما ارسال شد",
+  1006: "لینک به ایمیل شما ارسال شد",
+  1007: "ثبت نام ناموفق بود",
+  1008: "خطا",
 };
+
+export enum ErrorCode {
+  UNAUTHORIZED = 1001,
+  INVALID_USERNAME = 1002,
+  INVALID_PASSWORD = 1003,
+  INVALID_EMAIL = 1004,
+  EMAIL_EXISTS = 1005,
+  USERNAME_EXISTS = 1006,
+  UNSUCCESSFUL_SIGNUP = 1007,
+  UNKNOWN_ERROR = 1008,
+}

@@ -104,7 +104,7 @@ const AuthorizeComponent = ({ defaultValue }: { defaultValue: number }) => {
             <Button
               className="text-red-400 text-md"
               onClick={() => {
-                setValue(1);
+                setValue(2);
               }}
             >
               ثبت نام در کالج‌گرام
@@ -120,7 +120,10 @@ export const Authroize = () => {
   return (
     <div
       className="w-full h-screen overflow-hidden bg-white flex justify-center items-center"
-      style={{ backgroundImage: `url(${background})` }}
+      style={{
+        backgroundImage: `url(${background})`,
+        // backgroundRepeat: "no-repeat",
+      }}
     >
       <div className="w-[485px] bgColor overflow-hidden rounded-3xl h-fit flex justify-center items-center">
         <AuthorizeComponent defaultValue={0}></AuthorizeComponent>
