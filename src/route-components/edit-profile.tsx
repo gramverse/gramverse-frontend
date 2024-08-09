@@ -11,7 +11,7 @@ import { InputField } from "../reusable-components/input-field";
 import { Envelope } from "../assets/svg/envelope.tsx";
 import { PersonIcon } from "../assets/svg/person-icon.tsx";
 import { SubmitBtn } from "../reusable-components/submit-btn.tsx";
-import { CancelBtn } from "../reusable-components/cancel -btn.tsx";
+import { CancelBtn } from "../reusable-components/cancel-btn.tsx";
 import { urls } from "../common/routes.ts";
 import { useNavigate } from "react-router-dom";
 import { useEditProfile, useGetProfile } from "../api-hooks/edit-profile.ts";
