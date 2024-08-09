@@ -10,7 +10,7 @@ export const useGetProfile = () => {
   const httpClient = useHttpClient();
   return useQuery<unknown, HTTPError, ProfileFormValue>({
     queryKey: ['getProfile'],
-    queryFn: () => httpClient.get(`user/getProfile`).json(),
+    queryFn: () => httpClient.get(`users/profile`).json(),
   });
 };
 
@@ -20,7 +20,7 @@ export const useEditProfile = () => {
     const httpClient = useHttpClient();
     return useMutation<unknown, HTTPError, ProfileFormValue>({
       mutationFn: (formValue: ProfileFormValue) =>
-        httpClient.post("user/profile/edit", { json: { formValue } }).json(),
+        httpClient.post("users/profile", { json: { formValue } }).json(),
       async onSuccess() {
         navigate(urls.main + urls.myPage);
       },
