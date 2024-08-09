@@ -8,9 +8,15 @@ export const CancelBtn = ({
 }: ButtonProps) => {
   return (
     <Button
-     className={clsx("w-20 h-9 py-2 px-4 gap-2 border-none rounded-2xl", className)}
+      className={clsx(
+        "w-20 h-9 py-2 px-4 gap-2 border-none rounded-2xl",
+        className
+      )}
       variant="outlined"
       {...btnProps}
+      sx={{
+        color: "black",
+      }}
     >
       {children}
     </Button>
