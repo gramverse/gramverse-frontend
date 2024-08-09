@@ -37,11 +37,14 @@ function CustomTabPanel(props: TabPanelProps) {
 }
 
 export const Main = () => {
-  // const { state } = useLocation();
-
-  const state = { username: "reyhaneh", login: false };
-  const [value, setValue] = React.useState(6);
+  const { state } = useLocation();
   const navigate = useNavigate();
+  useEffect(() => {
+    if (!state.username) {
+      navigate(`${urls.main}${urls.login}`);
+    }
+  });
+  const [value, setValue] = React.useState(6);
   useEffect(() => {
     switch (value) {
       case 0:
@@ -84,8 +87,12 @@ export const Main = () => {
 
 export const MainMobile = () => {
   const navigate = useNavigate();
-  // const { state } = useLocation();
-  const state = { username: "reyhaneh", login: false };
+  const { state } = useLocation();
+  useEffect(() => {
+    if (!state.username) {
+      navigate(`${urls.main}${urls.login}`);
+    }
+  });
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState("اکسپلور");
   const handleItemClick = (item: string) => {
