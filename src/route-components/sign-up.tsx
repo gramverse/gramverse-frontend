@@ -34,11 +34,12 @@ const SignUpLayout = () => {
     >
       {isError && <Alert severity="error">{error?.message}</Alert>}
       <div dir="rtl">
-        <p className="text-sm leading-6 text-right w-80">
-          برای ثبت‌نام کافیه نام کاربری، ایمیل و یک رمز عبور وارد کنید :
+        <p className="text-xs leading-loose text-right font-extralight mb-7">
+          به کالج‌گرام خوش آمدید. برای ثبت‌نام کافیه نام کاربری، ایمیل و یک رمز
+          عبور وارد کنید :
         </p>
 
-        <div className="flex flex-col gap-y-6">
+        <div className="flex flex-col gap-y-5">
           <InputField
             placeholder="نام کاربری"
             error={errors.username}
@@ -74,7 +75,7 @@ const SignUpLayout = () => {
 };
 
 export const Signup = () => {
-   return <SignUpLayout></SignUpLayout>;
+  return <SignUpLayout></SignUpLayout>;
 };
 
 export const SignupMoblie = () => {

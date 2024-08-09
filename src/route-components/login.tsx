@@ -4,8 +4,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { InputField } from "../reusable-components/input-field.tsx";
 import { loginSchema, LoginFormData } from "../common/types/login.ts";
-import { useLogin } from "../api-hooks/login.tsx";
+import { useLogin } from "../api-hooks/login.ts";
 import { Alert, Checkbox, FormControlLabel } from "@mui/material";
+import { SubmitBtn } from "../reusable-components/submit-btn.tsx";
 
 const LoginLayout = () => {
   const {
@@ -23,7 +24,7 @@ const LoginLayout = () => {
   };
 
   return (
-    <div className=" flex flex-col p-2 gap-5 justify-between w-96 mx-auto">
+    <div className=" flex flex-col p-2 gap-5 justify-between text-sm text-right w-80 mx-auto">
       <p className="font-extralight text-xs leading-loose">
         به کالج‌گرام خوش آمدید. برای ورود کافیه نام کاربری/ایمیل و رمز عبور
         خودتون رو وارد کنید:
@@ -56,9 +57,7 @@ const LoginLayout = () => {
           label="من‌را به خاطر بسپار"
         />
 
-        <button type="submit" className="btn">
-          ورود
-        </button>
+        <SubmitBtn size="medium"> ورود</SubmitBtn>
       </form>
     </div>
   );
