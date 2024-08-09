@@ -11,6 +11,7 @@ import {
 import { urls } from "./common/routes";
 import { ForgetPassword } from "./route-components/reset-password/forget-password";
 import { ForgetPasswordInfo } from "./route-components/reset-password/forget-password-info";
+import { EditProfile } from "./route-components/edit-profile";
 
 export const AppRoutes = () => {
   return (
@@ -19,8 +20,9 @@ export const AppRoutes = () => {
       <Route path={urls.login} element={<Authroize></Authroize>}></Route>
       <Route path={urls.forgetPassword} element={<ForgetPassword/>}></Route>
       <Route path={urls.forgetPasswordInfo} element={<ForgetPasswordInfo/>}></Route>
+      <Route path={urls.editProfile} element={<EditProfile/>}></Route>
       <Route path={`${urls.main}:username`} element={<Main></Main>}>
-        <Route path={urls.explore} element={<Explore></Explore>}></Route>
+        <Route path={urls.explore} element={<Explore login="true"></Explore>}></Route>
         <Route path={urls.myPage} element={<MyPage></MyPage>}></Route>
         <Route></Route>
       </Route>
