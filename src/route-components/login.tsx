@@ -24,7 +24,7 @@ const LoginLayout = () => {
   };
 
   return (
-    <div className=" flex flex-col p-2 gap-5 justify-between text-sm text-right w-80 mx-auto">
+    <div className=" bg-[#f5f5f5] flex flex-col p-2 gap-5 justify-between text-sm text-right w-80 mx-auto">
       <p className="font-extralight text-xs leading-loose">
         به کالج‌گرام خوش آمدید. برای ورود کافیه نام کاربری/ایمیل و رمز عبور
         خودتون رو وارد کنید:
@@ -59,6 +59,13 @@ const LoginLayout = () => {
 
         <SubmitBtn size="medium"> ورود</SubmitBtn>
       </form>
+      {/* <button
+        onClick={() =>
+          navigate(urls.main, { state: { username: "reyhaneh", login: true } })
+        }
+      >
+        sdfsaf
+      </button> */}
     </div>
   );
 };

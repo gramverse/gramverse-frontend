@@ -17,13 +17,16 @@
     color: #17494d;
     direction: rtl;
   }
-  div {
-    background-color: rgb(242, 240, 238);
-  }
 }
 
 @layer components {
   .btn {
     @apply bg-[#ea5a69] text-base text-stone-50 rounded-3xl px-7 py-3 font-normal w-fit;
+  }
+  .redColor {
+    @apply bg-[#ea5a69];
+  }
+  .bgColor {
+    @apply bg-[#f5f5f5];
   }
 }

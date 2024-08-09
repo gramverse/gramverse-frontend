@@ -12,7 +12,9 @@ export const useSignup = () => {
     mutationFn: (formValue: SignupFormValue) =>
       httpClient.post(`/users/signup`, { json: { formValue } }).json(),
     async onSuccess(_, { username }) {
-      navigate(`${urls.explore}`, { state: { username } });
+      navigate(`${urls.explore}`, {
+        state: { username: username, login: false },
+      });
     },
   });
 };

@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { Main, MainMobile } from "./route-components/main";
-import { Explore, ExploreMobile } from "./route-components/explore";
+import { Main, MainMobile } from "./route-components/main/main";
 import { MyPage, MyPageMobile } from "./route-components/my-page";
 import { Authroize, AuthroizeMobile } from "./route-components/authorize";
 import { UrlErrorPage, UrlErrorPageMobile } from "./errors/url-error-page";
@@ -45,11 +44,7 @@ export const AppRoutesMobile = () => {
         path={urls.login}
         element={<AuthroizeMobile></AuthroizeMobile>}
       ></Route>
-      <Route path={`${urls.main}:username`} element={<MainMobile></MainMobile>}>
-        <Route
-          path={urls.explore}
-          element={<ExploreMobile></ExploreMobile>}
-        ></Route>
+      <Route path={urls.main} element={<MainMobile></MainMobile>}>
         <Route
           path={urls.myPage}
           element={<MyPageMobile></MyPageMobile>}

@@ -20,7 +20,7 @@ export const useLogin = () => {
     },
     onSuccess: async (response) => {
       const { username } = (await response.json()) as LoginResponse;
-      navigate(urls.main, { state: { username: username } });
+      navigate(urls.main, { state: { username: username, login: true } });
     },
   });
   return registerMutation;
