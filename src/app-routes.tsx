@@ -10,12 +10,16 @@ import {
 } from "./errors/server-error-page";
 
 import { urls } from "./common/routes";
+import { ForgetPassword } from "./route-components/reset-password/forget-password";
+import { ForgetPasswordInfo } from "./route-components/reset-password/forget-password-info";
 
 export const AppRoutes = () => {
   return (
     <Routes>
       <Route path={urls.signup} element={<Authroize></Authroize>}></Route>
       <Route path={urls.login} element={<Authroize></Authroize>}></Route>
+      <Route path={urls.forgetPassword} element={<ForgetPassword/>}></Route>
+      <Route path={urls.forgetPasswordInfo} element={<ForgetPasswordInfo/>}></Route>
       <Route path={`${urls.main}:username`} element={<Main></Main>}>
         <Route path={urls.explore} element={<Explore></Explore>}></Route>
         <Route path={urls.myPage} element={<MyPage></MyPage>}></Route>

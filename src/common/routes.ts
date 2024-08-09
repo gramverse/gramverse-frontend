@@ -7,4 +7,6 @@ export const urls = {
   myPage: "mypage",
   resetPassword: "reset-password",
   confirmEmail: "confirm-email",
+  forgetPassword: "forget-password",
+  forgetPasswordInfo: "forget-password-info",
 };
