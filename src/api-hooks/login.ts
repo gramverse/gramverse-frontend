@@ -16,6 +16,7 @@ export const useLogin = () => {
       const response = await client.post("/users/login", {
         json: formData,
       });
+      console.log(response);
       return response;
     },
     onSuccess: async (response) => {

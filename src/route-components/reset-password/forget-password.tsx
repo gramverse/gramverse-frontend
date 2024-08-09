@@ -14,6 +14,7 @@ import { SubmitBtn } from "../../reusable-components/submit-btn";
 import { useNavigate } from "react-router-dom";
 import { urls } from "../../common/routes";
 import { CancelBtn } from "../../reusable-components/cancel-btn";
+import { errorMessages } from "../../common/error-messages";
 
 const ForgetPasswordLayout = () => {
   const navigate = useNavigate();
@@ -65,7 +66,10 @@ export const ForgetPassword = () => {
   return (
     <div
       className="w-full h-screen overflow-hidden bgColor flex justify-center items-center"
-      style={{ backgroundImage: `url(${background})` }}
+      style={{
+        backgroundImage: `url(${background})`,
+        // backgroundRepeat: "no-repeat",
+      }}
     >
       <div className="w-[485px] py-28 bgColor rounded-3xl h-fit flex justify-center items-center">
         <ForgetPasswordLayout></ForgetPasswordLayout>

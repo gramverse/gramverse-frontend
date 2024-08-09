@@ -15,6 +15,7 @@ import { SubmitBtn } from "../../reusable-components/submit-btn";
 import { useLocation } from "react-router-dom";
 import { useResetPassword } from "../../api-hooks/reset-password";
 import { useEffect } from "react";
+import { errorMessages } from "../../common/error-messages";
 
 const ResetPassWordComponent = () => {
   const {
@@ -75,7 +76,10 @@ export const ResetPassWord = () => {
   return (
     <div
       className="w-full h-screen overflow-hidden bgColor flex justify-center items-center"
-      style={{ backgroundImage: `url(${background})` }}
+      style={{
+        backgroundImage: `url(${background})`,
+        // backgroundRepeat: "no-repeat",
+      }}
     >
       <div className="w-[485px] bgColor py-28 rounded-3xl h-fit flex justify-center items-center">
         <ResetPassWordComponent></ResetPassWordComponent>

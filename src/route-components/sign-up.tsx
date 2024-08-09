@@ -11,6 +11,7 @@ import { InputField } from "../reusable-components/input-field";
 import { Envelope } from "../assets/svg/envelope.tsx";
 import { PersonIcon } from "../assets/svg/person-icon.tsx";
 import { SubmitBtn } from "../reusable-components/submit-btn.tsx";
+import { errorMessages } from "../../common/error-messages";
 
 const SignUpLayout = () => {
   const {
