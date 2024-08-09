@@ -18,7 +18,7 @@ const loginResponseSchema = z.object({
   __v: z.number().optional(),
 });
 
-type LoginRespnse = z.infer<typeof loginResponseSchema>;
+//type LoginRespnse = z.infer<typeof loginResponseSchema>;
 
 export const useLogin = () => {
   const navigate = useNavigate();
