@@ -8,12 +8,12 @@ function App() {
   const mobile = useMediaQuery("(max-width:375px)");
 
   return (
-    <>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <div lang="fa">
         {mobile && <AppRoutesMobile></AppRoutesMobile>}
         {!mobile && <AppRoutes></AppRoutes>}
-      </QueryClientProvider>
-    </>
+      </div>
+    </QueryClientProvider>
   );
 }
 
