@@ -40,7 +40,7 @@ export const Main = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
-    if (!state.username) {
+    if (!state?.username) {
       navigate(`${urls.main}${urls.login}`);
     }
   });
@@ -48,7 +48,7 @@ export const Main = () => {
   useEffect(() => {
     switch (value) {
       case 0:
-        navigate(urls.main + state.username);
+        navigate(urls.main + state?.username);
         break;
     }
   }, [value, navigate]);
@@ -68,13 +68,13 @@ export const Main = () => {
           <Panel
             value={value}
             handleChange={handleChange}
-            username={state.username}
+            username={state?.username}
           />
           <div className="flex flex-col"></div>
         </div>
         <div className="w-full flex justify-center items-center">
           <CustomTabPanel value={value} index={6}>
-            <Explore login={state.login} />
+            <Explore login={state?.login} />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={0}>
             <MyPage />
@@ -89,7 +89,7 @@ export const MainMobile = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   useEffect(() => {
-    if (!state.username) {
+    if (!state?.username) {
       navigate(`${urls.main}${urls.login}`);
     }
   });
@@ -127,7 +127,7 @@ export const MainMobile = () => {
         </div>
         <Divider />
       </div>
-      {selectedItem === "اکسپلور" && <Explore login={state.login} />}
+      {selectedItem === "اکسپلور" && <Explore login={state?.login} />}
       <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-10">
         <button
           className="redColor border-none w-12 h-12 rounded-full"

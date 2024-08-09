@@ -84,7 +84,7 @@ const AuthorizeComponent = ({ defaultValue }: { defaultValue: number }) => {
         <CustomTabPanel value={value} index={0}>
           <Login></Login>
         </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
+        <CustomTabPanel value={value} index={2}>
           <Signup></Signup>
         </CustomTabPanel>
         <div className="flex flex-col gap-0 mb-6 mr-8">
