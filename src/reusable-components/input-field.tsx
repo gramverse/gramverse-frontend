@@ -6,7 +6,7 @@ import {
   FormHelperText,
   TextFieldProps,
 } from "@mui/material";
-import { ErrorIcon } from "../assets/svg/error";
+import { ErrorSvgIcon } from "../assets/svg/error";
 import { ElementType, forwardRef, ReactNode } from "react";
 
 type InputFieldProps = Omit<TextFieldProps, "error"> & {
@@ -30,7 +30,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
         helperText={
           !!error && (
             <CustomHelperText>
-              <ErrorIcon />
+              <ErrorSvgIcon />
               {error?.message}
             </CustomHelperText>
           )
