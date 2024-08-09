@@ -11,7 +11,6 @@ import { InputField } from "../reusable-components/input-field";
 import { Envelope } from "../assets/svg/envelope.tsx";
 import { PersonIcon } from "../assets/svg/person-icon.tsx";
 import { SubmitBtn } from "../reusable-components/submit-btn.tsx";
-import { EditProfileLayout } from "./edit-profile.tsx";
 
 const SignUpLayout = () => {
   const {
@@ -76,9 +75,7 @@ const SignUpLayout = () => {
 };
 
 export const Signup = () => {
-  //return <SignUpLayout></SignUpLayout>;
-  return <EditProfileLayout />
-  //remove import
+  return <SignUpLayout></SignUpLayout>;
 };
 
 export const SignupMoblie = () => {
