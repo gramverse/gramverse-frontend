@@ -42,6 +42,7 @@ const LoginLayout = () => {
         <InputField
           placeholder={"رمز عبور"}
           error={errors.password}
+          type="password"
           svg={Key}
           {...register("password")}
         />
