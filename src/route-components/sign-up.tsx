@@ -29,7 +29,7 @@ const SignUpLayout = () => {
 
   return (
     <form
-      className="flex flex-col gap-y-8 w-80 m-auto p-4"
+      className="flex  bg-[#f5f5f5] flex-col gap-y-8 w-80 m-auto p-4"
       onSubmit={handleSubmit(onSubmit)}
     >
       {isError && <Alert severity="error">{error?.message}</Alert>}

@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import rahnema from "../assets/svg/rahnema.svg";
-import { Tabs, Tab, Box, Button } from "@mui/material";
+import { Tabs, Tab, Box, Button, Divider } from "@mui/material";
 import React, { useEffect } from "react";
 import { Login } from "./login";
 import { Signup } from "./sign-up";
@@ -55,7 +55,7 @@ const AuthorizeComponent = ({ defaultValue }: { defaultValue: number }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-fit">
+    <div className="flex bg-[#f5f5f5] flex-col items-center justify-center w-fit">
       <img src={rahnema} alt="" className="my-5" />
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
@@ -77,6 +77,7 @@ const AuthorizeComponent = ({ defaultValue }: { defaultValue: number }) => {
             }}
           >
             <Tab label="ورود" {...a11yProps(0)} />
+            <Tab label="" icon={<Divider orientation="vertical" />} />
             <Tab label="ثبت نام" {...a11yProps(1)} />
           </Tabs>
         </Box>
@@ -121,7 +122,7 @@ export const Authroize = () => {
       className="w-full h-screen bg-white flex justify-center items-center"
       style={{ backgroundImage: `url(${background})` }}
     >
-      <div className="w-[485px] rounded-3xl h-fit flex justify-center items-center">
+      <div className="w-[485px] bg-[#f5f5f5] rounded-3xl h-fit flex justify-center items-center">
         <AuthorizeComponent defaultValue={0}></AuthorizeComponent>
       </div>
     </div>
@@ -131,7 +132,7 @@ export const Authroize = () => {
 export const AuthroizeMobile = () => {
   return (
     <>
-      <div className="h-screen h- w-fit p-10 flex flex-col justify-center items-center">
+      <div className="h-screen bg-[#f5f5f5] h- w-fit p-10 flex flex-col justify-center items-center">
         <AuthorizeComponent defaultValue={0}></AuthorizeComponent>
       </div>
     </>

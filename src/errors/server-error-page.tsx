@@ -11,7 +11,7 @@ const ErrorMessage = ({ size }: { size: "mobile" | "web" }) => {
   return (
     <>
       {size === "mobile" && (
-        <div className="flex flex-col items-center justify-between gap-9 rounded-xl border border-stone-300 m-7 py-16 px-2">
+        <div className="flex bg-[#f5f5f5] flex-col items-center justify-between gap-9 rounded-xl border border-stone-300 m-7 py-16 px-2">
           <h1 className="font-bold text-4xl">وای اینجا چه خبره؟!</h1>
           <h3 className="font-bold text-2xl">ظاهرا یک مشکلی وجود داره! </h3>
           <p className="font-normal text-l">
@@ -28,7 +28,7 @@ const ErrorMessage = ({ size }: { size: "mobile" | "web" }) => {
         </div>
       )}
       {size === "web" && (
-        <div className="flex flex-col items-center justify-between gap-9 rounded-xl border border-stone-300 m-7 p-10">
+        <div className="flex flex-col  bg-[#f5f5f5] items-center justify-between gap-9 rounded-xl border border-stone-300 m-7 p-10">
           <h1 className="font-bold text-5xl">وای اینجا چه خبره؟!</h1>
           <h3 className="font-bold text-2xl">ظاهرا یک مشکلی وجود داره! </h3>
           <p className="font-normal text-l">
