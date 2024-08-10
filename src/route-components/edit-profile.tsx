@@ -15,44 +15,42 @@
 // import { useEditProfile, useGetProfile } from "../api-hooks/edit-profile.ts";
 // import { ProfileFormValue } from "../common/types/profile.ts";
 
-//  const EditProfileLayout = () => {
-//     //remove export
-//   const navigate = useNavigate();
-//   const {data: profile } = useGetProfile();
-//   const {
-//     register,
-//     handleSubmit,
-//     formState: { errors },
-//   } = useForm<SignupFormValue>({
-//     criteriaMode: "all",
-//     resolver: zodResolver(signupFormValueSchema),
-//     // defaultValues: profile
-//   });
+const EditProfileLayout = () => {
+  //remove export
+  const navigate = useNavigate();
+  const { data: profile } = useGetProfile();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignupFormValue>({
+    criteriaMode: "all",
+    resolver: zodResolver(signupFormValueSchema),
+    // defaultValues: profile
+  });
 
 //   //   const {data, isError, error:get}= useGetProfile();
 //   //   useEffect(()=>{
 //   //   },[]);
 
-//     const { isError, error, mutate } = useEditProfile();
+  const { mutate } = useEditProfile();
 
 //   const onSubmit: SubmitHandler<ProfileFormValue> = (formData) => {
 //     mutate(formData);
 //   };
 
-// //   if(!profile) {
-// //     return <CircularProgress />
-// //   }
+  //   if(!profile) {
+  //     return <CircularProgress />
+  //   }
 
-//   return (
-//     <form
-//       className="flex flex-col gap-y-8 w-80 m-auto p-4"
-//       onSubmit={handleSubmit(onSubmit)}
-//     >
-//       {/* {isError && <Alert severity="error">{error?.message}</Alert>} */}
-//       <div dir="rtl">
-//         <p className="text-xl text-center font-bold">
-//           ویرایش حساب
-//         </p>
+  return (
+    <form
+      className="flex flex-col gap-y-8 w-80 m-auto p-4"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      {/* {isError && <Alert severity="error">{error?.message}</Alert>} */}
+      <div dir="rtl">
+        <p className="text-xl text-center font-bold">ویرایش حساب</p>
 
 //         <div className="flex flex-col gap-y-5">
 //           <InputField

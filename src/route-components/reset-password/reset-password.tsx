@@ -15,7 +15,7 @@ import { SubmitBtn } from "../../reusable-components/submit-btn";
 import { useLocation } from "react-router-dom";
 import { useResetPassword } from "../../api-hooks/reset-password";
 import { useEffect } from "react";
-import { errorMessages } from "../../common/error-messages";
+// import { errorMessages } from "../../common/error-messages";
 
 const ResetPassWordComponent = () => {
   const {
