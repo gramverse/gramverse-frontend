@@ -11,7 +11,7 @@ export const useSignup = () => {
   return useMutation<unknown, HTTPError, SignupFormValue>({
     mutationFn: ({ username, email, password }: SignupFormValue) =>
       httpClient
-        .post(`/users/signup`, {
+        .post("/users/signup", {
           json: { userName: username, email, password },
         })
         .json(),

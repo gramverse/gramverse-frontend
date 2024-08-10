@@ -45,7 +45,7 @@ const AuthorizeComponent = ({ defaultValue }: { defaultValue: number }) => {
       case 0:
         navigate(urls.main + urls.login);
         break;
-      case 1:
+      case 2:
         navigate(urls.main + urls.signup);
     }
   }, [value, navigate]);
