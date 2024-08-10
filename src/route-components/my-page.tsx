@@ -1,8 +1,8 @@
 import { SubmitBtn } from "../reusable-components/submit-btn";
-import { useNavigate } from "react-router-dom";
-import { urls } from "../common/routes";
+// import { useNavigate } from "react-router-dom";
+// import { urls } from "../common/routes";
 const MyPageButton = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   return <SubmitBtn onClick={() => {}}>ویرایش پروفایل</SubmitBtn>;
 };
 

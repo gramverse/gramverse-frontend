@@ -15,10 +15,10 @@ import { useNavigate } from "react-router-dom";
 import { useEditProfile, useGetProfile } from "../api-hooks/edit-profile.ts";
 import { ProfileFormValue } from "../common/types/profile.ts";
 
- const EditProfileLayout = () => {
-    //remove export
+const EditProfileLayout = () => {
+  //remove export
   const navigate = useNavigate();
-  const {data: profile } = useGetProfile();
+  const { data: profile } = useGetProfile();
   const {
     register,
     handleSubmit,
@@ -33,15 +33,15 @@ import { ProfileFormValue } from "../common/types/profile.ts";
   //   useEffect(()=>{
   //   },[]);
 
-    const { isError, error, mutate } = useEditProfile();
+  const { mutate } = useEditProfile();
 
   const onSubmit: SubmitHandler<ProfileFormValue> = (formData) => {
     mutate(formData);
   };
 
-//   if(!profile) {
-//     return <CircularProgress />
-//   }
+  //   if(!profile) {
+  //     return <CircularProgress />
+  //   }
 
   return (
     <form
@@ -50,9 +50,7 @@ import { ProfileFormValue } from "../common/types/profile.ts";
     >
       {/* {isError && <Alert severity="error">{error?.message}</Alert>} */}
       <div dir="rtl">
-        <p className="text-xl text-center font-bold">
-          ویرایش حساب
-        </p>
+        <p className="text-xl text-center font-bold">ویرایش حساب</p>
 
         <div className="flex flex-col gap-y-5">
           <InputField

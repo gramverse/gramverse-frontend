@@ -14,7 +14,7 @@ import { SubmitBtn } from "../../reusable-components/submit-btn";
 import { useNavigate } from "react-router-dom";
 import { urls } from "../../common/routes";
 import { CancelBtn } from "../../reusable-components/cancel-btn";
-import { errorMessages } from "../../common/error-messages";
+// import { errorMessages } from "../../common/error-messages";
 
 const ForgetPasswordLayout = () => {
   const navigate = useNavigate();
