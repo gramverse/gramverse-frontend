@@ -77,7 +77,7 @@ const AuthorizeComponent = ({ defaultValue }: { defaultValue: number }) => {
             }}
           >
             <Tab label="ورود" {...a11yProps(0)} />
-            <Tab label="" icon={<Divider orientation="vertical" />} />
+            <Tab label="" icon={<Divider orientation="vertical" />} disabled />
             <Tab label="ثبت نام" {...a11yProps(1)} />
           </Tabs>
         </Box>
