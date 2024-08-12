@@ -14,7 +14,7 @@ export const useResetPassword = () => {
     mutationFn: (location: string) =>
       httpClient.post(`/users/resetPassword`, { json: { location } }).json(),
     async onError() {
-      navigate(urls.main + urls.notFound);
+      navigate(urls.notFound);
     },
   });
 };
@@ -28,7 +28,7 @@ export const useConfirmResetPassword = () => {
         .post(`/users/confirmResetPassword`, { json: { formValue } })
         .json(),
     async onSuccess() {
-      navigate(urls.main + urls.login);
+      navigate(urls.login);
     },
   });
 };

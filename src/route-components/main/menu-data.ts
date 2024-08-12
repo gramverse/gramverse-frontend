@@ -7,23 +7,13 @@ import explore from "../../assets/svg/explore.svg";
 import search from "../../assets/svg/search.svg";
 import menu from "../../assets/svg/menu.svg";
 
-export const iconList = [
-  pin,
-  saved,
-  messages,
-  notification,
-  tags,
-  explore,
-  search,
-  menu,
-];
-export const itemList = [
-  "صفحه من",
-  "ذخیره‌ها",
-  "پیام‌ها",
-  "اعلانات",
-  "تگ شده‌ها",
-  "اکسپلور‍",
-  "جستجو",
-  "بیشتر",
-];
+export const itemList = {
+  myPage: { text: "صفحه من", icon: pin },
+  saved: { text: "ذخیره‌ها", icon: saved },
+  messages: { text: "پیام‌ها", icon: messages },
+  notifs: { text: "اعلانات", icon: notification },
+  tagged: { text: "تگ شده‌ها", icon: tags },
+  explore: { text: "اکسپلور‍", icon: explore },
+  search: { text: "جستجو", icon: search },
+  more: { text: "بیشتر", icon: menu },
+};

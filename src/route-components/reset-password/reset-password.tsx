@@ -4,17 +4,17 @@ import {
 } from "../../common/types/reset-password";
 import { SubmitHandler, useForm } from "react-hook-form";
 import rahnemaLogo from "../../assets/svg/rahnema-logo.svg";
-import background from "../../assets/svg/background.svg";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Alert } from "@mui/material";
-import { Key } from "../../assets/svg/key";
+import Key from "../../assets/svg/key.svg";
 import { useConfirmResetPassword } from "../../api-hooks/reset-password";
 import { InputField } from "../../reusable-components/input-field";
-import { SubmitBtn } from "../../reusable-components/submit-btn";
+import { Button } from "../../reusable-components/button";
 
 import { useLocation } from "react-router-dom";
 import { useResetPassword } from "../../api-hooks/reset-password";
 import { useEffect } from "react";
+import { CollegeBackground } from "../../reusable-components/rahnema-background";
 // import { errorMessages } from "../../common/error-messages";
 
 const ResetPassWordComponent = () => {
@@ -51,21 +51,21 @@ const ResetPassWordComponent = () => {
         <InputField
           placeholder="رمز عبور"
           type="password"
-          error={errors.password}
+          error={errors.password?.message}
           svg={Key}
           {...register("password")}
         />
         <InputField
           placeholder="تکرار رمز عبور"
           type="password"
-          error={errors.confirmPassword}
+          error={errors.confirmPassword?.message}
           svg={Key}
           {...register("confirmPassword")}
         />
         <div className="flex flex-row justify-end gap-5">
-          <SubmitBtn className="w-48" size="medium">
+          <Button className="w-48" size="medium">
             ثبت رمز عبور جدید{" "}
-          </SubmitBtn>
+          </Button>
         </div>
       </form>
     </div>
@@ -74,24 +74,18 @@ const ResetPassWordComponent = () => {
 
 export const ResetPassWord = () => {
   return (
-    <div
-      className="w-full h-screen overflow-hidden bgColor flex justify-center items-center"
-      style={{
-        backgroundImage: `url(${background})`,
-        // backgroundRepeat: "no-repeat",
-      }}
-    >
+    <CollegeBackground>
       <div className="w-[485px] bgColor py-28 rounded-3xl h-fit flex justify-center items-center">
         <ResetPassWordComponent></ResetPassWordComponent>
       </div>
-    </div>
+    </CollegeBackground>
   );
 };
 
 export const ResetPassWordMobile = () => {
   return (
     <>
-      <div className="h-screen bgColor overflow-hidden h- w-fit p-10 flex flex-col justify-center items-center">
+      <div className="h-screen bgColor w-fit p-10 flex flex-col justify-center items-center">
         <ResetPassWordComponent></ResetPassWordComponent>
       </div>
     </>

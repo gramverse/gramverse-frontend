@@ -1,9 +1,7 @@
-import { SubmitBtn } from "../reusable-components/submit-btn";
-// import { useNavigate } from "react-router-dom";
-// import { urls } from "../common/routes";
+import { useParams } from "react-router-dom";
 const MyPageButton = () => {
-  // const navigate = useNavigate();
-  return <SubmitBtn onClick={() => {}}>ویرایش پروفایل</SubmitBtn>;
+  const params = useParams();
+  return <div>welcome {params.username}</div>;
 };
 
 export const MyPage = () => {

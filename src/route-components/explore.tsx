@@ -1,6 +1,6 @@
 import { CircularProgress } from "@mui/material";
-import { SuccessAlert } from "../reusable-components/success-alert";
-import { SubmitBtn } from "../reusable-components/submit-btn";
+import { Alert } from "../reusable-components/alert";
+import { Button } from "../reusable-components/button";
 
 const ExploreMessage = ({ login }: { login: boolean }) => {
   return (
@@ -8,7 +8,7 @@ const ExploreMessage = ({ login }: { login: boolean }) => {
       {login ? (
         <div className="flex flex-col gap-10 items-center w-full">
           <CircularProgress />
-          <SuccessAlert text="با موفقیت وارد شدید" />
+          <Alert message="با موفقیت وارد شدید" status="success" />
         </div>
       ) : (
         <div className="flex bg-[#f5f5f5] flex-col items-center justify-between gap-9 rounded-xl border border-stone-300 m-7 py-16 px-2">
@@ -19,7 +19,7 @@ const ExploreMessage = ({ login }: { login: boolean }) => {
             برای دیدن عکس‌ها توی این صفحه باید
             <br /> کالج‌گرامی‌ها رو دنبال کنی. آماده‌ای؟
           </p>
-          <SubmitBtn>جستجوی کالج گرامی ها</SubmitBtn>
+          <Button>جستجوی کالج گرامی ها</Button>
         </div>
       )}
     </>

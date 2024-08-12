@@ -9,7 +9,10 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div lang="fa">
+      <div
+        lang="fa"
+        className="overflow-hidden flex justify-center items-start"
+      >
         {mobile && <AppRoutesMobile></AppRoutesMobile>}
         {!mobile && <AppRoutes></AppRoutes>}
       </div>

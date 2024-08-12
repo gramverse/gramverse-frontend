@@ -13,7 +13,7 @@ export const useForgetPassword = () => {
     mutationFn: (formValue: forgetPassFormValue) =>
       httpClient.post(`/users/resetRequest`, { json: { formValue } }).json(),
     async onSuccess() {
-      navigate(urls.main + urls.forgetPasswordInfo);
-    }
+      navigate(urls.forgetPasswordInfo);
+    },
   });
 };
