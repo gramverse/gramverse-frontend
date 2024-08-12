@@ -35,10 +35,9 @@ export const AppRoutes = () => {
         element={<ForgetPasswordInfo />}
       ></Route>
       {/* <Route path={urls.editProfile} element={<EditProfile/>}></Route> */}
-      <Route path={urls.main} element={<Main></Main>}>
-        <Route path={urls.myPage} element={<MyPage></MyPage>}></Route>
-        <Route></Route>
-      </Route>
+      <Route path={urls.main} element={<Main></Main>}></Route>
+      <Route path={"/:username"} element={<MyPage></MyPage>}></Route>
+      <Route></Route>
       <Route path="*" element={<UrlErrorPage></UrlErrorPage>}></Route>
       <Route
         path={urls.notFound}
@@ -77,13 +76,11 @@ export const AppRoutesMobile = () => {
         path={urls.forgetPasswordInfo}
         element={<ForgetPasswordInfo />}
       ></Route>
-      <Route path={urls.main} element={<MainMobile></MainMobile>}>
-        <Route
-          path={urls.myPage}
-          element={<MyPageMobile></MyPageMobile>}
-        ></Route>
-        <Route></Route>
-      </Route>
+      <Route path={urls.main} element={<MainMobile></MainMobile>}></Route>
+      <Route
+        path={"/:username"}
+        element={<MyPageMobile></MyPageMobile>}
+      ></Route>
       <Route
         path="*"
         element={<UrlErrorPageMobile></UrlErrorPageMobile>}

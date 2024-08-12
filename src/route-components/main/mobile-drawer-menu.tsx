@@ -1,85 +1,57 @@
-import {
-  Drawer,
-  List,
-  ListItem,
-  ListItemIcon,
-  Icon,
-  ListItemText,
-} from "@mui/material";
-import { itemList, iconList } from "./menu-data";
+import clsx from "clsx";
+import { itemList } from "./menu-data";
+import { Tab } from "../../reusable-components/tab";
 
 export const DrawerMenu = ({
   isOpen,
   toggleDrawer,
   handleItemClick,
 }: {
-  isOpen: boolean;
   toggleDrawer: () => void;
   handleItemClick: (item: string) => void;
+  isOpen: boolean;
 }) => {
   return (
-    <Drawer
-      anchor="bottom"
-      open={isOpen}
-      onClose={toggleDrawer}
-      PaperProps={{
-        sx: {
-          width: "375px",
-          height: "40%",
-          margin: "auto",
-          paddingInline: "30px",
-          borderTopLeftRadius: "26px",
-          borderTopRightRadius: "26px",
-          boxShadow:
-            "0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06)",
-        },
-      }}
-      ModalProps={{
-        BackdropProps: {
-          sx: {
-            backgroundColor: "transparent",
-          },
-        },
-      }}
+    <div
+      className={clsx(
+        !isOpen && "-translate-y-full",
+
+        "absolute z-20 w-screen h-screen flex flex-col items-end justify-end transition transform delay-75 duration-1000 ease-in-out "
+      )}
+      onClick={toggleDrawer}
     >
-      <List>
-        {itemList
+      <div className="w-screen h-1/2 bg-white rounded-t-3xl py-10 ps-10 shadow-lg border-2 border-solid border-gray-300 flex flex-col gap-3 ">
+        {Object.values(itemList)
           .slice(0, 5)
-          .concat(itemList.slice(7))
-          .map((text, index) => (
-            <ListItem
-              key={text}
-              onClick={() => {
-                handleItemClick(text);
-              }}
-              sx={{ justifyContent: "flex-end" }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: "auto",
-                  marginLeft: 2,
-                  justifyContent: "flex-end",
-                  borderRadius: "8px",
-                  mb: 1,
-                  "&:hover": {
-                    backgroundColor: "rgba(0, 0, 0, 0.04)",
-                  },
-                  "&:active": {
-                    backgroundColor: "rgba(0, 0, 0, 0.08)",
-                  },
+          .map(({ text, icon }, index) => {
+            return (
+              <Tab
+                key={text + index}
+                text={text}
+                icon={icon}
+                onClick={() => {
+                  handleItemClick(Object.keys(itemList)[index]);
+                  toggleDrawer();
                 }}
-              >
-                <Icon>
-                  <img
-                    src={iconList.slice(0, 5).concat(iconList.slice(7))[index]}
-                    alt=""
-                  />
-                </Icon>
-              </ListItemIcon>
-              <ListItemText primary={text} sx={{ textAlign: "right" }} />
-            </ListItem>
-          ))}
-      </List>
-    </Drawer>
+              ></Tab>
+            );
+          })}
+        {Object.values(itemList)
+          .slice(7)
+          .map(({ text, icon }, index) => {
+            return (
+              <Tab
+                key={text + index}
+                text={text}
+                icon={icon}
+                onClick={() => {
+                  handleItemClick(Object.keys(itemList)[7]);
+                  toggleDrawer();
+                }}
+              ></Tab>
+            );
+          })}
+      </div>
+    </div>
   );
 };
