@@ -15,7 +15,7 @@ export const useLogin = () => {
         })
         .json(),
     onSuccess(data) {
-      const { userName } = loginResponseSchema.parse(data);
+      const { userName } = loginResponse.parse(data);
       navigate(urls.main, { state: { userName: userName, login: true } });
     },
   });

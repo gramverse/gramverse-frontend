@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { blobToDataUrl } from "../blob-to-data-url";
 
 const profileCommonSchema = z.object({
   firstName: z
