@@ -1,107 +1,141 @@
-// // import { SubmitHandler, useForm } from "react-hook-form";
-// // import { zodResolver } from "@hookform/resolvers/zod";
-// // import {
-// //   SignupFormValue,
-// //   signupFormValueSchema,
-// // } from "../common/types/sign-up";
-// // import { Key } from "../assets/svg/key.tsx";
-// // import { InputField } from "../reusable-components/input-field";
-// // import { Envelope } from "../assets/svg/envelope.tsx";
-// // import { PersonIcon } from "../assets/svg/person-icon.tsx";
-// // import { SubmitBtn } from "../reusable-components/submit-btn.tsx";
-// // import { CancelBtn } from "../reusable-components/cancel-btn.tsx";
-// // import { urls } from "../common/routes.ts";
-// // import { useNavigate } from "react-router-dom";
-// // import { useEditProfile, useGetProfile } from "../api-hooks/edit-profile.ts";
-// // import { ProfileFormValue } from "../common/types/profile.ts";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-// const EditProfileLayout = () => {
-//   //remove export
-//   const navigate = useNavigate();
-//   const { data: profile } = useGetProfile();
-//   const {
-//     register,
-//     handleSubmit,
-//     formState: { errors },
-//   } = useForm<SignupFormValue>({
-//     criteriaMode: "all",
-//     resolver: zodResolver(signupFormValueSchema),
-//     // defaultValues: profile
-//   });
+import { InputField } from "../reusable-components/input-field";
+import PersonIcon from "../assets/svg/profile.svg";
+import KeyIcon from "../assets/svg/key.svg";
+import EnvelopeIcon from "../assets/svg/envelope.svg";
+import { urls } from "../common/routes.ts";
+import { useNavigate } from "react-router-dom";
+import { useEditProfile, useGetProfile } from "../api-hooks/edit-profile.ts";
+import {
+  ProfileFormValue,
+  editProfileFormValueSchema,
+} from "../common/types/profile.ts";
+import { Alert } from "../reusable-components/alert";
+import cameraIcon from "../assets/svg/camera-icon.svg";
+import { Button } from "../reusable-components/button.tsx";
+import { UploadImage } from "../reusable-components/upload-image.tsx";
+import { Switch } from "../reusable-components/switch.tsx";
 
-// //   //   const {data, isError, error:get}= useGetProfile();
-// //   //   useEffect(()=>{
-// //   //   },[]);
+const EditProfileLayout = () => {
+  const navigate = useNavigate();
+  const { data: profile } = useGetProfile();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    trigger,
+  } = useForm<ProfileFormValue>({
+    criteriaMode: "all",
+    resolver: zodResolver(editProfileFormValueSchema),
+    // defaultValues: profile,
+  });
 
-//   const { mutate } = useEditProfile();
+  const { isError, error, mutate } = useEditProfile();
 
-// //   const onSubmit: SubmitHandler<ProfileFormValue> = (formData) => {
-// //     mutate(formData);
-// //   };
+  const onSubmit: SubmitHandler<ProfileFormValue> = (formData) => {
+    mutate(formData);
+  };
 
-//   //   if(!profile) {
-//   //     return <CircularProgress />
-//   //   }
+  //   if(!profile) {
+  //     return <CircularProgress />
+  //   }
 
-//   return (
-//     <form
-//       className="flex flex-col gap-y-8 w-80 m-auto p-4"
-//       onSubmit={handleSubmit(onSubmit)}
-//     >
-//       {/* {isError && <Alert severity="error">{error?.message}</Alert>} */}
-//       <div dir="rtl">
-//         <p className="text-xl text-center font-bold">ویرایش حساب</p>
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      {isError && <Alert status="error" message={error.message} />}
+      <div className="bgColor m-auto flex w-[500px] flex-col items-center gap-8 rounded-3xl py-16">
+        <div className="size-5 h-8 w-full text-center font-bold leading-8">
+          ویرایش حساب
+        </div>
+        <div className="flex w-80 flex-col items-center gap-12">
+          <div className="flex w-28 flex-col items-center gap-10">
+            <UploadImage
+              placeholderImage={cameraIcon}
+              error={errors.profileImage?.message}
+              className="block h-[90px] w-[90px] rounded-full"
+              {...register("profileImage", {
+                onChange: () => trigger("profileImage"),
+              })}
+            />
+            <div className="size-3.5 h-8 w-28 text-center font-medium">
+              عکس پروفایل
+            </div>
+          </div>
+          <div className="flex w-80 flex-col gap-8">
+            <div className="flex w-80 flex-col gap-6">
+              <InputField
+                placeholder="نام"
+                defaultValue={profile?.firstName}
+                error={errors.firstName?.message}
+                svg={PersonIcon}
+                {...register("firstName")}
+              />
+              <InputField
+                placeholder="نام خانوادگی"
+                defaultValue={profile?.lastName}
+                error={errors.lastName?.message}
+                svg={PersonIcon}
+                {...register("lastName")}
+              />
+              <InputField
+                type="email"
+                placeholder="ایمیل"
+                defaultValue={profile?.email}
+                error={errors.email?.message}
+                svg={EnvelopeIcon}
+                {...register("email")}
+              />
+              <InputField
+                placeholder="رمز عبور"
+                type="password"
+                error={errors.password?.message}
+                svg={KeyIcon}
+                {...register("password")}
+              />
+              <InputField
+                placeholder="تکرار رمز عبور"
+                type="password"
+                error={errors.confirmPassword?.message}
+                svg={KeyIcon}
+                {...register("confirmPassword")}
+              />
+            </div>
+            <div className="h-6 gap-6">
+              <Switch label="پیچ خصوصی باشه" {...register("isPrivate")} />
+            </div>
 
-// //         <div className="flex flex-col gap-y-5">
-// //           <InputField
-// //             placeholder="نام"
-// //             defaultValue={profile?.name}
-// //             error={errors.username}
-// //             svg={PersonIcon}
-// //             {...register("username")}
-// //           />
-// //           <InputField
-// //             type="email"
-// //             placeholder="ایمیل"
-// //             defaultValue={profile?.email}
-// //             error={errors.email}
-// //             svg={Envelope}
-// //             {...register("email")}
-// //           />
-// //           <InputField
-// //             placeholder="رمز عبور"
-// //             defaultValue={profile?.password}
-// //             type="password"
-// //             error={errors.password}
-// //             svg={Key}
-// //             {...register("password")}
-// //           />
-// //           <InputField
-// //             placeholder="تکرار رمز عبور"
-// //             defaultValue={profile?.confirmPassword}
-// //             type="password"
-// //             error={errors.confirmPassword}
-// //             svg={Key}
-// //             {...register("confirmPassword")}
-// //           />
-// //         </div>
-// //       </div>
-// //       <div className="flex flex-row justify-end w-80 h-9 gap-2">
-// //         <CancelBtn onClick={() => navigate(urls.main + urls.myPage)}>
-// //           پشیمون شدم
-// //         </CancelBtn>
-// //         <SubmitBtn className="w-48" size="medium">
-// //           ثبت تغییرات
-// //         </SubmitBtn>
-// //       </div>
-// //     </form>
-// //   );
-// // };
+            <div className="flex h-32 w-80 flex-col gap-2">
+              <p className="size-4 text-right font-medium leading-7">بایو</p>
+              <textarea
+                className="h-[88px] w-80 rounded-lg"
+                {...register("bio")}
+              />
+            </div>
+            <div className="flex h-8 flex-row justify-end gap-2">
+              {/* <CancelBtn
+                className="w-28"
+                onClick={() => navigate(urls.myPage)}
+              >
+                پشیمون شدم
+              </CancelBtn> */}
+              <span onClick={() => navigate(urls.myPage)}>پشیمون شدم</span>
+              <Button className="w-48" type="submit">
+                ثبت تغییرات
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  );
+};
 
-// // export const EditProfile = () => {
-// //   return <EditProfileLayout />;
-// // };
+export const EditProfile = () => {
+  return <EditProfileLayout />;
+};
 
-// // export const EditProfileMoblie = () => {
-// //   return <EditProfileLayout />;
-// // };
+export const EditProfileMoblie = () => {
+  return <EditProfileLayout />;
+};

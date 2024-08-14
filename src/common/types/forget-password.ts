@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const forgetPassFormValueSchema = z.object({
-  emailOrUsername: z.union([
+  emailOrUserName: z.union([
     z
       .string()
       .min(1,"نام کاربری  یا ایمیل نباید خالی باشد")

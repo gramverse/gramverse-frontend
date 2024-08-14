@@ -9,15 +9,15 @@ export const useSignup = () => {
   const navigate = useNavigate();
   const httpClient = useHttpClient();
   return useMutation<unknown, HTTPError, SignupFormValue>({
-    mutationFn: ({ username, email, password }: SignupFormValue) =>
+    mutationFn: ({ userName, email, password }: SignupFormValue) =>
       httpClient
         .post("/users/signup", {
-          json: { userName: username, email, password },
+          json: { userName, email, password },
         })
         .json(),
-    async onSuccess(_, { username }) {
+    async onSuccess(_, { userName }) {
       navigate(urls.main, {
-        state: { username: username, login: false },
+        state: { userName, login: false },
       });
     },
   });

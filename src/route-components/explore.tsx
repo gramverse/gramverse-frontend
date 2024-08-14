@@ -1,4 +1,4 @@
-import { CircularProgress } from "@mui/material";
+// import { CircularProgress } from "@mui/material";
 import { Alert } from "../reusable-components/alert";
 import { Button } from "../reusable-components/button";
 
@@ -7,7 +7,7 @@ const ExploreMessage = ({ login }: { login: boolean }) => {
     <>
       {login ? (
         <div className="flex flex-col gap-10 items-center w-full">
-          <CircularProgress />
+          {/* <CircularProgress /> */}
           <Alert message="با موفقیت وارد شدید" status="success" />
         </div>
       ) : (

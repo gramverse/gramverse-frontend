@@ -22,15 +22,15 @@ export const useLogin = () => {
   const navigate = useNavigate();
   const client = useHttpClient();
   const registerMutation = useMutation({
-    mutationFn: ({ emailOrUsername, password, rememberMe }: LoginFormData) =>
+    mutationFn: ({ emailOrUserName, password, rememberMe }: LoginFormData) =>
       client
-        .post("/users/login", {
-          json: { userName: emailOrUsername, password, rememberMe },
+        .post("/users/login/", {
+          json: { userName: emailOrUserName, password, rememberMe },
         })
         .json(),
     onSuccess(data) {
       const { userName } = loginResponseSchema.parse(data);
-      navigate(urls.main, { state: { username: userName, login: true } });
+      navigate(urls.main, { state: { userName: userName, login: true } });
     },
   });
   return registerMutation;

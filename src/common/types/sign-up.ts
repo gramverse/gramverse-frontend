@@ -1,7 +1,7 @@
 import { z } from "zod";
 const signupFormValueSchema = z
   .object({
-    username: z
+    userName: z
       .string()
       .min(1, "نام کاربری نباید خالی باشد")
       .min(6, "حداقل طول نام کاربری 6 کاراکتر است")

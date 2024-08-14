@@ -5,7 +5,7 @@ import {
 import { SubmitHandler, useForm } from "react-hook-form";
 import rahnemaLogo from "../../assets/svg/rahnema-logo.svg";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Alert } from "@mui/material";
+import { Alert } from "../../reusable-components/alert";
 import Key from "../../assets/svg/key.svg";
 import { useConfirmResetPassword } from "../../api-hooks/reset-password";
 import { InputField } from "../../reusable-components/input-field";
@@ -15,7 +15,6 @@ import { useLocation } from "react-router-dom";
 import { useResetPassword } from "../../api-hooks/reset-password";
 import { useEffect } from "react";
 import { CollegeBackground } from "../../reusable-components/rahnema-background";
-// import { errorMessages } from "../../common/error-messages";
 
 const ResetPassWordComponent = () => {
   const {
@@ -43,7 +42,7 @@ const ResetPassWordComponent = () => {
       <img src={rahnemaLogo} alt="" />
       <p className="leading-5 font-semibold"> تنظیم رمز عبور جدید </p>
       <form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>
-        {isError && <Alert severity="error">{error.message}</Alert>}
+        {isError && <Alert status="error" message={error.message} />}
 
         <p className="w-80 text-sm leading-6 text-right">
           لطفاً رمز جدیدی برای حساب خود انتخاب کنید:{" "}

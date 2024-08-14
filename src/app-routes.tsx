@@ -14,11 +14,11 @@ import {
   ForgetPasswordMobile,
 } from "./route-components/reset-password/forget-password";
 import { ForgetPasswordInfo } from "./route-components/reset-password/forget-password-info";
-//import { EditProfile } from "./route-components/edit-profile";
 import {
   ResetPassWord,
   ResetPassWordMobile,
 } from "./route-components/reset-password/reset-password";
+import { EditProfile } from "./route-components/edit-profile";
 
 export const AppRoutes = () => {
   return (
@@ -34,9 +34,9 @@ export const AppRoutes = () => {
         path={urls.forgetPasswordInfo}
         element={<ForgetPasswordInfo />}
       ></Route>
-      {/* <Route path={urls.editProfile} element={<EditProfile/>}></Route> */}
+      <Route path={urls.editProfile} element={<EditProfile/>}></Route> 
       <Route path={urls.main} element={<Main></Main>}></Route>
-      <Route path={"/:username"} element={<MyPage></MyPage>}></Route>
+      <Route path={"/:userName"} element={<MyPage></MyPage>}></Route>
       <Route></Route>
       <Route path="*" element={<UrlErrorPage></UrlErrorPage>}></Route>
       <Route
@@ -78,7 +78,7 @@ export const AppRoutesMobile = () => {
       ></Route>
       <Route path={urls.main} element={<MainMobile></MainMobile>}></Route>
       <Route
-        path={"/:username"}
+        path={"/:userName"}
         element={<MyPageMobile></MyPageMobile>}
       ></Route>
       <Route

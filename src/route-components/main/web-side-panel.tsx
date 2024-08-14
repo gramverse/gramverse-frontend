@@ -4,16 +4,16 @@ import { Tab } from "../../reusable-components/tab";
 
 export const Panel = ({
   handleChange,
-  username,
+  userName,
 }: {
   handleChange: (tab: string) => void;
-  username: string;
+  userName: string;
 }) => {
   return (
     <div className=" border-solid border-2 border-gray-300 w-80 h-screen bg-white rounded-t-3xl flex flex-col pt-10">
       <Tab
-        key={username}
-        text={username}
+        key={userName}
+        text={userName}
         icon={profile}
         iconSize={20}
         className="ms-11"
