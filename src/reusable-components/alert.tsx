@@ -1,64 +1,60 @@
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, ReactNode, useEffect, useState } from "react";
 import CheckMark from "../assets/svg/check-mark.svg";
 import Error from "../assets/svg/error.svg";
 
-import {
-  getVariantStyles,
-  mergeClasses,
-  Variant,
-} from "../common/get-variant-classes";
-
-const variants: Variant = {
-  base: {
-    base: "flex items-center gap-2 py-2 ps-1 w-fit px-5",
-    success: "bg-[#C3F9C2]",
-    error: "bg-red-300",
-  },
-  fieldSize: {
-    small: "h-8 px-2  gap-2 rounded-xl text-sm",
-    medium: " h-10 gap-3 rounded-2xl text-md ",
-    large: " h-12 px-5  gap-4 rounded-3xl text-lg ",
-  },
-  default: {
-    fieldSize: "medium",
-  },
+const fieldSizes: Record<fieldSizeTypes, string> = {
+  small: "h-8 px-2  gap-2 rounded-xl text-sm",
+  medium: "h-10 px-4 gap-3 rounded-2xl text-md ",
+  large: " h-12 px-5  gap-4 rounded-3xl text-lg ",
 };
-interface CustomProps {
-  fieldSize?: "small" | "medium" | "large";
-  status: "success" | "error";
+
+const Status: Record<statusTypes, string> = {
+  success: "bg-[#C3F9C2]",
+  error: "bg-red-300 text-red-800",
+};
+
+interface AlertProps extends Pick<HTMLAttributes<HTMLDivElement>, "className"> {
+  fieldSize?: fieldSizeTypes;
+  status: statusTypes;
   message: string;
+  children?: ReactNode;
+  time?: number;
 }
 
-interface AlertProps extends HTMLAttributes<HTMLDivElement>, CustomProps {}
-
-export const Alert = ({
-  fieldSize = variants.default.fieldSize as CustomProps["fieldSize"],
-  status,
-  message,
-  ...props
-}: AlertProps) => {
-  const customClasses = getVariantStyles({ fieldSize }, variants);
-  document.addEventListener("invalid", (e) => {
-    e.preventDefault();
-  });
-
+type fieldSizeTypes = "small" | "medium" | "large";
+type statusTypes = "error" | "success";
+export const Alert = (props: AlertProps) => {
+  const {
+    fieldSize = "medium",
+    status,
+    message,
+    className,
+    children,
+    time = 5,
+  } = props;
+  const [visible, setVisibility] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setVisibility(false);
+    }, time * 1000);
+  }, [time]);
   return (
-    <div
-      className={mergeClasses(
-        props.className,
-        customClasses,
-        variants.base.base,
-        status === "success" && variants.base.success,
-        status === "error" && variants.base.error
+    <>
+      {visible && (
+        <div
+          className={`flex items-center gap-2 py-2 w-fit px-5 m-5 ${fieldSizes[fieldSize]} ${Status[status]} ${className}`}
+        >
+          <span> {message}</span>
+          <img
+            src={
+              status === "error" ? Error : status == "success" ? CheckMark : ""
+            }
+            className=" m-2 h-3/4"
+            alt=""
+          />
+          {children}
+        </div>
       )}
-      {...props}
-    >
-      <img
-        src={status === "error" ? Error : status == "success" ? CheckMark : ""}
-        className=" m-2 h-full"
-        alt=""
-      />
-      <span> {message}</span>
-    </div>
+    </>
   );
 };

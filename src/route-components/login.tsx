@@ -1,26 +1,30 @@
 import Key from "../assets/svg/key.svg";
 import Envelope from "../assets/svg/envelope.svg";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { InputField } from "../reusable-components/input-field.tsx";
-import { loginSchema, LoginFormData } from "../common/types/login.ts";
+import { LoginFormData } from "../common/types/login.ts";
 import { useLogin } from "../api-hooks/login.ts";
 import { Button } from "../reusable-components/button.tsx";
 import { Alert } from "../reusable-components/alert.tsx";
+import { useLocation } from "react-router-dom";
+// import { errorMessages } from "../../common/error-messages";
 
 const LoginLayout = () => {
-  const { register, handleSubmit } = useForm<LoginFormData>({
-    criteriaMode: "all",
-    resolver: zodResolver(loginSchema),
-  });
+  const { register, handleSubmit } = useForm<LoginFormData>({});
   const { isError, error, mutate } = useLogin();
-
+  const { state } = useLocation();
   const onSubmit: SubmitHandler<LoginFormData> = (data: LoginFormData) => {
     mutate(data);
   };
 
   return (
-    <div className=" bgColor flex flex-col p-2 gap-6 justify-between text-sm text-right w-80 mx-auto">
+    <div className=" bgColor flex flex-col gap-6 justify-between text-sm text-right w-80 mx-auto">
+      {state?.invalidToken && (
+        <Alert
+          message="توکن شما منقضی شده لطفا دوباره وارد شوید"
+          status="error"
+        />
+      )}
       <p className="font-extralight text-xs leading-loose">
         به کالج‌گرام خوش آمدید. برای ورود کافیه نام کاربری/ایمیل و رمز عبور
         خودتون رو وارد کنید:
@@ -44,7 +48,7 @@ const LoginLayout = () => {
             من‌را به خاطر بسپار
           </label>
         </div>
-        <Button className="self-end" type="submit" size="medium">
+        <Button type="submit" classes="self-end">
           ورود
         </Button>
       </form>

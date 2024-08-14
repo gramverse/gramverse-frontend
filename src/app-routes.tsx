@@ -23,9 +23,9 @@ import { EditProfile } from "./route-components/edit-profile";
 export const AppRoutes = () => {
   return (
     <Routes>
-      <Route path={urls.signup} element={<Authroize></Authroize>}></Route>
-      <Route path={urls.login} element={<Authroize></Authroize>}></Route>
-      <Route path={urls.forgetPassword} element={<ForgetPassword />}></Route>
+      <Route path={urls.signup} element={<Authroize></Authroize>} />
+      <Route path={urls.login} element={<Authroize></Authroize>} />
+      <Route path={urls.forgetPassword} element={<ForgetPassword />} />
       <Route
         path={`${urls.resetPassword}/:link`}
         element={<ResetPassWord></ResetPassWord>}
@@ -38,15 +38,12 @@ export const AppRoutes = () => {
       <Route path={urls.main} element={<Main></Main>}></Route>
       <Route path={"/:userName"} element={<MyPage></MyPage>}></Route>
       <Route></Route>
-      <Route path="*" element={<UrlErrorPage></UrlErrorPage>}></Route>
-      <Route
-        path={urls.notFound}
-        element={<UrlErrorPage></UrlErrorPage>}
-      ></Route>
+      <Route path="*" element={<UrlErrorPage></UrlErrorPage>} />
+      <Route path={urls.notFound} element={<UrlErrorPage></UrlErrorPage>} />
       <Route
         path={urls.serverError}
         element={<ServerErrorPage></ServerErrorPage>}
-      ></Route>
+      />
     </Routes>
   );
 };
@@ -54,28 +51,16 @@ export const AppRoutes = () => {
 export const AppRoutesMobile = () => {
   return (
     <Routes>
-      <Route
-        path={urls.signup}
-        element={<AuthroizeMobile></AuthroizeMobile>}
-      ></Route>
-      <Route
-        path={urls.login}
-        element={<AuthroizeMobile></AuthroizeMobile>}
-      ></Route>
+      <Route path={urls.signup} element={<AuthroizeMobile></AuthroizeMobile>} />
+      <Route path={urls.login} element={<AuthroizeMobile></AuthroizeMobile>} />
 
       <Route
         path={`${urls.resetPassword}/:link`}
         element={<ResetPassWordMobile></ResetPassWordMobile>}
-      ></Route>
+      />
 
-      <Route
-        path={urls.forgetPassword}
-        element={<ForgetPasswordMobile />}
-      ></Route>
-      <Route
-        path={urls.forgetPasswordInfo}
-        element={<ForgetPasswordInfo />}
-      ></Route>
+      <Route path={urls.forgetPassword} element={<ForgetPasswordMobile />} />
+      <Route path={urls.forgetPasswordInfo} element={<ForgetPasswordInfo />} />
       <Route path={urls.main} element={<MainMobile></MainMobile>}></Route>
       <Route
         path={"/:userName"}
@@ -88,11 +73,11 @@ export const AppRoutesMobile = () => {
       <Route
         path={urls.notFound}
         element={<UrlErrorPageMobile></UrlErrorPageMobile>}
-      ></Route>
+      />
       <Route
         path={urls.serverError}
         element={<ServerErrorPageMoblie></ServerErrorPageMoblie>}
-      ></Route>
+      />
     </Routes>
   );
 };

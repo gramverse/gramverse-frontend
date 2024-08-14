@@ -8,6 +8,11 @@ import { Explore } from "../explore";
 import MobileBottomNavigation from "./mobile-bottom-navigation";
 import { Panel } from "./web-side-panel";
 import { DrawerMenu } from "./mobile-drawer-menu";
+import { ContainterMobile } from "../../reusable-components/container";
+import { CreatePost } from "../create-post";
+import { Modal } from "../../reusable-components/modal";
+import { MyPage } from "../my-page";
+import MobileTopNavigation from "./mobile-top-navigation";
 
 export const Main = () => {
   const { state } = useLocation();
@@ -19,24 +24,37 @@ export const Main = () => {
     }
   });
   const [tab, setTab] = React.useState("explore");
-  useEffect(() => {
-    console.log(tab);
-    switch (tab) {
-      case "myPage":
-        navigate(state?.userName);
-        break;
-    }
-  }, [tab, navigate, state?.userName]);
-
+  // useEffect(() => {
+  //   console.log(tab);
+  //   switch (tab) {
+  //     case "myPage":
+  //       navigate(state?.username);
+  //       break;
+  //   }
+  // }, [tab, navigate, state?.username]);
   const handleChange = (newValue: string) => {
     setTab(newValue);
   };
+  const [isOpen, setIsOpen] = useState(false);
+  const Close = () => {
+    setIsOpen(false);
+  };
   return (
-    <div className="bg-color h-dvh flex ">
+    <div className="bg-color h-screen w-screen flex relative ">
+      {isOpen && (
+        <Modal>
+          <CreatePost Close={Close} />
+        </Modal>
+      )}
       <div className=" bgColor p-16 w-screen flex justify-stretch">
         <img src={rahnema} className="absolute left-20" alt="" />
         <div className="self-start flex flex-col gap-5 items-center w-fit">
-          <Button className="flex items-center justify-center">
+          <Button
+            classes="flex items-center justify-center"
+            onClick={() => {
+              setIsOpen(true);
+            }}
+          >
             <img src={PlusIcon} alt="" />
             <span>ایجاد پست جدید</span>
           </Button>
@@ -44,6 +62,7 @@ export const Main = () => {
         </div>
         <div className="w-full flex justify-center items-center">
           {tab === "explore" && <Explore login={state?.login} />}
+          {tab == "myPage" && <MyPage></MyPage>}
         </div>
       </div>
     </div>
@@ -67,15 +86,19 @@ export const MainMobile = () => {
       navigate(urls.login);
     }
   });
-  useEffect(() => {
-    switch (selectedItem) {
-      case "myPage":
-        navigate(state.userName);
-    }
-  }, [selectedItem, navigate, state?.userName]);
+  // useEffect(() => {
+  //   switch (selectedItem) {
+  //     case "myPage":
+  //       navigate(state.username);
+  //   }
+  // }, [selectedItem, navigate, state?.username]);
 
   return (
-    <div className="bgColor w-full h-screen flex flex-col items-center justify-center relative">
+    <ContainterMobile>
+      <MobileTopNavigation
+        handleItemClick={handleItemClick}
+        toggleDrawer={toggleDrawer}
+      />
       {isOpen && (
         <DrawerMenu
           isOpen={isOpen}
@@ -84,10 +107,8 @@ export const MainMobile = () => {
         />
       )}
       {selectedItem === "explore" && <Explore login={state?.login} />}
-      <MobileBottomNavigation
-        handleItemClick={handleItemClick}
-        toggleDrawer={toggleDrawer}
-      />
-    </div>
+      {selectedItem === "myPage" && <MyPage />}
+      <MobileBottomNavigation handleItemClick={handleItemClick} />
+    </ContainterMobile>
   );
 };

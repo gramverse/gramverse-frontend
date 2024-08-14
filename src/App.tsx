@@ -2,16 +2,21 @@ import "./assets/styles/App.css";
 import { AppRoutes, AppRoutesMobile } from "./app-routes";
 // import useMediaQuery from "@mui/material/useMediaQuery";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useState } from "react";
 
 const queryClient = new QueryClient();
 function App() {
-  // const mobile = useMediaQuery("(max-width:375px)");
-  const mobile = false;
+  const [mobile, setMobile] = useState(
+    window.matchMedia("(max-width:375px)").matches
+  );
+  window.addEventListener("resize", () => {
+    setMobile(window.matchMedia("(max-width:375px)").matches);
+  });
   return (
     <QueryClientProvider client={queryClient}>
       <div
         lang="fa"
-        className="overflow-hidden flex justify-center items-start"
+        className="overflow-hidden flex w-screen h-screen justify-center items-center scroll-p-0"
       >
         {mobile && <AppRoutesMobile></AppRoutesMobile>}
         {!mobile && <AppRoutes></AppRoutes>}

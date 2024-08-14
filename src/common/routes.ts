@@ -11,4 +11,5 @@ export const urls = {
   forgetPasswordInfo: "/forget-password-info",
   editProfile: "/edit-profile",
   notFound: "/not-found",
+  createPost: "/create-post",
 };

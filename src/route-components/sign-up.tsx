@@ -29,7 +29,7 @@ const SignUpLayout = () => {
 
   return (
     <form
-      className="flex  bgColor flex-col gap-y-8 w-80 m-auto p-4"
+      className="flex  bgColor flex-col gap-y-8 w-80 m-auto "
       onSubmit={handleSubmit(onSubmit)}
       noValidate
     >
@@ -70,7 +70,9 @@ const SignUpLayout = () => {
           />
         </div>
       </div>
-      <Button className="self-end">ثبت‌ نام</Button>
+      <Button type="submit" classes="self-end">
+        ثبت‌ نام
+      </Button>
     </form>
   );
 };
