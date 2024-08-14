@@ -14,6 +14,7 @@ export type UploadImageProps = Omit<
   "defaultValue"
 > & {
   size?: string;
+  error?:string
   defaultValue?: string;
   placeholderImage?: string;
   setSelectedPhotos?: (input: Array<string>) => void;
@@ -27,6 +28,7 @@ export const UploadImage = forwardRef<HTMLInputElement, UploadImageProps>(
       placeholderImage,
       className,
       style,
+      error,
       multiple = false,
       setSelectedPhotos = () => {},
       ...attrs

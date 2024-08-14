@@ -25,7 +25,7 @@ export const Panel = ({
           onClick={() => handleChange("myPage")}
         />
         <span>
-          {profileSummary?.userName ? profileSummary?.userName : username}
+          {profileSummary?.userName ? profileSummary?.userName:userName}
         </span>
       </div>
       <section className="w-full items-start h-full p-5 pb-20 flex flex-col gap-5 relative">

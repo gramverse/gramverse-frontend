@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 
 import { HTTPError } from "ky";
-import { useHttpClient } from "../common/http-client";
+import { useHttpClient } from '../common/http-client';
 import { urls } from "../common/routes";
 import { useNavigate } from "react-router-dom";
 import { ResetPasswordFormData } from "../common/types/reset-password";

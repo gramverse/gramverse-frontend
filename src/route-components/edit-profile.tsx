@@ -121,7 +121,7 @@ const EditProfileLayout = () => {
                 پشیمون شدم
               </CancelBtn> */}
               <span onClick={() => navigate(urls.myPage)}>پشیمون شدم</span>
-              <Button className="w-48" type="submit">
+              <Button classes="w-48" type="submit">
                 ثبت تغییرات
               </Button>
             </div>

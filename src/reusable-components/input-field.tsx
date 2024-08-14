@@ -17,6 +17,7 @@ interface InputFieldProps {
   fieldsize?: Sizes;
   placeholder?: string;
   type?: React.HTMLInputTypeAttribute | undefined;
+  defaultValue?:string
 }
 type Sizes = "small" | "medium" | "large";
 type Status = "error" | "normal";
@@ -29,6 +30,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
       placeholder = "",
       type = "text",
       classes,
+      defaultValue
     } = props;
     const customClasses = `bg-white flex items-center gap-2 py-2 ps-1 text-right justify-start outline-red-200 border-solid border-2 border-gray-300 ${classes} ${fieldSizes[fieldSize]}`;
     if (error) {
@@ -39,6 +41,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
         <div className={customClasses}>
           {svg && <img src={svg} className=" m-2 h-full" alt="" />}
           <input
+            defaultValue={defaultValue}
             type={type}
             className="border-none focus:border-none focus:outline-none"
             ref={ref}
