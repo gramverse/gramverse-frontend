@@ -1,47 +1,41 @@
-import {
-  getVariantStyles,
-  mergeClasses,
-  Variant,
-} from "../common/get-variant-classes";
-import { ButtonHTMLAttributes } from "react";
+import { ReactNode } from "react";
 
-const variants: Variant = {
-  base: {
-    base: "border-none w-fit",
-  },
-  size: {
-    small: "h-7 px-2 py-2 gap-2 rounded-xl text-sm ",
-    medium: "h-9 px-4 py-2 gap-3 rounded-2xl text-md",
-    large: "h-12 px-5 py-3 gap-4 rounded-3xl text-lg",
-  },
-  btnColor: {
-    red: "bg-submit-btn",
-  },
-  default: {
-    size: "medium",
-    btnColor: "red",
-  },
+const sizes: Record<Sizes, string> = {
+  small: "h-7 px-2 py-2 gap-2 rounded-xl text-sm ",
+  medium: "h-9 px-4 py-2 gap-3 rounded-2xl text-md",
+  large: "h-12 px-5 py-3 gap-4 rounded-3xl text-lg ",
 };
-
-interface CustomProps {
+const btnColors: Record<BtnColors, string> = {
+  secondary: "bg-submit-btn",
+  transparent: "bg-transparent text-black",
+};
+interface ButtonProps {
   size?: "small" | "medium" | "large";
-  btnColor?: "red";
+  btnColor?: "secondary" | "transparent";
+  classes?: string | undefined;
+  type?: "button" | "submit" | "reset" | undefined;
+  children?: ReactNode;
+  onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
 }
-interface buttonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement>,
-    CustomProps {}
 
-export const Button = ({
-  size = variants.default.size as CustomProps["size"],
-  btnColor = variants.default.btnColor as CustomProps["btnColor"],
-  className,
-  children,
-  ...props
-}: buttonProps) => {
-  const customClasses = getVariantStyles({ size, btnColor }, variants);
-  const classes = mergeClasses(customClasses, variants.base.base, className);
+type Sizes = "small" | "medium" | "large";
+type BtnColors = "secondary" | "transparent";
+export const Button = (props: ButtonProps) => {
+  const {
+    size = "medium",
+    btnColor = "secondary",
+    classes = "",
+    type = "button",
+    children,
+    onClick,
+  } = props;
   return (
-    <button className={classes} {...props}>
+    <button
+      type={type}
+      className={`border-none w-fit ${sizes[size]} ${btnColors[btnColor]} ${classes}`}
+      {...props}
+      onClick={onClick}
+    >
       {children}
     </button>
   );

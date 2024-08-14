@@ -3,17 +3,17 @@ export default {
   corePlugins: {
     preflight: false,
   },
-  important: "#root",
+  important: true,
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
-      fontFamily:{
-        sans: ["iran"]
+      fontFamily: {
+        sans: ["Iran"],
       },
       colors: {
-        'submit-btn': '#EA5A69',
-        'form-bg' : '#F5F5F5',
-        'form-border' : '#CDCDCD',
+        "submit-btn": "#EA5A69",
+        "form-bg": "#F5F5F5",
+        "form-border": "#CDCDCD",
       },
     },
   },

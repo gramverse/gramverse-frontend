@@ -1,22 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { urls } from "../common/routes";
 import { useMutation } from "@tanstack/react-query";
-import { LoginFormData } from "../common/types/login";
+import { LoginFormData, loginResponse } from "../common/types/login";
 import { useHttpClient } from "../common/http-client";
-import { z } from "zod";
-
-const loginResponseSchema = z.object({
-  _id: z.string().optional(),
-  userName: z.string(),
-  firstName: z.string(),
-  lastName: z.string(),
-  profilePicture: z.string(),
-  email: z.string().email(),
-  passwordHash: z.string().optional(),
-  isPrivate: z.boolean(),
-  bio: z.string(),
-  __v: z.number().optional(),
-});
 
 export const useLogin = () => {
   const navigate = useNavigate();

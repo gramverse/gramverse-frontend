@@ -1,6 +1,8 @@
 import { itemList } from "./menu-data";
 import profile from "../../assets/svg/profile.svg";
 import { Tab } from "../../reusable-components/tab";
+import { useGetProfileSummary } from "../../api-hooks/main";
+import { RoundPicture } from "../../reusable-components/profile-picture";
 
 export const Panel = ({
   handleChange,
@@ -9,15 +11,23 @@ export const Panel = ({
   handleChange: (tab: string) => void;
   userName: string;
 }) => {
+  const { data: profileSummary } = useGetProfileSummary();
+
   return (
     <div className=" border-solid border-2 border-gray-300 w-80 h-screen bg-white rounded-t-3xl flex flex-col pt-10">
-      <Tab
-        key={userName}
-        text={userName}
-        icon={profile}
-        iconSize={20}
-        className="ms-11"
-      />
+      <div className="flex gap-5 items-center ms-12">
+        <RoundPicture
+          picture={
+            profileSummary?.profilePicture
+              ? profileSummary.profilePicture
+              : profile
+          }
+          onClick={() => handleChange("myPage")}
+        />
+        <span>
+          {profileSummary?.userName ? profileSummary?.userName : username}
+        </span>
+      </div>
       <section className="w-full items-start h-full p-5 pb-20 flex flex-col gap-5 relative">
         {Object.values(itemList)
           .slice(0, 5)
@@ -31,7 +41,7 @@ export const Panel = ({
               />
             );
           })}
-        <hr className="bg-grey-100 h-0.5 w-80 -ms-5" />
+        <div className="h-0.5 bg-gray-300 w-80 -ms-5" />
 
         {Object.values(itemList)
           .slice(5, 7)

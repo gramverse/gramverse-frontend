@@ -15,4 +15,7 @@ export interface LoginFormData {
   rememberMe: boolean;
 }
 
+export const loginResponse = z.object({
+  userName: z.string(),
+});
 export { loginSchema };

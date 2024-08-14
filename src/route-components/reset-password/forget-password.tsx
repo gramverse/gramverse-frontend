@@ -9,6 +9,11 @@ import { Button } from "../../reusable-components/button";
 import { Link } from "react-router-dom";
 import { urls } from "../../common/routes";
 import { CollegeBackground } from "../../reusable-components/rahnema-background";
+import {
+  ContainterMobile,
+  ContainterWeb,
+} from "../../reusable-components/container";
+// import { errorMessages } from "../../common/error-messages";
 
 const ForgetPasswordLayout = () => {
   const { register, handleSubmit } = useForm<forgetPassFormValue>({});
@@ -20,7 +25,7 @@ const ForgetPasswordLayout = () => {
   };
 
   return (
-    <div className="flex bgColor flex-col items-center justify-center h-full w-fit">
+    <div className="flex bgColor flex-col items-center justify-center w-fit gap-5 py-20">
       <img src={rahnemaLogo} alt="" />
       <p className="leading-5 font-semibold">بازیابی رمز عبور</p>
       <form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>
@@ -50,9 +55,9 @@ const ForgetPasswordLayout = () => {
 export const ForgetPassword = () => {
   return (
     <CollegeBackground>
-      <div className="w-[485px] bgColor py-28 rounded-3xl h-fit flex justify-center items-center">
+      <ContainterWeb>
         <ForgetPasswordLayout></ForgetPasswordLayout>
-      </div>
+      </ContainterWeb>
     </CollegeBackground>
   );
 };
@@ -60,9 +65,9 @@ export const ForgetPassword = () => {
 export const ForgetPasswordMobile = () => {
   return (
     <>
-      <div className="h-screen bgColor  w-fit p-10 flex flex-col justify-center items-center">
+      <ContainterMobile>
         <ForgetPasswordLayout></ForgetPasswordLayout>
-      </div>
+      </ContainterMobile>
     </>
   );
 };

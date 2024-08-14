@@ -15,6 +15,11 @@ import { useLocation } from "react-router-dom";
 import { useResetPassword } from "../../api-hooks/reset-password";
 import { useEffect } from "react";
 import { CollegeBackground } from "../../reusable-components/rahnema-background";
+import {
+  ContainterMobile,
+  ContainterWeb,
+} from "../../reusable-components/container";
+// import { errorMessages } from "../../common/error-messages";
 
 const ResetPassWordComponent = () => {
   const {
@@ -62,8 +67,8 @@ const ResetPassWordComponent = () => {
           {...register("confirmPassword")}
         />
         <div className="flex flex-row justify-end gap-5">
-          <Button className="w-48" size="medium">
-            ثبت رمز عبور جدید{" "}
+          <Button classes="w-48" size="medium">
+            ثبت رمز عبور جدید
           </Button>
         </div>
       </form>
@@ -74,9 +79,9 @@ const ResetPassWordComponent = () => {
 export const ResetPassWord = () => {
   return (
     <CollegeBackground>
-      <div className="w-[485px] bgColor py-28 rounded-3xl h-fit flex justify-center items-center">
+      <ContainterWeb>
         <ResetPassWordComponent></ResetPassWordComponent>
-      </div>
+      </ContainterWeb>
     </CollegeBackground>
   );
 };
@@ -84,9 +89,9 @@ export const ResetPassWord = () => {
 export const ResetPassWordMobile = () => {
   return (
     <>
-      <div className="h-screen bgColor w-fit p-10 flex flex-col justify-center items-center">
+      <ContainterMobile>
         <ResetPassWordComponent></ResetPassWordComponent>
-      </div>
+      </ContainterMobile>
     </>
   );
 };
