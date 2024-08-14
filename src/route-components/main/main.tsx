@@ -14,7 +14,7 @@ export const Main = () => {
   // const state = { username: "reyhaneh", login: true };
   const navigate = useNavigate();
   useEffect(() => {
-    if (!state?.username) {
+    if (!state?.userName) {
       navigate(urls.login);
     }
   });
@@ -23,10 +23,10 @@ export const Main = () => {
     console.log(tab);
     switch (tab) {
       case "myPage":
-        navigate(state?.username);
+        navigate(state?.userName);
         break;
     }
-  }, [tab, navigate, state?.username]);
+  }, [tab, navigate, state?.userName]);
 
   const handleChange = (newValue: string) => {
     setTab(newValue);
@@ -40,7 +40,7 @@ export const Main = () => {
             <img src={PlusIcon} alt="" />
             <span>ایجاد پست جدید</span>
           </Button>
-          <Panel handleChange={handleChange} username={state?.username} />
+          <Panel handleChange={handleChange} userName={state?.userName} />
         </div>
         <div className="w-full flex justify-center items-center">
           {tab === "explore" && <Explore login={state?.login} />}
@@ -53,7 +53,7 @@ export const Main = () => {
 export const MainMobile = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  // const state = { username: "reyhaneh", login: true };
+  // const state = { userName: "reyhaneh", login: true };
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState("explore");
   const handleItemClick = (item: string) => {
@@ -63,16 +63,16 @@ export const MainMobile = () => {
     setIsOpen(!isOpen);
   };
   useEffect(() => {
-    if (!state?.username) {
+    if (!state?.userName) {
       navigate(urls.login);
     }
   });
   useEffect(() => {
     switch (selectedItem) {
       case "myPage":
-        navigate(state.username);
+        navigate(state.userName);
     }
-  }, [selectedItem, navigate, state?.username]);
+  }, [selectedItem, navigate, state?.userName]);
 
   return (
     <div className="bgColor w-full h-screen flex flex-col items-center justify-center relative">

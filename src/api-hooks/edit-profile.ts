@@ -1,6 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
-// import { SignupFormValue } from "../common/types/sign-up";
 import { HTTPError } from "ky";
 import { useNavigate } from "react-router-dom";
 import { urls } from "../common/routes";
@@ -18,10 +17,21 @@ export const useEditProfile = () => {
   const navigate = useNavigate();
   const httpClient = useHttpClient();
   return useMutation<unknown, HTTPError, ProfileFormValue>({
-    mutationFn: (formValue: ProfileFormValue) =>
-      httpClient.post("users/profile", { json: { formValue } }).json(),
+    mutationFn: ({
+      profileImage,
+      confirmPassword,
+      ...rest
+    }: ProfileFormValue) => {
+      const formData = new FormData();
+      formData.append("profileFields", JSON.stringify(rest));
+      if (profileImage) {
+        formData.append("profileImage", profileImage);
+      }
+      console.log("request body", formData);
+      return httpClient.post("/files/myProfile", { body: formData }).json();
+    },
     async onSuccess() {
-      navigate(urls.main + urls.myPage);
+      navigate(urls.myPage);
     },
   });
 };

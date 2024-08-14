@@ -7,7 +7,6 @@ import { loginSchema, LoginFormData } from "../common/types/login.ts";
 import { useLogin } from "../api-hooks/login.ts";
 import { Button } from "../reusable-components/button.tsx";
 import { Alert } from "../reusable-components/alert.tsx";
-// import { errorMessages } from "../../common/error-messages";
 
 const LoginLayout = () => {
   const { register, handleSubmit } = useForm<LoginFormData>({
@@ -31,7 +30,7 @@ const LoginLayout = () => {
         <InputField
           placeholder={"نام کاربری یا ایمیل"}
           svg={Envelope}
-          {...register("emailOrUsername")}
+          {...register("emailOrUserName")}
         />
         <InputField
           placeholder={"رمز عبور"}

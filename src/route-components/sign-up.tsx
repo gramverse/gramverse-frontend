@@ -11,7 +11,6 @@ import { Button } from "../reusable-components/button.tsx";
 import PersonIcon from "../assets/svg/profile.svg";
 import Key from "../assets/svg/key.svg";
 import Envelope from "../assets/svg/envelope.svg";
-// import { errorMessages } from "../../common/error-messages";
 
 const SignUpLayout = () => {
   const {
@@ -44,9 +43,9 @@ const SignUpLayout = () => {
         <div className="flex flex-col gap-y-5">
           <InputField
             placeholder="نام کاربری"
-            error={errors.username?.message}
+            error={errors.userName?.message}
             svg={PersonIcon}
-            {...register("username")}
+            {...register("userName")}
           />
           <InputField
             type="email"

@@ -27,7 +27,7 @@ interface CustomProps {
 interface InputFieldProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "error">,
     CustomProps {
-  svg: string;
+  svg?: string;
   error?: string;
 }
 
@@ -35,7 +35,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
   (
     {
       fieldSize = variants.default.fieldSize,
-      svg,
+      svg = "",
       error = "",
       className,
       ...props
