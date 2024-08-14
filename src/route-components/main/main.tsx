@@ -11,7 +11,7 @@ import { DrawerMenu } from "./mobile-drawer-menu";
 import { ContainterMobile } from "../../reusable-components/container";
 import { CreatePost } from "../create-post";
 import { Modal } from "../../reusable-components/modal";
-import { MyPage } from "../my-page";
+import { MyPage } from "../my-page/my-page";
 import MobileTopNavigation from "./mobile-top-navigation";
 
 export const Main = () => {

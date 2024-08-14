@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { Main, MainMobile } from "./route-components/main/main";
-import { MyPage, MyPageMobile } from "./route-components/my-page";
+import { MyPage, MyPageMobile } from "./route-components/my-page/my-page";
 import { Authroize, AuthroizeMobile } from "./route-components/authorize";
 import { UrlErrorPage, UrlErrorPageMobile } from "./errors/url-error-page";
 import {
