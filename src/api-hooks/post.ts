@@ -25,10 +25,19 @@ export const useCreatePost = () => {
       const formData = new FormData();
       const postsData = new FormData();
       formData.append("postFields", JSON.stringify(rest));
-      Array.from(photos).forEach((photo, index) => {
+      if(photos instanceof FileList){
+        Array.from(photos).forEach((photo, index) => {
         postsData.append(`photo${index}`, photo);
-      });
-      console.log(formData)
+        });
+      }
+      else {
+        photos.forEach((photo, index) => {
+        postsData.append(`photo${index}`, photo);
+        });
+      }
+
+      
+  
       return httpClient.post("/users/createPost", { body: formData }).json();
     },
     async onSuccess() {
