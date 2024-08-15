@@ -155,7 +155,15 @@ const CreatePostLayout = ({ Close,id }: { Close: () => void,id:number|null }) =>
     resolver: zodResolver(PostSchema),
   });
   const onSubmit: SubmitHandler<PostFormData> = (data) => {
-    mutate(data);
+    if (data.photos) {
+          mutate(data);
+    } else if (post) {
+      const postData:PostFormData = {
+        ...data,
+        photos:post?.photos
+      }
+      mutate(postData);
+    }
   };
   const handleClick = useCallback(() => {
     stage === 1
