@@ -1,9 +1,21 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
 import { HTTPError } from "ky";
 import { useNavigate } from "react-router-dom";
 import { urls } from "../common/routes";
-import { PostFormData } from "../common/types/post";
+import { GetPostData, PostFormData } from "../common/types/post";
+
+
+
+export const useGetPost = (id:number|null) => {
+  const httpClient = useHttpClient();
+  return useQuery<unknown, HTTPError, GetPostData>({
+    queryKey: ["getPost"],
+    queryFn: () => id?httpClient.get(`users/post/id:${id}`).json():()=>{},
+  });
+};
+
+
 
 export const useCreatePost = () => {
   const navigate = useNavigate();
@@ -11,10 +23,12 @@ export const useCreatePost = () => {
   return useMutation<unknown, HTTPError, PostFormData>({
     mutationFn: ({ photos, ...rest }: PostFormData) => {
       const formData = new FormData();
+      const postsData = new FormData();
       formData.append("postFields", JSON.stringify(rest));
       Array.from(photos).forEach((photo, index) => {
-        formData.append(`photo${index}`, photo);
+        postsData.append(`photo${index}`, photo);
       });
+      console.log(formData)
       return httpClient.post("/users/createPost", { body: formData }).json();
     },
     async onSuccess() {

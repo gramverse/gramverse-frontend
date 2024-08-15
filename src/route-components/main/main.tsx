@@ -15,8 +15,8 @@ import { MyPage } from "../my-page/my-page";
 import MobileTopNavigation from "./mobile-top-navigation";
 
 export const Main = () => {
-  const { state } = useLocation();
-  // const state = { username: "reyhaneh", login: true };
+  // const { state } = useLocation();
+  const state = { userName: "reyhaneh", login: true };
   const navigate = useNavigate();
   useEffect(() => {
     if (!state?.userName) {
@@ -71,8 +71,8 @@ export const Main = () => {
 
 export const MainMobile = () => {
   const navigate = useNavigate();
-  const { state } = useLocation();
-  // const state = { userName: "reyhaneh", login: true };
+  // const { state } = useLocation();
+  const state = { userName: "reyhaneh", login: true };
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState("explore");
   const handleItemClick = (item: string) => {
