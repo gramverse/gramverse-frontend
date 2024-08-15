@@ -1,7 +1,7 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 const MyPageButton = () => {
-  const params = useParams();
-  return <div>welcome {params.username}</div>;
+  const {state} = useLocation();
+  return <div>welcome {state.username}</div>;
 };
 
 export const MyPage = () => {

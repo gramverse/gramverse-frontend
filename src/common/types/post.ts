@@ -17,15 +17,22 @@ export const PostSchema = z.object({
     .min(0),
   mentions: z
     .string()
-    .optional()
     .refine(
       (value) => {
         if (!value) return true;
+        value.matchAll(/(@[A-Za-z0-9_]+)/g)
         const mentions = value.match(/(@[A-Za-z0-9_]+)/g);
-        return mentions != null && mentions.length > 0;
+        return mentions?.length === value.split(' ').length;
       },
       { message: "لطفا فرمت منشن را رعایت کنید" }
     ),
 });
 
 export type PostFormData = z.infer<typeof PostSchema>;
+export interface GetPostData{
+  photos: Array<string>
+  mentions: Array<string>
+  caption: string
+  hashtags:Array<string>
+}
+
