@@ -28,7 +28,10 @@ export const PostSchema = z.object({
     ),
 });
 
-export type PostFormData = z.infer<typeof PostSchema>;
+export interface PostFormData extends Omit<z.infer<typeof PostSchema>,'photos'>{
+  photos:Array<string>|FileList
+}
+
 export interface GetPostData{
   photos: Array<string>
   mentions: Array<string>

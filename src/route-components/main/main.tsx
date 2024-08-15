@@ -1,37 +1,23 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import rahnema from "../../assets/svg/rahnema.svg";
 import { Button } from "../../reusable-components/button";
 import PlusIcon from "../../assets/svg/plus-round.svg";
-import React, { useEffect, useState } from "react";
-import { urls } from "../../common/routes";
+import React, { useState } from "react";
 import { Explore } from "../explore";
 import MobileBottomNavigation from "./mobile-bottom-navigation";
 import { Panel } from "./web-side-panel";
 import { DrawerMenu } from "./mobile-drawer-menu";
 import { ContainterMobile } from "../../reusable-components/container";
-import { CreatePost } from "../create-post";
+import { CreatePost } from "../post";
 import { Modal } from "../../reusable-components/modal";
 import { MyPage } from "../my-page";
 import MobileTopNavigation from "./mobile-top-navigation";
 
 export const Main = () => {
-  // const { state } = useLocation();
-  const state = { userName: "reyhaneh", login: true };
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!state?.userName) {
-      navigate(urls.login);
-    }
-  });
+  const { state } = useLocation();
+  // const state = { userName: "reyhaneh", login: true };
   const [tab, setTab] = React.useState("explore");
-  // useEffect(() => {
-  //   console.log(tab);
-  //   switch (tab) {
-  //     case "myPage":
-  //       navigate(state?.username);
-  //       break;
-  //   }
-  // }, [tab, navigate, state?.username]);
+
   const handleChange = (newValue: string) => {
     setTab(newValue);
   };
@@ -43,7 +29,7 @@ export const Main = () => {
     <div className="bg-color h-screen w-screen flex relative ">
       {isOpen && (
         <Modal>
-          <CreatePost Close={Close} />
+          <CreatePost id={null} Close={Close} />
         </Modal>
       )}
       <div className=" bgColor p-16 w-screen flex justify-stretch">
@@ -70,9 +56,8 @@ export const Main = () => {
 };
 
 export const MainMobile = () => {
-  const navigate = useNavigate();
-  // const { state } = useLocation();
-  const state = { userName: "reyhaneh", login: true };
+  const { state } = useLocation();
+  // const state = { userName: "reyhaneh", login: true };
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState("explore");
   const handleItemClick = (item: string) => {
@@ -81,17 +66,6 @@ export const MainMobile = () => {
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
   };
-  useEffect(() => {
-    if (!state?.userName) {
-      navigate(urls.login);
-    }
-  });
-  // useEffect(() => {
-  //   switch (selectedItem) {
-  //     case "myPage":
-  //       navigate(state.username);
-  //   }
-  // }, [selectedItem, navigate, state?.username]);
 
   return (
     <ContainterMobile>
