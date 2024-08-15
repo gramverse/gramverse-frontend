@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Post } from "../../common/types/post-info";
+import { Post } from "../../common/types/post";
 type GalleryProps = {
   posts?: Post[]; //remove optional
 };
@@ -15,12 +15,12 @@ export const Gallery = ({ posts }: GalleryProps) => {
               className="h-[304px] w-[295px] rounded-t-3xl bg-slate-600"
               onClick={() => setSelectedPost(post)}
             >
-              <img src={post?.photos[0]} />
+              <img src={post?.photoUrls[0]} />
             </div>
           );
         })}
       </div>
-      {/* {selectedPost &&<PostModal post={selectedPost} onClose={() => setSelectedPost(null)}} */}
+      {/* {selectedPost &&<PostModal post={selectedPost} onClose={() => setSelectedPost(null)}}  */}
     </>
   );
 };

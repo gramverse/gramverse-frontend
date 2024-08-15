@@ -4,16 +4,16 @@ import { EmptyGallery } from "./empty-gallery";
 import { Gallery } from "./gallery";
 import { useGetAppUserInfo, useGetPosts } from "../../api-hooks/my-page";
 import { ViewAppUserInfo } from "../view-app-user-info";
+import { useState } from "react";
+import { Modal } from "../../reusable-components/modal";
+import { EditProfile } from "../edit-profile";
 //import EmptyGallery from "./empty-gallery"
 
 const MyPageLayout = () => {
-  // const username = "@mahmz";
-  // const fullname = "مهشید منزه";
-  // const bio = " Lover, not a fighter, spreading ✌️all over the 🌎";
-  // const followers = "۳ دنبال‌کننده";
-  // const following = "۷ دنبال‌شونده";
-  // const postNumber = "19 پست";
-
+  const [isOpenEditProfile, setIsOpenEditProfile] = useState(false);
+  const closeEditProfile = () => {
+    setIsOpenEditProfile(false);
+  };
   let {
     data: userInfo,
     error: userInfoError,
@@ -51,6 +51,12 @@ const MyPageLayout = () => {
   const noPost = false;
   return (
     <div className="bgColor flex flex-col gap-8">
+      {isOpenEditProfile && (
+        <Modal>
+          <EditProfile  onClose={closeEditProfile} />
+        </Modal>
+      )}
+
       <div className="h-14 w-[360px] gap-2">
         <p className="size-5 h-12 w-[117px] text-right font-bold leading-8">
           صفحه من
@@ -62,10 +68,16 @@ const MyPageLayout = () => {
             <img className="h-full w-full" src={PersonIcon} />
           </label>
         </div>
-        {userInfo && <ViewAppUserInfo userInfo={userInfo} followMode={false} />}
+        {userInfo && <ViewAppUserInfo userInfo={userInfo} followMode={true} />}
 
         <div className="flex h-40 w-[377px] flex-col items-end justify-center">
-          <Button classes="w-48" type="submit">
+          <Button
+            classes="w-48"
+            type="submit"
+            onClick={() => {
+              setIsOpenEditProfile(true);
+            }}
+          >
             ویرایش پروفایل
           </Button>
         </div>

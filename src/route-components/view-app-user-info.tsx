@@ -15,7 +15,7 @@ export const ViewAppUserInfo = ({ userInfo, followMode }: AppUserInfoProps) => {
       {followMode && (
         <div className="flex w-64 flex-row gap-4">
           <div className="size-3.5 w-20 font-normal">{userInfo.userName}</div>
-          <Button classes="w-52" type="submit">
+          <Button classes="w-52" type="submit" btnColor="outline">
             دنبال کردن
           </Button>
           {/* add + in follow btn */}
