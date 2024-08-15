@@ -3,6 +3,7 @@ import {
   HTMLAttributes,
   InputHTMLAttributes,
   useCallback,
+  useEffect,
   useState,
 } from "react";
 import {
@@ -13,14 +14,14 @@ import checked from "../assets/svg/check-mark.svg";
 import circle from "../assets/svg/circle.svg";
 import dot from "../assets/svg/circle-dot.svg";
 import line from "../assets/svg/line.svg";
-import { useCreatePost } from "../api-hooks/create-post";
+import { useCreatePost, useGetPost } from "../api-hooks/post";
 import clsx from "clsx";
 import { Button } from "../reusable-components/button";
 import { InputField } from "../reusable-components/input-field";
 import Emoji from "../assets/svg/emoji.svg";
 import Camera from "../assets/svg/camera.svg";
 import { TextArea } from "../reusable-components/text-area";
-import { PostFormData, PostSchema } from "../common/types/post";
+import { GetPostData, PostFormData, PostSchema } from "../common/types/post";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Alert } from "../reusable-components/alert";
@@ -70,15 +71,18 @@ const ProgressBar = ({ stage }: { stage: number }) => {
   );
 };
 
-interface props extends InputHTMLAttributes<HTMLInputElement> {}
+interface props extends InputHTMLAttributes<HTMLInputElement> {
+  queryValue: Partial<GetPostData>|undefined
+}
 
-const SelectPhotos = forwardRef<HTMLInputElement, props>((_props, ref) => {
-  const { name, onChange } = _props;
-  const [photos, setPhotos] = useState<Array<string>>([]);
+const SelectPhotos = forwardRef<HTMLInputElement, props>((props, ref) => {
+  const queryPhotos = props.queryValue?.photos ;
+  const defaultPhotos = queryPhotos?queryPhotos:[]
+  const { name, onChange } = props;
+  const [photos, setPhotos] = useState<Array<string>>(defaultPhotos);
   const setSelectedPhotos = (selectedPhotos: Array<string>) => {
     setPhotos(selectedPhotos);
   };
-
   return (
     <div className="flex flex-col w-full items-center">
       <p>عکس های مورد نظرت رو آپلود کن</p>
@@ -112,7 +116,8 @@ const SelectPhotos = forwardRef<HTMLInputElement, props>((_props, ref) => {
   );
 });
 
-const Caption = forwardRef<HTMLDivElement, props>((_props, ref) => {
+const Caption = forwardRef<HTMLDivElement, props>((props, ref) => {
+  const hashtags = props.queryValue?.hashtags?.map((mention)=> `#${mention}`).reduce((prev,cur)=>`${prev} ${cur}`,'')
   return (
     <div ref={ref} className="flex flex-col w-full items-center">
       <span className="flex flex-row w-full justify-between">
@@ -120,23 +125,24 @@ const Caption = forwardRef<HTMLDivElement, props>((_props, ref) => {
         <img src={Emoji} alt="" />
       </span>
 
-      <TextArea rows={7} cols={40} />
+      <TextArea defaultValue={props.queryValue?.caption?.concat(hashtags ? hashtags:'')} rows={7} cols={40} />
     </div>
   );
 });
 
-const Mention = forwardRef<HTMLDivElement, props>((_props, ref) => {
+const Mention = forwardRef<HTMLDivElement, props>((props, ref) => {
   return (
     <div ref={ref} className="flex flex-col w-full items-center">
       <p>اینجا می‌تونی دوستانت رو منشن کنی:</p>
-      <InputField fieldsize={"large"} />
+      <InputField defaultValue={props.queryValue?.mentions?.map((mention)=> `@${mention}`).reduce((prev,cur)=>`${prev} ${cur}`,'')} fieldsize={"large"} />
     </div>
   );
 });
 
-const CreatePostLayout = ({ Close }: { Close: () => void }) => {
+const CreatePostLayout = ({ Close,id }: { Close: () => void,id:number|null }) => {
   const [stage, setStage] = useState(1);
   const { mutate } = useCreatePost();
+  const { data: post } = useGetPost(id);
 
   const {
     register,
@@ -165,6 +171,10 @@ const CreatePostLayout = ({ Close }: { Close: () => void }) => {
       clearErrors();
     }, 2000);
   }, [clearErrors, stage, trigger]);
+
+  useEffect(() => {
+    console.log(stage)
+  },[stage])
   return (
     <div className="flex bgColor flex-col items-center justify-between w-fit h-fit gap-5 my-auto ">
       <section>
@@ -185,9 +195,9 @@ const CreatePostLayout = ({ Close }: { Close: () => void }) => {
         )}
 
         <section>
-          {stage === 1 && <SelectPhotos {...register("photos")} />}
-          {stage === 2 && <Caption {...register("caption")} />}
-          {stage === 3 && <Mention {...register("mentions")} />}
+          {stage === 1 && <SelectPhotos queryValue={{photos:post?.photos}} {...register("photos")} />}
+          {stage === 2 && <Caption queryValue={{caption:post?.caption, hashtags:post?.hashtags}} {...register("caption")} />}
+          {stage === 3 && <Mention queryValue={{mentions:post?.mentions}}{...register("mentions")} />}
         </section>
         <section className="flex gap-5 justify-end items-center w-full">
           <span
@@ -206,18 +216,18 @@ const CreatePostLayout = ({ Close }: { Close: () => void }) => {
   );
 };
 
-export const CreatePost = ({ Close }: { Close: () => void }) => {
+export const CreatePost = ({ Close,id }: { Close: () => void,id:number|null }) => {
   return (
     <ContainterWeb>
-      <CreatePostLayout Close={Close} />
+      <CreatePostLayout id={id} Close={Close} />
     </ContainterWeb>
   );
 };
 
-export const CreatePostMobile = ({ Close }: { Close: () => void }) => {
+export const CreatePostMobile = ({ Close,id }: { Close: () => void,id:number|null }) => {
   return (
     <ContainterMobile>
-      <CreatePostLayout Close={Close} />
+      <CreatePostLayout  id={id} Close={Close} />
     </ContainterMobile>
   );
 };
