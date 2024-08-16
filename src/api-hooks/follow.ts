@@ -23,32 +23,20 @@ export const useGetFollowingProfile = (userName: string) => {
   });
 };
 
+export type FollowMutationArgs = { userName: string; follow: boolean };
+
 export const useFollow = () => {
   const httpClient = useHttpClient();
-  return useMutation<unknown, HTTPError, string>({
-    mutationFn: (userName: string) => {
-      return httpClient
-        .post("/users/follow", {
-          json: { followingUserName: userName },
-        })
-        .json();
+  return useMutation<unknown, HTTPError, FollowMutationArgs>({
+    mutationFn: ({ userName, follow }) => {
+      const url = follow ? "/users/follow" : "/users/unfollow";
+      const json = { followingUserName: userName };
+      return httpClient.post(url, { json }).json();
     },
-    onSuccess(data) {
+    onSuccess() {
+      // onSuccess(data) {
       queryClient.invalidateQueries({ queryKey: ["getFollowingProfile"] });
       // queryClient.setQueryData(["getFollowingProfile"], data)
-    },
-  });
-};
-
-export const useUnFollow = () => {
-  const httpClient = useHttpClient();
-  return useMutation<unknown, HTTPError, string>({
-    mutationFn: (userName: string) => {
-      return httpClient
-        .post("/users/unfollow", {
-          json: { followingUserName: userName },
-        })
-        .json();
     },
   });
 };

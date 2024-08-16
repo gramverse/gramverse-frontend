@@ -3,10 +3,7 @@ import { ViewAppUserInfo } from "./view-app-user-info";
 import {
   useFollow,
   useGetFollowingProfile,
-  useUnFollow,
 } from "../api-hooks/follow";
-import { FollowingProfile } from "../common/types/following-profile";
-
 
 export const FollowUserLayout = () => {
   //implement web and mobile
@@ -17,26 +14,16 @@ export const FollowUserLayout = () => {
     error: profileError,
     isError: isProfileError,
     isLoading: isProfileLoading,
-    isSuccess: isGetProfileSuccess,
-    refetch,
+    // isSuccess: isGetProfileSuccess,
   } = useGetFollowingProfile(userName ?? "");
   //1- chikar konim ino k motmaen username shim data dare?
 
   const {
     isError: isFollowError,
-    error: followError,
-    isSuccess: isFollowSuccess,
+    // error: followError,
+    // isSuccess: isFollowSuccess,
     mutate: followMutate,
   } = useFollow();
-  const {
-    isError: isUnFollowError,
-    error: unFollowError,
-    isSuccess: isUnFollowSuccess,
-    mutate: unFollowMutate,
-  } = useUnFollow();
-
-
-  const onFollowMethod = userInfo?.isFollowed ? unFollowMutate : followMutate;
 
   if (isProfileLoading) {
     //show loader
@@ -45,9 +32,6 @@ export const FollowUserLayout = () => {
     //alert userInfoError
     alert(profileError);
     console.log("error", profileError);
-  }
-  if (isUnFollowError) {
-    //alert postError
   }
   if (isFollowError) {
     //alert postError
@@ -62,7 +46,7 @@ export const FollowUserLayout = () => {
               followMode
               userInfo={userInfo}
               isFollowed={userInfo.isFollowed}
-              onFollowMethod={onFollowMethod}
+              onFollowMethod={followMutate}
             />
           )}
 
@@ -76,7 +60,6 @@ export const FollowUserLayout = () => {
     </>
   );
 };
-
 
 export const FollowUser = () => {
   return (

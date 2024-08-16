@@ -2,12 +2,13 @@ import { Profile } from "../common/types/profle-data";
 import { Button } from "../reusable-components/button";
 import PersonIcon from "../assets/svg/profile.svg";
 import { FollowingProfile } from "../common/types/following-profile";
+import { FollowMutationArgs } from "../api-hooks/follow";
 
 type AppUserInfoProps = {
   userInfo: Profile | FollowingProfile;
   followMode?: boolean;
   isFollowed?: boolean;
-  onFollowMethod?: (userName: string) => void;
+  onFollowMethod?: (args: FollowMutationArgs) => void;
 };
 
 export const ViewAppUserInfo = ({
@@ -40,7 +41,10 @@ export const ViewAppUserInfo = ({
                 type="submit"
                 size="medium"
                 onClick={() => {
-                  onFollowMethod && onFollowMethod(userInfo.userName);
+                  onFollowMethod?.({
+                    userName: userInfo.userName,
+                    follow: !isFollowed,
+                  });
                 }}
                 btnColor={isFollowed ? "outline" : "secondary"}
               >
