@@ -18,10 +18,7 @@
     direction: rtl;
     font-family: "Iran";
   }
-  button span,
-  button {
-    color: white;
-  }
+
   input {
     background-color: white;
   }

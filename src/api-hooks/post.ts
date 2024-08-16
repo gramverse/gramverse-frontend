@@ -1,19 +1,19 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
 import { HTTPError } from "ky";
 import { useNavigate } from "react-router-dom";
 import { urls } from "../common/routes";
-import { Post, PostFormData } from "../common/types/post";
+import { PostFormData } from "../common/types/post";
 
 
 
-export const useGetPost = (id:number|null) => {
-  const httpClient = useHttpClient();
-  return useQuery<unknown, HTTPError, Post>({
-    queryKey: ["getPost"],
-    queryFn: () => id?httpClient.get(`users/post/id:${id}`).json():()=>{},
-  });
-};
+// export const useGetPost = (id:number|null) => {
+//   const httpClient = useHttpClient();
+//   return useQuery<unknown, HTTPError, Post>({
+//     queryKey: ["getPost"],
+//     queryFn: () => id?httpClient.get(`users/post/id:${id}`).json():()=>{},
+//   });
+// };
 
 
 

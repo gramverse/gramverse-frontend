@@ -16,17 +16,8 @@ export const useLogin = () => {
         .json(),
     onSuccess(data) {
       const { userName } = loginResponse.parse(data);
-      navigate(urls.main, { state: { userName: userName, login: true } });
+      navigate(urls.main, { state: { userName, login: true } });
     },
   });
   return registerMutation;
 };
-
-// function updateAuthToken(token: string | null) {
-//   // Update the authentication token in localStorage or in a global state
-//   if (token) {
-//     localStorage.setItem("authToken", token);
-//   } else {
-//     localStorage.removeItem("authToken");
-//   }
-// }

@@ -16,7 +16,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <div
         lang="fa"
-        className="flex w-full min-h-screen justify-center items-center scroll-p-0"
+        className="flex w-screen h-screen justify-center items-center"
       >
         {mobile && <AppRoutesMobile></AppRoutesMobile>}
         {!mobile && <AppRoutes></AppRoutes>}

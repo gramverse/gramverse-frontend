@@ -8,7 +8,7 @@ import MobileBottomNavigation from "./mobile-bottom-navigation";
 import { Panel } from "./web-side-panel";
 import { DrawerMenu } from "./mobile-drawer-menu";
 import { ContainterMobile } from "../../reusable-components/container";
-import { CreatePost } from "../post";
+import { CreatePost, CreatePostMobile } from "../post";
 import { Modal } from "../../reusable-components/modal";
 import { MyPage } from "../my-page/my-page";
 import MobileTopNavigation from "./mobile-top-navigation";
@@ -18,7 +18,7 @@ export const Main = () => {
   // const state = { userName: "reyhaneh", login: true };
   const [tab, setTab] = React.useState("explore");
 
-  const handleChange = (newValue: string) => {
+  const handleClick = (newValue: string) => {
     setTab(newValue);
   };
   const [isOpen, setIsOpen] = useState(false);
@@ -26,15 +26,15 @@ export const Main = () => {
     setIsOpen(false);
   };
   return (
-    <div className="bg-color h-screen w-screen flex relative ">
+    <div className="bg-color relative flex h-screen w-screen">
       {isOpen && (
         <Modal>
-          <CreatePost id={null} Close={Close} />
+          <CreatePost post={null} Close={Close} />
         </Modal>
       )}
-      <div className=" bgColor p-16 w-screen flex justify-stretch">
+      <div className="bgColor flex grow flex-row justify-stretch px-16 pt-16">
         <img src={rahnema} className="absolute left-20" alt="" />
-        <div className="self-start flex flex-col gap-5 items-center w-fit">
+        <div className="flex h-full w-fit flex-col items-center gap-5 self-start">
           <Button
             classes="flex items-center justify-center"
             onClick={() => {
@@ -44,9 +44,9 @@ export const Main = () => {
             <img src={PlusIcon} alt="" />
             <span>ایجاد پست جدید</span>
           </Button>
-          <Panel handleChange={handleChange} userName={state?.userName} />
+          <Panel handleClick={handleClick} userName={state?.userName} />
         </div>
-        <div className="w-full flex justify-center items-center">
+        <div className="flex w-full items-center justify-center">
           {tab === "explore" && <Explore login={state?.login} />}
           {tab == "myPage" && <MyPage></MyPage>}
         </div>
@@ -69,10 +69,12 @@ export const MainMobile = () => {
 
   return (
     <ContainterMobile>
-      <MobileTopNavigation
-        handleItemClick={handleItemClick}
-        toggleDrawer={toggleDrawer}
-      />
+      {
+        <MobileTopNavigation
+          handleItemClick={handleItemClick}
+          toggleDrawer={toggleDrawer}
+        />
+      }
       {isOpen && (
         <DrawerMenu
           isOpen={isOpen}
@@ -82,7 +84,17 @@ export const MainMobile = () => {
       )}
       {selectedItem === "explore" && <Explore login={state?.login} />}
       {selectedItem === "myPage" && <MyPage />}
-      <MobileBottomNavigation handleItemClick={handleItemClick} />
+      {selectedItem === "createPost" && (
+        <CreatePostMobile
+          post={null}
+          Close={() => {
+            handleItemClick("explore");
+          }}
+        />
+      )}
+      {selectedItem !== "createPost" && (
+        <MobileBottomNavigation handleItemClick={handleItemClick} />
+      )}
     </ContainterMobile>
   );
 };

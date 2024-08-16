@@ -18,7 +18,7 @@ export const useHttpClient = () => {
               if (500 <= res.status && res.status < 600) {
                 navigate(urls.serverError);
               } else if (res.status === 401) {
-                navigate(urls.login, { state: { invalidToken: true } });
+                navigate(urls.login);
               }
               return res;
             },

@@ -5,16 +5,16 @@ const ExploreMessage = ({ login }: { login: boolean }) => {
   return (
     <>
       {login ? (
-        <div className="flex flex-col gap-10 items-center w-full">
+        <div className="flex w-full flex-col items-center gap-10">
           {/* <CircularProgress /> */}
           <Alert message="با موفقیت وارد شدید" status="success" />
         </div>
       ) : (
-        <div className="flex bg-[#f5f5f5] flex-col items-center justify-between gap-9 rounded-xl border border-stone-300 m-7 py-16 px-2">
-          <h1 className="font-bold text-4xl text-center">
+        <div className="m-7 flex flex-col items-center justify-between gap-9 rounded-xl border border-stone-300 bg-form-bg px-2 py-16">
+          <h1 className="text-center text-4xl font-bold">
             سلام به کالج‌گرام خوش اومدی!
           </h1>
-          <p className="font-normal text-l">
+          <p className="text-l font-normal">
             برای دیدن عکس‌ها توی این صفحه باید
             <br /> کالج‌گرامی‌ها رو دنبال کنی. آماده‌ای؟
           </p>

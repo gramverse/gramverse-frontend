@@ -3,7 +3,6 @@ import {
   HTMLAttributes,
   InputHTMLAttributes,
   useCallback,
-  useEffect,
   useState,
 } from "react";
 import {
@@ -14,7 +13,7 @@ import checked from "../assets/svg/check-mark.svg";
 import circle from "../assets/svg/circle.svg";
 import dot from "../assets/svg/circle-dot.svg";
 import line from "../assets/svg/line.svg";
-import { useCreatePost, useGetPost } from "../api-hooks/post";
+import { useCreatePost } from "../api-hooks/post";
 import clsx from "clsx";
 import { Button } from "../reusable-components/button";
 import { InputField } from "../reusable-components/input-field";
@@ -37,7 +36,7 @@ const ProgressIndicator = ({
   className,
 }: ProgressIndicatorTypes) => {
   return (
-    <div className={clsx("flex flex-col gap-2 p-0 m-0", className)}>
+    <div className={clsx("m-0 flex flex-col gap-2 p-0", className)}>
       <img
         src={state === "current" ? dot : state === "done" ? checked : circle}
         className="h-5"
@@ -49,49 +48,49 @@ const ProgressIndicator = ({
 };
 const ProgressBar = ({ stage }: { stage: number }) => {
   return (
-    <div dir="ltr" className="flex flex-row-reverse items-center p-0 m-0">
+    <div dir="ltr" className="m-0 flex flex-row-reverse items-center p-0">
       <ProgressIndicator
         text={"عکس"}
         state={stage === 1 ? "current" : "done"}
-        className="-mr-1 z-10"
+        className="z-10 -mr-1"
       />
-      <img src={line} className="self-start w-fit h-1 mt-2 " />
+      <img src={line} className="mt-2 h-1 w-fit self-start" />
       <ProgressIndicator
         text={"متن"}
         state={stage === 1 ? "toBeDone" : stage === 2 ? "current" : "done"}
-        className="-mr-1 z-10"
+        className="z-10 -mr-1"
       />
-      <img src={line} className="self-start w-f0t h-1 mt-2" />
+      <img src={line} className="w-f0t mt-2 h-1 self-start" />
       <ProgressIndicator
         text={"تنظیمات"}
         state={stage < 3 ? "toBeDone" : "current"}
-        className="-ml-4 z-10"
+        className="z-10 -ml-4"
       />
     </div>
   );
 };
 
 interface props extends InputHTMLAttributes<HTMLInputElement> {
-  queryValue: Partial<Post>|undefined
+  queryValue: Partial<Post> | undefined;
 }
 
 const SelectPhotos = forwardRef<HTMLInputElement, props>((props, ref) => {
-  //const queryPhotos = props.queryValue?.photos ;
-  //const defaultPhotos = queryPhotos?queryPhotos:[]
+  const queryPhotos = props.queryValue?.photos;
+  const defaultPhotos = queryPhotos ? queryPhotos : [];
   const { name, onChange } = props;
   const [photos, setPhotos] = useState<Array<string>>([]);
   const setSelectedPhotos = (selectedPhotos: Array<string>) => {
     setPhotos(selectedPhotos);
   };
   return (
-    <div className="flex flex-col w-full items-center">
+    <div className="flex w-full flex-col items-center">
       <p>عکس های مورد نظرت رو آپلود کن</p>
       <div
         className={clsx(
           "grid gap-3",
           photos.length == 0 && `grid-cols-1`,
           photos.length == 1 && `grid-cols-2`,
-          photos.length >= 2 && `grid-cols-3`
+          photos.length >= 2 && `grid-cols-3`,
         )}
       >
         <UploadImage
@@ -107,7 +106,7 @@ const SelectPhotos = forwardRef<HTMLInputElement, props>((props, ref) => {
             <img
               //src={photo}
               key={nanoid()}
-              className="rounded-3xl h-24 w-24 overflow-hidden"
+              className="h-24 w-24 overflow-hidden rounded-3xl"
             />
           );
         })}
@@ -117,38 +116,55 @@ const SelectPhotos = forwardRef<HTMLInputElement, props>((props, ref) => {
 });
 
 const Caption = forwardRef<HTMLDivElement, props>((props, ref) => {
-  const hashtags = props.queryValue?.hashtags?.map((mention)=> `#${mention}`).reduce((prev,cur)=>`${prev} ${cur}`,'')
+  const hashtags = props.queryValue?.hashtags
+    ?.map((mention) => `#${mention}`)
+    .reduce((prev, cur) => `${prev} ${cur}`, "");
   return (
-    <div ref={ref} className="flex flex-col w-full items-center">
-      <span className="flex flex-row w-full justify-between">
+    <div ref={ref} className="flex w-full flex-col items-center">
+      <span className="flex w-full flex-row justify-between">
         <p>کپشن مورد نظرت رو بنویس:</p>
         <img src={Emoji} alt="" />
       </span>
 
-      <TextArea defaultValue={props.queryValue?.caption?.concat(hashtags ? hashtags:'')} rows={7} cols={40} />
+      <TextArea
+        defaultValue={props.queryValue?.caption?.concat(
+          hashtags ? hashtags : "",
+        )}
+        rows={7}
+        cols={40}
+      />
     </div>
   );
 });
 
 const Mention = forwardRef<HTMLDivElement, props>((props, ref) => {
   return (
-    <div ref={ref} className="flex flex-col w-full items-center">
+    <div ref={ref} className="flex w-full flex-col items-center">
       <p>اینجا می‌تونی دوستانت رو منشن کنی:</p>
-      {/* <InputField defaultValue={props.queryValue?.mentions?.map((mention)=> `@${mention}`).reduce((prev,cur)=>`${prev} ${cur}`,'')} fieldsize={"large"} /> */}
+      <InputField
+        defaultValue={props.queryValue?.mentions
+          ?.map((mention) => `@${mention}`)
+          .reduce((prev, cur) => `${prev} ${cur}`, "")}
+        fieldsize={"large"}
+      />
     </div>
   );
 });
 
-const CreatePostLayout = ({ Close,id }: { Close: () => void,id:number|null }) => {
+const CreatePostLayout = ({
+  Close,
+  post,
+}: {
+  Close: () => void;
+  post: Post | null;
+}) => {
   const [stage, setStage] = useState(1);
   const { mutate } = useCreatePost();
-  const { data: post } = useGetPost(id);
 
   const {
     register,
     handleSubmit,
     trigger,
-    clearErrors,
     formState: { errors },
   } = useForm<PostFormData>({
     mode: "onChange",
@@ -156,58 +172,66 @@ const CreatePostLayout = ({ Close,id }: { Close: () => void,id:number|null }) =>
   });
   const onSubmit: SubmitHandler<PostFormData> = (data) => {
     if (data.photos) {
-          mutate(data);
+      mutate(data);
     } else if (post) {
-      const postData:PostFormData = {
+      const postData: PostFormData = {
         ...data,
-      //  photos:post?.photos
-      }
+        photos: post?.photos,
+      };
       mutate(postData);
     }
   };
   const handleClick = useCallback(() => {
     stage === 1
       ? trigger("photos").then((value) =>
-          value ? setStage(stage + 1) : setStage(stage)
+          value ? setStage(stage + 1) : setStage(stage),
         )
       : stage === 2
-      ? trigger("caption").then((value) =>
-          value ? setStage(stage + 1) : setStage(stage)
-        )
-      : trigger("mentions");
-    setTimeout(() => {
-      clearErrors();
-    }, 2000);
-  }, [clearErrors, stage, trigger]);
+        ? trigger("caption").then((value) =>
+            value ? setStage(stage + 1) : setStage(stage),
+          )
+        : trigger("mentions");
+  }, [stage, trigger]);
 
-  useEffect(() => {
-    console.log(stage)
-  },[stage])
   return (
-    <div className="flex bgColor flex-col items-center justify-between w-fit h-fit gap-5 my-auto ">
-      <section>
-        <ProgressBar stage={stage} />
-      </section>
+    <div className="my-12 flex w-fit grow flex-col items-center gap-5">
+      <ProgressBar stage={stage} />
+      <Alert
+        status="error"
+        message={
+          stage === 1
+            ? errors.photos?.message
+            : stage === 2
+              ? errors.caption?.message
+              : errors.mentions?.message
+        }
+      />
+
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-6 justify-center items-center"
+        className="flex w-full grow flex-col items-center justify-between gap-6"
       >
-        {stage === 1 && errors.photos?.message && (
-          <Alert status="error" message={errors.photos?.message} />
-        )}
-        {stage === 2 && errors.caption?.message && (
-          <Alert status="error" message={errors.caption?.message} />
-        )}
-        {stage === 2 && errors.mentions?.message && (
-          <Alert status="error" message={errors.mentions?.message} />
-        )}
-
         <section>
-          {/* {stage === 1 && <SelectPhotos queryValue={{photos:post?.photos}} {...register("photos")} />} */}
-          {stage === 2 && <Caption queryValue={{caption:post?.caption, hashtags:post?.hashtags}} {...register("caption")} />}
-          {stage === 3 && <Mention queryValue={{mentions:post?.mentions}}{...register("mentions")} />}
+          {stage === 1 && (
+            <SelectPhotos
+              queryValue={{ photos: post?.photos }}
+              {...register("photos")}
+            />
+          )}
+          {stage === 2 && (
+            <Caption
+              queryValue={{ caption: post?.caption, hashtags: post?.hashtags }}
+              {...register("caption")}
+            />
+          )}
+          {stage === 3 && (
+            <Mention
+              queryValue={{ mentions: post?.mentions }}
+              {...register("mentions")}
+            />
+          )}
         </section>
-        <section className="flex gap-5 justify-end items-center w-full">
+        <section className="flex items-center justify-end gap-5 self-end">
           <span
             onClick={() => {
               Close();
@@ -224,18 +248,30 @@ const CreatePostLayout = ({ Close,id }: { Close: () => void,id:number|null }) =>
   );
 };
 
-export const CreatePost = ({ Close,id }: { Close: () => void,id:number|null }) => {
+export const CreatePost = ({
+  Close,
+  post,
+}: {
+  Close: () => void;
+  post: Post | null;
+}) => {
   return (
     <ContainterWeb>
-      <CreatePostLayout id={id} Close={Close} />
+      <CreatePostLayout post={post} Close={Close} />
     </ContainterWeb>
   );
 };
 
-export const CreatePostMobile = ({ Close,id }: { Close: () => void,id:number|null }) => {
+export const CreatePostMobile = ({
+  Close,
+  post,
+}: {
+  Close: () => void;
+  post: Post | null;
+}) => {
   return (
     <ContainterMobile>
-      <CreatePostLayout  id={id} Close={Close} />
+      <CreatePostLayout post={post} Close={Close} />
     </ContainterMobile>
   );
 };

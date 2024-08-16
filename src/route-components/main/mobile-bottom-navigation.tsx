@@ -8,11 +8,16 @@ export default function MobileBottomNavigation({
   handleItemClick: (item: string) => void;
 }) {
   return (
-    <div className="w-full flex flex-row justify-center absolute bottom-5">
-      <button className="redColor border-none w-12 h-12 rounded-full flex items-center justify-center absolute bottom-10 z-10">
+    <div className="relative mb-4 flex w-full flex-row justify-center">
+      <button
+        className="absolute bottom-10 z-10 flex h-12 w-12 items-center justify-center rounded-full border-none bg-submit-btn"
+        onClick={() => {
+          handleItemClick("createPost");
+        }}
+      >
         <img src={plus} className="w-5" alt="" />
       </button>
-      <div className="flex w-64 h-10 py-3 px-7 bg-white mx-5 justify-between rounded-full border-solid border-2 border-gray-200">
+      <div className="mx-5 flex h-10 w-64 justify-between rounded-full border-2 border-solid border-gray-200 bg-white px-7 py-3">
         <img
           src={search}
           alt=""

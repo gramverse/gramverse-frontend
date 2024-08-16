@@ -32,7 +32,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
       classes,
       defaultValue
     } = props;
-    const customClasses = `bg-white flex items-center gap-2 py-2 ps-1 text-right justify-start outline-red-200 border-solid border-2 border-gray-300 ${classes} ${fieldSizes[fieldSize]}`;
+    const customClasses = `bg-white flex items-center gap-2 py-2 ps-1 text-right justify-start border-solid border-2 border-gray-300 ${classes} ${fieldSizes[fieldSize]}`;
     if (error) {
       customClasses.concat(` ${status["error"]}`);
     }
