@@ -6,26 +6,18 @@ import { LoginFormData } from "../common/types/login.ts";
 import { useLogin } from "../api-hooks/login.ts";
 import { Button } from "../reusable-components/button.tsx";
 import { Alert } from "../reusable-components/alert.tsx";
-import { useLocation } from "react-router-dom";
 // import { errorMessages } from "../../common/error-messages";
 
 const LoginLayout = () => {
   const { register, handleSubmit } = useForm<LoginFormData>({});
   const { isError, error, mutate } = useLogin();
-  const { state } = useLocation();
   const onSubmit: SubmitHandler<LoginFormData> = (data: LoginFormData) => {
-    mutate(data);
+    console.log(data);
   };
 
   return (
-    <div className=" bgColor flex flex-col gap-6 justify-between text-sm text-right w-80 mx-auto">
-      {state?.invalidToken && (
-        <Alert
-          message="توکن شما منقضی شده لطفا دوباره وارد شوید"
-          status="error"
-        />
-      )}
-      <p className="font-extralight text-xs leading-loose">
+    <div className="bgColor mx-auto flex w-80 flex-col justify-between gap-6 text-right text-sm">
+      <p className="text-xs font-extralight leading-loose">
         به کالج‌گرام خوش آمدید. برای ورود کافیه نام کاربری/ایمیل و رمز عبور
         خودتون رو وارد کنید:
       </p>
@@ -43,7 +35,7 @@ const LoginLayout = () => {
           {...register("password")}
         />
         <div className="flex items-center">
-          <input type="checkbox" id="rememberMe"  {...register("rememberMe")} />
+          <input type="checkbox" id="rememberMe" {...register("rememberMe")} />
           <label htmlFor="rememberMe" className="inline text-xs">
             من‌را به خاطر بسپار
           </label>

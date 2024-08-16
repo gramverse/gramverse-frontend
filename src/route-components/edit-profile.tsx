@@ -59,7 +59,7 @@ const EditProfileLayout = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      {isError && <Alert status="error" message={error.message} />}
+      <Alert status="error" message={error?.message} />
       <div className="bgColor m-auto flex w-[500px] flex-col items-center gap-8 rounded-3xl py-16">
         <div className="size-5 h-8 w-full text-center font-bold leading-8">
           ویرایش حساب

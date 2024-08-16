@@ -35,9 +35,9 @@ export const PostSchema = z.object({
   id: z.number(),
   photoUrls: z.string().url().array(),
   caption: z.string(),
-  mentions: z.string().optional(),
+  mentions: z.string().array().optional(),
   hashtags: z.string().array().optional(),
-  creationDate: z.coerce.date()
+  creationDate: z.coerce.date(),
 });
 
 export type Post = z.infer<typeof PostSchema>;

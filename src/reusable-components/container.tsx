@@ -1,18 +1,26 @@
+import clsx from "clsx";
 import { HTMLAttributes } from "react";
 
-export const ContainterMobile = ({
+export const ContainterWeb = ({
   children,
+  className,
 }: HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div className="h-screen w-screen bgColor p-10 flex flex-col justify-center items-center">
+    <div
+      className={clsx(
+        "flex h-fit w-[485px] items-center justify-center rounded-3xl bg-form-bg p-10",
+        className,
+      )}
+    >
       {children}
     </div>
   );
 };
-
-export const ContainterWeb = ({ children }: HTMLAttributes<HTMLDivElement>) => {
+export const ContainterMobile = ({
+  children,
+}: HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div className="w-[485px] bgColor rounded-3xl h-fit flex justify-center items-center p-10">
+    <div className="flex h-screen w-screen flex-col items-center justify-between bg-form-bg">
       {children}
     </div>
   );

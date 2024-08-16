@@ -16,6 +16,9 @@ const resetPasswordSchema = z
   });
 
 type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
-
+export interface ConfirmResetPasswordData {
+  token: string;
+  newPassword: string;
+}
 export { resetPasswordSchema };
 export type { ResetPasswordFormData };

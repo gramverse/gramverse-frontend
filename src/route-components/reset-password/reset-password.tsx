@@ -13,7 +13,7 @@ import { Button } from "../../reusable-components/button";
 
 import { useLocation } from "react-router-dom";
 import { useResetPassword } from "../../api-hooks/reset-password";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { CollegeBackground } from "../../reusable-components/rahnema-background";
 import {
   ContainterMobile,
@@ -32,24 +32,32 @@ const ResetPassWordComponent = () => {
   });
   const location = useLocation();
   const { mutate: ConfirmMutate } = useResetPassword();
+  const tokenize = useCallback((path: string) => {
+    const pattern = /(?<=reset-password\/).*/;
+    const match = path.match(pattern);
+    return match ? match[0] : "";
+  }, []);
   useEffect(() => {
-    ConfirmMutate(location.pathname);
+    ConfirmMutate(tokenize(location.pathname));
   });
 
-  const { error, isError, mutate } = useConfirmResetPassword();
+  const { error, mutate } = useConfirmResetPassword();
 
   const onSubmit: SubmitHandler<ResetPasswordFormData> = (formData) => {
-    mutate(formData);
+    mutate({
+      newPassword: formData.password,
+      token: tokenize(location.pathname),
+    });
   };
 
   return (
-    <div className="flex bgColor flex-col items-center justify-center h-full w-fit">
+    <div className="bgColor flex h-full w-fit flex-col items-center justify-center">
       <img src={rahnemaLogo} alt="" />
-      <p className="leading-5 font-semibold"> تنظیم رمز عبور جدید </p>
+      <p className="font-semibold leading-5"> تنظیم رمز عبور جدید </p>
       <form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>
-        {isError && <Alert status="error" message={error.message} />}
+        <Alert status="error" message={error?.message} />
 
-        <p className="w-80 text-sm leading-6 text-right">
+        <p className="w-80 text-right text-sm leading-6">
           لطفاً رمز جدیدی برای حساب خود انتخاب کنید:{" "}
         </p>
         <InputField

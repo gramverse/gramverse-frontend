@@ -1,4 +1,4 @@
-import { useGetProfileSummary } from "../../api-hooks/main";
+import { useGetProfileSummary } from "../../api-hooks/get-profile-summary";
 import menu from "../../assets/svg/menu.svg";
 import profile from "../../assets/svg/profile.svg";
 import { RoundPicture } from "../../reusable-components/profile-picture";
@@ -13,19 +13,17 @@ export default function MobileTopNavigation({
   const { data: profileSummary } = useGetProfileSummary();
 
   return (
-    <div className="w-full flex flex-col justify-center absolute top-5">
-      <div className="flex w-64 h-10 p-3 mx-5 ms-10 justify-between ">
+    <div className="flex w-full flex-col justify-center">
+      <div className="mx-5 ms-10 flex h-10 w-64 justify-between p-3">
         <RoundPicture
           picture={
-            profileSummary?.profilePicture
-              ? profileSummary.profilePicture
-              : profile
+            profileSummary?.profileImage ? profileSummary.profileImage : profile
           }
           onClick={() => handleItemClick("myPage")}
         />
         <img src={menu} alt="" className="w-6" onClick={toggleDrawer} />
       </div>
-      <div className="w-full h-0.5 bg-gray-300" />
+      <div className="h-0.5 w-full bg-gray-300" />
     </div>
   );
 }

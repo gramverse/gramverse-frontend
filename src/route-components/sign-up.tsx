@@ -21,7 +21,7 @@ const SignUpLayout = () => {
     criteriaMode: "all",
     resolver: zodResolver(signupFormValueSchema),
   });
-  const { isError, error, mutate } = useSignup();
+  const { error, mutate } = useSignup();
 
   const onSubmit: SubmitHandler<SignupFormValue> = (formData) => {
     mutate(formData);
@@ -29,13 +29,13 @@ const SignUpLayout = () => {
 
   return (
     <form
-      className="flex  bgColor flex-col gap-y-8 w-80 m-auto "
+      className="bgColor m-auto flex w-80 flex-col gap-y-8"
       onSubmit={handleSubmit(onSubmit)}
       noValidate
     >
-      {isError && <Alert status="error" message={error.message}></Alert>}
+      <Alert status="error" message={error?.message} />
       <div dir="rtl">
-        <p className="text-xs leading-loose text-right font-extralight mb-7">
+        <p className="mb-7 text-right text-xs font-extralight leading-loose">
           به کالج‌گرام خوش آمدید. برای ثبت‌نام کافیه نام کاربری، ایمیل و یک رمز
           عبور وارد کنید :
         </p>
