@@ -4,7 +4,6 @@ import {
   useFollow,
   useGetFollowingProfile,
 } from "../api-hooks/follow";
-import { FollowingProfile } from "../common/types/following-profile";
 
 export const FollowUserLayout = () => {
   //implement web and mobile
@@ -34,7 +33,6 @@ export const FollowUserLayout = () => {
     alert(profileError);
     console.log("error", profileError);
   }
-
   if (isFollowError) {
     //alert postError
   }
