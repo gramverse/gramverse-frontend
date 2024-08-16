@@ -77,11 +77,11 @@ export const UploadImage = forwardRef<HTMLInputElement, UploadImageProps>(
           name={name}
           {...attrs}
         />
-        <img className="w-fit h-fit" src={imagePreview} />
+        <img className="w-full h-full object-cover" src={imagePreview} />
       </label>
        {!!error && (
           <div className="w-80 m-1 ps-2 text-center">
-            <img src={Error} className=" m-2 h-full" alt="" />
+            <img src={Error} className="m-2 h-full" alt="" />
             <span className="text-red-600 text-xs">{error}</span>
           </div>
         )}

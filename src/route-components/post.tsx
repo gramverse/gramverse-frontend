@@ -21,7 +21,7 @@ import { InputField } from "../reusable-components/input-field";
 import Emoji from "../assets/svg/emoji.svg";
 import Camera from "../assets/svg/camera.svg";
 import { TextArea } from "../reusable-components/text-area";
-import { GetPostData, PostFormData, PostSchema } from "../common/types/post";
+import { Post, PostFormData, PostSchema } from "../common/types/post";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Alert } from "../reusable-components/alert";
@@ -72,14 +72,14 @@ const ProgressBar = ({ stage }: { stage: number }) => {
 };
 
 interface props extends InputHTMLAttributes<HTMLInputElement> {
-  queryValue: Partial<GetPostData>|undefined
+  queryValue: Partial<Post>|undefined
 }
 
 const SelectPhotos = forwardRef<HTMLInputElement, props>((props, ref) => {
-  const queryPhotos = props.queryValue?.photos ;
-  const defaultPhotos = queryPhotos?queryPhotos:[]
+  //const queryPhotos = props.queryValue?.photos ;
+  //const defaultPhotos = queryPhotos?queryPhotos:[]
   const { name, onChange } = props;
-  const [photos, setPhotos] = useState<Array<string>>(defaultPhotos);
+  const [photos, setPhotos] = useState<Array<string>>([]);
   const setSelectedPhotos = (selectedPhotos: Array<string>) => {
     setPhotos(selectedPhotos);
   };
@@ -105,7 +105,7 @@ const SelectPhotos = forwardRef<HTMLInputElement, props>((props, ref) => {
         {photos.map((photo) => {
           return (
             <img
-              src={photo}
+              //src={photo}
               key={nanoid()}
               className="rounded-3xl h-24 w-24 overflow-hidden"
             />
@@ -134,7 +134,7 @@ const Mention = forwardRef<HTMLDivElement, props>((props, ref) => {
   return (
     <div ref={ref} className="flex flex-col w-full items-center">
       <p>اینجا می‌تونی دوستانت رو منشن کنی:</p>
-      <InputField defaultValue={props.queryValue?.mentions?.map((mention)=> `@${mention}`).reduce((prev,cur)=>`${prev} ${cur}`,'')} fieldsize={"large"} />
+      {/* <InputField defaultValue={props.queryValue?.mentions?.map((mention)=> `@${mention}`).reduce((prev,cur)=>`${prev} ${cur}`,'')} fieldsize={"large"} /> */}
     </div>
   );
 });
@@ -160,7 +160,7 @@ const CreatePostLayout = ({ Close,id }: { Close: () => void,id:number|null }) =>
     } else if (post) {
       const postData:PostFormData = {
         ...data,
-        photos:post?.photos
+      //  photos:post?.photos
       }
       mutate(postData);
     }
@@ -203,7 +203,7 @@ const CreatePostLayout = ({ Close,id }: { Close: () => void,id:number|null }) =>
         )}
 
         <section>
-          {stage === 1 && <SelectPhotos queryValue={{photos:post?.photos}} {...register("photos")} />}
+          {/* {stage === 1 && <SelectPhotos queryValue={{photos:post?.photos}} {...register("photos")} />} */}
           {stage === 2 && <Caption queryValue={{caption:post?.caption, hashtags:post?.hashtags}} {...register("caption")} />}
           {stage === 3 && <Mention queryValue={{mentions:post?.mentions}}{...register("mentions")} />}
         </section>
@@ -239,3 +239,28 @@ export const CreatePostMobile = ({ Close,id }: { Close: () => void,id:number|nul
     </ContainterMobile>
   );
 };
+
+
+
+
+
+// export const CreatePost = ({ Close,id }: { Close: () => void,id:number|null }) => {
+//   return (
+//    // <ContainterWeb>
+//       <CreatePostLayout id={id} Close={Close} />
+//    // </ContainterWeb>
+//   );
+// };
+
+// export const CreatePostMobile = ({ Close,id }: { Close: () => void,id:number|null }) => {
+//   return (
+//     //<ContainterMobile>
+//       <CreatePostLayout  id={id} Close={Close} />
+//     //</ContainterMobile>
+//   );
+// };
+
+// const CreatePostLayout = ({ Close,id }: { Close: () => void,id:number|null }) => {
+//   console.log(id)
+//   return(<></>);
+// }
