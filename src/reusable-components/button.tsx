@@ -27,15 +27,16 @@ export const Button = (props: ButtonProps) => {
     type,
     children,
     onClick,
+    ...attrs
   } = props;
   return (
     <button
       type={type}
       className={`w-fit ${sizes[size]} ${btnColors[btnColor]} ${classes}`}
-      {...props}
       onClick={(e) => {
         onClick?.(e);
       }}
+      {...attrs}
     >
       {children}
     </button>
