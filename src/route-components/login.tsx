@@ -43,7 +43,7 @@ const LoginLayout = () => {
           {...register("password")}
         />
         <div className="flex items-center">
-          <input type="checkbox" id="rememberMe" />
+          <input type="checkbox" id="rememberMe"  {...register("rememberMe")} />
           <label htmlFor="rememberMe" className="inline text-xs">
             من‌را به خاطر بسپار
           </label>

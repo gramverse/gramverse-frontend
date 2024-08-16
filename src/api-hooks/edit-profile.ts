@@ -5,13 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { urls } from "../common/routes";
 import { ProfileFormValue } from "../common/types/profile";
 
-export const useGetProfile = () => {
-  const httpClient = useHttpClient();
-  return useQuery<unknown, HTTPError, ProfileFormValue>({
-    queryKey: ["getProfile"],
-    queryFn: () => httpClient.get(`users/profile`).json(),
-  });
-};
+// export const useGetProfile = () => {
+//   const httpClient = useHttpClient();
+//   return useQuery<unknown, HTTPError, ProfileFormValue>({
+//     queryKey: ["getProfile"],
+//     queryFn: () => httpClient.get(`users/profile`).json(),
+//   });
+// };
 
 export const useEditProfile = () => {
   const navigate = useNavigate();
@@ -22,16 +22,13 @@ export const useEditProfile = () => {
       confirmPassword,
       ...rest
     }: ProfileFormValue) => {
+      console.log("oftad tu mutation");
       const formData = new FormData();
       formData.append("profileFields", JSON.stringify(rest));
       if (profileImage) {
         formData.append("profileImage", profileImage);
       }
-      console.log("request body", formData);
       return httpClient.post("/files/myProfile", { body: formData }).json();
-    },
-    async onSuccess() {
-      navigate(urls.myPage);
     },
   });
 };
