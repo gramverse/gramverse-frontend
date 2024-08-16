@@ -36,7 +36,7 @@ export const AppRoutes = () => {
       ></Route>
       {/* <Route path={urls.editProfile} element={<EditProfile/>}></Route>  */}
       <Route path={urls.main} element={<Main></Main>}></Route>
-      <Route path={`${urls.main}/:username`} element={<FollowUser />} />
+      <Route path="/:userName" element={<FollowUser />} />
       <Route path="*" element={<UrlErrorPage></UrlErrorPage>} />
       <Route path={urls.notFound} element={<UrlErrorPage></UrlErrorPage>} />
       <Route
@@ -61,6 +61,7 @@ export const AppRoutesMobile = () => {
       <Route path={urls.forgetPassword} element={<ForgetPasswordMobile />} />
       <Route path={urls.forgetPasswordInfo} element={<ForgetPasswordInfo />} />
       <Route path={urls.main} element={<MainMobile></MainMobile>}></Route>
+      <Route path="/:userName" element={<FollowUser />} />
       <Route
         path="*"
         element={<UrlErrorPageMobile></UrlErrorPageMobile>}

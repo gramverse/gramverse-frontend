@@ -1,35 +1,70 @@
 import { useParams } from "react-router-dom";
 import { ViewAppUserInfo } from "./view-app-user-info";
+import {
+  useFollow,
+  useGetFollowingProfile,
+  useUnFollow,
+} from "../api-hooks/follow";
+import { FollowingProfile } from "../common/types/following-profile";
 
-const userInfo = {
-  bio: "aaa",
-  email: "bb",
-  followerCount: 1000,
-  followingCount: 100,
-  isPrivate: true,
-  postCount: 10,
-  userName: "",
-  firstName: "متین",
-  lastName: "دهقان",
-  profileImage:
-    "https://img.freepik.com/premium-photo/30-years-old-cute-young-woman-portrait-face_923558-9927.jpg?size=626&ext=jpg&ga=GA1.1.438475375.1723783343&semt=ais_hybrid",
-};
-export const FollowUser = () => {
+
+export const FollowUserLayout = () => {
   //implement web and mobile
-  const { username } = useParams();
-  userInfo.userName = username ?? "";
+  const { userName } = useParams();
+  console.log("az routeeee", userName);
+  const {
+    data: userInfo,
+    error: profileError,
+    isError: isProfileError,
+    isLoading: isProfileLoading,
+    isSuccess: isGetProfileSuccess,
+    refetch,
+  } = useGetFollowingProfile(userName ?? "");
+  //1- chikar konim ino k motmaen username shim data dare?
 
-  console.log(username);
+  const {
+    isError: isFollowError,
+    error: followError,
+    isSuccess: isFollowSuccess,
+    mutate: followMutate,
+  } = useFollow();
+  const {
+    isError: isUnFollowError,
+    error: unFollowError,
+    isSuccess: isUnFollowSuccess,
+    mutate: unFollowMutate,
+  } = useUnFollow();
+
+
+  const onFollowMethod = userInfo?.isFollowed ? unFollowMutate : followMutate;
+
+  if (isProfileLoading) {
+    //show loader
+  }
+  if (isProfileError) {
+    //alert userInfoError
+    alert(profileError);
+    console.log("error", profileError);
+  }
+  if (isUnFollowError) {
+    //alert postError
+  }
+  if (isFollowError) {
+    //alert postError
+  }
 
   return (
     <>
       <div className="flex h-[180px] w-[952px] flex-col gap-3 border border-x-0 border-t-0 border-solid border-form-border">
         <div className="flex h-[160px] w-[952px] flex-row items-center gap-8">
-          <ViewAppUserInfo
-            followMode
-            userInfo={userInfo}
-            isFollowed
-          />
+          {userInfo && (
+            <ViewAppUserInfo
+              followMode
+              userInfo={userInfo}
+              isFollowed={userInfo.isFollowed}
+              onFollowMethod={onFollowMethod}
+            />
+          )}
 
           <div className="flex h-40 w-[377px] flex-col items-end justify-center gap-[3px]">
             <div className="h-[8px] w-[8px] rounded-full bg-submit-btn"></div>
@@ -38,6 +73,23 @@ export const FollowUser = () => {
           </div>
         </div>
       </div>
+    </>
+  );
+};
+
+
+export const FollowUser = () => {
+  return (
+    <>
+      <FollowUserLayout />
+    </>
+  );
+};
+
+export const FollowUserMobile = () => {
+  return (
+    <>
+      <FollowUserLayout />
     </>
   );
 };

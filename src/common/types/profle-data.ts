@@ -9,7 +9,7 @@ export const ProfileSchema = z.object({
   email: z.string().email(),
   passwordHash: z.string().optional(),
   isPrivate: z.boolean(),
-  bio: z.string(),
+  bio: z.string().optional(),
   __v: z.number().optional(),
   followerCount :z.number(),
   followingCount: z.number(),
