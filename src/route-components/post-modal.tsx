@@ -11,27 +11,25 @@ import dot from "../assets/svg/dot.svg";
 import clsx from "clsx";
 import { ContainterWeb } from "../reusable-components/container";
 
-interface Captions
-  extends HTMLAttributes<HTMLDivElement>,
-    Omit<Post, "photos"> {}
+interface Captions extends Omit<Post, "photoUrls" | "id"> {}
 interface Carousel
   extends HTMLAttributes<HTMLDivElement>,
-    Pick<Post, "photos"> {}
+    Pick<Post, "photoUrls"> {}
 const PostCaptions = (props: Captions) => {
-  const { className, hashtags, caption, mentions, date, ...rest } = props;
+  const { hashtags, caption, mentions, creationDate, ...rest } = props;
   return (
-    <section className={clsx(className, "flex flex-col gap-8")} {...rest}>
-      <small>{date}</small>
+    <section className={clsx("flex flex-col gap-8 px-3")} {...rest}>
+      <small>{creationDate.toDateString()}</small>
       <p className="text-sm">{caption}</p>
       <div lang="fa" dir="rtl">
-        {hashtags.map((hashtag) => (
+        {hashtags?.map((hashtag) => (
           <span key={hashtag} className="m-2 rounded-lg bg-red-100 p-2">
             {hashtag}
           </span>
         ))}
       </div>
       <div className="flex w-fit flex-wrap text-xs">
-        {mentions.map((mention) => (
+        {mentions?.map((mention) => (
           <span
             key={mention}
             className="m-2 rounded-lg bg-emerald-200 p-2 text-xs"
@@ -44,7 +42,7 @@ const PostCaptions = (props: Captions) => {
   );
 };
 const Carousel = (props: Carousel) => {
-  const { photos, ...rest } = props;
+  const { photoUrls, ...rest } = props;
   const [index, setIndex] = useState(0);
   useEffect(() => console.log(index), [index]);
   return (
@@ -60,7 +58,7 @@ const Carousel = (props: Carousel) => {
         }}
       />
       <img
-        src={photos[index]}
+        src={photoUrls[index]}
         alt=""
         className="h-[375px] w-[600px] rounded-3xl"
       />
@@ -69,7 +67,7 @@ const Carousel = (props: Carousel) => {
         alt=""
         className="z-20 mx-2 h-9 cursor-pointer rounded-lg bg-white p-2 opacity-45"
         onClick={() => {
-          if (index < photos.length - 1) {
+          if (index < photoUrls.length - 1) {
             setIndex((index) => index + 1);
           }
         }}
@@ -105,7 +103,7 @@ const CarouselIndicator = ({
   );
 };
 const CarouselMobile = (props: Carousel) => {
-  const { photos, ...rest } = props;
+  const { photoUrls, ...rest } = props;
   const [index, setIndex] = useState(0);
   useEffect(() => console.log(index), [index]);
   return (
@@ -121,19 +119,19 @@ const CarouselMobile = (props: Carousel) => {
             }
           }}
         />
-        <img src={photos[index]} alt="" className="w-full" />
+        <img src={photoUrls[index]} alt="" className="w-full" />
         <img
           src={leftArrow}
           alt=""
           className="absolute left-0 mx-1 h-3 cursor-pointer rounded-full bg-white p-1 opacity-75"
           onClick={() => {
-            if (index < photos.length - 1) {
+            if (index < photoUrls.length - 1) {
               setIndex((index) => index + 1);
             }
           }}
         />
       </div>
-      <CarouselIndicator count={photos.length} index={index} />
+      <CarouselIndicator count={photoUrls.length} index={index} />
     </div>
   );
 };
@@ -152,7 +150,7 @@ export const PostModal = ({
   const navigate = useNavigate();
   return (
     <ContainterWeb className="m-20 w-full justify-between gap-3">
-      <Carousel photos={post.photos} />
+      <Carousel photoUrls={post.photoUrls} />
       <div className="flex flex-col gap-3 p-5">
         <div className="flex w-full flex-row justify-between">
           <ProfileSummary
@@ -173,7 +171,7 @@ export const PostModal = ({
           caption={post.caption}
           mentions={post.mentions}
           hashtags={post.hashtags}
-          date={post.date}
+          creationDate={post.creationDate}
         />
       </div>
     </ContainterWeb>
@@ -211,13 +209,12 @@ export const PostViewMobile = ({
         </Button>
       </div>
 
-      <CarouselMobile photos={post.photos} />
+      <CarouselMobile photoUrls={post.photoUrls} />
       <PostCaptions
-        className="px-3"
         caption={post.caption}
         mentions={post.mentions}
         hashtags={post.hashtags}
-        date={post.date}
+        creationDate={post.creationDate}
       />
     </div>
   );

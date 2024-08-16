@@ -31,12 +31,13 @@ export interface PostFormData
   photos: Array<string> | FileList;
 }
 
-export interface Post{
-  photos: Array<string>
-  mentions: Array<string>
-  caption: string
-  hashtags: Array<string>
-  date:string
-}
+export const PostSchema = z.object({
+  id: z.number(),
+  photoUrls: z.string().url().array(),
+  caption: z.string(),
+  mentions: z.string().array().optional(),
+  hashtags: z.string().array().optional(),
+  creationDate: z.coerce.date(),
+});
 
 export type Post = z.infer<typeof PostSchema>;

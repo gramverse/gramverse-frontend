@@ -36,6 +36,8 @@ export const Alert = (props: AlertProps) => {
   useEffect(() => {
     if (message) {
       setVisibility(true);
+    } else {
+      setVisibility(false);
     }
   }, [message]);
   useEffect(() => {

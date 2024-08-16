@@ -20,7 +20,7 @@ import { InputField } from "../reusable-components/input-field";
 import Emoji from "../assets/svg/emoji.svg";
 import Camera from "../assets/svg/camera.svg";
 import { TextArea } from "../reusable-components/text-area";
-import { Post, PostFormData, PostSchema } from "../common/types/post";
+import { Post, PostFormData, PostFormDataSchema } from "../common/types/post";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Alert } from "../reusable-components/alert";
@@ -75,10 +75,10 @@ interface props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const SelectPhotos = forwardRef<HTMLInputElement, props>((props, ref) => {
-  const queryPhotos = props.queryValue?.photos;
+  const queryPhotos = props.queryValue?.photoUrls;
   const defaultPhotos = queryPhotos ? queryPhotos : [];
   const { name, onChange } = props;
-  const [photos, setPhotos] = useState<Array<string>>([]);
+  const [photos, setPhotos] = useState<Array<string>>(defaultPhotos);
   const setSelectedPhotos = (selectedPhotos: Array<string>) => {
     setPhotos(selectedPhotos);
   };
@@ -104,7 +104,7 @@ const SelectPhotos = forwardRef<HTMLInputElement, props>((props, ref) => {
         {photos.map((photo) => {
           return (
             <img
-              //src={photo}
+              src={photo}
               key={nanoid()}
               className="h-24 w-24 overflow-hidden rounded-3xl"
             />
@@ -120,8 +120,8 @@ const Caption = forwardRef<HTMLDivElement, props>((props, ref) => {
     ?.map((mention) => `#${mention}`)
     .reduce((prev, cur) => `${prev} ${cur}`, "");
   return (
-    <div ref={ref} className="flex w-full flex-col items-center">
-      <span className="flex w-full flex-row justify-between">
+    <div ref={ref} className="flex flex-col items-center">
+      <span className="flex flex-row justify-between">
         <p>کپشن مورد نظرت رو بنویس:</p>
         <img src={Emoji} alt="" />
       </span>
@@ -145,7 +145,7 @@ const Mention = forwardRef<HTMLDivElement, props>((props, ref) => {
         defaultValue={props.queryValue?.mentions
           ?.map((mention) => `@${mention}`)
           .reduce((prev, cur) => `${prev} ${cur}`, "")}
-        fieldsize={"large"}
+        fieldsize={"medium"}
       />
     </div>
   );
@@ -168,7 +168,7 @@ const CreatePostLayout = ({
     formState: { errors },
   } = useForm<PostFormData>({
     mode: "onChange",
-    resolver: zodResolver(PostSchema),
+    resolver: zodResolver(PostFormDataSchema),
   });
   const onSubmit: SubmitHandler<PostFormData> = (data) => {
     if (data.photos) {
@@ -176,7 +176,7 @@ const CreatePostLayout = ({
     } else if (post) {
       const postData: PostFormData = {
         ...data,
-        photos: post?.photos,
+        photos: post.photoUrls,
       };
       mutate(postData);
     }
@@ -190,7 +190,7 @@ const CreatePostLayout = ({
         ? trigger("caption").then((value) =>
             value ? setStage(stage + 1) : setStage(stage),
           )
-        : trigger("mentions");
+        : () => {};
   }, [stage, trigger]);
 
   return (
@@ -211,10 +211,10 @@ const CreatePostLayout = ({
         onSubmit={handleSubmit(onSubmit)}
         className="flex w-full grow flex-col items-center justify-between gap-6"
       >
-        <section>
+        <section className="w-full">
           {stage === 1 && (
             <SelectPhotos
-              queryValue={{ photos: post?.photos }}
+              queryValue={{ photoUrls: post?.photoUrls }}
               {...register("photos")}
             />
           )}
@@ -239,9 +239,17 @@ const CreatePostLayout = ({
           >
             پشیمون شدم
           </span>
-          <Button type={stage < 3 ? "button" : "submit"} onClick={handleClick}>
-            {stage < 3 ? "بعدی" : "ثبت و انتشار پست"}
-          </Button>
+          {stage < 3 && <Button onClick={handleClick}>{"بعدی"}</Button>}
+          {stage === 3 && (
+            <Button
+              type="submit"
+              onClick={() => {
+                trigger("mentions");
+              }}
+            >
+              {"ثبت و انتشار پست"}
+            </Button>
+          )}
         </section>
       </form>
     </div>
@@ -275,28 +283,3 @@ export const CreatePostMobile = ({
     </ContainterMobile>
   );
 };
-
-
-
-
-
-// export const CreatePost = ({ Close,id }: { Close: () => void,id:number|null }) => {
-//   return (
-//    // <ContainterWeb>
-//       <CreatePostLayout id={id} Close={Close} />
-//    // </ContainterWeb>
-//   );
-// };
-
-// export const CreatePostMobile = ({ Close,id }: { Close: () => void,id:number|null }) => {
-//   return (
-//     //<ContainterMobile>
-//       <CreatePostLayout  id={id} Close={Close} />
-//     //</ContainterMobile>
-//   );
-// };
-
-// const CreatePostLayout = ({ Close,id }: { Close: () => void,id:number|null }) => {
-//   console.log(id)
-//   return(<></>);
-// }
