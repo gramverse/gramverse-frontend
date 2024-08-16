@@ -8,10 +8,10 @@ export const useLogin = () => {
   const navigate = useNavigate();
   const client = useHttpClient();
   const registerMutation = useMutation({
-    mutationFn: ({ emailOrUserName, password, rememberMe }: LoginFormData) =>
+    mutationFn: ({ userName, password, rememberMe }: LoginFormData) =>
       client
         .post("/users/login/", {
-          json: { userName: emailOrUserName, password, rememberMe },
+          json: { userName: userName, password, rememberMe },
         })
         .json(),
     onSuccess(data) {

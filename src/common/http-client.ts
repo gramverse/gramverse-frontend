@@ -16,9 +16,9 @@ export const useHttpClient = () => {
           afterResponse: [
             (_req, _options, res) => {
               if (500 <= res.status && res.status < 600) {
-                navigate(urls.serverError);
+             //   navigate(urls.serverError);
               } else if (res.status === 401) {
-                navigate(urls.login);
+               navigate(urls.login);
               }
               return res;
             },
