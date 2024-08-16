@@ -1,16 +1,54 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
-import { HTTPError } from "ky";
-import { ProfileSchema } from "../common/types/profle-data";
+import ky, { HTTPError } from "ky";
+import {
+  FollowingProfile,
+  followingProfileSchema,
+} from "../common/types/following-profile";
+import { queryClient } from "../common/query-client";
 
 export const useGetFollowingProfile = (userName: string) => {
+  console.log("oftad", userName);
   const httpClient = useHttpClient();
-  return useQuery<unknown, HTTPError>({
+  return useQuery<FollowingProfile, HTTPError>({
     queryKey: ["getFollowingProfile"],
     queryFn: () =>
       httpClient
-        .get(`users/GetFollowingInfo/userName:${userName}`)
+        .get(`users/profile/${userName}`)
         .json()
-        .then(ProfileSchema.parse),
+        .then((data) => {
+          console.log({ data });
+          return followingProfileSchema.parse(data);
+        }),
+  });
+};
+
+export const useFollow = () => {
+  const httpClient = useHttpClient();
+  return useMutation<unknown, HTTPError, string>({
+    mutationFn: (userName: string) => {
+      return httpClient
+        .post("/users/follow", {
+          json: { followingUserName: userName },
+        })
+        .json();
+    },
+    onSuccess(data) {
+      queryClient.invalidateQueries({ queryKey: ["getFollowingProfile"] });
+      // queryClient.setQueryData(["getFollowingProfile"], data)
+    },
+  });
+};
+
+export const useUnFollow = () => {
+  const httpClient = useHttpClient();
+  return useMutation<unknown, HTTPError, string>({
+    mutationFn: (userName: string) => {
+      return httpClient
+        .post("/users/unfollow", {
+          json: { followingUserName: userName },
+        })
+        .json();
+    },
   });
 };

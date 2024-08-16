@@ -38,7 +38,7 @@ export const useCreatePost = () => {
 
       
   
-      return httpClient.post("/users/createPost", { body: formData }).json();
+      return httpClient.post("/file/addPost", { body: formData }).json();
     },
     async onSuccess() {
       navigate(urls.myPage);

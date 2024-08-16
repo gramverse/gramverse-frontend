@@ -29,7 +29,7 @@ export const useGetProfile = () => {
 
     queryKey: ["getProfile"],
     queryFn: () =>
-      httpClient.get(`users/Profile`).json()
+      httpClient.get(`users/myProfile`).json()
     //.then(ProfileSchema.parse),
   });
 };
