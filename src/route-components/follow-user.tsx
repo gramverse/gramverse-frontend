@@ -3,7 +3,6 @@ import { ViewAppUserInfo } from "./view-app-user-info";
 import {
   useFollow,
   useGetFollowingProfile,
-  usetest,
   useUnFollow,
 } from "../api-hooks/follow";
 import { FollowingProfile } from "../common/types/following-profile";
