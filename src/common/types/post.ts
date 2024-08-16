@@ -37,7 +37,7 @@ export const PostSchema = z.object({
   caption: z.string(),
   mentions: z.string().optional(),
   hashtags: z.string().array().optional(),
-  creationDate: z.date()
+  creationDate: z.coerce.date()
 });
 
 export type Post = z.infer<typeof PostSchema>;

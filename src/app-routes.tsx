@@ -17,7 +17,8 @@ import {
   ResetPassWord,
   ResetPassWordMobile,
 } from "./route-components/reset-password/reset-password";
-import { EditProfile } from "./route-components/edit-profile";
+import { FollowUser } from "./route-components/follow-user";
+//import { EditProfile } from "./route-components/edit-profile";
 
 export const AppRoutes = () => {
   return (
@@ -33,8 +34,9 @@ export const AppRoutes = () => {
         path={urls.forgetPasswordInfo}
         element={<ForgetPasswordInfo />}
       ></Route>
-      <Route path={urls.editProfile} element={<EditProfile/>}></Route> 
+      {/* <Route path={urls.editProfile} element={<EditProfile/>}></Route>  */}
       <Route path={urls.main} element={<Main></Main>}></Route>
+      <Route path={`${urls.main}/:username`} element={<FollowUser />} />
       <Route path="*" element={<UrlErrorPage></UrlErrorPage>} />
       <Route path={urls.notFound} element={<UrlErrorPage></UrlErrorPage>} />
       <Route

@@ -3,13 +3,13 @@ import { useHttpClient } from "../common/http-client";
 import { HTTPError } from "ky";
 import { useNavigate } from "react-router-dom";
 import { urls } from "../common/routes";
-import { GetPostData, PostFormData } from "../common/types/post";
+import { Post, PostFormData } from "../common/types/post";
 
 
 
 export const useGetPost = (id:number|null) => {
   const httpClient = useHttpClient();
-  return useQuery<unknown, HTTPError, GetPostData>({
+  return useQuery<unknown, HTTPError, Post>({
     queryKey: ["getPost"],
     queryFn: () => id?httpClient.get(`users/post/id:${id}`).json():()=>{},
   });

@@ -5,9 +5,7 @@ import { InputField } from "../reusable-components/input-field";
 import PersonIcon from "../assets/svg/profile.svg";
 import KeyIcon from "../assets/svg/key.svg";
 import EnvelopeIcon from "../assets/svg/envelope.svg";
-import { urls } from "../common/routes.ts";
-import { useNavigate } from "react-router-dom";
-import { useEditProfile, useGetProfile } from "../api-hooks/edit-profile.ts";
+import { useEditProfile } from "../api-hooks/edit-profile.ts";
 import {
   ProfileFormValue,
   editProfileFormValueSchema,
@@ -17,10 +15,19 @@ import cameraIcon from "../assets/svg/camera-icon.svg";
 import { Button } from "../reusable-components/button.tsx";
 import { UploadImage } from "../reusable-components/upload-image.tsx";
 import { Switch } from "../reusable-components/switch.tsx";
+import { Profile } from "../common/types/profle-data.ts";
 
-const EditProfileLayout = () => {
-  const navigate = useNavigate();
-  const { data: profile } = useGetProfile();
+type EditProfileProps = {
+  profile: Profile;
+  onClose: () => void;
+  onRefetch: () => void;
+};
+
+const EditProfileLayout = ({
+  onClose,
+  profile,
+  onRefetch,
+}: EditProfileProps) => {
   const {
     register,
     handleSubmit,
@@ -29,10 +36,18 @@ const EditProfileLayout = () => {
   } = useForm<ProfileFormValue>({
     criteriaMode: "all",
     resolver: zodResolver(editProfileFormValueSchema),
-    // defaultValues: profile,
+    //defaultValues: profile,
   });
 
-  const { isError, error, mutate } = useEditProfile();
+  const { isError, error, isSuccess, mutate } = useEditProfile();
+  if (isError) {
+    //alert//console.log("error edit", error);
+  }
+
+  if (isSuccess) {
+    onClose();
+    onRefetch();
+  }
 
   const onSubmit: SubmitHandler<ProfileFormValue> = (formData) => {
     mutate(formData);
@@ -52,7 +67,7 @@ const EditProfileLayout = () => {
         <div className="flex w-80 flex-col items-center gap-12">
           <div className="flex w-28 flex-col items-center gap-10">
             <UploadImage
-              placeholderImage={cameraIcon}
+              placeholderImage={profile.profileImage ?? cameraIcon}
               error={errors.profileImage?.message}
               className="block h-[90px] w-[90px] rounded-full"
               {...register("profileImage", {
@@ -103,13 +118,18 @@ const EditProfileLayout = () => {
               />
             </div>
             <div className="h-6 gap-6">
-              <Switch label="پیچ خصوصی باشه" {...register("isPrivate")} />
+              <Switch
+                defaultChecked={profile?.isPrivate}
+                label="پیچ خصوصی باشه"
+                {...register("isPrivate")}
+              />
             </div>
 
             <div className="flex h-32 w-80 flex-col gap-2">
               <p className="size-4 text-right font-medium leading-7">بایو</p>
               <textarea
                 className="h-[88px] w-80 rounded-lg"
+                defaultValue={profile?.bio}
                 {...register("bio")}
               />
             </div>
@@ -120,7 +140,7 @@ const EditProfileLayout = () => {
               >
                 پشیمون شدم
               </CancelBtn> */}
-              <span onClick={() => navigate(urls.myPage)}>پشیمون شدم</span>
+              <span onClick={() => onClose()}>پشیمون شدم</span>
               <Button classes="w-48" type="submit">
                 ثبت تغییرات
               </Button>
@@ -132,10 +152,30 @@ const EditProfileLayout = () => {
   );
 };
 
-export const EditProfile = () => {
-  return <EditProfileLayout />;
+export const EditProfile = ({
+  onClose,
+  profile,
+  onRefetch,
+}: EditProfileProps) => {
+  return (
+    <EditProfileLayout
+      onClose={onClose}
+      profile={profile}
+      onRefetch={onRefetch}
+    />
+  );
 };
 
-export const EditProfileMoblie = () => {
-  return <EditProfileLayout />;
+export const EditProfileMoblie = ({
+  onClose,
+  onRefetch,
+  profile,
+}: EditProfileProps) => {
+  return (
+    <EditProfileLayout
+      onClose={onClose}
+      profile={profile}
+      onRefetch={onRefetch}
+    />
+  );
 };
