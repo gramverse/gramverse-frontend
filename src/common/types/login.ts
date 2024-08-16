@@ -1,6 +1,7 @@
 import { z } from "zod";
-const loginSchema = z.object({
-  emailOrUserName: z.string().min(1, { message: "این فیلد نباید خالی باشد" }),
+
+export const loginSchema = z.object({
+  userName: z.string().min(1, { message: "این فیلد نباید خالی باشد" }),
   password: z
     .string()
     .min(1, { message: "این فیلد نباید خالی باشد" })
@@ -8,13 +9,8 @@ const loginSchema = z.object({
   rememberMe: z.boolean(),
 });
 
-export interface LoginFormData {
-  emailOrUserName: string;
-  password: string;
-  rememberMe: boolean;
-}
+export type LoginFormData = z.infer<typeof loginSchema>;
 
 export const loginResponse = z.object({
   userName: z.string(),
 });
-export { loginSchema };

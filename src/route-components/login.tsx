@@ -11,9 +11,6 @@ import { Alert } from "../reusable-components/alert.tsx";
 const LoginLayout = () => {
   const { register, handleSubmit } = useForm<LoginFormData>({});
   const { isError, error, mutate } = useLogin();
-  const onSubmit: SubmitHandler<LoginFormData> = (data: LoginFormData) => {
-    console.log(data);
-  };
 
   return (
     <div className="bgColor mx-auto flex w-80 flex-col justify-between gap-6 text-right text-sm">
@@ -21,12 +18,15 @@ const LoginLayout = () => {
         به کالج‌گرام خوش آمدید. برای ورود کافیه نام کاربری/ایمیل و رمز عبور
         خودتون رو وارد کنید:
       </p>
-      <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className="flex flex-col gap-6"
+        onSubmit={handleSubmit((data) => mutate(data))}
+      >
         {isError && <Alert status="error" message={error.message}></Alert>}
         <InputField
           placeholder={"نام کاربری یا ایمیل"}
           svg={Envelope}
-          {...register("emailOrUserName")}
+          {...register("userName")}
         />
         <InputField
           placeholder={"رمز عبور"}

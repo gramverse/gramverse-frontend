@@ -37,7 +37,7 @@ const ForgetPasswordLayout = () => {
         <InputField
           placeholder="نام‌ کاربری یا ایمیل "
           svg={PersonIcon}
-          {...register("emailOrUserName")}
+          {...register("email")}
         />
         <div className="flex flex-row justify-end items-center gap-5">
           <Link className="no-underline	" to={urls.login}>
