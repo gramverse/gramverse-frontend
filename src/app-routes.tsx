@@ -61,6 +61,7 @@ export const AppRoutesMobile = () => {
       <Route path={urls.forgetPassword} element={<ForgetPasswordMobile />} />
       <Route path={urls.forgetPasswordInfo} element={<ForgetPasswordInfo />} />
       <Route path={urls.main} element={<MainMobile></MainMobile>}></Route>
+      <Route path="/:userName" element={<FollowUser />} />
       <Route
         path="*"
         element={<UrlErrorPageMobile></UrlErrorPageMobile>}

@@ -8,7 +8,7 @@ import {
 import { FollowingProfile } from "../common/types/following-profile";
 
 
-export const FollowUser = () => {
+export const FollowUserLayout = () => {
   //implement web and mobile
   const { userName } = useParams();
   console.log("az routeeee", userName);
@@ -21,8 +21,6 @@ export const FollowUser = () => {
     refetch,
   } = useGetFollowingProfile(userName ?? "");
   //1- chikar konim ino k motmaen username shim data dare?
-  //2- chikar konam following profile type shode bashe?
-  console.log("bade use query", userInfo);
 
   const {
     isError: isFollowError,
@@ -75,6 +73,23 @@ export const FollowUser = () => {
           </div>
         </div>
       </div>
+    </>
+  );
+};
+
+
+export const FollowUser = () => {
+  return (
+    <>
+      <FollowUserLayout />
+    </>
+  );
+};
+
+export const FollowUserMobile = () => {
+  return (
+    <>
+      <FollowUserLayout />
     </>
   );
 };
