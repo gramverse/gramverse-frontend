@@ -9,7 +9,6 @@ const loginSchema = z.object({
 });
 
 export interface LoginFormData {
-  type: "login";
   emailOrUserName: string;
   password: string;
   rememberMe: boolean;

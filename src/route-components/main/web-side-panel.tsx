@@ -1,33 +1,18 @@
 import { itemList } from "./menu-data";
-import profile from "../../assets/svg/profile.svg";
 import { Tab } from "../../reusable-components/tab";
-import { useGetProfileSummary } from "../../api-hooks/main";
-import { RoundPicture } from "../../reusable-components/profile-picture";
+import { ProfileSummary } from "../../reusable-components/profile-summary";
 
 export const Panel = ({
-  handleChange,
+  handleClick,
   userName,
 }: {
-  handleChange: (tab: string) => void;
+  handleClick: (tab: string) => void;
   userName: string;
 }) => {
-  const { data: profileSummary } = useGetProfileSummary();
 
   return (
-    <div className=" border-solid border-2 border-gray-300 w-80 h-screen bg-white rounded-t-3xl flex flex-col pt-10">
-      <div className="flex gap-5 items-center ms-12">
-        <RoundPicture
-          picture={
-            profileSummary?.profilePicture
-              ? profileSummary.profilePicture
-              : profile
-          }
-          onClick={() => handleChange("myPage")}
-        />
-        <span>
-          {profileSummary?.userName ? profileSummary?.userName:userName}
-        </span>
-      </div>
+    <div className=" border-solid border-2 border-gray-300 w-80 flex-grow bg-white rounded-t-3xl flex flex-col pt-10">
+      <ProfileSummary handleClick={handleClick} userName={userName} className="ms-10" />
       <section className="w-full items-start h-full p-5 pb-20 flex flex-col gap-5 relative">
         {Object.values(itemList)
           .slice(0, 5)
@@ -37,7 +22,7 @@ export const Panel = ({
                 key={text + index}
                 text={text}
                 icon={icon}
-                onClick={() => handleChange(Object.keys(itemList)[index])}
+                onClick={() => handleClick(Object.keys(itemList)[index])}
               />
             );
           })}
@@ -51,7 +36,7 @@ export const Panel = ({
                 key={text + index}
                 text={text}
                 icon={icon}
-                onClick={() => handleChange(Object.keys(itemList)[index + 5])}
+                onClick={() => handleClick(Object.keys(itemList)[index + 5])}
               ></Tab>
             );
           })}
@@ -63,8 +48,8 @@ export const Panel = ({
                 key={text + index}
                 text={text}
                 icon={icon}
-                className="absolute bottom-40"
-                onClick={() => handleChange(Object.keys(itemList)[index + 7])}
+                className="absolute bottom-4"
+                onClick={() => handleClick(Object.keys(itemList)[index + 7])}
               ></Tab>
             );
           })}

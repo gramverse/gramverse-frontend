@@ -18,7 +18,7 @@ import {
 const ForgetPasswordLayout = () => {
   const { register, handleSubmit } = useForm<forgetPassFormValue>({});
 
-  const { isError, error, mutate } = useForgetPassword();
+  const { error, mutate } = useForgetPassword();
 
   const onSubmit: SubmitHandler<forgetPassFormValue> = (formData) => {
     mutate(formData);
@@ -29,7 +29,7 @@ const ForgetPasswordLayout = () => {
       <img src={rahnemaLogo} alt="" />
       <p className="leading-5 font-semibold">بازیابی رمز عبور</p>
       <form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>
-        {isError && <Alert status="error" message={error.message} />}
+       <Alert status="error" message={error?.message} />
 
         <p className="w-80 text-sm leading-6 text-right">
           لطفاً نام‌ کاربری یا ایمیل خودتون رو وارد کنید:

@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ButtonHTMLAttributes } from "react";
 
 const sizes: Record<Sizes, string> = {
   small: "h-7 px-2 py-2 gap-2 rounded-xl text-sm ",
@@ -6,35 +6,36 @@ const sizes: Record<Sizes, string> = {
   large: "h-12 px-5 py-3 gap-4 rounded-3xl text-lg ",
 };
 const btnColors: Record<BtnColors, string> = {
-  secondary: "bg-submit-btn",
-  transparent: "bg-transparent text-black",
+  secondary: "bg-submit-btn text-white border-none ",
+  transparent: "bg-transparent text-black border-none ",
+  outline:
+    "bg-transparent text-submit-btn border-solid border-2 border-red-600",
 };
-interface ButtonProps {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: "small" | "medium" | "large";
-  btnColor?: "secondary" | "transparent";
+  btnColor?: BtnColors;
   classes?: string | undefined;
-  type?: "button" | "submit" | "reset" | undefined;
-  children?: ReactNode;
-  onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
 }
 
 type Sizes = "small" | "medium" | "large";
-type BtnColors = "secondary" | "transparent";
+type BtnColors = "secondary" | "transparent" | "outline";
 export const Button = (props: ButtonProps) => {
   const {
     size = "medium",
     btnColor = "secondary",
     classes = "",
-    type = "button",
+    type,
     children,
     onClick,
   } = props;
   return (
     <button
       type={type}
-      className={`border-none w-fit ${sizes[size]} ${btnColors[btnColor]} ${classes}`}
+      className={`w-fit ${sizes[size]} ${btnColors[btnColor]} ${classes}`}
       {...props}
-      onClick={onClick}
+      onClick={(e) => {
+        onClick?.(e);
+      }}
     >
       {children}
     </button>
