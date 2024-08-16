@@ -8,7 +8,6 @@ import {
 export const FollowUserLayout = () => {
   //implement web and mobile
   const { userName } = useParams();
-  console.log("az routeeee", userName);
   const {
     data: userInfo,
     error: profileError,
@@ -30,7 +29,7 @@ export const FollowUserLayout = () => {
   }
   if (isProfileError) {
     //alert userInfoError
-    alert(profileError);
+   
     console.log("error", profileError);
   }
   if (isFollowError) {

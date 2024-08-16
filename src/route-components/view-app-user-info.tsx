@@ -17,13 +17,14 @@ export const ViewAppUserInfo = ({
   isFollowed = false,
   onFollowMethod,
 }: AppUserInfoProps) => {
+  const isSetProfileImage= userInfo.profileImage&& userInfo.profileImage!="";
   return (
     <>
       <div className="w-[133px]">
         <label className="block h-[133px] w-[133px] overflow-hidden rounded-full">
           <img
             className="h-full w-full object-cover"
-            src={userInfo.profileImage ?? PersonIcon}
+            src={isSetProfileImage? userInfo.profileImage: PersonIcon}
           />
         </label>
       </div>
