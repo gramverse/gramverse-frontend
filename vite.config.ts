@@ -11,6 +11,7 @@ export default defineConfig({
     proxy: {
       "/users": apiHost,
       "/files": apiHost,
+      "/reset": apiHost,
     },
   },
 });
