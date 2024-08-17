@@ -5,8 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { urls } from "../common/routes";
 import { PostFormData } from "../common/types/post";
 
-
-
 // export const useGetPost = (id:number|null) => {
 //   const httpClient = useHttpClient();
 //   return useQuery<unknown, HTTPError, Post>({
@@ -15,30 +13,24 @@ import { PostFormData } from "../common/types/post";
 //   });
 // };
 
-
-
 export const useCreatePost = () => {
   const navigate = useNavigate();
   const httpClient = useHttpClient();
   return useMutation<unknown, HTTPError, PostFormData>({
     mutationFn: ({ photos, ...rest }: PostFormData) => {
       const formData = new FormData();
-      const postsData = new FormData();
-      formData.append("postFields", JSON.stringify(rest));
-      if(photos instanceof FileList){
-        Array.from(photos).forEach((photo, index) => {
-        postsData.append(`photo${index}`, photo);
-        });
+      const newFields = { caption: rest.caption, mentioned: rest.mentions };
+      formData.append("postFields", JSON.stringify(newFields));
+      console.log(formData.get("postFields"));
+      if (photos instanceof FileList) {
+        Array.from(photos).forEach((photo) =>
+          formData.append("postImages", photo),
+        );
+        console.log(formData);
+      } else {
+        formData.append("postImages", JSON.stringify(photos));
       }
-      else {
-        photos.forEach((photo, index) => {
-        postsData.append(`photo${index}`, photo);
-        });
-      }
-
-      
-  
-      return httpClient.post("/file/addPost", { body: formData }).json();
+      return httpClient.post("/files/addPost", { body: formData }).json();
     },
     async onSuccess() {
       navigate(urls.myPage);

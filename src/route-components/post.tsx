@@ -2,6 +2,7 @@ import {
   forwardRef,
   HTMLAttributes,
   InputHTMLAttributes,
+  TextareaHTMLAttributes,
   useCallback,
   useState,
 } from "react";
@@ -73,7 +74,9 @@ const ProgressBar = ({ stage }: { stage: number }) => {
 interface props extends InputHTMLAttributes<HTMLInputElement> {
   queryValue: Partial<Post> | undefined;
 }
-
+interface captionProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  queryValue: Partial<Post> | undefined;
+}
 const SelectPhotos = forwardRef<HTMLInputElement, props>((props, ref) => {
   const queryPhotos = props.queryValue?.photoUrls;
   const defaultPhotos = queryPhotos ? queryPhotos : [];
@@ -115,18 +118,22 @@ const SelectPhotos = forwardRef<HTMLInputElement, props>((props, ref) => {
   );
 });
 
-const Caption = forwardRef<HTMLDivElement, props>((props, ref) => {
+const Caption = forwardRef<HTMLTextAreaElement, captionProps>((props, ref) => {
   const hashtags = props.queryValue?.hashtags
     ?.map((mention) => `#${mention}`)
     .reduce((prev, cur) => `${prev} ${cur}`, "");
+  const { name, onChange } = props;
   return (
-    <div ref={ref} className="flex flex-col items-center">
+    <div className="flex flex-col items-center">
       <span className="flex flex-row justify-between">
         <p>کپشن مورد نظرت رو بنویس:</p>
         <img src={Emoji} alt="" />
       </span>
 
       <TextArea
+        ref={ref}
+        name={name}
+        onChange={onChange}
         defaultValue={props.queryValue?.caption?.concat(
           hashtags ? hashtags : "",
         )}
@@ -137,11 +144,15 @@ const Caption = forwardRef<HTMLDivElement, props>((props, ref) => {
   );
 });
 
-const Mention = forwardRef<HTMLDivElement, props>((props, ref) => {
+const Mention = forwardRef<HTMLInputElement, props>((props, ref) => {
+  const { name, onChange } = props;
   return (
     <div ref={ref} className="flex w-full flex-col items-center">
       <p>اینجا می‌تونی دوستانت رو منشن کنی:</p>
       <InputField
+        ref={ref}
+        name={name}
+        onChange={onChange}
         defaultValue={props.queryValue?.mentions
           ?.map((mention) => `@${mention}`)
           .reduce((prev, cur) => `${prev} ${cur}`, "")}
@@ -186,11 +197,9 @@ const CreatePostLayout = ({
       ? trigger("photos").then((value) =>
           value ? setStage(stage + 1) : setStage(stage),
         )
-      : stage === 2
-        ? trigger("caption").then((value) =>
-            value ? setStage(stage + 1) : setStage(stage),
-          )
-        : () => {};
+      : trigger("caption").then((value) =>
+          value ? setStage(stage + 1) : setStage(stage),
+        );
   }, [stage, trigger]);
 
   return (
@@ -239,17 +248,12 @@ const CreatePostLayout = ({
           >
             پشیمون شدم
           </span>
-          {stage < 3 && <Button onClick={handleClick}>{"بعدی"}</Button>}
-          {stage === 3 && (
-            <Button
-              type="submit"
-              onClick={() => {
-                trigger("mentions");
-              }}
-            >
-              {"ثبت و انتشار پست"}
+          {stage < 3 && (
+            <Button type="button" onClick={handleClick}>
+              {"بعدی"}
             </Button>
           )}
+          {stage === 3 && <Button type="submit">{"ثبت و انتشار پست"}</Button>}
         </section>
       </form>
     </div>

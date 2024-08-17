@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import { forwardRef, InputHTMLAttributes } from "react";
 import Error from "../assets/svg/error.svg";
 
 const fieldSizes: Record<Sizes, string> = {
@@ -10,14 +10,11 @@ const status: Record<Status, string> = {
   error: "border-solid border-2 border-red-600	",
   normal: "",
 };
-interface InputFieldProps {
+interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   svg?: string;
   error?: string;
   classes?: string;
   fieldsize?: Sizes;
-  placeholder?: string;
-  type?: React.HTMLInputTypeAttribute | undefined;
-  defaultValue?: string;
 }
 type Sizes = "small" | "medium" | "large";
 type Status = "error" | "normal";
@@ -31,6 +28,8 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
       type = "text",
       classes,
       defaultValue,
+      name,
+      onChange,
     } = props;
     const customClasses = `bg-white flex items-center gap-2 py-2 ps-1 text-right justify-start border-solid border-2 border-gray-300 ${classes} ${fieldSizes[fieldSize]}`;
     if (error) {
@@ -43,19 +42,18 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
           <input
             defaultValue={defaultValue}
             type={type}
-            className="border-none focus:border-none focus:outline-none"
+            className="grow border-none focus:border-none focus:outline-none"
             ref={ref}
             placeholder={placeholder}
-            onChange={(e) => {
-              e.preventDefault();
-            }}
+            name={name}
+            onChange={onChange}
             {...props}
           ></input>
         </div>
         {!!error && (
           <div className="flex items-center ps-2">
             <img src={Error} className="m-2 h-full" alt="" />
-            <span className="text-xs text-red-600">{error}</span>
+            <span className="grow text-xs text-red-600">{error}</span>
           </div>
         )}
       </div>
