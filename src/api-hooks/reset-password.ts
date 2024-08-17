@@ -13,7 +13,7 @@ export const useResetPassword = () => {
   return useMutation<unknown, HTTPError, string>({
     mutationFn: (token: string) =>
       httpClient
-        .post(`/users/validate-reset-token`, { json: { token } })
+        .post(`/reset/validate-reset-token`, { json: { token } })
         .json(),
     async onError() {
       navigate(urls.notFound);
@@ -27,7 +27,7 @@ export const useConfirmResetPassword = () => {
 
   return useMutation<unknown, HTTPError, ConfirmResetPasswordData>({
     mutationFn: (data: ConfirmResetPasswordData) =>
-      httpClient.post(`/users/reset-password`, { json: { data } }).json(),
+      httpClient.post(`/reset/reset-password`, { json: { data } }).json(),
     async onSuccess() {
       navigate(urls.login);
     },

@@ -38,9 +38,11 @@ export const TextArea = forwardRef<HTMLTextAreaElement, InputFieldProps>(
       className,
       rows = 5,
       cols = 33,
+      name,
+      onChange,
       ...props
     },
-    ref
+    ref,
   ) => {
     const customClasses = getVariantStyles({ fieldSize }, variants);
 
@@ -51,7 +53,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, InputFieldProps>(
             className,
             customClasses,
             variants.base.base,
-            !!error && variants.base.error
+            !!error && variants.base.error,
           )}
         >
           <textarea
@@ -59,16 +61,18 @@ export const TextArea = forwardRef<HTMLTextAreaElement, InputFieldProps>(
             rows={rows}
             cols={cols}
             ref={ref}
+            name={name}
+            onChange={onChange}
             {...props}
           ></textarea>
         </div>
         {!!error && (
-          <div className=" m-1 ps-2">
-            <img src={Error} className=" m-2 h-full" alt="" />
-            <span className="text-red-600 text-xs">{error}</span>
+          <div className="m-1 ps-2">
+            <img src={Error} className="m-2 h-full" alt="" />
+            <span className="text-xs text-red-600">{error}</span>
           </div>
         )}
       </div>
     );
-  }
+  },
 );
