@@ -78,7 +78,7 @@ const SelectPhotos = forwardRef<HTMLInputElement, props>((props, ref) => {
   const queryPhotos = props.queryValue?.photoUrls;
   const defaultPhotos = queryPhotos ? queryPhotos : [];
   const { name, onChange } = props;
-  const [photos, setPhotos] = useState<Array<string>>([]);
+  const [photos, setPhotos] = useState<Array<string>>(defaultPhotos);
   const setSelectedPhotos = (selectedPhotos: Array<string>) => {
     setPhotos(selectedPhotos);
   };
@@ -104,7 +104,7 @@ const SelectPhotos = forwardRef<HTMLInputElement, props>((props, ref) => {
         {photos.map((photo) => {
           return (
             <img
-              //src={photo}
+              src={photo}
               key={nanoid()}
               className="h-24 w-24 overflow-hidden rounded-3xl"
             />
@@ -283,28 +283,3 @@ export const CreatePostMobile = ({
     </ContainterMobile>
   );
 };
-
-
-
-
-
-// export const CreatePost = ({ Close,id }: { Close: () => void,id:number|null }) => {
-//   return (
-//    // <ContainterWeb>
-//       <CreatePostLayout id={id} Close={Close} />
-//    // </ContainterWeb>
-//   );
-// };
-
-// export const CreatePostMobile = ({ Close,id }: { Close: () => void,id:number|null }) => {
-//   return (
-//     //<ContainterMobile>
-//       <CreatePostLayout  id={id} Close={Close} />
-//     //</ContainterMobile>
-//   );
-// };
-
-// const CreatePostLayout = ({ Close,id }: { Close: () => void,id:number|null }) => {
-//   console.log(id)
-//   return(<></>);
-// }
