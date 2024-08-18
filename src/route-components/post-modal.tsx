@@ -1,4 +1,4 @@
-import { HTMLAttributes, useEffect, useState } from "react";
+import { HTMLAttributes, useState } from "react";
 import { ProfileSummary } from "../reusable-components/profile-summary";
 import { Post } from "../common/types/post";
 import { useNavigate } from "react-router-dom";
@@ -44,7 +44,6 @@ const PostCaptions = (props: Captions) => {
 const Carousel = (props: Carousel) => {
   const { photoUrls, ...rest } = props;
   const [index, setIndex] = useState(0);
-  useEffect(() => console.log(index), [index]);
   return (
     <div className={'" justify-between" flex items-center'} {...rest}>
       <img
@@ -105,7 +104,6 @@ const CarouselIndicator = ({
 const CarouselMobile = (props: Carousel) => {
   const { photoUrls, ...rest } = props;
   const [index, setIndex] = useState(0);
-  useEffect(() => console.log(index), [index]);
   return (
     <div className="relative flex flex-col items-center">
       <div className={"flex items-center justify-between"} {...rest}>
@@ -138,7 +136,6 @@ const CarouselMobile = (props: Carousel) => {
 
 export const PostModal = ({
   post,
-  userName,
   closeModal,
   openEditPost,
 }: {
@@ -153,10 +150,7 @@ export const PostModal = ({
       <Carousel photoUrls={post.photoUrls} />
       <div className="flex flex-col gap-3 p-5">
         <div className="flex w-full flex-row justify-between">
-          <ProfileSummary
-            userName={userName}
-            handleClick={() => navigate(urls.main)}
-          />
+          <ProfileSummary handleClick={() => navigate(urls.main)} />
           <Button
             onClick={() => {
               closeModal();
@@ -180,7 +174,6 @@ export const PostModal = ({
 
 export const PostViewMobile = ({
   post,
-  userName,
   closeModal,
   openEditPost,
 }: {
@@ -195,7 +188,6 @@ export const PostViewMobile = ({
       <div className="flex flex-row justify-between">
         <ProfileSummary
           className="my-1"
-          userName={userName}
           handleClick={() => navigate(urls.main)}
         />
         <Button

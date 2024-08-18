@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
 import { HTTPError } from "ky";
 import { Post, PostSchema } from "../common/types/post";
-import { Profile, ProfileSchema } from "../common/types/profle-data";
+import { Profile } from "../common/types/profile-data";
 //import { Post, PostInfoSchema } from "../common/types/post-info";
 
 // const validatedData = await schema.parseAsync(unvalidatedData);
@@ -26,10 +26,8 @@ import { Profile, ProfileSchema } from "../common/types/profle-data";
 export const useGetProfile = () => {
   const httpClient = useHttpClient();
   return useQuery<Profile, HTTPError>({
-
     queryKey: ["getProfile"],
-    queryFn: () =>
-      httpClient.get(`users/myProfile`).json()
+    queryFn: () => httpClient.get(`users/myProfile`).json(),
     //.then(ProfileSchema.parse),
   });
 };
@@ -41,10 +39,7 @@ export const useGetPosts = () => {
   return useQuery<Post[], HTTPError>({
     queryKey: ["getPosts"],
     queryFn: () =>
-      httpClient
-        .get("users/posts")
-        .json()
-        .then(getPostsResponseSchema.parse),
+      httpClient.get("users/posts").json().then(getPostsResponseSchema.parse),
     retry: false,
   });
 };

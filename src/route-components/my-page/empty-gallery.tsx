@@ -12,11 +12,11 @@ export const EmptyGallery = () => {
   return (
     <div
       id="post-container"
-      className="flex w-[952px] flex-col items-center justify-center gap-8 rounded-3xl border border-solid border-form-border px-16 py-12"
+      className="flex w-full flex-col items-center justify-center gap-8 rounded-3xl border border-solid border-form-border py-12"
     >
       {isOpenCreatePost && (
         <Modal>
-          <CreatePost id={null} Close={Close} />
+          <CreatePost post={null} Close={Close} />
         </Modal>
       )}
       <div className="size-5 h-[71px] w-[356px] text-center font-bold leading-8">

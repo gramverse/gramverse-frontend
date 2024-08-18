@@ -1,15 +1,14 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
 import { HTTPError } from "ky";
 import { ProfileFormValue } from "../common/types/profile";
-
 
 export const useEditProfile = () => {
   const httpClient = useHttpClient();
   return useMutation<unknown, HTTPError, ProfileFormValue>({
     mutationFn: ({
       profileImage,
-      confirmPassword,
+      // confirmPassword,
       ...rest
     }: ProfileFormValue) => {
       const formData = new FormData();

@@ -1,13 +1,8 @@
-import { useParams } from "react-router-dom";
 import { ViewAppUserInfo } from "./view-app-user-info";
-import {
-  useFollow,
-  useGetFollowingProfile,
-} from "../api-hooks/follow";
+import { useFollow, useGetFollowingProfile } from "../api-hooks/follow";
 
-export const FollowUserLayout = () => {
+export const FollowUserLayout = ({ userName }: { userName: string }) => {
   //implement web and mobile
-  const { userName } = useParams();
   const {
     data: userInfo,
     error: profileError,
@@ -29,7 +24,7 @@ export const FollowUserLayout = () => {
   }
   if (isProfileError) {
     //alert userInfoError
-   
+
     console.log("error", profileError);
   }
   if (isFollowError) {
@@ -60,18 +55,18 @@ export const FollowUserLayout = () => {
   );
 };
 
-export const FollowUser = () => {
+export const FollowUser = ({ userName }: { userName: string }) => {
   return (
     <>
-      <FollowUserLayout />
+      <FollowUserLayout userName={userName} />
     </>
   );
 };
 
-export const FollowUserMobile = () => {
+export const FollowUserMobile = ({ userName }: { userName: string }) => {
   return (
     <>
-      <FollowUserLayout />
+      <FollowUserLayout userName={userName} />
     </>
   );
 };

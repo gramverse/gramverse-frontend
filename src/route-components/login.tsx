@@ -1,6 +1,6 @@
 import Key from "../assets/svg/key.svg";
 import Envelope from "../assets/svg/envelope.svg";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { InputField } from "../reusable-components/input-field.tsx";
 import { LoginFormData } from "../common/types/login.ts";
 import { useLogin } from "../api-hooks/login.ts";
@@ -13,7 +13,7 @@ const LoginLayout = () => {
   const { isError, error, mutate } = useLogin();
 
   return (
-    <div className="bgColor mx-auto flex w-80 flex-col justify-between gap-6 text-right text-sm">
+    <div className="bgColor mx-auto flex w-full flex-col justify-between gap-6 text-right text-sm">
       <p className="text-xs font-extralight leading-loose">
         به کالج‌گرام خوش آمدید. برای ورود کافیه نام کاربری/ایمیل و رمز عبور
         خودتون رو وارد کنید:
@@ -24,6 +24,7 @@ const LoginLayout = () => {
       >
         {isError && <Alert status="error" message={error.message}></Alert>}
         <InputField
+          autoFocus
           placeholder={"نام کاربری یا ایمیل"}
           svg={Envelope}
           {...register("userName")}

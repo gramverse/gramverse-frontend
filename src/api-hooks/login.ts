@@ -11,7 +11,7 @@ export const useLogin = () => {
     mutationFn: ({ userName, password, rememberMe }: LoginFormData) =>
       client
         .post("/users/login/", {
-          json: { userName: userName, password, rememberMe },
+          json: { userName, password, rememberMe },
         })
         .json(),
     onSuccess(data) {

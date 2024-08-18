@@ -1,23 +1,25 @@
-import { useLocation } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import rahnema from "../../assets/svg/rahnema.svg";
 import { Button } from "../../reusable-components/button";
 import PlusIcon from "../../assets/svg/plus-round.svg";
-import React, { useState } from "react";
-import { Explore } from "../explore";
+import { useCallback, useEffect, useState } from "react";
 import MobileBottomNavigation from "./mobile-bottom-navigation";
 import { Panel } from "./web-side-panel";
 import { DrawerMenu } from "./mobile-drawer-menu";
 import { ContainterMobile } from "../../reusable-components/container";
 import { CreatePost, CreatePostMobile } from "../post";
 import { Modal } from "../../reusable-components/modal";
-import { MyPage } from "../my-page/my-page";
 import MobileTopNavigation from "./mobile-top-navigation";
+import { useGetProfile } from "../../api-hooks/get-profile";
+import { urls } from "../../common/routes";
+import { ContextType } from "./outlet-context";
 
 export const Main = () => {
-  const { state } = useLocation();
-  // const state = { userName: "reyhaneh", login: true };
-  const [tab, setTab] = React.useState("explore");
+  const params = useParams();
+  const navigate = useNavigate();
+  const [tab, setTab] = useState("");
 
+  const { data } = useGetProfile();
   const handleClick = (newValue: string) => {
     setTab(newValue);
   };
@@ -25,8 +27,25 @@ export const Main = () => {
   const Close = () => {
     setIsOpen(false);
   };
+
+  const changeTab = useCallback(() => {
+    switch (tab) {
+      case "myPage":
+        navigate(`/${data?.userName}`);
+        break;
+      case "explore":
+        navigate(urls.main);
+        break;
+    }
+    console.log(tab);
+  }, [data?.userName, navigate, tab]);
+
+  useEffect(() => {
+    changeTab();
+  }, [changeTab, data?.userName, navigate, params.userName, tab]);
+
   return (
-    <div className="bg-color relative flex h-screen w-screen">
+    <div className="bg-color static flex h-screen w-screen">
       {isOpen && (
         <Modal>
           <CreatePost post={null} Close={Close} />
@@ -44,11 +63,10 @@ export const Main = () => {
             <img src={PlusIcon} alt="" />
             <span>ایجاد پست جدید</span>
           </Button>
-          <Panel handleClick={handleClick} userName={state?.userName} />
+          <Panel handleClick={handleClick} selectedTab={tab} />
         </div>
         <div className="flex w-full items-center justify-center">
-          {tab === "explore" && <Explore login={state?.login} />}
-          {tab == "myPage" && <MyPage></MyPage>}
+          <Outlet context={{ setTab } satisfies ContextType} />
         </div>
       </div>
     </div>
@@ -56,8 +74,6 @@ export const Main = () => {
 };
 
 export const MainMobile = () => {
-  const { state } = useLocation();
-  // const state = { userName: "reyhaneh", login: true };
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState("explore");
   const handleItemClick = (item: string) => {
@@ -82,8 +98,6 @@ export const MainMobile = () => {
           toggleDrawer={toggleDrawer}
         />
       )}
-      {selectedItem === "explore" && <Explore login={state?.login} />}
-      {selectedItem === "myPage" && <MyPage />}
       {selectedItem === "createPost" && (
         <CreatePostMobile
           post={null}

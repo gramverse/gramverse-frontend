@@ -1,5 +1,4 @@
 import { Button } from "../../reusable-components/button";
-import PersonIcon from "../../assets/svg/profile.svg";
 import { EmptyGallery } from "./empty-gallery";
 import { Gallery } from "./gallery";
 import { useGetPosts, useGetProfile } from "../../api-hooks/my-page";
@@ -7,7 +6,6 @@ import { ViewAppUserInfo } from "../view-app-user-info";
 import { useState } from "react";
 import { Modal } from "../../reusable-components/modal";
 import { EditProfile } from "../edit-profile";
-import { createPortal } from "react-dom";
 
 const MyPageLayout = () => {
   const [isOpenEditProfile, setIsOpenEditProfile] = useState(false);
@@ -22,14 +20,13 @@ const MyPageLayout = () => {
   } = useGetProfile();
   const {
     data: posts,
-    error: postError,
     isError: isPostError,
     isLoading: isPostLoading,
   } = useGetPosts();
 
   const thereIsNoPost = !posts || (posts && posts.length == 0);
   if (isSuccess) {
-    console.log(profileData);
+    // console.log(profileData);
   }
   if (isProfileLoading || isPostLoading) {
     //show loader
@@ -79,7 +76,7 @@ const MyPageLayout = () => {
   //   },
   // ];
   return (
-    <div className="bgColor flex flex-col gap-8">
+    <div className="bgColor flex grow flex-col gap-8">
       {isOpenEditProfile && profileData && (
         <Modal>
           <EditProfile
@@ -90,13 +87,9 @@ const MyPageLayout = () => {
         </Modal>
       )}
 
-      <div className="h-14 w-[360px] gap-2">
-        <p className="size-5 h-12 w-[117px] text-right font-bold leading-8">
-          صفحه من
-        </p>
-      </div>
-      <div className="flex h-[180px] w-[952px] flex-col gap-3 border border-x-0 border-t-0 border-solid border-form-border">
-        <div className="flex h-[160px] w-[952px] flex-row items-center gap-8">
+      <p className="text-right text-xl font-extrabold leading-8">{"صفحه من"}</p>
+      <div className="flex h-[180px] w-full flex-col gap-3 border border-x-0 border-t-0 border-solid border-form-border">
+        <div className="flex h-[160px] flex-row items-center gap-8">
           {profileData && <ViewAppUserInfo userInfo={profileData} />}
           {!profileData && (
             <>

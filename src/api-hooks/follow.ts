@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
-import ky, { HTTPError } from "ky";
+import { HTTPError } from "ky";
 import {
   FollowingProfile,
   followingProfileSchema,
@@ -8,7 +8,7 @@ import {
 import { queryClient } from "../common/query-client";
 
 export const useGetFollowingProfile = (userName: string) => {
-  console.log("oftad", userName);
+  // console.log("oftad", userName);
   const httpClient = useHttpClient();
   return useQuery<FollowingProfile, HTTPError>({
     queryKey: ["getFollowingProfile"],
@@ -17,7 +17,7 @@ export const useGetFollowingProfile = (userName: string) => {
         .get(`users/profile/${userName}`)
         .json()
         .then((data) => {
-          console.log({ data });
+          // console.log({ data });
           return followingProfileSchema.parse(data);
         }),
   });

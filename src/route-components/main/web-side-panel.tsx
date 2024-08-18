@@ -4,16 +4,15 @@ import { ProfileSummary } from "../../reusable-components/profile-summary";
 
 export const Panel = ({
   handleClick,
-  userName,
+  selectedTab,
 }: {
   handleClick: (tab: string) => void;
-  userName: string;
+  selectedTab: string;
 }) => {
-
   return (
-    <div className=" border-solid border-2 border-gray-300 w-80 flex-grow bg-white rounded-t-3xl flex flex-col pt-10">
-      <ProfileSummary handleClick={handleClick} userName={userName} className="ms-10" />
-      <section className="w-full items-start h-full p-5 pb-20 flex flex-col gap-5 relative">
+    <div className="flex w-80 flex-grow flex-col rounded-t-3xl border-2 border-solid border-gray-300 bg-white pt-10">
+      <ProfileSummary handleClick={handleClick} className="ms-10" />
+      <section className="relative flex h-full w-full flex-col items-start gap-5 p-5 pb-20">
         {Object.values(itemList)
           .slice(0, 5)
           .map(({ text, icon }, index) => {
@@ -22,11 +21,15 @@ export const Panel = ({
                 key={text + index}
                 text={text}
                 icon={icon}
-                onClick={() => handleClick(Object.keys(itemList)[index])}
+                value={Object.keys(itemList)[index]}
+                selectedValue={selectedTab}
+                onClick={() => {
+                  handleClick(Object.keys(itemList)[index]);
+                }}
               />
             );
           })}
-        <div className="h-0.5 bg-gray-300 w-80 -ms-5" />
+        <div className="-ms-5 h-0.5 w-80 bg-gray-300" />
 
         {Object.values(itemList)
           .slice(5, 7)
@@ -36,7 +39,11 @@ export const Panel = ({
                 key={text + index}
                 text={text}
                 icon={icon}
-                onClick={() => handleClick(Object.keys(itemList)[index + 5])}
+                value={Object.keys(itemList)[index + 5]}
+                selectedValue={selectedTab}
+                onClick={() => {
+                  handleClick(Object.keys(itemList)[index + 5]);
+                }}
               ></Tab>
             );
           })}
@@ -48,8 +55,12 @@ export const Panel = ({
                 key={text + index}
                 text={text}
                 icon={icon}
+                value={Object.keys(itemList)[index + 7]}
+                selectedValue={selectedTab}
                 className="absolute bottom-4"
-                onClick={() => handleClick(Object.keys(itemList)[index + 7])}
+                onClick={() => {
+                  handleClick(Object.keys(itemList)[index + 7]);
+                }}
               ></Tab>
             );
           })}

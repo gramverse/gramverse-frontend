@@ -14,7 +14,7 @@ export type UploadImageProps = Omit<
   "defaultValue"
 > & {
   size?: string;
-  error?:string
+  error?: string;
   defaultValue?: string;
   placeholderImage?: string;
   setSelectedPhotos?: (input: Array<string>) => void;
@@ -33,7 +33,7 @@ export const UploadImage = forwardRef<HTMLInputElement, UploadImageProps>(
       setSelectedPhotos = () => {},
       ...attrs
     },
-    ref
+    ref,
   ) {
     const [imagePreview, setImagePreview] = useState(placeholderImage);
 
@@ -51,7 +51,7 @@ export const UploadImage = forwardRef<HTMLInputElement, UploadImageProps>(
         } else {
           if (event.target.files) {
             const fileReaderPromises = Array.from(event.target.files).map(
-              blobToDataUrl
+              blobToDataUrl,
             );
             try {
               const urlResults = await Promise.all(fileReaderPromises);
@@ -62,31 +62,30 @@ export const UploadImage = forwardRef<HTMLInputElement, UploadImageProps>(
           }
         }
       },
-      [multiple, onChange, setSelectedPhotos]
+      [multiple, onChange, setSelectedPhotos],
     );
     return (
       <>
-      <label className={clsx("overflow-hidden", className)} style={style}>
-        <input
-          type="file"
-          accept="image/*"
-          className="hidden"
-          multiple
-          ref={ref}
-          onChange={handleFileChange}
-          name={name}
-          {...attrs}
-        />
-        <img className="w-full h-full object-cover" src={imagePreview} />
-      </label>
-       {!!error && (
-          <div className="w-80 m-1 ps-2 text-center">
+        <label className={clsx("overflow-hidden", className)} style={style}>
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            multiple
+            ref={ref}
+            onChange={handleFileChange}
+            name={name}
+            {...attrs}
+          />
+          <img className="h-full w-full object-cover" src={imagePreview} />
+        </label>
+        {!!error && (
+          <div className="m-1 w-80 ps-2 text-center">
             <img src={Error} className="m-2 h-full" alt="" />
-            <span className="text-red-600 text-xs">{error}</span>
+            <span className="text-xs text-red-600">{error}</span>
           </div>
         )}
-        </>
+      </>
     );
-  }
+  },
 );
-

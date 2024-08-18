@@ -31,19 +31,15 @@ interface InputFieldProps
 }
 
 export const TextArea = forwardRef<HTMLTextAreaElement, InputFieldProps>(
-  (
-    {
+  (props, ref) => {
+    const {
       fieldSize = variants.default.fieldSize,
       error = "",
       className,
       rows = 5,
       cols = 33,
-      name,
-      onChange,
-      ...props
-    },
-    ref,
-  ) => {
+      ...rest
+    } = props;
     const customClasses = getVariantStyles({ fieldSize }, variants);
 
     return (
@@ -61,9 +57,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, InputFieldProps>(
             rows={rows}
             cols={cols}
             ref={ref}
-            name={name}
-            onChange={onChange}
-            {...props}
+            {...rest}
           ></textarea>
         </div>
         {!!error && (
