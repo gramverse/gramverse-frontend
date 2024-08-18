@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { API_BASE_URL as baseUrl } from "../common/base-url";
 import ky, { HTTPError } from "ky";
-import { Profile } from "../common/types/profle-data";
+import { Profile } from "../common/types/profile-data";
 
 export const useGetProfileSummary = () => {
   const httpClient = ky.create({

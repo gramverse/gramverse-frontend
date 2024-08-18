@@ -32,7 +32,7 @@ export const Button = (props: ButtonProps) => {
   return (
     <button
       type={type}
-      className={`w-fit ${sizes[size]} ${btnColors[btnColor]} ${classes}`}
+      className={`w-fit cursor-pointer hover:brightness-90 active:scale-90 ${sizes[size]} ${btnColors[btnColor]} ${classes}`}
       onClick={(e) => {
         onClick?.(e);
       }}

@@ -1,4 +1,4 @@
-import { useGetProfileSummary } from "../../api-hooks/get-profile-summary";
+import { useGetProfile } from "../../api-hooks/get-profile";
 import menu from "../../assets/svg/menu.svg";
 import profile from "../../assets/svg/profile.svg";
 import { RoundPicture } from "../../reusable-components/profile-picture";
@@ -10,7 +10,7 @@ export default function MobileTopNavigation({
   handleItemClick: (item: string) => void;
   toggleDrawer: () => void;
 }) {
-  const { data: profileSummary } = useGetProfileSummary();
+  const { data: profileSummary } = useGetProfile();
 
   return (
     <div className="flex w-full flex-col justify-center">

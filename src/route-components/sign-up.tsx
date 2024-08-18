@@ -19,6 +19,7 @@ const SignUpLayout = () => {
     formState: { errors },
   } = useForm<SignupFormValue>({
     criteriaMode: "all",
+    mode: "onChange",
     resolver: zodResolver(signupFormValueSchema),
   });
   const { error, mutate } = useSignup();
@@ -29,7 +30,7 @@ const SignUpLayout = () => {
 
   return (
     <form
-      className="bgColor m-auto flex w-80 flex-col gap-y-8"
+      className="bgColor m-auto flex w-full flex-col gap-y-8"
       onSubmit={handleSubmit(onSubmit)}
       noValidate
     >
@@ -42,6 +43,7 @@ const SignUpLayout = () => {
 
         <div className="flex flex-col gap-y-5">
           <InputField
+            autoFocus
             placeholder="نام کاربری"
             error={errors.userName?.message}
             svg={PersonIcon}

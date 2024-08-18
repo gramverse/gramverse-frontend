@@ -15,7 +15,7 @@ import cameraIcon from "../assets/svg/camera-icon.svg";
 import { Button } from "../reusable-components/button.tsx";
 import { UploadImage } from "../reusable-components/upload-image.tsx";
 import { Switch } from "../reusable-components/switch.tsx";
-import { Profile } from "../common/types/profle-data.ts";
+import { Profile } from "../common/types/profile-data.ts";
 
 type EditProfileProps = {
   profile: Profile;

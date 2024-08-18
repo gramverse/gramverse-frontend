@@ -30,44 +30,58 @@ const AuthorizeComponent = ({ defaultValue }: { defaultValue: number }) => {
   };
 
   return (
-    <div className="flex bgColor flex-col items-center justify-center w-fit gap-5">
+    <div className="bgColor h-[750px] w-96 items-center justify-center gap-5 text-center">
       <img src={rahnema} alt="" className="my-5" />
-      <div className="w-fit flex justify-center gap-6">
+      <div className="my-5 flex w-full justify-center gap-6">
         <Tab
           text="ورود"
+          className="w-fit"
+          value="0"
+          selectedValue={`${value}`}
+          selectedStyle="text"
           onClick={() => {
             handleChange(0);
           }}
         ></Tab>
+        <div className="h-10 w-0.5 bg-gray-400" />
+
         <Tab
           text={"ثبت نام"}
+          className="w-fit"
+          value="1"
+          selectedValue={`${value}`}
+          selectedStyle="text"
           onClick={() => {
             handleChange(1);
           }}
         ></Tab>
       </div>
-      <div>{value === 0 ? <Login></Login> : <Signup></Signup>}</div>
-      <div className="flex flex-col gap-3 mb-6 w-full">
-        <div>
-          <img src={arrow} className="inline ml-3" alt="" />
-          <Link
-            className="text-red-400 text-md no-underline"
-            to={urls.forgetPassword}
-          >
-            فراموشی رمز عبور
-          </Link>
-        </div>
-        <div>
-          <img src={arrow} className="inline ml-3" alt="" />
-          <span
-            className="text-red-400"
-            onClick={() => {
-              setValue(1);
-            }}
-          >
-            ثبت نام در کالج‌گرام
-          </span>
-        </div>
+      <div className="flex w-full flex-col items-start">
+        <div>{value === 0 ? <Login></Login> : <Signup></Signup>}</div>
+        {value == 0 && (
+          <div className="mb-6 flex w-full flex-col items-start gap-3">
+            <div>
+              <img src={arrow} className="ml-3 inline" alt="" />
+              <Link
+                className="text-md text-red-400 no-underline"
+                to={urls.forgetPassword}
+              >
+                فراموشی رمز عبور
+              </Link>
+            </div>
+            <div>
+              <img src={arrow} className="ml-3 inline" alt="" />
+              <span
+                className="text-red-400"
+                onClick={() => {
+                  setValue(1);
+                }}
+              >
+                ثبت نام در کالج‌گرام
+              </span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
