@@ -11,7 +11,6 @@ export const UserOrProfile = () => {
   const { setTab } = useSetTab();
   useEffect(() => {
     if (isSuccess) {
-      console.log(data);
       if (userName === data?.userName) {
         setMyPage(true);
         setTab("myPage");

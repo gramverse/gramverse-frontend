@@ -1,4 +1,4 @@
-import { HTMLAttributes, useState } from "react";
+import { HTMLAttributes, useContext, useState } from "react";
 import { ProfileSummary } from "../reusable-components/profile-summary";
 import { Post } from "../common/types/post";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,8 @@ import dot from "../assets/svg/dot.svg";
 
 import clsx from "clsx";
 import { ContainterWeb } from "../reusable-components/container";
+import { ModalContext } from "./main/main";
+import { CreatePost } from "./post";
 
 interface Captions extends Omit<Post, "photoUrls" | "_id"> {}
 interface Carousel
@@ -134,17 +136,9 @@ const CarouselMobile = (props: Carousel) => {
   );
 };
 
-export const PostModal = ({
-  post,
-  closeModal,
-  openEditPost,
-}: {
-  post: Post;
-  userName: string;
-  closeModal: () => void;
-  openEditPost: () => void;
-}) => {
+export const PostModal = ({ post }: { post: Post; userName: string }) => {
   const navigate = useNavigate();
+  const { setModal } = useContext(ModalContext);
   return (
     <ContainterWeb className="m-20 w-full justify-between gap-3">
       <Carousel photoUrls={post.photoUrls} />
@@ -153,8 +147,7 @@ export const PostModal = ({
           <ProfileSummary handleClick={() => navigate(urls.main)} />
           <Button
             onClick={() => {
-              closeModal();
-              openEditPost();
+              setModal(<CreatePost post={post} />);
             }}
           >
             ویرایش پست

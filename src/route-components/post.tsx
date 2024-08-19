@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { ModalContext } from "./main/main";
 import {
   forwardRef,
   HTMLAttributes,
@@ -260,16 +262,16 @@ const CreatePostLayout = ({
   );
 };
 
-export const CreatePost = ({
-  Close,
-  post,
-}: {
-  Close: () => void;
-  post: Post | null;
-}) => {
+export const CreatePost = ({ post }: { post: Post | null }) => {
+  const { setModal } = useContext(ModalContext);
   return (
     <ContainterWeb>
-      <CreatePostLayout post={post} Close={Close} />
+      <CreatePostLayout
+        post={post}
+        Close={() => {
+          setModal(null);
+        }}
+      />
     </ContainterWeb>
   );
 };

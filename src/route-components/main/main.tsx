@@ -2,7 +2,13 @@ import { Outlet, useNavigate, useParams } from "react-router-dom";
 import rahnema from "../../assets/svg/rahnema.svg";
 import { Button } from "../../reusable-components/button";
 import PlusIcon from "../../assets/svg/plus-round.svg";
-import { useCallback, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import MobileBottomNavigation from "./mobile-bottom-navigation";
 import { Panel } from "./web-side-panel";
 import { DrawerMenu } from "./mobile-drawer-menu";
@@ -14,18 +20,18 @@ import { useGetProfile } from "../../api-hooks/get-my-profile";
 import { urls } from "../../common/routes";
 import { ContextType } from "./outlet-context";
 
+export const ModalContext = createContext<{
+  setModal: (newModal: ReactNode) => void;
+}>({ setModal: () => {} });
+
 export const Main = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [tab, setTab] = useState("");
-
+  const [modal, setModal] = useState<ReactNode | null>(null);
   const { data } = useGetProfile();
   const handleClick = (newValue: string) => {
     setTab(newValue);
-  };
-  const [isOpen, setIsOpen] = useState(false);
-  const Close = () => {
-    setIsOpen(false);
   };
 
   const changeTab = useCallback(() => {
@@ -37,7 +43,6 @@ export const Main = () => {
         navigate(urls.main);
         break;
     }
-    console.log(tab);
   }, [data?.userName, navigate, tab]);
 
   useEffect(() => {
@@ -45,31 +50,35 @@ export const Main = () => {
   }, [changeTab, data?.userName, navigate, params.userName, tab]);
 
   return (
-    <div className="bg-color static flex h-screen w-screen">
-      {isOpen && (
-        <Modal>
-          <CreatePost post={null} Close={Close} />
-        </Modal>
-      )}
-      <div className="bgColor flex grow flex-row justify-stretch px-16 pt-16">
-        <img src={rahnema} className="absolute left-20" alt="" />
-        <div className="flex h-full w-fit flex-col items-center gap-5 self-start">
-          <Button
-            classes="flex items-center justify-center"
-            onClick={() => {
-              setIsOpen(true);
-            }}
-          >
-            <img src={PlusIcon} alt="" />
-            <span>ایجاد پست جدید</span>
-          </Button>
-          <Panel handleClick={handleClick} selectedTab={tab} />
-        </div>
-        <div className="flex w-full items-center justify-center">
-          <Outlet context={{ setTab } satisfies ContextType} />
+    <ModalContext.Provider
+      value={{
+        setModal: (newModal) => {
+          setModal(newModal);
+        },
+      }}
+    >
+      <div className="bg-color flex h-screen w-screen">
+        <Modal>{modal}</Modal>
+        <div className="bgColor flex grow flex-row justify-stretch px-16 pt-16">
+          <img src={rahnema} className="absolute left-20" alt="" />
+          <div className="flex h-full w-fit flex-col items-center gap-5 self-start">
+            <Button
+              classes="flex items-center justify-center"
+              onClick={() => {
+                setModal(<CreatePost post={null} />);
+              }}
+            >
+              <img src={PlusIcon} alt="" />
+              <span>ایجاد پست جدید</span>
+            </Button>
+            <Panel handleClick={handleClick} selectedTab={tab} />
+          </div>
+          <div className="flex w-full items-center justify-center">
+            <Outlet context={{ setTab } satisfies ContextType} />
+          </div>
         </div>
       </div>
-    </div>
+    </ModalContext.Provider>
   );
 };
 

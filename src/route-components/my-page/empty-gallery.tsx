@@ -1,24 +1,16 @@
-import { useState } from "react";
+import { useContext } from "react";
 import { Button } from "../../reusable-components/button";
-import { Modal } from "../../reusable-components/modal";
 import { CreatePost } from "../post";
+import { ModalContext } from "../main/main";
 
 export const EmptyGallery = () => {
-  const [isOpenCreatePost, setIsOpenCreatePost] = useState(false);
-  const Close = () => {
-    setIsOpenCreatePost(false);
-  };
+  const { setModal } = useContext(ModalContext);
 
   return (
     <div
       id="post-container"
       className="flex w-full flex-col items-center justify-center gap-8 rounded-3xl border border-solid border-form-border py-12"
     >
-      {isOpenCreatePost && (
-        <Modal>
-          <CreatePost post={null} Close={Close} />
-        </Modal>
-      )}
       <div className="size-5 h-[71px] w-[356px] text-center font-bold leading-8">
         هنوز هیچ پستی توی صفحه‌ات نذاشتی! بجنب تا دیر نشده
       </div>
@@ -27,7 +19,7 @@ export const EmptyGallery = () => {
           classes="w-48 m-auto"
           type="submit"
           onClick={() => {
-            setIsOpenCreatePost(true);
+            setModal(<CreatePost post={null} />);
           }}
         >
           ایجاد پست جدید
