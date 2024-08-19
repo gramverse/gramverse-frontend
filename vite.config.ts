@@ -9,7 +9,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/api": apiHost
+      "/api": apiHost,
     },
   },
 });
