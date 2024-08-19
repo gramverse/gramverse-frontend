@@ -3,7 +3,7 @@ import Error from "../assets/svg/error.svg";
 import clsx from "clsx";
 
 const fieldSizes: Record<Sizes, string> = {
-  small: "w-48 h-8 px-2  gap-2 rounded-xl ",
+  small: "w-78 h-8 px-2  gap-2 rounded-2xl ",
   medium: "w-78 h-10 gap-3 rounded-2xl ",
   large: "w-96 h-10 px-5  gap-4 rounded-3xl ",
 };
