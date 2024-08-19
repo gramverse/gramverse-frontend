@@ -11,6 +11,6 @@ export const useGetProfileSummary = () => {
 
   return useQuery<HTTPError, unknown, Profile>({
     queryKey: ["getProfileSummary"],
-    queryFn: async () => httpClient.get("/users/myProfile").json(),
+    queryFn: async () => httpClient.get("users/myProfile").json(),
   });
 };

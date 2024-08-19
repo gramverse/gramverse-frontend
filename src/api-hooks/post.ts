@@ -30,7 +30,7 @@ export const useCreatePost = () => {
       } else {
         formData.append("postImages", JSON.stringify(photos));
       }
-      return httpClient.post("/files/addPost", { body: formData }).json();
+      return httpClient.post("files/addPost", { body: formData }).json();
     },
     async onSuccess() {
       navigate(urls.myPage);

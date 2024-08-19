@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useGetProfile } from "../api-hooks/get-profile";
+import { useGetProfile } from "../api-hooks/get-my-profile";
 import { MyPage, MyPageMobile } from "./my-page/my-page";
 import { FollowUser, FollowUserMobile } from "./follow-user";
 import { useSetTab } from "./main/outlet-context";

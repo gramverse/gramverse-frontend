@@ -10,7 +10,7 @@ export const useLogin = () => {
   const registerMutation = useMutation({
     mutationFn: ({ userName, password, rememberMe }: LoginFormData) =>
       client
-        .post("/users/login/", {
+        .post("users/login/", {
           json: { userName, password, rememberMe },
         })
         .json(),

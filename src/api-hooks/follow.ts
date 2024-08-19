@@ -29,7 +29,7 @@ export const useFollow = () => {
   const httpClient = useHttpClient();
   return useMutation<unknown, HTTPError, FollowMutationArgs>({
     mutationFn: ({ userName, follow }) => {
-      const url = follow ? "/users/follow" : "/users/unfollow";
+      const url = follow ? "users/follow" : "users/unfollow";
       const json = { followingUserName: userName };
       return httpClient.post(url, { json }).json();
     },

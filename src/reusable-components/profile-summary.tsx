@@ -1,4 +1,4 @@
-import { useGetProfile } from "../api-hooks/get-profile";
+import { useGetProfile } from "../api-hooks/get-my-profile";
 import { RoundPicture } from "./profile-picture";
 import profile from "../assets/svg/profile.svg";
 import clsx from "clsx";
