@@ -10,7 +10,7 @@ import { ContainterMobile } from "../../reusable-components/container";
 import { CreatePost, CreatePostMobile } from "../post";
 import { Modal } from "../../reusable-components/modal";
 import MobileTopNavigation from "./mobile-top-navigation";
-import { useGetProfile } from "../../api-hooks/get-profile";
+import { useGetProfile } from "../../api-hooks/get-my-profile";
 import { urls } from "../../common/routes";
 import { ContextType } from "./outlet-context";
 

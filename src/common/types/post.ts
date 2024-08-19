@@ -32,8 +32,8 @@ export interface PostFormData
 }
 
 export const PostSchema = z.object({
-  id: z.number(),
-  photoUrls: z.string().url().array(),
+  _id: z.string(),
+  photoUrls: z.string().array(),
   caption: z.string(),
   mentions: z.string().array().optional(),
   hashtags: z.string().array().optional(),

@@ -16,7 +16,7 @@ export const useEditProfile = () => {
       if (profileImage) {
         formData.append("profileImage", profileImage);
       }
-      return httpClient.post("/files/myProfile", { body: formData }).json();
+      return httpClient.post("files/myProfile", { body: formData }).json();
     },
   });
 };

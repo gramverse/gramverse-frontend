@@ -1,4 +1,4 @@
-import { useGetProfile } from "../../api-hooks/get-profile";
+import { useGetProfile } from "../../api-hooks/get-my-profile";
 import menu from "../../assets/svg/menu.svg";
 import profile from "../../assets/svg/profile.svg";
 import { RoundPicture } from "../../reusable-components/profile-picture";

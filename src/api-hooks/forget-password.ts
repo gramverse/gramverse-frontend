@@ -11,7 +11,7 @@ export const useForgetPassword = () => {
   const httpClient = useHttpClient();
   return useMutation<unknown, HTTPError, forgetPassFormValue>({
     mutationFn: (formValue: forgetPassFormValue) =>
-      httpClient.post(`/reset/request-reset-password`, { json: formValue }).json(),
+      httpClient.post(`reset/request-reset-password`, { json: formValue }).json(),
     async onSuccess() {
       navigate(urls.forgetPasswordInfo);
     },

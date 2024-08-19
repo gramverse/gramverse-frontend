@@ -15,9 +15,10 @@ export const useHttpClient = () => {
         hooks: {
           afterResponse: [
             (_req, _options, res) => {
-              if (500 <= res.status && res.status < 600) {
-                // navigate(urls.serverError);
-              } else if (res.status === 401) {
+              // if (500 <= res.status && res.status < 600) {
+              //   // navigate(urls.serverError);
+              // }  
+              if (res.status === 401) {
                 navigate(urls.login);
               }
               return res;

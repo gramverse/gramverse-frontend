@@ -11,7 +11,7 @@ import dot from "../assets/svg/dot.svg";
 import clsx from "clsx";
 import { ContainterWeb } from "../reusable-components/container";
 
-interface Captions extends Omit<Post, "photoUrls" | "id"> {}
+interface Captions extends Omit<Post, "photoUrls" | "_id"> {}
 interface Carousel
   extends HTMLAttributes<HTMLDivElement>,
     Pick<Post, "photoUrls"> {}

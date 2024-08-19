@@ -27,7 +27,7 @@ export const useConfirmResetPassword = () => {
 
   return useMutation<unknown, HTTPError, ConfirmResetPasswordData>({
     mutationFn: (data: ConfirmResetPasswordData) =>
-      httpClient.post(`/reset/reset-password`, { json: { data } }).json(),
+      httpClient.post(`reset/reset-password`, { json: { data } }).json(),
     async onSuccess() {
       navigate(urls.login);
     },
