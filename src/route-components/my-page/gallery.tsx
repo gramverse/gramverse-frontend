@@ -15,7 +15,7 @@ export const Gallery = ({ posts }: GalleryProps) => {
       {posts.map((post) => {
         return (
           <div
-            key={post.id}
+            key={post._id}
             className="h-[304px] w-[295px] overflow-hidden rounded-t-3xl bg-slate-600"
             onClick={() => {
               setSelectedPost(post);

@@ -57,9 +57,9 @@ export const Main = () => {
         },
       }}
     >
-      <div className="bg-color flex h-screen w-screen">
+      <div className="flex h-screen w-screen bg-primary">
         <Modal>{modal}</Modal>
-        <div className="bgColor flex grow flex-row justify-stretch px-16 pt-16">
+        <div className="flex grow flex-row justify-stretch bg-primary px-16 pt-16">
           <img src={rahnema} className="absolute left-20" alt="" />
           <div className="flex h-full w-fit flex-col items-center gap-5 self-start">
             <Button

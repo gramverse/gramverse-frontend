@@ -30,7 +30,7 @@ const SignUpLayout = () => {
 
   return (
     <form
-      className="bgColor m-auto flex w-full flex-col gap-y-8"
+      className="m-auto flex w-full flex-col gap-y-8 bg-primary"
       onSubmit={handleSubmit(onSubmit)}
       noValidate
     >

@@ -16,8 +16,9 @@ export const useSignup = () => {
         })
         .json(),
     async onSuccess(_, { userName }) {
+      localStorage.setItem("authorize", "signup");
       navigate(urls.main, {
-        state: { userName, login: false },
+        state: { userName },
       });
     },
   });

@@ -3,12 +3,12 @@ import { useParams } from "react-router-dom";
 import { useGetProfile } from "../api-hooks/get-my-profile";
 import { MyPage, MyPageMobile } from "./my-page/my-page";
 import { FollowUser, FollowUserMobile } from "./follow-user";
-import { useSetTab } from "./main/outlet-context";
+import { useMainOutletContext } from "./main/outlet-context";
 export const UserOrProfile = () => {
   const { userName } = useParams();
   const { data, isSuccess, isLoading } = useGetProfile();
   const [myPage, setMyPage] = useState(true);
-  const { setTab } = useSetTab();
+  const { setTab } = useMainOutletContext();
   useEffect(() => {
     if (isSuccess) {
       if (userName === data?.userName) {

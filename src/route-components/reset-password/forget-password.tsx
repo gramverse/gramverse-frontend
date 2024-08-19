@@ -25,13 +25,13 @@ const ForgetPasswordLayout = () => {
   };
 
   return (
-    <div className="flex bgColor flex-col items-center justify-center w-fit gap-5 py-20">
+    <div className="flex w-fit flex-col items-center justify-center gap-5 bg-primary py-20">
       <img src={rahnemaLogo} alt="" />
-      <p className="leading-5 font-semibold">بازیابی رمز عبور</p>
+      <p className="font-semibold leading-5">بازیابی رمز عبور</p>
       <form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>
-       <Alert status="error" message={error?.message} />
+        <Alert status="error" message={error?.message} />
 
-        <p className="w-80 text-sm leading-6 text-right">
+        <p className="w-80 text-right text-sm leading-6">
           لطفاً نام‌ کاربری یا ایمیل خودتون رو وارد کنید:
         </p>
         <InputField
@@ -39,8 +39,8 @@ const ForgetPasswordLayout = () => {
           svg={PersonIcon}
           {...register("email")}
         />
-        <div className="flex flex-row justify-end items-center gap-5">
-          <Link className="no-underline	" to={urls.login}>
+        <div className="flex flex-row items-center justify-end gap-5">
+          <Link className="no-underline" to={urls.login}>
             انصراف
           </Link>
           <Button type={"submit"} size="medium">
