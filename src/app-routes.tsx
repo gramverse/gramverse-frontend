@@ -31,7 +31,7 @@ export const AppRoutes = () => {
       <Route path={urls.login} element={<Authroize></Authroize>} />
       <Route path={urls.forgetPassword} element={<ForgetPassword />} />
       <Route
-        path={`${urls.resetPassword}/:link`}
+        path={`${urls.resetPassword}/:token`}
         element={<ResetPassWord></ResetPassWord>}
       ></Route>
       <Route
@@ -59,7 +59,7 @@ export const AppRoutesMobile = () => {
       <Route path={urls.login} element={<AuthroizeMobile></AuthroizeMobile>} />
 
       <Route
-        path={`${urls.resetPassword}/:link`}
+        path={`${urls.resetPassword}/:token`}
         element={<ResetPassWordMobile></ResetPassWordMobile>}
       />
 

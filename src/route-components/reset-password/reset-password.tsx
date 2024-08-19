@@ -11,9 +11,9 @@ import { useConfirmResetPassword } from "../../api-hooks/reset-password";
 import { InputField } from "../../reusable-components/input-field";
 import { Button } from "../../reusable-components/button";
 
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useResetPassword } from "../../api-hooks/reset-password";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { CollegeBackground } from "../../reusable-components/rahnema-background";
 import {
   ContainterMobile,
@@ -30,23 +30,20 @@ const ResetPassWordComponent = () => {
     criteriaMode: "all",
     resolver: zodResolver(resetPasswordSchema),
   });
-  const location = useLocation();
+  const { token } = useParams();
   const { mutate: ConfirmMutate } = useResetPassword();
-  const tokenize = useCallback((path: string) => {
-    const pattern = /(?<=reset-password\/).*/;
-    const match = path.match(pattern);
-    return match ? match[0] : "";
-  }, []);
+
   useEffect(() => {
-    ConfirmMutate(tokenize(location.pathname));
-  });
+    console.log(token);
+    ConfirmMutate(token ?? "");
+  }, [ConfirmMutate, token]);
 
   const { error, mutate } = useConfirmResetPassword();
 
   const onSubmit: SubmitHandler<ResetPasswordFormData> = (formData) => {
     mutate({
       newPassword: formData.password,
-      token: tokenize(location.pathname),
+      token: token ?? "",
     });
   };
 

@@ -7,16 +7,14 @@ import { useNavigate } from "react-router-dom";
 import { ConfirmResetPasswordData } from "../common/types/reset-password";
 
 export const useResetPassword = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const httpClient = useHttpClient();
   return useMutation<unknown, HTTPError, string>({
     mutationFn: (token: string) =>
-      httpClient
-        .post(`/reset/validate-reset-token`, { json: { token } })
-        .json(),
-    async onError() {
-      navigate(urls.notFound);
+      httpClient.post(`reset/validate-reset-token`, { json: { token } }).json(),
+    onError(error) {
+      console.log(error);
     },
   });
 };
