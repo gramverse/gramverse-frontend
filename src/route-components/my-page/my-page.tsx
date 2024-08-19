@@ -3,13 +3,10 @@ import { EmptyGallery } from "./empty-gallery";
 import { Gallery } from "./gallery";
 import { useGetPosts, useGetProfile } from "../../api-hooks/my-page";
 import { ViewAppUserInfo } from "../view-app-user-info";
-import { useState } from "react";
-import { Modal } from "../../reusable-components/modal";
 import { EditProfile } from "../edit-profile";
-
+import { useContext } from "react";
+import { ModalContext } from "../main/main";
 const MyPageLayout = () => {
-  const [isOpenEditProfile, setIsOpenEditProfile] = useState(false);
-
   const {
     data: profileData,
     error: profileError,
@@ -23,7 +20,7 @@ const MyPageLayout = () => {
     isError: isPostError,
     isLoading: isPostLoading,
   } = useGetPosts();
-
+  const { setModal } = useContext(ModalContext);
   const thereIsNoPost = !posts || (posts && posts.length == 0);
   if (isSuccess) {
     // console.log(profileData);
@@ -33,7 +30,7 @@ const MyPageLayout = () => {
   }
   if (isProfileError) {
     //alert userInfoError
-    console.log("dataaa", profileData);
+    // console.log("dataaa", profileData);
     console.log("error", profileError);
   }
   if (isPostError) {
@@ -77,16 +74,6 @@ const MyPageLayout = () => {
   // ];
   return (
     <div className="bgColor flex grow flex-col gap-8">
-      {isOpenEditProfile && profileData && (
-        <Modal>
-          <EditProfile
-            profile={profileData}
-            onClose={() => setIsOpenEditProfile(false)}
-            onRefetch={() => refetch()}
-          />
-        </Modal>
-      )}
-
       <p className="text-right text-xl font-extrabold leading-8">{"صفحه من"}</p>
       <div className="flex h-[180px] w-full flex-col gap-3 border border-x-0 border-t-0 border-solid border-form-border">
         <div className="flex h-[160px] flex-row items-center gap-8">
@@ -102,7 +89,15 @@ const MyPageLayout = () => {
               classes="w-48"
               type="submit"
               onClick={() => {
-                setIsOpenEditProfile(true);
+                setModal(
+                  profileData ? (
+                    <EditProfile
+                      onClose={() => setModal(null)}
+                      profile={profileData}
+                      onRefetch={() => refetch()}
+                    />
+                  ) : null,
+                );
               }}
             >
               ویرایش پروفایل

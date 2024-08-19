@@ -46,7 +46,7 @@ export const UploadImage = forwardRef<HTMLInputElement, UploadImageProps>(
           if (!file) {
             return;
           }
-          console.log(file.size, file.name);
+          // console.log(file.size, file.name);
           blobToDataUrl(file).then(setImagePreview);
         } else {
           if (event.target.files) {
@@ -57,7 +57,7 @@ export const UploadImage = forwardRef<HTMLInputElement, UploadImageProps>(
               const urlResults = await Promise.all(fileReaderPromises);
               setSelectedPhotos(urlResults);
             } catch (error) {
-              console.log(error);
+              // console.log(error);
             }
           }
         }
