@@ -1,5 +1,5 @@
 import { HTMLAttributes, ReactNode, useEffect, useState } from "react";
-import CheckMark from "../assets/svg/check-mark.svg";
+import CheckMark from "../assets/svg/check-mark-green.svg";
 import Error from "../assets/svg/error.svg";
 
 const fieldSizes: Record<fieldSizeTypes, string> = {

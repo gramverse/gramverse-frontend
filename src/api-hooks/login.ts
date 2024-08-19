@@ -16,7 +16,8 @@ export const useLogin = () => {
         .json(),
     onSuccess(data) {
       const { userName } = loginResponse.parse(data);
-      navigate(urls.main, { state: { userName, login: true } });
+      localStorage.setItem("authorize", "login");
+      navigate(urls.main, { state: { userName } });
     },
   });
   return registerMutation;

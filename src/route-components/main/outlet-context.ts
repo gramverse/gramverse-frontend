@@ -3,6 +3,6 @@ import { useOutletContext } from "react-router-dom";
 export type ContextType = {
   setTab: React.Dispatch<React.SetStateAction<string>>;
 };
-export function useSetTab() {
+export function useMainOutletContext() {
   return useOutletContext<ContextType>();
 }

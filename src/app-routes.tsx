@@ -17,7 +17,7 @@ import {
   ResetPassWord,
   ResetPassWordMobile,
 } from "./route-components/reset-password/reset-password";
-import { Explore } from "./route-components/explore";
+import { Explore, ExploreMobile } from "./route-components/explore";
 import {
   UserOrProfile,
   UserOrProfileMobile,
@@ -40,7 +40,7 @@ export const AppRoutes = () => {
       ></Route>
       <Route path={urls.main} element={<Main></Main>}>
         <Route path={"/:userName"} element={<UserOrProfile />} />
-        <Route path="/" element={<Explore login={false} />} />
+        <Route path="/" element={<Explore />} />
       </Route>
       <Route path="*" element={<UrlErrorPage></UrlErrorPage>} />
       <Route path={urls.notFound} element={<UrlErrorPage></UrlErrorPage>} />
@@ -67,6 +67,7 @@ export const AppRoutesMobile = () => {
       <Route path={urls.forgetPasswordInfo} element={<ForgetPasswordInfo />} />
       <Route path={urls.main} element={<MainMobile></MainMobile>}>
         <Route path={"/:userName"} element={<UserOrProfileMobile />} />
+        <Route path="/" element={<ExploreMobile />} />
       </Route>
       <Route
         path="*"

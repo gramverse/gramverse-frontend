@@ -8,7 +8,7 @@ export const ContainterWeb = ({
   return (
     <div
       className={clsx(
-        "flex h-fit w-[485px] items-center justify-center rounded-3xl bg-form-bg p-10",
+        "flex h-fit w-[485px] items-center justify-center rounded-3xl bg-primary p-10",
         className,
       )}
     >
@@ -20,7 +20,7 @@ export const ContainterMobile = ({
   children,
 }: HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div className="flex h-screen w-screen flex-col items-center justify-between bg-form-bg">
+    <div className="flex h-screen w-screen flex-col items-center justify-between bg-primary">
       {children}
     </div>
   );

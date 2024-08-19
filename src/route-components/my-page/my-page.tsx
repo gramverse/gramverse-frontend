@@ -73,7 +73,7 @@ const MyPageLayout = () => {
   //   },
   // ];
   return (
-    <div className="bgColor flex grow flex-col gap-8">
+    <div className="flex grow flex-col gap-8 bg-primary">
       <p className="text-right text-xl font-extrabold leading-8">{"صفحه من"}</p>
       <div className="flex h-[180px] w-full flex-col gap-3 border border-x-0 border-t-0 border-solid border-form-border">
         <div className="flex h-[160px] flex-row items-center gap-8">

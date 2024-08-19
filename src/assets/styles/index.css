@@ -23,9 +23,3 @@
     background-color: white;
   }
 }
-
-@layer components {
-  .bgColor {
-    @apply bg-[#f5f5f5];
-  }
-}

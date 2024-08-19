@@ -12,7 +12,7 @@ import {
   ContainterMobile,
   ContainterWeb,
 } from "../reusable-components/container";
-import checked from "../assets/svg/check-mark.svg";
+import checked from "../assets/svg/check-mark-black.svg";
 import circle from "../assets/svg/circle.svg";
 import dot from "../assets/svg/circle-dot.svg";
 import line from "../assets/svg/line.svg";
