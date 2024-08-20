@@ -41,26 +41,23 @@ const EditProfileLayout = ({
   } = useForm<ProfileFormValue>({
     criteriaMode: "all",
     resolver: zodResolver(editProfileFormValueSchema),
-    //defaultValues: profile,
   });
 
-  const { isError, error, isSuccess, mutate } = useEditProfile();
-  if (isError) {
-    //alert//console.log("error edit", error);
-  }
-
-  if (isSuccess) {
+  const handleProfileUpdated = () => {
     onClose();
     onRefetch();
+  };
+
+  const { isError, error, mutate } = useEditProfile(handleProfileUpdated);
+  if (isError) {
+    //alert//console.log("error edit", error);
   }
 
   const onSubmit: SubmitHandler<ProfileFormValue> = (formData) => {
     mutate(formData);
   };
 
-  //   if(!profile) {
-  //     return <CircularProgress />
-  //   }
+  const isSetProfileImage = profile.profileImage && profile.profileImage != "";
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-[380px]">
@@ -71,7 +68,9 @@ const EditProfileLayout = ({
       <div className="flex flex-col items-center gap-12">
         <div className="flex w-28 flex-col items-center gap-10">
           <UploadImage
-            placeholderImage={profile.profileImage ?? cameraIcon}
+            placeholderImage={
+              isSetProfileImage ? profile.profileImage : cameraIcon
+            }
             error={errors.profileImage?.message}
             className="block h-[90px] w-[90px] rounded-full"
             {...register("profileImage", {
@@ -143,12 +142,6 @@ const EditProfileLayout = ({
             </label>
           </div>
           <div className="flex h-8 flex-row justify-end gap-2">
-            {/* <CancelBtn
-                className="w-28"
-                onClick={() => navigate(urls.myPage)}
-              >
-                پشیمون شدم
-              </CancelBtn> */}
             <Button
               btnColor="transparent"
               type="button"
