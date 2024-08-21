@@ -22,6 +22,7 @@ import {
   UserOrProfile,
   UserOrProfileMobile,
 } from "./route-components/user-or-profile";
+import { CreatePostMobile } from "./route-components/post/post";
 //import { EditProfile } from "./route-components/edit-profile";
 
 export const AppRoutes = () => {
@@ -68,6 +69,7 @@ export const AppRoutesMobile = () => {
       <Route path={urls.main} element={<MainMobile></MainMobile>}>
         <Route path={"/:userName"} element={<UserOrProfileMobile />} />
         <Route path="/" element={<ExploreMobile />} />
+        <Route path="/create-post" element={<CreatePostMobile />} />
       </Route>
       <Route
         path="*"

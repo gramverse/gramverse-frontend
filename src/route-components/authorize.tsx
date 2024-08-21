@@ -30,9 +30,9 @@ const AuthorizeComponent = ({ defaultValue }: { defaultValue: number }) => {
   };
 
   return (
-    <div className="bgColor h-[850px] w-96 items-center justify-center gap-5 text-center">
+    <div className="bgColor h-[800px] grow items-center justify-center gap-5 px-10 text-center">
       <img src={rahnema} alt="" className="my-5" />
-      <div className="my-5 flex w-full justify-center gap-6">
+      <div className="my-5 flex grow justify-center gap-6">
         <Tab
           text="ورود"
           className="w-fit"
@@ -56,10 +56,10 @@ const AuthorizeComponent = ({ defaultValue }: { defaultValue: number }) => {
           }}
         ></Tab>
       </div>
-      <div className="flex w-full flex-col items-start">
+      <div className="flex grow flex-col items-start">
         <div>{value === 0 ? <Login></Login> : <Signup></Signup>}</div>
         {value == 0 && (
-          <div className="mb-6 flex w-full flex-col items-start gap-3">
+          <div className="mb-6 flex grow flex-col items-start gap-3">
             <div>
               <img src={arrow} className="ml-3 inline" alt="" />
               <Link

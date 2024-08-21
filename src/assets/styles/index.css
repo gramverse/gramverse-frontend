@@ -26,3 +26,9 @@
     background-color: white;
   }
 }
+
+@layer components {
+  .modal {
+    @apply shadow-md shadow-black;
+  }
+}

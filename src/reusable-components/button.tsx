@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { ButtonHTMLAttributes } from "react";
 
 const sizes: Record<Sizes, string> = {
@@ -6,8 +7,9 @@ const sizes: Record<Sizes, string> = {
   large: "h-12 px-5 py-3 gap-4 rounded-3xl text-lg ",
 };
 const btnColors: Record<BtnColors, string> = {
-  secondary: "bg-submit-btn text-white border-none ",
-  transparent: "bg-transparent text-black border-none ",
+  secondary:
+    "bg-submit-btn text-white border-none shadow-[-2px_2px_3px_3px_rgba(0,0,0,0.1)] ",
+  transparent: "bg-transparent text-black border-none",
   outline:
     "bg-transparent text-submit-btn border-solid border-2 border-red-600",
 };
@@ -32,7 +34,12 @@ export const Button = (props: ButtonProps) => {
   return (
     <button
       type={type}
-      className={`w-fit cursor-pointer hover:brightness-90 active:scale-90 ${sizes[size]} ${btnColors[btnColor]} ${classes}`}
+      className={clsx(
+        `w-fit cursor-pointer hover:brightness-90 active:scale-90`,
+        sizes[size],
+        btnColors[btnColor],
+        classes,
+      )}
       onClick={(e) => {
         onClick?.(e);
       }}

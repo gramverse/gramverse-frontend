@@ -16,23 +16,17 @@ import { Button } from "../reusable-components/button.tsx";
 import { UploadImage } from "../reusable-components/upload-image.tsx";
 import { Switch } from "../reusable-components/switch.tsx";
 import { Profile } from "../common/types/profile-data.ts";
-import {
-  ContainterMobile,
-  ContainterWeb,
-} from "../reusable-components/container.tsx";
+import { ContainterWeb } from "../reusable-components/container.tsx";
 import { TextArea } from "../reusable-components/text-area.tsx";
+import { useContext } from "react";
+import { ModalContext } from "./main/main.tsx";
 
 type EditProfileProps = {
   profile: Profile;
-  onClose: () => void;
   onRefetch: () => void;
 };
 
-const EditProfileLayout = ({
-  onClose,
-  profile,
-  onRefetch,
-}: EditProfileProps) => {
+const EditProfileLayout = ({ profile, onRefetch }: EditProfileProps) => {
   const {
     register,
     handleSubmit,
@@ -44,7 +38,6 @@ const EditProfileLayout = ({
   });
 
   const handleProfileUpdated = () => {
-    onClose();
     onRefetch();
   };
 
@@ -58,6 +51,7 @@ const EditProfileLayout = ({
   };
 
   const isSetProfileImage = profile.profileImage && profile.profileImage != "";
+  const { setModal } = useContext(ModalContext);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-[380px]">
@@ -145,7 +139,7 @@ const EditProfileLayout = ({
             <Button
               btnColor="transparent"
               type="button"
-              onClick={() => onClose()}
+              onClick={() => setModal(null)}
             >
               پشیمون شدم
             </Button>
@@ -159,35 +153,18 @@ const EditProfileLayout = ({
   );
 };
 
-export const EditProfile = ({
-  onClose,
-  profile,
-  onRefetch,
-}: EditProfileProps) => {
+export const EditProfile = ({ profile, onRefetch }: EditProfileProps) => {
   return (
     <ContainterWeb>
-      <EditProfileLayout
-        onClose={onClose}
-        profile={profile}
-        onRefetch={onRefetch}
-      />
+      <EditProfileLayout profile={profile} onRefetch={onRefetch} />
     </ContainterWeb>
   );
 };
 
-export const EditProfileMoblie = ({
-  onClose,
-  onRefetch,
-  profile,
-}: EditProfileProps) => {
+export const EditProfileMoblie = ({ onRefetch, profile }: EditProfileProps) => {
   return (
-    <ContainterMobile>
-      {" "}
-      <EditProfileLayout
-        onClose={onClose}
-        profile={profile}
-        onRefetch={onRefetch}
-      />
-    </ContainterMobile>
+    <div className="flex h-5/6 grow flex-col gap-3 self-end rounded-t-3xl border-2 border-solid border-gray-300 bg-white shadow-lg">
+      <EditProfileLayout profile={profile} onRefetch={onRefetch} />
+    </div>
   );
 };

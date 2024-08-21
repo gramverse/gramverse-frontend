@@ -3,7 +3,8 @@ import Error from "../assets/svg/error.svg";
 import clsx from "clsx";
 
 const fieldSizes: Record<Sizes, string> = {
-  small: "w-78 h-8 px-2  gap-2 rounded-2xl ",
+  xsmall: "w-60 h-6 px-1 gap-1 rounded-2xl",
+  small: "w-78 h-7 px-2  gap-2 rounded-2xl ",
   medium: "w-78 h-10 gap-3 rounded-2xl ",
   large: "w-96 h-10 px-5  gap-4 rounded-3xl ",
 };
@@ -11,18 +12,26 @@ const status: Record<Status, string> = {
   error: "border-solid border-2 border-red-600	",
   normal: "",
 };
+
+const directions: Record<Directions, string> = {
+  left: "text-left",
+  right: "text-right",
+};
 interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   svg?: string;
   error?: string;
   classes?: string;
   fieldsize?: Sizes;
+  direction?: Directions;
 }
-type Sizes = "small" | "medium" | "large";
+type Sizes = "xsmall" | "small" | "medium" | "large";
 type Status = "error" | "normal";
+type Directions = "left" | "right";
 export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
   (props, ref) => {
     const {
-      fieldsize: fieldSize = "medium",
+      fieldsize: fieldSize = "small",
+      direction = "right",
       svg = "",
       error = "",
       placeholder = "",
@@ -49,7 +58,10 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
               onKeyDown?.(e);
             }}
             type={type}
-            className="grow border-none px-3 focus:border-none focus:outline-none"
+            className={clsx(
+              "grow border-none px-3 focus:border-none focus:outline-none",
+              directions[direction],
+            )}
             ref={ref}
             placeholder={placeholder}
             {...rest}
