@@ -17,18 +17,19 @@ export const PostFormDataSchema = z.object({
     .min(0),
   mentions: z.string().refine(
     (value) => {
-      if (!value) return true;
-      value.matchAll(/(@[A-Za-z0-9_]+)/g);
+      if (!value || value == "") return true;
       const mentions = value.match(/(@[A-Za-z0-9_]+)/g);
-      return mentions?.length === value.split(" ").length;
+      return mentions?.length === 1;
     },
     { message: "لطفا فرمت منشن را رعایت کنید" },
   ),
 });
 
 export interface PostFormData
-  extends Omit<z.infer<typeof PostFormDataSchema>, "photos"> {
-  photos: Array<string> | FileList;
+  extends Pick<z.infer<typeof PostFormDataSchema>, "caption"> {
+  mentions: Array<string>;
+  photoURLs: Array<string>;
+  photoFiles: File[];
 }
 
 export const PostSchema = z.object({

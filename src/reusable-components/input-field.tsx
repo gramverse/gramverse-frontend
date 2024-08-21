@@ -29,6 +29,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
       type = "text",
       classes,
       defaultValue,
+      onKeyDown,
       ...rest
     } = props;
     const customClasses = `bg-white flex items-center gap-2 py-2 ps-1 text-right justify-start border-solid border-2 border-gray-300 ${classes} ${fieldSizes[fieldSize]}`;
@@ -41,8 +42,14 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
           {svg && <img src={svg} className="m-1 h-7" alt="" />}
           <input
             defaultValue={defaultValue}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+              }
+              onKeyDown?.(e);
+            }}
             type={type}
-            className="grow border-none focus:border-none focus:outline-none"
+            className="grow border-none px-3 focus:border-none focus:outline-none"
             ref={ref}
             placeholder={placeholder}
             {...rest}

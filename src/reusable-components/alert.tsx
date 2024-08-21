@@ -1,10 +1,11 @@
 import { HTMLAttributes, ReactNode, useEffect, useState } from "react";
 import CheckMark from "../assets/svg/check-mark-green.svg";
 import Error from "../assets/svg/error.svg";
+import clsx from "clsx";
 
 const fieldSizes: Record<fieldSizeTypes, string> = {
   small: "h-8 px-2  gap-2 rounded-xl text-sm",
-  medium: "h-10 px-4 gap-3 rounded-2xl text-sm ",
+  medium: "h-10 px-4 gap-3 rounded-xl text-sm ",
   large: " h-12 px-5  gap-4 rounded-3xl text-lg ",
 };
 
@@ -48,22 +49,24 @@ export const Alert = (props: AlertProps) => {
     }
   }, [time, visible]);
   return (
-    <>
-      {visible && (
-        <div
-          className={`m-5 flex w-fit items-center gap-2 px-5 py-2 ${fieldSizes[fieldSize]} ${Status[status]} ${className}`}
-        >
-          <span> {message}</span>
-          <img
-            src={
-              status === "error" ? Error : status == "success" ? CheckMark : ""
-            }
-            className="m-2 h-3/4"
-            alt=""
-          />
-          {children}
-        </div>
-      )}
-    </>
+    <div className="m-2 h-12 overflow-hidden">
+      <div
+        className={clsx(
+          `flex w-fit min-w-10 items-center gap-1 px-2 transition-transform ${fieldSizes[fieldSize]} ${Status[status]} ${className}`,
+          visible && "",
+          !visible && "translate-y-14",
+        )}
+      >
+        <span className="text-xs"> {message}</span>
+        <img
+          src={
+            status === "error" ? Error : status == "success" ? CheckMark : ""
+          }
+          className="m-2 h-1/2"
+          alt=""
+        />
+        {children}
+      </div>
+    </div>
   );
 };

@@ -13,7 +13,10 @@ export default {
       colors: {
         "submit-btn": "#EA5A69",
         "form-bg": "#F5F5F5",
-        "primary": "#F5F5F5",
+        primary: "#F5F5F5",
+        tertiary: "#F6881F",
+        secondary: "#EA5A69",
+        "border-gray": "#CDCDCD",
         "form-border": "#CDCDCD",
       },
     },

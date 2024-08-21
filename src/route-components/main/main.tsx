@@ -13,7 +13,7 @@ import MobileBottomNavigation from "./mobile-bottom-navigation";
 import { Panel } from "./web-side-panel";
 import { DrawerMenu } from "./mobile-drawer-menu";
 import { ContainterMobile } from "../../reusable-components/container";
-import { CreatePost, CreatePostMobile } from "../post";
+import { CreatePost, CreatePostMobile } from "../post/post";
 import { Modal } from "../../reusable-components/modal";
 import MobileTopNavigation from "./mobile-top-navigation";
 import { useGetProfile } from "../../api-hooks/get-my-profile";

@@ -17,7 +17,7 @@ export type UploadImageProps = Omit<
   error?: string;
   defaultValue?: string;
   placeholderImage?: string;
-  setSelectedPhotos?: (input: Array<string>) => void;
+  setSelectedPhotos?: React.Dispatch<React.SetStateAction<File[]>>;
 };
 
 export const UploadImage = forwardRef<HTMLInputElement, UploadImageProps>(
@@ -50,12 +50,13 @@ export const UploadImage = forwardRef<HTMLInputElement, UploadImageProps>(
           blobToDataUrl(file).then(setImagePreview);
         } else {
           if (event.target.files) {
-            const fileReaderPromises = Array.from(event.target.files).map(
-              blobToDataUrl,
-            );
+            setSelectedPhotos(Array.from(event.target.files));
+            // const fileReaderPromises = Array.from(event.target.files).map(
+            //   blobToDataUrl,
+            // );
             try {
-              const urlResults = await Promise.all(fileReaderPromises);
-              setSelectedPhotos(urlResults);
+              // const urlResults = await Promise.all(fileReaderPromises);
+              // setSelectedPhotos(urlResults);
             } catch (error) {
               // console.log(error);
             }
@@ -66,7 +67,10 @@ export const UploadImage = forwardRef<HTMLInputElement, UploadImageProps>(
     );
     return (
       <>
-        <label className={clsx("overflow-hidden", className)} style={style}>
+        <label
+          className={clsx("cursor-pointer overflow-hidden", className)}
+          style={style}
+        >
           <input
             type="file"
             accept="image/*"
