@@ -44,7 +44,7 @@ const PostCaptions = (props: Captions) => {
   );
 };
 const Carousel = (props: Carousel) => {
-  const { photoURLS: photoUrls, ...rest } = props;
+  const { photoUrls: photoUrls, ...rest } = props;
   const [index, setIndex] = useState(0);
   return (
     <div className={'" justify-between" flex items-center'} {...rest}>
@@ -104,7 +104,7 @@ const CarouselIndicator = ({
   );
 };
 const CarouselMobile = (props: Carousel) => {
-  const { photoURLS: photoUrls, ...rest } = props;
+  const { photoUrls: photoUrls, ...rest } = props;
   const [index, setIndex] = useState(0);
   return (
     <div className="relative flex flex-col items-center">
@@ -141,7 +141,7 @@ export const PostModal = ({ post }: { post: Post; userName: string }) => {
   const { setModal } = useContext(ModalContext);
   return (
     <ContainterWeb className="m-20 w-full justify-between gap-3">
-      <Carousel photoURLS={post.photoURLs} />
+      <Carousel photoUrls={post.photoUrls} />
       <div className="flex flex-col gap-3 p-5">
         <div className="flex w-full flex-row justify-between">
           <ProfileSummary handleClick={() => navigate(urls.main)} />
@@ -194,7 +194,7 @@ export const PostViewMobile = ({
         </Button>
       </div>
 
-      <CarouselMobile photoURLS={post.photoURLs} />
+      <CarouselMobile photoUrls={post.photoUrls} />
       <PostCaptions
         caption={post.caption}
         mentions={post.mentions}

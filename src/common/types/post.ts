@@ -42,3 +42,5 @@ export const PostSchema = z.object({
 });
 
 export type Post = z.infer<typeof PostSchema>;
+
+export const getPostsResponseSchema = PostSchema.array();

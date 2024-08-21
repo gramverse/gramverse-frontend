@@ -6,9 +6,9 @@ import {
   followingProfileSchema,
 } from "../common/types/following-profile";
 import { queryClient } from "../common/query-client";
+import { getPostsResponseSchema, Post } from "../common/types/post";
 
-export const useGetFollowingProfile = (userName: string) => {
-  // console.log("oftad", userName);
+export const useGetUserProfile = (userName: string) => {
   const httpClient = useHttpClient();
   return useQuery<FollowingProfile, HTTPError>({
     queryKey: ["getFollowingProfile"],
@@ -17,7 +17,6 @@ export const useGetFollowingProfile = (userName: string) => {
         .get(`users/profile/${userName}`)
         .json()
         .then((data) => {
-          // console.log({ data });
           return followingProfileSchema.parse(data);
         }),
   });
@@ -25,7 +24,7 @@ export const useGetFollowingProfile = (userName: string) => {
 
 export type FollowMutationArgs = { userName: string; follow: boolean };
 
-export const useFollow = () => {
+export const useFollowUser = () => {
   const httpClient = useHttpClient();
   return useMutation<unknown, HTTPError, FollowMutationArgs>({
     mutationFn: ({ userName, follow }) => {
@@ -38,5 +37,16 @@ export const useFollow = () => {
       queryClient.invalidateQueries({ queryKey: ["getFollowingProfile"] });
       // queryClient.setQueryData(["getFollowingProfile"], data)
     },
+  });
+};
+
+export const useGetUserPosts = (userName: string | undefined , isFollowed: boolean| undefined) => {
+  //using username & change api url
+  const httpClient = useHttpClient();
+  return useQuery<Post[], HTTPError>({
+    queryKey: ["getPosts"],
+    queryFn: () =>
+      httpClient.get("users/posts").json().then(getPostsResponseSchema.parse),
+    enabled: (userName != undefined && isFollowed),
   });
 };
