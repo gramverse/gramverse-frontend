@@ -10,14 +10,14 @@ export const useHttpClient = () => {
     () =>
       ky.create({
         prefixUrl: baseUrl,
-        timeout: 5000,
+        timeout: 100000,
 
         hooks: {
           afterResponse: [
             (_req, _options, res) => {
               // if (500 <= res.status && res.status < 600) {
               //   // navigate(urls.serverError);
-              // }  
+              // }
               if (res.status === 401) {
                 navigate(urls.login);
               }

@@ -6,12 +6,12 @@ const ExploreMessage = () => {
   return (
     <>
       {login === "login" ? (
-        <div className="flex w-full flex-col items-center gap-10">
+        <div className="flex w-fit flex-col items-center gap-10">
           {/* <CircularProgress /> */}
           <Alert message="با موفقیت وارد شدید" status="success" />
         </div>
       ) : (
-        <div className="m-7 flex flex-col items-center justify-between gap-9 rounded-xl border border-stone-300 bg-primary px-2 py-16">
+        <div className="m-7 flex flex-col items-center justify-between gap-9 rounded-xl border border-solid border-stone-300 bg-primary px-2 py-16">
           <h1 className="text-center text-4xl font-bold">
             سلام به کالج‌گرام خوش اومدی!
           </h1>

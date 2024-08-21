@@ -52,7 +52,7 @@ export const Alert = (props: AlertProps) => {
     <div className="m-2 h-12 overflow-hidden">
       <div
         className={clsx(
-          `flex w-fit min-w-10 items-center gap-1 px-2 transition-transform ${fieldSizes[fieldSize]} ${Status[status]} ${className}`,
+          `flex w-fit min-w-10 items-center gap-4 px-2 transition-transform ${fieldSizes[fieldSize]} ${Status[status]} ${className}`,
           visible && "",
           !visible && "translate-y-14",
         )}
@@ -62,7 +62,7 @@ export const Alert = (props: AlertProps) => {
           src={
             status === "error" ? Error : status == "success" ? CheckMark : ""
           }
-          className="m-2 h-1/2"
+          className="h-1/2"
           alt=""
         />
         {children}

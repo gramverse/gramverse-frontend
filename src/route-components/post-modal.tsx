@@ -7,7 +7,7 @@ import { Button } from "../reusable-components/button";
 import leftArrow from "../assets/svg/arrow.svg";
 import pen from "../assets/svg/pen.svg";
 import dot from "../assets/svg/dot.svg";
-
+import PlusIcon from "../assets/svg/plus.svg";
 import clsx from "clsx";
 import { ContainterWeb } from "../reusable-components/container";
 import { ModalContext } from "./main/main";
@@ -119,7 +119,7 @@ const CarouselMobile = (props: Carousel) => {
             }
           }}
         />
-        <img src={photoUrls[index]} alt="" className="w-full" />
+        <img src={photoUrls[index]} alt="" className="grow" />
         <img
           src={leftArrow}
           alt=""
@@ -140,10 +140,18 @@ export const PostModal = ({ post }: { post: Post; userName: string }) => {
   const navigate = useNavigate();
   const { setModal } = useContext(ModalContext);
   return (
-    <ContainterWeb className="m-20 w-full justify-between gap-3">
+    <ContainterWeb className="relative m-20 flex grow justify-between gap-3">
       <Carousel photoUrls={post.photoUrls} />
-      <div className="flex flex-col gap-3 p-5">
-        <div className="flex w-full flex-row justify-between">
+      <img
+        src={PlusIcon}
+        onClick={() => {
+          setModal(null);
+        }}
+        className="absolute inset-5 m-0 h-4 w-4 rotate-45 rounded-full bg-secondary p-2 shadow-sm shadow-gray-500"
+        alt=""
+      />
+      <div className="flex grow flex-col gap-3 p-5">
+        <div className="flex flex-row justify-between">
           <ProfileSummary handleClick={() => navigate(urls.main)} />
           <Button
             onClick={() => {
@@ -153,7 +161,6 @@ export const PostModal = ({ post }: { post: Post; userName: string }) => {
             ویرایش پست
           </Button>
         </div>
-
         <PostCaptions
           caption={post.caption}
           mentions={post.mentions}

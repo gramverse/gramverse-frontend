@@ -6,10 +6,6 @@ import { ViewAppUserInfo, ViewAppUserInfoMobile } from "../view-app-user-info";
 import { EditProfile, EditProfileMoblie } from "../edit-profile";
 import { useContext } from "react";
 import { ModalContext } from "../main/main";
-import {
-  ContainterMobile,
-  ContainterWeb,
-} from "../../reusable-components/container";
 
 const MyPageLayout = () => {
   const {
@@ -18,27 +14,23 @@ const MyPageLayout = () => {
     isError: isProfileError,
     refetch,
   } = useGetProfile();
-  const {
-    data: posts,
-    isError: isPostError,
-    error: postError,
-  } = useGetPosts();
+  const { data: posts, isError: isPostError, error: postError } = useGetPosts();
   const { setModal } = useContext(ModalContext);
   const thereIsNoPost = !posts || (posts && posts.length == 0);
-  
+
   if (isProfileError) {
-   // user error handler
-   console.log('just for build err', profileError)
+    // user error handler
+    console.log("just for build err", profileError);
   }
   if (isPostError) {
     // user error handler
-    console.log('just for build err', postError)
+    console.log("just for build err", postError);
   }
 
   return (
     <div className="flex grow flex-col gap-8 bg-primary">
       <p className="text-right text-xl font-extrabold leading-8">{"صفحه من"}</p>
-      <div className="flex h-[180px] w-full flex-col gap-3 border border-x-0 border-t-0 border-solid border-form-border">
+      <div className="flex h-[180px] grow flex-col gap-3 border border-x-0 border-t-0 border-solid border-form-border">
         <div className="flex h-[160px] flex-row items-center gap-8">
           {profileData && <ViewAppUserInfo userInfo={profileData} />}
           {!profileData && (
@@ -55,7 +47,6 @@ const MyPageLayout = () => {
                 setModal(
                   profileData ? (
                     <EditProfile
-                      onClose={() => setModal(null)}
                       profile={profileData}
                       onRefetch={() => refetch()}
                     />
@@ -77,11 +68,7 @@ const MyPageLayout = () => {
 };
 
 export const MyPage = () => {
-  return (
-    <ContainterWeb>
-      <MyPageLayout />
-    </ContainterWeb>
-  );
+  return <MyPageLayout />;
 };
 
 export const MyPageMobile = () => {
@@ -91,60 +78,51 @@ export const MyPageMobile = () => {
     isError: isProfileError,
     refetch,
   } = useGetProfile();
-  const {
-    data: posts,
-    isError: isPostError,
-    error: postError,
-  } = useGetPosts();
-  const { setModal } = useContext(ModalContext);
+  const { data: posts, isError: isPostError, error: postError } = useGetPosts();
   const thereIsNoPost = !posts || (posts && posts.length == 0);
- 
   if (isProfileError) {
     //use error handler
-    console.log('just for build err', profileError)
+    console.log("just for build err", profileError);
   }
   if (isPostError) {
     //use error handler
-    console.log('just for build err', postError)
+    console.log("just for build err", postError);
   }
-
+  const { setModal } = useContext(ModalContext);
   return (
-    <ContainterMobile>
-      <div className="flex w-[375px] flex-col items-center justify-center gap-4">
-        <div className="flex flex-col gap-6 border border-x-0 border-t-0 border-solid border-form-border p-4">
-          {profileData && <ViewAppUserInfoMobile userInfo={profileData} />}
-          {!profileData && (
-            <>
-              <div className="w-[133px]"></div>
-              <div className="flex h-40 w-[377px] flex-col justify-start gap-4"></div>
-            </>
-          )}
-          <div className="flex flex-col items-center justify-center">
-            <Button
-              classes="w-48"
-              type="submit"
-              onClick={() => {
-                setModal(
-                  profileData ? (
-                    <EditProfileMoblie
-                      onClose={() => setModal(null)}
-                      profile={profileData}
-                      onRefetch={() => refetch()}
-                    />
-                  ) : null,
-                );
-              }}
-            >
-              ویرایش پروفایل
-            </Button>
-          </div>
-        </div>
-        <div>
-          {thereIsNoPost && <EmptyGalleryMobile />}
-
-          {!thereIsNoPost && <GalleryMobile posts={posts} />}
+    <div className="flex w-[375px] flex-col items-center justify-center gap-4">
+      <div className="flex flex-col gap-6 border border-x-0 border-t-0 border-solid border-form-border p-4">
+        {profileData && <ViewAppUserInfoMobile userInfo={profileData} />}
+        {!profileData && (
+          <>
+            <div className="w-[133px]"></div>
+            <div className="flex h-40 w-[377px] flex-col justify-start gap-4"></div>
+          </>
+        )}
+        <div className="flex flex-col items-center justify-center">
+          <Button
+            classes="w-48"
+            type="submit"
+            onClick={() => {
+              setModal(
+                profileData ? (
+                  <EditProfileMoblie
+                    profile={profileData}
+                    onRefetch={() => refetch()}
+                  />
+                ) : null,
+              );
+            }}
+          >
+            ویرایش پروفایل
+          </Button>
         </div>
       </div>
-    </ContainterMobile>
+      <div>
+        {thereIsNoPost && <EmptyGalleryMobile />}
+
+        {!thereIsNoPost && <GalleryMobile posts={posts} />}
+      </div>
+    </div>
   );
 };

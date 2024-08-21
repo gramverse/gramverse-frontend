@@ -37,6 +37,7 @@ import {
   replaceEmojiCodes,
   replaceEmojiWithCodes,
 } from "../../reusable-components/emoji/emoji-utilities";
+import { useMainOutletContext } from "../main/outlet-context";
 const ProgressBar = ({ stage }: { stage: number }) => {
   return (
     <div dir="ltr" className="m-0 flex flex-row-reverse items-center p-0">
@@ -241,6 +242,7 @@ const Mention = forwardRef<HTMLInputElement, mentionProps>((props, ref) => {
     <div className="flex w-full flex-col items-center">
       <p>اینجا می‌تونی دوستانت رو منشن کنی:</p>
       <InputField
+        direction="left"
         autoFocus
         ref={ref}
         dir="ltr"
@@ -421,16 +423,11 @@ export const CreatePost = ({ post }: { post: Post | null }) => {
   );
 };
 
-export const CreatePostMobile = ({
-  Close,
-  post,
-}: {
-  Close: () => void;
-  post: Post | null;
-}) => {
+export const CreatePostMobile = () => {
+  const { setTab, post } = useMainOutletContext();
   return (
     <ContainterMobile>
-      <CreatePostLayout post={post} Close={Close} />
+      <CreatePostLayout post={post} Close={() => setTab("explore")} />
     </ContainterMobile>
   );
 };

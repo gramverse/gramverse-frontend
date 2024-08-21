@@ -13,7 +13,7 @@ const LoginLayout = () => {
   const { error, mutate } = useLogin();
 
   return (
-    <div className="mx-auto flex w-full flex-col justify-between gap-6 bg-primary text-right text-sm">
+    <div className="mx-auto flex grow flex-col justify-between gap-6 bg-primary text-right text-sm">
       <Alert status="error" message={error?.message} />
       <p className="text-xs font-extralight leading-loose">
         به کالج‌گرام خوش آمدید. برای ورود کافیه نام کاربری/ایمیل و رمز عبور
