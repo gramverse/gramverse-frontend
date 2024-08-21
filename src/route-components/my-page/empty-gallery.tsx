@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Button } from "../../reusable-components/button";
-import { CreatePost } from "../post";
+import { CreatePost } from "../post/post";
 import { ModalContext } from "../main/main";
 
 export const EmptyGallery = () => {

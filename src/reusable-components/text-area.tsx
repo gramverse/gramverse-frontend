@@ -53,7 +53,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, InputFieldProps>(
           )}
         >
           <textarea
-            className="resize-none border-none focus:border-none focus:outline-none"
+            className="resize-none border-none p-4 focus:border-none focus:outline-none"
             rows={rows}
             cols={cols}
             ref={ref}

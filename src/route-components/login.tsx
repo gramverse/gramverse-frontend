@@ -10,10 +10,11 @@ import { Alert } from "../reusable-components/alert.tsx";
 
 const LoginLayout = () => {
   const { register, handleSubmit } = useForm<LoginFormData>({});
-  const { isError, error, mutate } = useLogin();
+  const { error, mutate } = useLogin();
 
   return (
     <div className="mx-auto flex w-full flex-col justify-between gap-6 bg-primary text-right text-sm">
+      <Alert status="error" message={error?.message} />
       <p className="text-xs font-extralight leading-loose">
         به کالج‌گرام خوش آمدید. برای ورود کافیه نام کاربری/ایمیل و رمز عبور
         خودتون رو وارد کنید:
@@ -22,7 +23,6 @@ const LoginLayout = () => {
         className="flex flex-col gap-6"
         onSubmit={handleSubmit((data) => mutate(data))}
       >
-        {isError && <Alert status="error" message={error.message}></Alert>}
         <InputField
           autoFocus
           placeholder={"نام کاربری یا ایمیل"}

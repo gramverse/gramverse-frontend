@@ -17,19 +17,31 @@ export const useCreatePost = () => {
   const navigate = useNavigate();
   const httpClient = useHttpClient();
   return useMutation<unknown, HTTPError, PostFormData>({
-    mutationFn: ({ photos, ...rest }: PostFormData) => {
+    mutationFn: ({ photoFiles, ...rest }: PostFormData) => {
       const formData = new FormData();
-      const newFields = { caption: rest.caption, mentioned: rest.mentions };
-      formData.append("postFields", JSON.stringify(newFields));
-      console.log(formData.get("postFields"));
-      if (photos instanceof FileList) {
-        Array.from(photos).forEach((photo) =>
-          formData.append("postImages", photo),
-        );
-        console.log(formData);
-      } else {
-        formData.append("postImages", JSON.stringify(photos));
-      }
+      const { caption, mentions } = rest;
+      formData.append("postFields", JSON.stringify({ caption, mentions }));
+      photoFiles.forEach((file) => formData.append("photoFiles", file));
+      return httpClient.post("files/addPost", { body: formData }).json();
+    },
+    async onSuccess() {
+      navigate(urls.myPage);
+    },
+  });
+};
+
+export const useEditPost = () => {
+  const navigate = useNavigate();
+  const httpClient = useHttpClient();
+  return useMutation<unknown, HTTPError, PostFormData>({
+    mutationFn: ({ photoFiles, ...rest }: PostFormData) => {
+      const formData = new FormData();
+      const { caption, mentions, photoURLs } = rest;
+      formData.append(
+        "postFields",
+        JSON.stringify({ caption, mentions, photoUrls: photoURLs }),
+      );
+      photoFiles.forEach((file) => formData.append("photoFiles", file));
       return httpClient.post("files/addPost", { body: formData }).json();
     },
     async onSuccess() {
