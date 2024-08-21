@@ -7,12 +7,14 @@ import rahnemaLogo from "../../assets/svg/rahnema-logo.svg";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Alert } from "../../reusable-components/alert";
 import Key from "../../assets/svg/key.svg";
-import { useConfirmResetPassword } from "../../api-hooks/reset-password";
+import {
+  useResetPassword,
+  useValidateResetToken,
+} from "../../api-hooks/reset-password";
 import { InputField } from "../../reusable-components/input-field";
 import { Button } from "../../reusable-components/button";
 
 import { useParams } from "react-router-dom";
-import { useResetPassword } from "../../api-hooks/reset-password";
 import { useEffect } from "react";
 import { CollegeBackground } from "../../reusable-components/rahnema-background";
 import {
@@ -31,14 +33,13 @@ const ResetPassWordComponent = () => {
     resolver: zodResolver(resetPasswordSchema),
   });
   const { token } = useParams();
-  const { mutate: ConfirmMutate } = useResetPassword();
+  const { mutate: mutateToken } = useValidateResetToken();
 
   useEffect(() => {
-    console.log(token);
-    ConfirmMutate(token ?? "");
-  }, [ConfirmMutate, token]);
+    mutateToken(token ?? "");
+  }, [mutateToken, token]);
 
-  const { error, mutate } = useConfirmResetPassword();
+  const { error, mutate } = useResetPassword();
 
   const onSubmit: SubmitHandler<ResetPasswordFormData> = (formData) => {
     mutate({
