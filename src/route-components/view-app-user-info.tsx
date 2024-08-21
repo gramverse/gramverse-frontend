@@ -2,7 +2,7 @@ import { Profile } from "../common/types/profile-data";
 import { Button } from "../reusable-components/button";
 import PersonIcon from "../assets/svg/profile.svg";
 import { FollowingProfile } from "../common/types/following-profile";
-import { FollowMutationArgs } from "../api-hooks/follow";
+import { FollowMutationArgs } from "../api-hooks/user-page";
 
 type AppUserInfoProps = {
   userInfo: Profile | FollowingProfile;

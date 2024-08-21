@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useGetProfile } from "../api-hooks/get-my-profile";
 import { MyPage, MyPageMobile } from "./my-page/my-page";
-import { FollowUser, FollowUserMobile } from "./follow-user";
+import { UserPage, UserPageMobile } from "./user-page/user-page";
 import { useMainOutletContext } from "./main/outlet-context";
 export const UserOrProfile = () => {
   const { userName } = useParams();
@@ -20,7 +20,7 @@ export const UserOrProfile = () => {
       }
     }
   }, [data, data?.userName, isLoading, isSuccess, setTab, userName]);
-  return <>{myPage ? <MyPage /> : <FollowUser userName={userName ?? ""} />}</>;
+  return <>{myPage ? <MyPage /> : <UserPage userName={userName ?? ""} />}</>;
 };
 
 export const UserOrProfileMobile = () => {
@@ -39,7 +39,7 @@ export const UserOrProfileMobile = () => {
       {myPage ? (
         <MyPageMobile />
       ) : (
-        <FollowUserMobile userName={userName ?? "s"} />
+        <UserPageMobile userName={userName ?? "s"} />
       )}
     </>
   );
