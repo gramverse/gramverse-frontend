@@ -20,7 +20,7 @@ export const useGetPosts = () => {
   return useQuery<Post[], HTTPError>({
     queryKey: ["getPosts"],
     queryFn: () =>
-      httpClient.get("users/posts").json().then(getPostsResponseSchema.parse),
+      httpClient.get("posts/myPosts").json().then(getPostsResponseSchema.parse),
     retry: false,
   });
 };

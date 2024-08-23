@@ -22,6 +22,7 @@ import {
   UserOrProfile,
   UserOrProfileMobile,
 } from "./route-components/user-or-profile";
+import { ViewPost, ViewPostMobile } from "./route-components/view-post/view-post";
 import { CreatePostMobile } from "./route-components/post/post";
 //import { EditProfile } from "./route-components/edit-profile";
 
@@ -43,6 +44,7 @@ export const AppRoutes = () => {
         <Route path={"/:userName"} element={<UserOrProfile />} />
         <Route path="/" element={<Explore />} />
       </Route>
+      <Route path={`${urls.viewPost}/:postId`} element={<ViewPost/>}></Route>
       <Route path="*" element={<UrlErrorPage></UrlErrorPage>} />
       <Route path={urls.notFound} element={<UrlErrorPage></UrlErrorPage>} />
       <Route
@@ -71,6 +73,7 @@ export const AppRoutesMobile = () => {
         <Route path="/" element={<ExploreMobile />} />
         <Route path="/create-post" element={<CreatePostMobile />} />
       </Route>
+      <Route path={`${urls.viewPost}/:postId`} element={<ViewPostMobile/>}></Route>
       <Route
         path="*"
         element={<UrlErrorPageMobile></UrlErrorPageMobile>}
