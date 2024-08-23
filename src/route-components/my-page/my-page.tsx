@@ -3,21 +3,19 @@ import { EmptyGallery, EmptyGalleryMobile } from "./empty-gallery";
 import { Gallery, GalleryMobile } from "./gallery";
 import { useGetPosts, useGetProfile } from "../../api-hooks/my-page";
 import { ViewAppUserInfo, ViewAppUserInfoMobile } from "../view-app-user-info";
-import { EditProfile, EditProfileMoblie } from "../edit-profile";
-import { useContext } from "react";
-import { ModalContext } from "../main/main";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const MyPageLayout = () => {
   const {
     data: profileData,
     error: profileError,
     isError: isProfileError,
-    refetch,
   } = useGetProfile();
   const { data: posts, isError: isPostError, error: postError } = useGetPosts();
-  const { setModal } = useContext(ModalContext);
   const thereIsNoPost = !posts || (posts && posts.length == 0);
-
+  const navigate = useNavigate();
+  useEffect(() => {}, []);
   if (isProfileError) {
     // user error handler
     console.log("just for build err", profileError);
@@ -42,16 +40,9 @@ const MyPageLayout = () => {
           <div className="flex h-40 w-[377px] flex-col items-end justify-center">
             <Button
               classes="w-48"
-              type="submit"
+              type="button"
               onClick={() => {
-                setModal(
-                  profileData ? (
-                    <EditProfile
-                      profile={profileData}
-                      onRefetch={() => refetch()}
-                    />
-                  ) : null,
-                );
+                navigate("edit-profile");
               }}
             >
               ویرایش پروفایل
@@ -63,6 +54,7 @@ const MyPageLayout = () => {
         {thereIsNoPost && <EmptyGallery />}
         {!thereIsNoPost && <Gallery posts={posts} />}
       </div>
+      <Outlet />
     </div>
   );
 };
@@ -76,10 +68,10 @@ export const MyPageMobile = () => {
     data: profileData,
     error: profileError,
     isError: isProfileError,
-    refetch,
   } = useGetProfile();
   const { data: posts, isError: isPostError, error: postError } = useGetPosts();
   const thereIsNoPost = !posts || (posts && posts.length == 0);
+  const navigate = useNavigate();
   if (isProfileError) {
     //use error handler
     console.log("just for build err", profileError);
@@ -88,30 +80,22 @@ export const MyPageMobile = () => {
     //use error handler
     console.log("just for build err", postError);
   }
-  const { setModal } = useContext(ModalContext);
   return (
-    <div className="flex w-[375px] flex-col items-center justify-center gap-4">
-      <div className="flex flex-col gap-6 border border-x-0 border-t-0 border-solid border-form-border p-4">
+    <div className="flex flex-col items-center justify-center gap-4">
+      <div className="flex flex-col gap-6 border border-x-0 border-t-0 border-solid border-form-border">
         {profileData && <ViewAppUserInfoMobile userInfo={profileData} />}
-        {!profileData && (
+        {/* {!profileData && (
           <>
             <div className="w-[133px]"></div>
             <div className="flex h-40 w-[377px] flex-col justify-start gap-4"></div>
           </>
-        )}
+        )} */}
         <div className="flex flex-col items-center justify-center">
           <Button
-            classes="w-48"
-            type="submit"
+            classes="w-48 my-2 "
+            type="button"
             onClick={() => {
-              setModal(
-                profileData ? (
-                  <EditProfileMoblie
-                    profile={profileData}
-                    onRefetch={() => refetch()}
-                  />
-                ) : null,
-              );
+              navigate(`edit-profile`);
             }}
           >
             ویرایش پروفایل
@@ -120,9 +104,9 @@ export const MyPageMobile = () => {
       </div>
       <div>
         {thereIsNoPost && <EmptyGalleryMobile />}
-
         {!thereIsNoPost && <GalleryMobile posts={posts} />}
       </div>
+      <Outlet />
     </div>
   );
 };

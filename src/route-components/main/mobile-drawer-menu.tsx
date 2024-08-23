@@ -1,14 +1,10 @@
 import { itemList } from "./menu-data";
 import { Tab } from "../../reusable-components/tab";
-import { useContext } from "react";
-import { ModalContext } from "./main";
-export const DrawerMenu = ({
-  handleItemClick,
-}: {
-  handleItemClick: (item: string) => void;
-}) => {
-  const { setModal } = useContext(ModalContext);
-
+import { useNavigate } from "react-router-dom";
+import { useGetProfile } from "../../api-hooks/get-my-profile";
+export const DrawerMenu = () => {
+  const { data } = useGetProfile();
+  const navigate = useNavigate();
   return (
     <div className="flex h-2/3 grow flex-col gap-3 self-end rounded-t-3xl border-2 border-solid border-gray-300 bg-white shadow-lg">
       {Object.values(itemList)
@@ -19,10 +15,7 @@ export const DrawerMenu = ({
               key={text + index}
               text={text}
               icon={icon}
-              onClick={() => {
-                handleItemClick(Object.keys(itemList)[index]);
-                setModal(null);
-              }}
+              onClick={() => navigate(`/profile/${data?.userName}`)}
             ></Tab>
           );
         })}
@@ -34,10 +27,7 @@ export const DrawerMenu = ({
               key={text + index}
               text={text}
               icon={icon}
-              onClick={() => {
-                handleItemClick(Object.keys(itemList)[7]);
-                setModal(null);
-              }}
+              onClick={() => {}}
             ></Tab>
           );
         })}

@@ -7,7 +7,6 @@ const ExploreMessage = () => {
     <>
       {login === "login" ? (
         <div className="flex w-fit flex-col items-center gap-10">
-          {/* <CircularProgress /> */}
           <Alert message="با موفقیت وارد شدید" status="success" />
         </div>
       ) : (

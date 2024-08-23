@@ -1,17 +1,51 @@
-import { HTMLAttributes, useContext, useState } from "react";
+import { HTMLAttributes, useState } from "react";
 import { ProfileSummary } from "../reusable-components/profile-summary";
 import { Post } from "../common/types/post";
-import { useNavigate } from "react-router-dom";
-import { urls } from "../common/routes";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { Button } from "../reusable-components/button";
 import leftArrow from "../assets/svg/arrow.svg";
 import pen from "../assets/svg/pen.svg";
 import dot from "../assets/svg/dot.svg";
 import PlusIcon from "../assets/svg/plus.svg";
 import clsx from "clsx";
+import back from "../assets/svg/back.svg";
 import { ContainterWeb } from "../reusable-components/container";
-import { ModalContext } from "./main/main";
-import { CreatePost } from "./post/post";
+import { useGetPost } from "../api-hooks/post";
+import { replaceEmojiCodes } from "../reusable-components/emoji/emoji-utilities";
+
+const getTimeDifference = (now: Date, date: Date) => {
+  const yearDiff = now.getFullYear() - date.getFullYear();
+  const monthDiff = now.getMonth() - date.getMonth();
+  const dayDiff = now.getDate() - date.getDate();
+
+  let years = yearDiff;
+  let months = monthDiff;
+  let days = dayDiff;
+
+  // Adjust for negative month or day differences
+  if (dayDiff < 0) {
+    months--;
+    days += new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+  }
+  if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+    years--;
+    months += 12;
+  }
+
+  // Calculate weeks
+  const totalDays = Math.floor(
+    (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24),
+  );
+  const weeks = Math.floor(totalDays / 7);
+  days = totalDays % 7;
+
+  return (
+    `${years} سال ` +
+    ` و ${months} ماه` +
+    ` و ${weeks} هفته` +
+    ` و ${days} روز پیش`
+  );
+};
 
 interface Captions extends Omit<Post, "photoUrls" | "_id"> {}
 interface Carousel
@@ -19,9 +53,11 @@ interface Carousel
     Pick<Post, "photoUrls"> {}
 const PostCaptions = (props: Captions) => {
   const { hashtags, caption, mentions, creationDate, ...rest } = props;
+  const date = new Date(creationDate);
+  const now = new Date();
   return (
     <section className={clsx("flex flex-col gap-8 px-3")} {...rest}>
-      <small>{creationDate.toDateString()}</small>
+      <small>{getTimeDifference(now, date)}</small>
       <p className="text-sm">{caption}</p>
       <div lang="fa" dir="rtl">
         {hashtags?.map((hashtag) => (
@@ -47,32 +83,36 @@ const Carousel = (props: Carousel) => {
   const { photoUrls: photoUrls, ...rest } = props;
   const [index, setIndex] = useState(0);
   return (
-    <div className={'" justify-between" flex items-center'} {...rest}>
-      <img
-        src={leftArrow}
-        alt=""
-        className="z-20 mx-2 h-9 rotate-180 cursor-pointer rounded-lg bg-white p-2 opacity-45"
-        onClick={() => {
-          if (index > 0) {
-            setIndex((index) => index - 1);
-          }
-        }}
-      />
+    <div className="flex items-center justify-between" {...rest}>
+      {photoUrls.length > 0 && (
+        <img
+          src={leftArrow}
+          alt=""
+          className="z-20 mx-2 h-9 rotate-180 cursor-pointer rounded-lg bg-white p-2 opacity-45"
+          onClick={() => {
+            if (index > 0) {
+              setIndex((index) => index - 1);
+            }
+          }}
+        />
+      )}
       <img
         src={photoUrls[index]}
         alt=""
         className="h-[375px] w-[600px] rounded-3xl"
       />
-      <img
-        src={leftArrow}
-        alt=""
-        className="z-20 mx-2 h-9 cursor-pointer rounded-lg bg-white p-2 opacity-45"
-        onClick={() => {
-          if (index < photoUrls.length - 1) {
-            setIndex((index) => index + 1);
-          }
-        }}
-      />
+      {photoUrls.length > 0 && (
+        <img
+          src={leftArrow}
+          alt=""
+          className="z-20 mx-2 h-9 cursor-pointer rounded-lg bg-white p-2 opacity-45"
+          onClick={() => {
+            if (index < photoUrls.length - 1) {
+              setIndex((index) => index + 1);
+            }
+          }}
+        />
+      )}
     </div>
   );
 };
@@ -88,10 +128,11 @@ const CarouselIndicator = ({
   indicatorArray[index] = 1;
   return (
     <div className="absolute bottom-4 flex items-center gap-2">
-      {indicatorArray.map((val) => {
+      {indicatorArray.map((val, index) => {
         if (val) {
           return (
             <img
+              key={index}
               src={dot}
               className="h-3 rounded-full border-2 border-solid border-gray-400"
             />
@@ -107,107 +148,126 @@ const CarouselMobile = (props: Carousel) => {
   const { photoUrls: photoUrls, ...rest } = props;
   const [index, setIndex] = useState(0);
   return (
-    <div className="relative flex flex-col items-center">
-      <div className={"flex items-center justify-between"} {...rest}>
+    <div className="flex flex-col items-center">
+      <div className="relative h-56 w-full" {...rest}>
+        {photoUrls.length > 0 && (
+          <img
+            src={leftArrow}
+            alt=""
+            className="absolute inset-y-0 right-0 z-10 mx-1 h-3 rotate-180 cursor-pointer self-center rounded-full bg-white p-1 opacity-75"
+            onClick={() => {
+              if (index > 0) {
+                setIndex((index) => index - 1);
+              }
+            }}
+          />
+        )}
         <img
-          src={leftArrow}
+          src={photoUrls[index]}
           alt=""
-          className="absolute right-0 mx-1 h-3 rotate-180 cursor-pointer rounded-full bg-white p-1 opacity-75"
-          onClick={() => {
-            if (index > 0) {
-              setIndex((index) => index - 1);
-            }
-          }}
+          className="absolute -inset-x-6 top-0 h-56 object-cover object-center"
         />
-        <img src={photoUrls[index]} alt="" className="grow" />
-        <img
-          src={leftArrow}
-          alt=""
-          className="absolute left-0 mx-1 h-3 cursor-pointer rounded-full bg-white p-1 opacity-75"
-          onClick={() => {
-            if (index < photoUrls.length - 1) {
-              setIndex((index) => index + 1);
-            }
-          }}
-        />
+        {photoUrls.length > 0 && (
+          <img
+            src={leftArrow}
+            alt=""
+            className="absolute inset-y-0 left-0 z-10 mx-1 h-3 cursor-pointer self-center rounded-full bg-white p-1 opacity-75"
+            onClick={() => {
+              if (index < photoUrls.length - 1) {
+                setIndex((index) => index + 1);
+              }
+            }}
+          />
+        )}
       </div>
       <CarouselIndicator count={photoUrls.length} index={index} />
     </div>
   );
 };
 
-export const PostModal = ({ post }: { post: Post; userName: string }) => {
+export const PostModal = () => {
   const navigate = useNavigate();
-  const { setModal } = useContext(ModalContext);
+  const params = useParams();
+  const { data: post } = useGetPost(params.id);
+
   return (
     <ContainterWeb className="relative m-20 flex grow justify-between gap-3">
-      <Carousel photoUrls={post.photoUrls} />
-      <img
-        src={PlusIcon}
-        onClick={() => {
-          setModal(null);
-        }}
-        className="absolute inset-5 m-0 h-4 w-4 rotate-45 rounded-full bg-secondary p-2 shadow-sm shadow-gray-500"
-        alt=""
-      />
-      <div className="flex grow flex-col gap-3 p-5">
-        <div className="flex flex-row justify-between">
-          <ProfileSummary handleClick={() => navigate(urls.main)} />
-          <Button
+      {post && (
+        <>
+          <Carousel photoUrls={post.photoUrls} />
+          <img
+            src={PlusIcon}
             onClick={() => {
-              setModal(<CreatePost post={post} />);
+              navigate(-1);
             }}
-          >
-            ویرایش پست
-          </Button>
-        </div>
-        <PostCaptions
-          caption={post.caption}
-          mentions={post.mentions}
-          hashtags={post.hashtags}
-          creationDate={post.creationDate}
-        />
-      </div>
+            className="absolute inset-5 m-0 h-4 w-4 rotate-45 rounded-full bg-secondary p-2 shadow-sm shadow-gray-500"
+            alt=""
+          />
+          <div className="flex grow flex-col gap-3 p-5">
+            <div className="flex flex-row justify-between">
+              <ProfileSummary />
+              <Button
+                onClick={() => {
+                  navigate("edit");
+                }}
+              >
+                ویرایش پست
+              </Button>
+            </div>
+            <PostCaptions
+              caption={replaceEmojiCodes(post.caption)}
+              mentions={post.mentions}
+              hashtags={post.hashtags}
+              creationDate={post.creationDate}
+            />
+          </div>
+          <Outlet />
+        </>
+      )}
     </ContainterWeb>
   );
 };
 
-export const PostViewMobile = ({
-  post,
-  closeModal,
-  openEditPost,
-}: {
-  post: Post;
-  userName: string;
-  closeModal: () => void;
-  openEditPost: () => void;
-}) => {
+export const PostViewMobile = () => {
   const navigate = useNavigate();
+  const params = useParams();
+  const { data: post } = useGetPost(params.id);
+  console.log(post);
   return (
-    <div className="flex grow flex-col">
-      <div className="flex flex-row justify-between">
-        <ProfileSummary
-          className="my-1"
-          handleClick={() => navigate(urls.main)}
-        />
-        <Button
-          btnColor="transparent"
-          onClick={() => {
-            closeModal();
-            openEditPost();
-          }}
-        >
-          <img src={pen} alt="" />
-        </Button>
-      </div>
-
-      <CarouselMobile photoUrls={post.photoUrls} />
-      <PostCaptions
-        caption={post.caption}
-        mentions={post.mentions}
-        hashtags={post.hashtags}
-        creationDate={post.creationDate}
+    <div className="absolute inset-0 flex grow flex-col bg-primary">
+      <img
+        src={back}
+        alt=""
+        className="my-3 h-5 p-2"
+        onClick={() => {
+          navigate(-1);
+        }}
       />
+      <div className="h-0.5 w-full border border-solid border-gray-300"></div>
+
+      {post && (
+        <>
+          <div className="flex flex-row justify-between">
+            <ProfileSummary className="my-1" />
+            <Button
+              btnColor="transparent"
+              onClick={() => {
+                navigate("edit");
+              }}
+            >
+              <img src={pen} alt="" />
+            </Button>
+          </div>
+
+          <CarouselMobile photoUrls={post.photoUrls} />
+          <PostCaptions
+            caption={replaceEmojiCodes(post.caption)}
+            mentions={post.mentions}
+            hashtags={post.hashtags}
+            creationDate={post.creationDate}
+          />
+        </>
+      )}
     </div>
   );
 };

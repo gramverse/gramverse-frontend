@@ -3,7 +3,6 @@ import cloudsMobile from "../assets/svg/m-error-bottom.svg";
 import drippingWeb from "../assets/svg/w-error-top.svg";
 import cloudsWeb1 from "../assets/svg/w-error-bottom1.svg";
 import cloudsWeb2 from "../assets/svg/w-error-bottom2.svg";
-import { urls } from "../common/routes";
 import "../assets/styles/App.css";
 import { Link } from "react-router-dom";
 import { Button } from "../reusable-components/button";
@@ -21,7 +20,7 @@ const ErrorMessage = ({ size }: { size: "mobile" | "web" }) => {
           </p>
           <Link
             className="w-fit rounded-3xl bg-[#ea5a69] px-7 py-3 text-base font-normal text-stone-50"
-            to={urls.main}
+            to={"/"}
           >
             {" "}
             بازگشت به صفحه اصلی
@@ -37,10 +36,7 @@ const ErrorMessage = ({ size }: { size: "mobile" | "web" }) => {
             دوباره تلاش کن.
           </p>
           <Button>
-            <Link
-              className="text-base text-stone-50 no-underline"
-              to={urls.main}
-            >
+            <Link className="text-base text-stone-50 no-underline" to={"/"}>
               {" "}
               بازگشت به صفحه اصلی
             </Link>

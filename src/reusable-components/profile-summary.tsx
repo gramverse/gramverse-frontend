@@ -3,27 +3,23 @@ import { RoundPicture } from "./profile-picture";
 import profile from "../assets/svg/profile.svg";
 import clsx from "clsx";
 import { HTMLAttributes } from "react";
+import { useNavigate } from "react-router-dom";
 
-interface ProfileSummary extends HTMLAttributes<HTMLDivElement> {
-  handleClick: (tab: string) => void;
-}
-export const ProfileSummary = (props: ProfileSummary) => {
-  const { className, handleClick } = props;
+export const ProfileSummary = (props: HTMLAttributes<HTMLDivElement>) => {
+  const { className } = props;
   const { data: profileSummary } = useGetProfile();
+  const navigate = useNavigate();
   return (
     <div
       className={clsx("flex items-center gap-5", className)}
       onClick={() => {
-        handleClick("myPage");
+        navigate(`profile/${profileSummary?.userName}` ?? "/");
       }}
     >
       <RoundPicture
         picture={
           profileSummary?.profileImage ? profileSummary.profileImage : profile
         }
-        onClick={() => {
-          handleClick("myPage");
-        }}
       />
       <span>{profileSummary?.userName || ""}</span>
     </div>

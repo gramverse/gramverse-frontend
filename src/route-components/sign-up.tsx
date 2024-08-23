@@ -41,7 +41,7 @@ const SignUpLayout = () => {
           عبور وارد کنید :
         </p>
 
-        <div className="flex flex-col gap-y-5">
+        <div className="flex flex-col gap-y-2">
           <InputField
             autoFocus
             placeholder="نام کاربری"

@@ -1,36 +1,30 @@
+import { useNavigate } from "react-router-dom";
 import { useGetProfile } from "../../api-hooks/get-my-profile";
 import menu from "../../assets/svg/menu.svg";
 import profile from "../../assets/svg/profile.svg";
 import { RoundPicture } from "../../reusable-components/profile-picture";
-import { useContext } from "react";
-import { ModalContext } from "./main";
-import { DrawerMenu } from "./mobile-drawer-menu";
-export default function MobileTopNavigation({
-  handleItemClick,
-}: {
-  handleItemClick: (item: string) => void;
-}) {
+export default function MobileTopNavigation() {
   const { data: profileSummary } = useGetProfile();
-  const { setModal } = useContext(ModalContext);
+  const navigate = useNavigate();
   return (
-    <div className="flex w-full flex-col justify-center">
-      <div className="mx-5 ms-10 flex h-10 w-64 justify-between p-3">
+    <div className="mb-5 flex w-full flex-col justify-center">
+      <div className="mb-3 mt-2 flex h-10 w-full justify-between">
         <RoundPicture
           picture={
             profileSummary?.profileImage ? profileSummary.profileImage : profile
           }
-          onClick={() => handleItemClick("myPage")}
+          onClick={() => navigate(`profile/${profileSummary?.userName}`)}
         />
         <img
           src={menu}
           alt=""
           className="w-6"
           onClick={() => {
-            setModal(<DrawerMenu handleItemClick={handleItemClick} />);
+            navigate("menu");
           }}
         />
       </div>
-      <div className="h-0.5 w-full bg-gray-300" />
+      <div className="h-0.5 bg-gray-300" />
     </div>
   );
 }

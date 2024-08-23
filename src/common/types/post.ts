@@ -1,20 +1,12 @@
 import { z } from "zod";
-
 export const PostFormDataSchema = z.object({
   photos: z
     .instanceof(FileList, { message: "فرمت فایل ها معتبر نیست" })
-    .refine((fileList) => fileList.length, {
-      message: "حداقل یک عکس انتخاب کنید",
-    })
     .refine(
       (fileList) =>
         Array.from(fileList).every((file) => file.size < 1024 * 1024),
       { message: "حجم هر عکس باید کمتر از یک مگابایت باشد" },
     ),
-  caption: z
-    .string()
-    .max(500, { message: "کپشن نباید بیشتر از ۵۰۰ کاراکتر باشد" })
-    .min(0),
   mentions: z.string().refine(
     (value) => {
       if (!value || value == "") return true;
@@ -25,8 +17,8 @@ export const PostFormDataSchema = z.object({
   ),
 });
 
-export interface PostFormData
-  extends Pick<z.infer<typeof PostFormDataSchema>, "caption"> {
+export interface PostFormData {
+  caption: string;
   mentions: Array<string>;
   photoURLs: Array<string>;
   photoFiles: File[];
@@ -38,7 +30,7 @@ export const PostSchema = z.object({
   caption: z.string(),
   mentions: z.string().array().optional(),
   hashtags: z.string().array().optional(),
-  creationDate: z.coerce.date(),
+  creationDate: z.string(),
 });
 
 export type Post = z.infer<typeof PostSchema>;

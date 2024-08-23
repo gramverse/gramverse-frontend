@@ -1,11 +1,8 @@
-import { useContext } from "react";
 import { Button } from "../../reusable-components/button";
-import { CreatePost } from "../post/post";
-import { ModalContext } from "../main/main";
+import { useNavigate } from "react-router-dom";
 
 export const EmptyGallery = () => {
-  const { setModal } = useContext(ModalContext);
-
+  const navigate = useNavigate();
   return (
     <div className="flex w-full flex-col items-center justify-center gap-8 rounded-3xl border border-solid border-form-border py-12">
       <div className="size-5 h-[71px] w-[356px] text-center font-bold leading-8">
@@ -16,7 +13,7 @@ export const EmptyGallery = () => {
           classes="w-48 m-auto"
           type="submit"
           onClick={() => {
-            setModal(<CreatePost post={null} />);
+            navigate("/create-post");
           }}
         >
           ایجاد پست جدید
@@ -27,11 +24,10 @@ export const EmptyGallery = () => {
 };
 
 export const EmptyGalleryMobile = () => {
-  const { setModal } = useContext(ModalContext);
-
+  const navigate = useNavigate();
   return (
-    <div className="flex w-full h-[347px] flex-col items-center justify-center gap-8 rounded-3xl border border-solid border-form-border py-12">
-      <div className="text-xl h-24 w-[311px] text-center font-bold leading-8">
+    <div className="flex h-[347px] w-full flex-col items-center justify-center gap-8 rounded-3xl border border-solid border-form-border py-12">
+      <div className="h-24 w-[311px] text-center text-xl font-bold leading-8">
         هنوز هیچ پستی توی صفحه‌ات نذاشتی! بجنب تا دیر نشده
       </div>
       <div className="flex w-72">
@@ -39,7 +35,7 @@ export const EmptyGalleryMobile = () => {
           classes="w-48 m-auto"
           type="submit"
           onClick={() => {
-            setModal(<CreatePost post={null} />);
+            navigate("/create-post");
           }}
         >
           ایجاد پست جدید

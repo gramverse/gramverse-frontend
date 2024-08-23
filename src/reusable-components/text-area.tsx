@@ -43,7 +43,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, InputFieldProps>(
     const customClasses = getVariantStyles({ fieldSize }, variants);
 
     return (
-      <div>
+      <div className="w-fit">
         <div
           className={mergeClasses(
             className,

@@ -30,7 +30,7 @@ const AuthorizeComponent = ({ defaultValue }: { defaultValue: number }) => {
   };
 
   return (
-    <div className="bgColor h-[800px] grow items-center justify-center gap-5 px-10 text-center">
+    <div className="w-full grow items-center justify-center gap-5 bg-primary text-center">
       <img src={rahnema} alt="" className="my-5" />
       <div className="my-5 flex grow justify-center gap-6">
         <Tab
