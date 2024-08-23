@@ -8,7 +8,7 @@ export const useGetPost = (id: string) => {
   const httpClient = useHttpClient();
   return useQuery<PostDetail, HTTPError>({
     queryKey: ["getPost", id],
-    queryFn: () => httpClient.get(`posts/${id}`).json(),
+    queryFn: () => httpClient.get(`posts/post/${id}`).json(),
     enabled: id != undefined,
   });
 };
@@ -24,24 +24,28 @@ export const useLikePost = () => {
         })
         .json(),
 
-    onMutate() {},
+    //onMutate() {},
     onSettled: (_data, _error, { postId }) =>
       queryClient.invalidateQueries({
         queryKey: ["getPost", postId],
       }),
-    //async onSuccess() {},
   });
 };
 
+type BookmarkMutationPayload = { postId: string; isBookmark: boolean };
 export const useBookmarkPost = () => {
   const httpClient = useHttpClient();
-  return useMutation<unknown, HTTPError, string>({
-    mutationFn: (postId: string) =>
+  return useMutation({
+    mutationFn: ({ postId, isBookmark }: BookmarkMutationPayload) =>
       httpClient
-        .post("post/bookmark", {
-          json: { postId },
+        .post("posts/bookmark", {
+          json: { postId, isBookmark },
         })
         .json(),
-    async onSuccess() {},
+    // onMutate() {},
+    onSettled: (_data, _error, { postId }) =>
+      queryClient.invalidateQueries({
+        queryKey: ["getPost", postId],
+      }),
   });
 };
