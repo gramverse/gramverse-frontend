@@ -57,7 +57,9 @@ const AuthorizeComponent = ({ defaultValue }: { defaultValue: number }) => {
         ></Tab>
       </div>
       <div className="flex grow flex-col items-start">
-        <div>{value === 0 ? <Login></Login> : <Signup></Signup>}</div>
+        <div className="flex items-center self-center">
+          {value === 0 ? <Login></Login> : <Signup></Signup>}
+        </div>
         {value == 0 && (
           <div className="mb-6 flex grow flex-col items-start gap-3">
             <div>

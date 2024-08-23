@@ -147,7 +147,10 @@ export const AppRoutesMobile = () => {
         </Route>
         <Route index element={<ExploreMobile />} />
       </Route>
-      <Route path={`${urls.viewPost}/:postId`} element={<ViewPostMobile/>}></Route>
+      <Route
+        path={`${urls.viewPost}/:postId`}
+        element={<ViewPostMobile />}
+      ></Route>
       <Route
         path="*"
         element={<UrlErrorPageMobile></UrlErrorPageMobile>}

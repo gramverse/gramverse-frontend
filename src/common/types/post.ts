@@ -36,3 +36,31 @@ export const PostSchema = z.object({
 export type Post = z.infer<typeof PostSchema>;
 
 export const getPostsResponseSchema = PostSchema.array();
+
+export type CommentDto = {
+  _id: string;
+  userName: string;
+  comment: string;
+  postId: string;
+  parentCommentId: string;
+  creationDate: string;
+  updateDate: string;
+  isLiked: boolean;
+  likesCount: number;
+  childComments: CommentDto[];
+};
+
+export type PostDetail = {
+  _id: string;
+  photoUrls: string[];
+  caption: string;
+  mentions: string[];
+  tags: string[];
+  creationDate: string;
+  userName: string;
+  comments: CommentDto[];
+  commentsCount: number;
+  likesCount: number;
+  isLiked: boolean;
+  isBookmarked: boolean;
+};

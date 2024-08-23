@@ -318,7 +318,7 @@ const CreatePostLayout = () => {
       photoURLs,
       photoFiles,
     };
-    if (post) {
+    if (params.id) {
       editPost(postData);
     } else {
       createPost(postData);
@@ -326,10 +326,14 @@ const CreatePostLayout = () => {
   };
   const handleClick = useCallback(() => {
     stage === 1
-      ? trigger("photos").then((value) =>
-          value && photoError === "" ? setStage(stage + 1) : setStage(stage),
-        )
-      : () => {};
+      ? trigger("photos").then((value) => {
+          value && (photoError === "" || photoError === undefined)
+            ? setStage(stage + 1)
+            : setStage(stage);
+        })
+      : stage === 2
+        ? setStage(stage + 1)
+        : () => {};
   }, [photoError, stage, trigger]);
   useEffect(() => {
     if (photoFiles.length === 0 && photoURLs.length === 0) {
@@ -366,7 +370,7 @@ const CreatePostLayout = () => {
             <Caption
               caption={caption}
               setCaption={setCaption}
-              hashtags={post?.hashtags ?? []}
+              hashtags={post?.tags ?? []}
             />
           )}
           {stage === 3 && (

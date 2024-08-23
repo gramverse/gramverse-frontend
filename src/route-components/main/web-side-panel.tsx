@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 export const Panel = ({ tab }: { tab: string }) => {
   const navigate = useNavigate();
-  const { data } = useGetProfile();
+  const { data, isSuccess } = useGetProfile();
   return (
     <div className="flex w-80 flex-grow flex-col rounded-t-3xl border-2 border-solid border-gray-300 bg-white pt-10">
       <ProfileSummary className="ms-10" />
@@ -22,7 +22,7 @@ export const Panel = ({ tab }: { tab: string }) => {
                 value={Object.keys(itemList)[index]}
                 selectedValue={tab}
                 onClick={() => {
-                  navigate(`profile/${data?.userName}` ?? "/");
+                  isSuccess && navigate(`profile/${data.userName}`);
                 }}
               />
             );

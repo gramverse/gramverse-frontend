@@ -4,7 +4,6 @@ import { Gallery, GalleryMobile } from "./gallery";
 import { useGetPosts, useGetProfile } from "../../api-hooks/my-page";
 import { ViewAppUserInfo, ViewAppUserInfoMobile } from "../view-app-user-info";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 const MyPageLayout = () => {
   const {
@@ -15,7 +14,6 @@ const MyPageLayout = () => {
   const { data: posts, isError: isPostError, error: postError } = useGetPosts();
   const thereIsNoPost = !posts || (posts && posts.length == 0);
   const navigate = useNavigate();
-  useEffect(() => {}, []);
   if (isProfileError) {
     // user error handler
     console.log("just for build err", profileError);

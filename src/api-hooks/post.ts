@@ -2,11 +2,11 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
 import { HTTPError } from "ky";
 import { useNavigate } from "react-router-dom";
-import { Post, PostFormData } from "../common/types/post";
+import { PostDetail, PostFormData } from "../common/types/post";
 
 export const useGetPost = (id: string | undefined) => {
   const httpClient = useHttpClient();
-  return useQuery<unknown, HTTPError, Post>({
+  return useQuery<unknown, HTTPError, PostDetail>({
     queryKey: ["getPost"],
     queryFn: () => (id ? httpClient.get(`posts/post/${id}`).json() : () => {}),
   });
@@ -41,7 +41,7 @@ export const useEditPost = () => {
         JSON.stringify({ caption, mentions, photoUrls: photoURLs }),
       );
       photoFiles.forEach((file) => formData.append("photoFiles", file));
-      return httpClient.post("files/addPost", { body: formData }).json();
+      return httpClient.post("files/editPost", { body: formData }).json();
     },
     async onSuccess() {
       navigate(-1);

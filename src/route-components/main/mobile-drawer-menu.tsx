@@ -3,7 +3,7 @@ import { Tab } from "../../reusable-components/tab";
 import { useNavigate } from "react-router-dom";
 import { useGetProfile } from "../../api-hooks/get-my-profile";
 export const DrawerMenu = () => {
-  const { data } = useGetProfile();
+  const { data, isSuccess } = useGetProfile();
   const navigate = useNavigate();
   return (
     <div className="flex h-2/3 grow flex-col gap-3 self-end rounded-t-3xl border-2 border-solid border-gray-300 bg-white shadow-lg">
@@ -15,7 +15,7 @@ export const DrawerMenu = () => {
               key={text + index}
               text={text}
               icon={icon}
-              onClick={() => navigate(`/profile/${data?.userName}`)}
+              onClick={() => isSuccess && navigate(`profile/${data.userName}`)}
             ></Tab>
           );
         })}

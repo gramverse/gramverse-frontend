@@ -29,7 +29,7 @@ export const ViewAppUserInfo = ({
           />
         </label>
       </div>
-      <div className="flex h-40 w-[377px] flex-col justify-start gap-4">
+      <div className="mb-5 flex h-fit w-[377px] flex-col justify-start gap-4">
         <div className="w-full text-sm font-normal text-[#C19008]">{`${userInfo.userName}@`}</div>
         {!followMode && (
           <div className="size-5 w-full font-bold">{`${userInfo.firstName} ${userInfo.lastName}`}</div>
@@ -60,7 +60,7 @@ export const ViewAppUserInfo = ({
           <span>|</span>
           <span className="mr-3 w-24">{`‍ ${userInfo.postCount} پست ‍`}</span>
         </div>
-        <div className="h-9 w-full text-sm font-normal text-[#A5A5A5]">
+        <div className="h-fit w-full text-sm font-normal text-[#A5A5A5]">
           {userInfo.bio}
         </div>
       </div>
