@@ -8,13 +8,15 @@ import { NotAllowedViewGallery } from "./not-allowed-view-user-post";
 import { UserEmptyGallery } from "./user-empty-gallery";
 import { UserGallery } from "./user-gallery";
 import { ContainterMobile } from "../../reusable-components/container";
+import { useParams } from "react-router-dom";
 
- const UserPageLayout = ({ userName }: { userName: string }) => {
+export const UserPageLayout = () => {
+  const { userName } = useParams();
   const {
     data: userInfo,
     error: profileError,
     isError: isProfileError,
-  } = useGetUserProfile(userName);
+  } = useGetUserProfile(userName ?? "");
 
   const {
     data: userPosts,
@@ -28,11 +30,10 @@ import { ContainterMobile } from "../../reusable-components/container";
 
   const {
     isError: isFollowError,
-   error: followError,
+    error: followError,
     mutate: followMutate,
   } = useFollowUser();
 
-  
   if (isProfileError) {
     //use error handler
     console.log("error", profileError);
@@ -43,7 +44,7 @@ import { ContainterMobile } from "../../reusable-components/container";
   }
   if (isFollowError) {
     //use error handler
-    console.log("error",followError);
+    console.log("error", followError);
   }
 
   return (
@@ -82,22 +83,19 @@ import { ContainterMobile } from "../../reusable-components/container";
   );
 };
 
-export const UserPage = ({ userName }: { userName: string }) => {
+export const UserPage = () => {
   return (
     <>
-      <UserPageLayout userName={userName} />
+      <UserPageLayout />
     </>
-    //   <ContainterWeb>
-    //   <UserPageLayout userName={userName} />
-    // </ContainterWeb>
   );
 };
 
-export const UserPageMobile = ({ userName }: { userName: string }) => {
+export const UserPageMobile = () => {
   return (
     <>
       <ContainterMobile>
-        <UserPageLayout userName={userName} />
+        <UserPageLayout />
       </ContainterMobile>
     </>
   );

@@ -3,7 +3,6 @@ import cloudsMobile from "../assets/svg/m-error-bottom.svg";
 import drippingWeb from "../assets/svg/w-error-top.svg";
 import cloudsWeb1 from "../assets/svg/w-error-bottom1.svg";
 import cloudsWeb2 from "../assets/svg/w-error-bottom2.svg";
-import { urls } from "../common/routes";
 import "../assets/styles/App.css";
 import { Link } from "react-router-dom";
 
@@ -11,11 +10,11 @@ const ErrorMessage = ({ size }: { size: "mobile" | "web" }) => {
   return (
     <>
       {size === "mobile" && (
-        <div className="flex bg-[#f5f5f5] flex-col items-center justify-between gap-9 rounded-xl border border-stone-300 m-7 py-16 px-2">
-          <h1 className="font-bold text-4xl">آدرس مورد نظر وجود ندارد</h1>
+        <div className="m-7 flex flex-col items-center justify-between gap-9 rounded-xl border border-stone-300 bg-[#f5f5f5] px-2 py-16">
+          <h1 className="text-4xl font-bold">آدرس مورد نظر وجود ندارد</h1>
           <Link
-            className="bg-[#ea5a69] text-base text-stone-50 rounded-3xl px-7 py-3 font-normal w-fit"
-            to={urls.main}
+            className="w-fit rounded-3xl bg-[#ea5a69] px-7 py-3 text-base font-normal text-stone-50"
+            to={"/"}
           >
             {" "}
             بازگشت به صفحه اصلی
@@ -23,11 +22,11 @@ const ErrorMessage = ({ size }: { size: "mobile" | "web" }) => {
         </div>
       )}
       {size === "web" && (
-        <div className="flex flex-col  bg-[#f5f5f5] items-center justify-between gap-9 rounded-xl border border-stone-300 m-7 p-10">
-          <h1 className="font-bold text-5xl">آدرس مورد نظر وجود ندارد</h1>
+        <div className="m-7 flex flex-col items-center justify-between gap-9 rounded-xl border border-stone-300 bg-[#f5f5f5] p-10">
+          <h1 className="text-5xl font-bold">آدرس مورد نظر وجود ندارد</h1>
           <Link
-            className="bg-[#ea5a69] text-base text-stone-50 rounded-3xl px-7 py-3 font-normal w-fit"
-            to={urls.main}
+            className="w-fit rounded-3xl bg-[#ea5a69] px-7 py-3 text-base font-normal text-stone-50"
+            to={"/"}
           >
             {" "}
             بازگشت به صفحه اصلی
@@ -40,10 +39,10 @@ const ErrorMessage = ({ size }: { size: "mobile" | "web" }) => {
 
 export const UrlErrorPage = () => {
   return (
-    <div className="h-screen flex flex-col justify-between items-center">
+    <div className="flex h-screen flex-col items-center justify-between">
       <img src={drippingWeb} className="w-screen" alt="" />
       <ErrorMessage size={"web"}></ErrorMessage>
-      <div className="flex justify-evenly w-screen mb-20">
+      <div className="mb-20 flex w-screen justify-evenly">
         <img src={cloudsWeb1} alt="" />
         <img src={cloudsWeb2} alt="" />
       </div>
@@ -53,10 +52,10 @@ export const UrlErrorPage = () => {
 
 export const UrlErrorPageMobile = () => {
   return (
-    <div className="h-screen flex flex-col justify-between items-center">
+    <div className="flex h-screen flex-col items-center justify-between">
       <img src={drippingMobile} className="w-screen" alt="" />
       <ErrorMessage size={"mobile"}></ErrorMessage>
-      <div className="flex justify-evenly w-screen mb-20">
+      <div className="mb-20 flex w-screen justify-evenly">
         <img src={cloudsMobile} className="w-screen" alt="" />
       </div>
     </div>

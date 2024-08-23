@@ -17,7 +17,14 @@ export const EmojiKeyboard = ({
       )}
     >
       {topEmojis.map((emoji, index) => (
-        <span key={index} className="m-1" onClick={() => setEmoji(emoji)}>
+        <span
+          key={index}
+          className="m-1"
+          onClick={() => {
+            setEmoji(emoji);
+            (document.querySelector("#caption") as HTMLElement).focus();
+          }}
+        >
           {String.fromCodePoint(emoji)}
         </span>
       ))}

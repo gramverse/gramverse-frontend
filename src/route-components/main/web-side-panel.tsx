@@ -1,17 +1,15 @@
 import { itemList } from "./menu-data";
 import { Tab } from "../../reusable-components/tab";
 import { ProfileSummary } from "../../reusable-components/profile-summary";
+import { useGetProfile } from "../../api-hooks/get-my-profile";
+import { useNavigate } from "react-router-dom";
 
-export const Panel = ({
-  handleClick,
-  selectedTab,
-}: {
-  handleClick: (tab: string) => void;
-  selectedTab: string;
-}) => {
+export const Panel = ({ tab }: { tab: string }) => {
+  const navigate = useNavigate();
+  const { data } = useGetProfile();
   return (
     <div className="flex w-80 flex-grow flex-col rounded-t-3xl border-2 border-solid border-gray-300 bg-white pt-10">
-      <ProfileSummary handleClick={handleClick} className="ms-10" />
+      <ProfileSummary className="ms-10" />
       <section className="relative flex h-full w-full flex-col items-start gap-5 p-5 pb-20">
         {Object.values(itemList)
           .slice(0, 5)
@@ -22,9 +20,9 @@ export const Panel = ({
                 text={text}
                 icon={icon}
                 value={Object.keys(itemList)[index]}
-                selectedValue={selectedTab}
+                selectedValue={tab}
                 onClick={() => {
-                  handleClick(Object.keys(itemList)[index]);
+                  navigate(`profile/${data?.userName}` ?? "/");
                 }}
               />
             );
@@ -39,10 +37,10 @@ export const Panel = ({
                 key={text + index}
                 text={text}
                 icon={icon}
+                selectedValue={tab}
                 value={Object.keys(itemList)[index + 5]}
-                selectedValue={selectedTab}
                 onClick={() => {
-                  handleClick(Object.keys(itemList)[index + 5]);
+                  navigate("/");
                 }}
               ></Tab>
             );
@@ -55,12 +53,10 @@ export const Panel = ({
                 key={text + index}
                 text={text}
                 icon={icon}
+                selectedValue={tab}
                 value={Object.keys(itemList)[index + 7]}
-                selectedValue={selectedTab}
                 className="absolute bottom-4"
-                onClick={() => {
-                  handleClick(Object.keys(itemList)[index + 7]);
-                }}
+                onClick={() => {}}
               ></Tab>
             );
           })}

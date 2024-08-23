@@ -3,9 +3,9 @@ import Error from "../assets/svg/error.svg";
 import clsx from "clsx";
 
 const fieldSizes: Record<Sizes, string> = {
-  xsmall: "w-60 h-6 px-1 gap-1 rounded-2xl",
-  small: "w-78 h-7 px-2  gap-2 rounded-2xl ",
-  medium: "w-78 h-10 gap-3 rounded-2xl ",
+  xsmall: "w-80 h-5 px-1 gap-1 rounded-3xl",
+  small: "w-80 h-7 px-2  gap-2 rounded-2xl ",
+  medium: "w-80 h-10 gap-3 rounded-2xl ",
   large: "w-96 h-10 px-5  gap-4 rounded-3xl ",
 };
 const status: Record<Status, string> = {
@@ -46,7 +46,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
       customClasses.concat(` ${status["error"]}`);
     }
     return (
-      <div className="w-full">
+      <div className="w-fit">
         <div className={customClasses}>
           {svg && <img src={svg} className="m-1 h-7" alt="" />}
           <input

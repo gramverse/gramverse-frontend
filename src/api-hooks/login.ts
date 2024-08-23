@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { urls } from "../common/routes";
 import { useMutation } from "@tanstack/react-query";
 import { LoginFormData, loginResponse } from "../common/types/login";
 import { useHttpClient } from "../common/http-client";
@@ -17,7 +16,7 @@ export const useLogin = () => {
     onSuccess(data) {
       const { userName } = loginResponse.parse(data);
       localStorage.setItem("authorize", "login");
-      navigate(urls.main, { state: { userName } });
+      navigate("/", { state: { userName } });
     },
   });
   return registerMutation;

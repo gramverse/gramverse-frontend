@@ -1,17 +1,16 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
 import { HTTPError } from "ky";
 import { useNavigate } from "react-router-dom";
-import { urls } from "../common/routes";
-import { PostFormData } from "../common/types/post";
+import { Post, PostFormData } from "../common/types/post";
 
-// export const useGetPost = (id:number|null) => {
-//   const httpClient = useHttpClient();
-//   return useQuery<unknown, HTTPError, Post>({
-//     queryKey: ["getPost"],
-//     queryFn: () => id?httpClient.get(`users/post/id:${id}`).json():()=>{},
-//   });
-// };
+export const useGetPost = (id: string | undefined) => {
+  const httpClient = useHttpClient();
+  return useQuery<unknown, HTTPError, Post>({
+    queryKey: ["getPost"],
+    queryFn: () => (id ? httpClient.get(`posts/${id}`).json() : () => {}),
+  });
+};
 
 export const useCreatePost = () => {
   const navigate = useNavigate();
@@ -25,7 +24,7 @@ export const useCreatePost = () => {
       return httpClient.post("files/addPost", { body: formData }).json();
     },
     async onSuccess() {
-      navigate(urls.myPage);
+      navigate(-1);
     },
   });
 };
@@ -45,7 +44,7 @@ export const useEditPost = () => {
       return httpClient.post("files/addPost", { body: formData }).json();
     },
     async onSuccess() {
-      navigate(urls.myPage);
+      navigate(-1);
     },
   });
 };

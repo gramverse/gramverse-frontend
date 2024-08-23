@@ -8,12 +8,10 @@ export const useGetProfile = () => {
   const httpClient = useHttpClient();
   return useQuery<Profile, HTTPError>({
     queryKey: ["getProfile"],
-    queryFn: () => httpClient.get(`users/myProfile`).json()
-    .then(ProfileSchema.parse),
+    queryFn: () =>
+      httpClient.get(`users/myProfile`).json().then(ProfileSchema.parse),
   });
 };
-
-
 
 export const useGetPosts = () => {
   const httpClient = useHttpClient();

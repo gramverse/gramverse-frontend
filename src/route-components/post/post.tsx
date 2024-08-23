@@ -6,12 +6,11 @@ import React, {
   InputHTMLAttributes,
   TextareaHTMLAttributes,
   useCallback,
-  useContext,
   useEffect,
   useState,
 } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useCreatePost, useEditPost } from "../../api-hooks/post";
+import { useCreatePost, useEditPost, useGetPost } from "../../api-hooks/post";
 import {
   Post,
   PostFormData,
@@ -29,7 +28,6 @@ import { UploadImage } from "../../reusable-components/upload-image";
 import Camera from "../../assets/svg/camera.svg";
 import Emoji from "../../assets/svg/emoji.svg";
 import Close from "../../assets/svg/close.svg";
-import { ModalContext } from "../main/main";
 import { ProgressIndicator } from "./progress-indicator";
 import { EmojiKeyboard } from "../../reusable-components/emoji/emoji-keyboard";
 import { z } from "zod";
@@ -37,7 +35,7 @@ import {
   replaceEmojiCodes,
   replaceEmojiWithCodes,
 } from "../../reusable-components/emoji/emoji-utilities";
-import { useMainOutletContext } from "../main/outlet-context";
+import { useNavigate, useParams } from "react-router-dom";
 const ProgressBar = ({ stage }: { stage: number }) => {
   return (
     <div dir="ltr" className="m-0 flex flex-row-reverse items-center p-0">
@@ -87,29 +85,29 @@ interface photoProps extends InputHTMLAttributes<HTMLInputElement> {
   setPhotoURLs: React.Dispatch<React.SetStateAction<Array<string>>>;
 }
 interface captionProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  queryValue: Partial<Post> | undefined;
   caption: string;
   setCaption: React.Dispatch<React.SetStateAction<string>>;
+  hashtags: Array<string>;
 }
 const SelectPhotos = forwardRef<HTMLInputElement, photoProps>((props, ref) => {
   const { name, onChange, photoFiles, setPhotoFiles, photoURLs, setPhotoURLs } =
     props;
 
   const [selctedPhotos, setSelectedPhotos] = useState<Array<File>>([]);
-  const [photoThumblains, setPhotoThumblains] = useState<
+  const [photoThumbnails, setPhotoThumbnails] = useState<
     Array<[string, string]>
   >(photoFiles.map((file) => [URL.createObjectURL(file), file.name]));
   useEffect(() => {
     setPhotoFiles((photoFiles) =>
       photoFiles.filter((file) =>
-        photoThumblains.map((arr) => arr[1]).includes(file.name),
+        photoThumbnails.map((arr) => arr[1]).includes(file.name),
       ),
     );
-  }, [photoThumblains, setPhotoFiles]);
+  }, [photoThumbnails, setPhotoFiles]);
   useEffect(() => {
     setPhotoFiles((photoFiles) => photoFiles.concat(selctedPhotos));
-    setPhotoThumblains((photoThumblains) =>
-      photoThumblains.concat(
+    setPhotoThumbnails((photoThumbnails) =>
+      photoThumbnails.concat(
         selctedPhotos.map((photo) => [URL.createObjectURL(photo), photo.name]),
       ),
     );
@@ -134,17 +132,17 @@ const SelectPhotos = forwardRef<HTMLInputElement, photoProps>((props, ref) => {
           onChange={onChange}
           className="h-20 w-20"
         />
-        {photoThumblains.map((photo, index) => {
+        {photoThumbnails.map((photo, index) => {
           return (
             <div className="relative h-24" key={nanoid()}>
               <img
                 src={Close}
                 className="absolute -right-1 -top-1 z-10 cursor-pointer"
                 onClick={() =>
-                  setPhotoThumblains((photoThumblains) => {
-                    return photoThumblains
+                  setPhotoThumbnails((photoThumbnails) => {
+                    return photoThumbnails
                       .slice(0, index)
-                      .concat(photoThumblains.slice(index + 1));
+                      .concat(photoThumbnails.slice(index + 1));
                   })
                 }
               />
@@ -182,12 +180,13 @@ const SelectPhotos = forwardRef<HTMLInputElement, photoProps>((props, ref) => {
 });
 
 const Caption = forwardRef<HTMLTextAreaElement, captionProps>((props, ref) => {
-  const hashtags = props.queryValue?.hashtags
+  const { name, onChange, caption, setCaption, hashtags } = props;
+  const hashtagString = hashtags
     ?.map((mention) => `#${mention}`)
     .reduce((prev, cur) => `${prev} ${cur}`, "");
-  // const parseEmoji = useCallback((text: string) => {});
-  const { name, onChange, caption, setCaption } = props;
-  const [text, setText] = useState(replaceEmojiCodes(caption));
+  const [text, setText] = useState(
+    replaceEmojiCodes(caption) + "\n" + hashtagString,
+  );
 
   useEffect(() => {
     setCaption(replaceEmojiWithCodes(text));
@@ -216,6 +215,7 @@ const Caption = forwardRef<HTMLTextAreaElement, captionProps>((props, ref) => {
         />
         <TextArea
           className="absolute z-10"
+          id="caption"
           autoFocus
           ref={ref}
           value={text}
@@ -225,9 +225,6 @@ const Caption = forwardRef<HTMLTextAreaElement, captionProps>((props, ref) => {
             onChange?.(e);
           }}
           maxLength={500}
-          defaultValue={props.queryValue?.caption?.concat(
-            hashtags ? hashtags : "",
-          )}
           rows={7}
           cols={40}
         />
@@ -289,17 +286,14 @@ const Mention = forwardRef<HTMLInputElement, mentionProps>((props, ref) => {
   );
 });
 
-const CreatePostLayout = ({
-  Close,
-  post,
-}: {
-  Close: () => void;
-  post: Post | null;
-}) => {
+const CreatePostLayout = () => {
   const [stage, setStage] = useState(1);
   const { mutate: createPost } = useCreatePost();
   const { mutate: editPost } = useEditPost();
   const [mentions, setMentions] = useState<Array<string>>([]);
+  const navigate = useNavigate();
+  const params = useParams();
+  const { data: post } = useGetPost(params.id);
   const [caption, setCaption] = useState(post?.caption ?? "");
   const [photoFiles, setPhotoFiles] = useState<Array<File>>([]);
   const [photoURLs, setPhotoURLs] = useState<Array<string>>(
@@ -315,6 +309,8 @@ const CreatePostLayout = ({
     mode: "onChange",
     resolver: zodResolver(PostFormDataSchema),
   });
+  const [photoError, setPhotoError] = useState(errors.photos?.message);
+
   const onSubmit: SubmitHandler<z.infer<typeof PostFormDataSchema>> = () => {
     const postData: PostFormData = {
       caption,
@@ -327,17 +323,21 @@ const CreatePostLayout = ({
     } else {
       createPost(postData);
     }
-    // console.log(postData);
   };
   const handleClick = useCallback(() => {
     stage === 1
       ? trigger("photos").then((value) =>
-          value ? setStage(stage + 1) : setStage(stage),
+          value && photoError === "" ? setStage(stage + 1) : setStage(stage),
         )
-      : trigger("caption").then((value) =>
-          value ? setStage(stage + 1) : setStage(stage),
-        );
-  }, [stage, trigger]);
+      : () => {};
+  }, [photoError, stage, trigger]);
+  useEffect(() => {
+    if (photoFiles.length === 0 && photoURLs.length === 0) {
+      setPhotoError("حدافل یک عکس انتخاب کنید");
+    } else {
+      setPhotoError(errors.photos?.message);
+    }
+  }, [errors.photos?.message, photoFiles.length, photoURLs.length]);
 
   return (
     <div className="my-5 flex min-h-80 w-fit grow flex-col items-center gap-5 transition-transform">
@@ -345,11 +345,7 @@ const CreatePostLayout = ({
       <Alert
         status="error"
         message={
-          stage === 1
-            ? errors.photos?.message
-            : stage === 2
-              ? errors.caption?.message
-              : errors.mentions?.message
+          stage === 1 ? photoError : stage === 3 ? errors.mentions?.message : ""
         }
       />
       <form
@@ -370,8 +366,7 @@ const CreatePostLayout = ({
             <Caption
               caption={caption}
               setCaption={setCaption}
-              queryValue={{ caption: post?.caption, hashtags: post?.hashtags }}
-              {...register("caption")}
+              hashtags={post?.hashtags ?? []}
             />
           )}
           {stage === 3 && (
@@ -391,7 +386,7 @@ const CreatePostLayout = ({
         <section className="flex items-center justify-end gap-5 self-end">
           <Button
             onClick={() => {
-              Close();
+              navigate(-1);
             }}
             btnColor="transparent"
           >
@@ -409,25 +404,18 @@ const CreatePostLayout = ({
   );
 };
 
-export const CreatePost = ({ post }: { post: Post | null }) => {
-  const { setModal } = useContext(ModalContext);
+export const CreatePost = () => {
   return (
     <ContainterWeb>
-      <CreatePostLayout
-        post={post}
-        Close={() => {
-          setModal(null);
-        }}
-      />
+      <CreatePostLayout />
     </ContainterWeb>
   );
 };
 
 export const CreatePostMobile = () => {
-  const { setTab, post } = useMainOutletContext();
   return (
     <ContainterMobile>
-      <CreatePostLayout post={post} Close={() => setTab("explore")} />
+      <CreatePostLayout />
     </ContainterMobile>
   );
 };

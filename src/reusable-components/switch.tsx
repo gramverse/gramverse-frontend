@@ -11,10 +11,10 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(function Switch(
 ) {
   return (
     <label className={clsx("flex gap-4", className)}>
-      <div className="relative h-8 w-16 rounded-full bg-white after:absolute after:left-0 after:h-8 after:w-8 after:rounded-full after:bg-white after:shadow-sm after:ring-1 after:ring-gray-200 after:transition-transform after:content-[''] has-[:checked]:bg-submit-btn after:has-[:checked]:translate-x-8">
+      <div className="relative h-5 w-10 rounded-full bg-white after:absolute after:left-0 after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow-sm after:ring-1 after:ring-gray-200 after:transition-transform after:content-[''] has-[:checked]:bg-submit-btn after:has-[:checked]:translate-x-8">
         <input ref={ref} type="checkbox" className="hidden" {...attrs} />
       </div>
-      <span>{label}</span>
+      <span className="text-sm">{label}</span>
     </label>
   );
 });
