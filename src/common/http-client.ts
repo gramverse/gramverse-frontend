@@ -10,8 +10,7 @@ export const useHttpClient = () => {
     () =>
       ky.create({
         prefixUrl: baseUrl,
-        timeout: 100000,
-
+        timeout: 60000,
         hooks: {
           afterResponse: [
             (_req, _options, res) => {

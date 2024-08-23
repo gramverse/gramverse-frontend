@@ -9,7 +9,7 @@ import { UserEmptyGallery } from "./user-empty-gallery";
 import { UserGallery } from "./user-gallery";
 import { ContainterMobile } from "../../reusable-components/container";
 
-export const UserPageLayout = ({ userName }: { userName: string }) => {
+ const UserPageLayout = ({ userName }: { userName: string }) => {
   const {
     data: userInfo,
     error: profileError,

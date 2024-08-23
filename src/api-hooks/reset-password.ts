@@ -12,7 +12,7 @@ export const useValidateResetToken = () => {
   const httpClient = useHttpClient();
   return useMutation<unknown, HTTPError, string>({
     mutationFn: (token: string) =>
-      httpClient.post(`reset/validate-reset-token`, { json: { token } }).json(),
+      httpClient.post(`reset/validate-reset-token`, { json:  {token}  }).json(),
     onError() {
       navigate(urls.login);
     },
@@ -25,7 +25,7 @@ export const useResetPassword = () => {
 
   return useMutation<unknown, HTTPError, ConfirmResetPasswordData>({
     mutationFn: (data: ConfirmResetPasswordData) =>
-      httpClient.post(`reset/reset-password`, { json: { data } }).json(),
+      httpClient.post(`reset/reset-password`, { json:  data  }).json(),
     async onSuccess() {
       navigate(urls.login);
     },

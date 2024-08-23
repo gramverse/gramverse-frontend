@@ -12,4 +12,5 @@ export const urls = {
   editProfile: "/edit-profile",
   notFound: "/not-found",
   createPost: "/create-post",
+  viewPost: "/view-post",
 };
