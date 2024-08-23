@@ -28,7 +28,10 @@ const ForgetPasswordLayout = () => {
     <div className="flex w-fit flex-col items-center justify-center gap-5 bg-primary py-20">
       <img src={rahnemaLogo} alt="" />
       <p className="font-semibold leading-5">بازیابی رمز عبور</p>
-      <form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className="flex flex-col items-center justify-center gap-8"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <Alert status="error" message={error?.message} />
 
         <p className="w-80 text-right text-sm leading-6">
@@ -39,7 +42,7 @@ const ForgetPasswordLayout = () => {
           svg={PersonIcon}
           {...register("email")}
         />
-        <div className="flex flex-row items-center justify-end gap-5">
+        <div className="flex flex-row items-center justify-end gap-5 self-end">
           <Link className="no-underline" to={urls.login}>
             انصراف
           </Link>

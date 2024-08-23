@@ -1,6 +1,6 @@
 import { HTMLAttributes, useState } from "react";
 import { ProfileSummary } from "../reusable-components/profile-summary";
-import { Post } from "../common/types/post";
+import { PostDetail } from "../common/types/post";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { Button } from "../reusable-components/button";
 import leftArrow from "../assets/svg/arrow.svg";
@@ -12,47 +12,17 @@ import back from "../assets/svg/back.svg";
 import { ContainterWeb } from "../reusable-components/container";
 import { useGetPost } from "../api-hooks/post";
 import { replaceEmojiCodes } from "../reusable-components/emoji/emoji-utilities";
+import { Comment, ViewComments } from "../reusable-components/comment";
+import { CommentProps } from "../common/types/comment";
+import { getTimeDifference } from "../utilitis.ts/time-difference";
 
-const getTimeDifference = (now: Date, date: Date) => {
-  const yearDiff = now.getFullYear() - date.getFullYear();
-  const monthDiff = now.getMonth() - date.getMonth();
-  const dayDiff = now.getDate() - date.getDate();
-
-  let years = yearDiff;
-  let months = monthDiff;
-  let days = dayDiff;
-
-  // Adjust for negative month or day differences
-  if (dayDiff < 0) {
-    months--;
-    days += new Date(now.getFullYear(), now.getMonth(), 0).getDate();
-  }
-  if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
-    years--;
-    months += 12;
-  }
-
-  // Calculate weeks
-  const totalDays = Math.floor(
-    (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24),
-  );
-  const weeks = Math.floor(totalDays / 7);
-  days = totalDays % 7;
-
-  return (
-    `${years} سال ` +
-    ` و ${months} ماه` +
-    ` و ${weeks} هفته` +
-    ` و ${days} روز پیش`
-  );
-};
-
-interface Captions extends Omit<Post, "photoUrls" | "_id"> {}
+interface Captions
+  extends Pick<PostDetail, "creationDate" | "mentions" | "caption" | "tags"> {}
 interface Carousel
   extends HTMLAttributes<HTMLDivElement>,
-    Pick<Post, "photoUrls"> {}
+    Pick<PostDetail, "photoUrls"> {}
 const PostCaptions = (props: Captions) => {
-  const { hashtags, caption, mentions, creationDate, ...rest } = props;
+  const { tags: hashtags, caption, mentions, creationDate, ...rest } = props;
   const date = new Date(creationDate);
   const now = new Date();
   return (
@@ -217,7 +187,7 @@ export const PostModal = () => {
             <PostCaptions
               caption={replaceEmojiCodes(post.caption)}
               mentions={post.mentions}
-              hashtags={post.hashtags}
+              tags={post.tags}
               creationDate={post.creationDate}
             />
           </div>
@@ -232,6 +202,11 @@ export const PostViewMobile = () => {
   const navigate = useNavigate();
   const params = useParams();
   const { data: post } = useGetPost(params.id);
+  const [commentProps, setCommentProps] = useState<CommentProps>({
+    parentCommentId: "",
+    parentCommentUsername: "",
+    postId: post?._id ?? "",
+  });
   console.log(post);
   return (
     <div className="absolute inset-0 flex grow flex-col bg-primary">
@@ -263,8 +238,13 @@ export const PostViewMobile = () => {
           <PostCaptions
             caption={replaceEmojiCodes(post.caption)}
             mentions={post.mentions}
-            hashtags={post.hashtags}
+            tags={post.tags}
             creationDate={post.creationDate}
+          />
+          <Comment {...commentProps} />
+          <ViewComments
+            setCommentProps={setCommentProps}
+            comments={post.comments}
           />
         </>
       )}

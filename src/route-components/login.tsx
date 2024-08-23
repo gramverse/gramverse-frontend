@@ -13,14 +13,14 @@ const LoginLayout = () => {
   const { error, mutate } = useLogin();
 
   return (
-    <div className="mx-auto flex grow flex-col justify-between gap-6 bg-primary text-right text-sm">
+    <div className="mx-auto flex grow flex-col items-center justify-between gap-6 bg-primary text-right text-sm">
       <Alert status="error" message={error?.message} />
       <p className="text-xs font-extralight leading-loose">
         به کالج‌گرام خوش آمدید. برای ورود کافیه نام کاربری/ایمیل و رمز عبور
         خودتون رو وارد کنید:
       </p>
       <form
-        className="flex flex-col gap-6"
+        className="flex flex-col items-center justify-center gap-6"
         onSubmit={handleSubmit((data) => mutate(data))}
       >
         <InputField
@@ -35,7 +35,7 @@ const LoginLayout = () => {
           svg={Key}
           {...register("password")}
         />
-        <div className="flex items-center">
+        <div className="flex items-center self-start">
           <input type="checkbox" id="rememberMe" {...register("rememberMe")} />
           <label htmlFor="rememberMe" className="inline text-xs">
             من‌را به خاطر بسپار

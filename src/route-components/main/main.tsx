@@ -59,8 +59,12 @@ export const MainMobile = () => {
       case location.pathname == "/":
         setTab("explore");
         break;
-      case location.pathname.includes("create-post"):
+      case location.pathname.startsWith("/create-post"):
         setTab("create-post");
+        break;
+      case location.pathname.startsWith("/post/"):
+        setTab("postView");
+        break;
     }
   }, [location.pathname]);
 
