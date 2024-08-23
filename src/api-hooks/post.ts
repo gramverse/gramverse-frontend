@@ -8,7 +8,7 @@ export const useGetPost = (id: string | undefined) => {
   const httpClient = useHttpClient();
   return useQuery<unknown, HTTPError, Post>({
     queryKey: ["getPost"],
-    queryFn: () => (id ? httpClient.get(`posts/${id}`).json() : () => {}),
+    queryFn: () => (id ? httpClient.get(`posts/post/${id}`).json() : () => {}),
   });
 };
 

@@ -1,5 +1,9 @@
-import { useParams } from "react-router-dom";
-import { useGetPost, useLikePost } from "../../api-hooks/view-post";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  useBookmarkPost,
+  useGetPost,
+  useLikePost,
+} from "../../api-hooks/view-post";
 import { Button } from "../../reusable-components/button";
 import { useGetProfile } from "../../api-hooks/get-my-profile";
 import PersonIcon from "../../assets/svg/profile.svg";
@@ -9,12 +13,14 @@ import { Like } from "../../reusable-components/like";
 import { Bookmark } from "../../reusable-components/bookmark";
 import { useState } from "react";
 import { getPersianDatePast } from "../../common/utilities/date-time";
+import { Carousel } from "../../reusable-components/carousel/carousel";
 
 type ViewPostProps = {
   postId: string;
 };
 
 const ViewPostLayout = ({ postId }: ViewPostProps) => {
+  const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState<boolean | undefined>(undefined);
   const [isBookmarked, setIsBookmarked] = useState<boolean | undefined>(
     undefined,
@@ -37,22 +43,18 @@ const ViewPostLayout = ({ postId }: ViewPostProps) => {
     isSuccess: isGetPostSuccess,
     //refetch: refetchPost,
   } = useGetPost(postId);
-   
-  if(isGetPostError){
-   //user error handler
-    console.log('isGetPostError', getPoswtError);
 
+  if (isGetPostError) {
+    //user error handler
+    console.log("isGetPostError", getPoswtError);
   }
   if (isGetPostSuccess) {
     persianDateAgo = getPersianDatePast(post?.creationDate ?? new Date());
   }
 
-  const { mutate: LikeMutate } = useLikePost();
+  const { mutate: likeMutate } = useLikePost();
+  const { mutate: bookmarkMutate } = useBookmarkPost();
 
-  // if(isGetPostSuccess){
-  //   setIsLiked(post.isLiked);
-  //   setIsBookmarked(post.isBookmarked);
-  // }
   const isSetProfileImage =
     profile?.profileImage && profile?.profileImage != "";
 
@@ -78,14 +80,7 @@ const ViewPostLayout = ({ postId }: ViewPostProps) => {
             <Button
               type="submit"
               onClick={() => {
-                // setModal(
-                //   post&&
-                //     <CreatePost
-                //      // onClose={() => setModal(null)}
-                //      // post={post}
-                //      // onRefetch={() => refetchPost()}
-                //     />
-                // );
+                navigate("edit");
               }}
             >
               <img src={editPencil} />
@@ -94,9 +89,10 @@ const ViewPostLayout = ({ postId }: ViewPostProps) => {
           </div>
         </div>
         {/* slide show beshe */}
-        <div className="h-[376px] w-[520px] rounded-t-3xl bg-neutral-400">
+        {/* <div className="h-[376px] w-[520px] rounded-t-3xl bg-neutral-400">
           <img className="w-full h-full object-cover" src={post?.photoUrls[0]} />
-        </div>
+        </div> */}
+        {post && <Carousel photoUrls={post.photoUrls} boxWidth="w-[430px]" />}
         <div className="flex w-[520px] flex-col">
           {post && (
             <p className="text-xs">{`${persianDateAgo.dateNumber} ${persianDateAgo.agoScale}`}</p>
@@ -121,19 +117,6 @@ const ViewPostLayout = ({ postId }: ViewPostProps) => {
             {post && <img src={comment} />}
             <p className="text-xs">{post?.commentsCount}</p>
           </div>
-          <div className="ml-2 flex flex-col">
-            {post && (
-              <Bookmark
-                defaultValue={post.isBookmarked}
-                isBookmarked={isBookmarked}
-                onClick={() => {
-                  setIsBookmarked(!isBookmarked);
-                  //bookmarkMutate({postId:post._id, isLike:likeValue?? false});
-                }}
-              />
-            )}
-            <p className="text-xs">{post?.bookmarksCount}</p>
-          </div>
           <div className="ml-4 flex flex-col items-center">
             {post && (
               <Like
@@ -142,11 +125,29 @@ const ViewPostLayout = ({ postId }: ViewPostProps) => {
                 onClick={() => {
                   const likeValue = isLiked == undefined ? true : !isLiked;
                   setIsLiked(likeValue);
-                  LikeMutate({ postId: post._id, isLike: likeValue ?? false });
+                  likeMutate({ postId: post._id, isLike: likeValue ?? false });
                 }}
               />
             )}
             <p className="text-xs">{post?.likesCount}</p>
+          </div>
+          <div className="ml-2 flex flex-col items-center">
+            {post && (
+              <Bookmark
+                defaultValue={post.isBookmarked}
+                isBookmarked={isBookmarked}
+                onClick={() => {
+                  setIsBookmarked(!isBookmarked);
+                  const bookmarkValue =
+                    isBookmarked == undefined ? true : !isBookmarked;
+                  bookmarkMutate({
+                    postId: post._id,
+                    isBookmark: bookmarkValue ?? false,
+                  });
+                }}
+              />
+            )}
+            <p className="text-xs">{post?.bookmarksCount}</p>
           </div>
         </div>
         <div className="">comment component</div>

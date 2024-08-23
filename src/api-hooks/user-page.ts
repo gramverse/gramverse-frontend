@@ -11,7 +11,7 @@ import { getPostsResponseSchema, Post } from "../common/types/post";
 export const useGetUserProfile = (userName: string) => {
   const httpClient = useHttpClient();
   return useQuery<FollowingProfile, HTTPError>({
-    queryKey: ["getFollowingProfile"],
+    queryKey: ["getUserProfile"],
     queryFn: () =>
       httpClient
         .get(`users/profile/${userName}`)
@@ -33,20 +33,23 @@ export const useFollowUser = () => {
       return httpClient.post(url, { json }).json();
     },
     onSuccess() {
-      // onSuccess(data) {
       queryClient.invalidateQueries({ queryKey: ["getFollowingProfile"] });
-      // queryClient.setQueryData(["getFollowingProfile"], data)
     },
   });
 };
 
-export const useGetUserPosts = (userName: string | undefined , isFollowed: boolean| undefined) => {
-  //using username & change api url
+export const useGetUserPosts = (
+  userName: string | undefined,
+  isFollowed: boolean | undefined,
+) => {
   const httpClient = useHttpClient();
   return useQuery<Post[], HTTPError>({
-    queryKey: ["getPosts"],
+    queryKey: ["getPosts", userName],
     queryFn: () =>
-      httpClient.get("users/posts").json().then(getPostsResponseSchema.parse),
-    enabled: (userName != undefined && isFollowed),
+      httpClient
+        .get(`posts/username/${userName}`)
+        .json()
+        .then(getPostsResponseSchema.parse),
+    enabled: userName != undefined && isFollowed,
   });
 };
