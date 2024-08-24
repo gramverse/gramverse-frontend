@@ -69,7 +69,7 @@ const Carousel = (props: Carousel) => {
       <img
         src={photoUrls[index]}
         alt=""
-        className="h-[375px] w-[600px] rounded-3xl"
+        className="h-[375px] w-[600px] rounded-3xl object-cover"
       />
       {photoUrls.length > 0 && (
         <img

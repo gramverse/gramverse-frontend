@@ -30,7 +30,10 @@ export const Carousel = (props: Carousel) => {
       <img
         src={photoUrls[index]}
         alt=""
-        className={clsx("h-[375px] w-[600px] rounded-3xl", boxWidth)}
+        className={clsx(
+          "h-[375px] w-[600px] rounded-3xl object-cover",
+          boxWidth,
+        )}
       />
       {photoUrls.length > 0 && (
         <img

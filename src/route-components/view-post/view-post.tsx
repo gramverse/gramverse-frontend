@@ -63,7 +63,7 @@ const ViewPostLayout = ({ postId }: ViewPostProps) => {
   const [commentProps, setCommentProps] = useState<CommentProps>({
     parentCommentId: "",
     parentCommentUsername: "",
-    postId: post?._id ?? "",
+    postId,
   });
   // if (isGetPostError) {
   //   //use error handler
