@@ -11,11 +11,7 @@ import React, {
 } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useCreatePost, useEditPost, useGetPost } from "../../api-hooks/post";
-import {
-  Post,
-  PostFormData,
-  PostFormDataSchema,
-} from "../../common/types/post";
+import { PostFormData, PostFormDataSchema } from "../../common/types/post";
 import { Alert } from "../../reusable-components/alert";
 import { Button } from "../../reusable-components/button";
 import {
@@ -73,7 +69,6 @@ const ProgressBar = ({ stage }: { stage: number }) => {
 };
 
 interface mentionProps extends InputHTMLAttributes<HTMLInputElement> {
-  queryValue: Partial<Post> | undefined;
   mentions: Array<string>;
   setMentions: React.Dispatch<React.SetStateAction<string[]>>;
   removeMention: (index: number) => void;
@@ -259,9 +254,6 @@ const Mention = forwardRef<HTMLInputElement, mentionProps>((props, ref) => {
           }
         }}
         onChange={onChange}
-        defaultValue={props.queryValue?.mentions
-          ?.map((mention) => `@${mention}`)
-          .reduce((prev, cur) => `${prev} ${cur}`, "")}
         fieldsize={"medium"}
       />
 
@@ -287,13 +279,13 @@ const Mention = forwardRef<HTMLInputElement, mentionProps>((props, ref) => {
 });
 
 const CreatePostLayout = () => {
+  const params = useParams();
+  const { data: post } = useGetPost(params.id);
   const [stage, setStage] = useState(1);
   const { mutate: createPost } = useCreatePost();
   const { mutate: editPost } = useEditPost();
-  const [mentions, setMentions] = useState<Array<string>>([]);
+  const [mentions, setMentions] = useState<Array<string>>(post?.mentions ?? []);
   const navigate = useNavigate();
-  const params = useParams();
-  const { data: post } = useGetPost(params.id);
   const [caption, setCaption] = useState(post?.caption ?? "");
   const [photoFiles, setPhotoFiles] = useState<Array<File>>([]);
   const [photoURLs, setPhotoURLs] = useState<Array<string>>(
@@ -382,7 +374,6 @@ const CreatePostLayout = () => {
               }
               mentions={mentions}
               setMentions={setMentions}
-              queryValue={{ mentions: post?.mentions }}
               {...register("mentions")}
             />
           )}
