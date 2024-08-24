@@ -8,7 +8,7 @@ export const useSendComment = (id: string) => {
   return useMutation({
     mutationFn: (data: CommentData) => {
       return client
-        .post("posts/addComments", {
+        .post("posts/addComment", {
           json: data,
         })
         .json();
