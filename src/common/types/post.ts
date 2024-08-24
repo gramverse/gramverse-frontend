@@ -24,6 +24,9 @@ export interface PostFormData {
   photoFiles: File[];
 }
 
+export interface EditPostFormData extends PostFormData {
+  _id: string;
+}
 export const PostSchema = z.object({
   _id: z.string(),
   photoUrls: z.string().array(),

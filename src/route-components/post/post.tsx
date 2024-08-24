@@ -11,7 +11,11 @@ import React, {
 } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useCreatePost, useEditPost, useGetPost } from "../../api-hooks/post";
-import { PostFormData, PostFormDataSchema } from "../../common/types/post";
+import {
+  EditPostFormData,
+  PostFormData,
+  PostFormDataSchema,
+} from "../../common/types/post";
 import { Alert } from "../../reusable-components/alert";
 import { Button } from "../../reusable-components/button";
 import {
@@ -311,7 +315,11 @@ const CreatePostLayout = () => {
       photoFiles,
     };
     if (params.id) {
-      editPost(postData);
+      const editPostData: EditPostFormData = {
+        ...postData,
+        _id: post?._id ?? "",
+      };
+      editPost(editPostData);
     } else {
       createPost(postData);
     }

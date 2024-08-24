@@ -2,15 +2,20 @@ import { useMutation } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
 import { CommentData } from "../common/types/comment";
 import { LikeComment } from "../common/types/comment";
-export const useSendComment = () => {
+import { queryClient } from "../common/query-client";
+export const useSendComment = (id: string) => {
   const client = useHttpClient();
   return useMutation({
-    mutationFn: (data: CommentData) =>
-      client
+    mutationFn: (data: CommentData) => {
+      return client
         .post("posts/addComments", {
           json: data,
         })
-        .json(),
+        .json();
+    },
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ["getPost", id] });
+    },
   });
 };
 

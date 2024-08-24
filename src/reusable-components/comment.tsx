@@ -14,7 +14,7 @@ import { getTimeDifference } from "../utilitis.ts/time-difference";
 export const Comment = (props: CommentProps) => {
   const { data: profile } = useGetProfile();
   const [comment, setComment] = useState(props.parentCommentUsername);
-  const { mutate } = useSendComment();
+  const { mutate } = useSendComment(props.postId);
   return (
     <div>
       <div className="flex w-[300px] items-center justify-between gap-5">
