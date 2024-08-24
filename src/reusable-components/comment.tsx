@@ -16,38 +16,40 @@ export const Comment = (props: CommentProps) => {
   const [comment, setComment] = useState(props.parentCommentUsername);
   const { mutate } = useSendComment();
   return (
-    <div className="flex h-fit w-[300px] items-center justify-between gap-5 self-center">
-      <RoundPicture size="medium" picture={profile?.profileImage ?? ""} />
-      <InputField
-        placeholder="نظر خود را بنویسید"
-        value={comment}
-        onInput={(e) => {
-          setComment((e.target as HTMLInputElement).value);
-        }}
-        onChange={(e) => {
-          setComment((e.target as HTMLInputElement).value);
-        }}
-      />
-      <img
-        src={send}
-        alt=""
-        className="h-fit w-fit cursor-pointer"
-        onClick={() => {
-          if (comment.includes(`@${props.parentCommentUsername}}`)) {
-            mutate({
-              comment: comment,
-              parentCommentId: props.parentCommentId,
-              postId: props.postId,
-            });
-          } else {
-            mutate({
-              comment: comment,
-              parentCommentId: "",
-              postId: props.postId,
-            });
-          }
-        }}
-      />
+    <div>
+      <div className="flex w-[300px] items-center justify-between gap-5">
+        <RoundPicture size="small" picture={profile?.profileImage ?? ""} />
+        <InputField
+          placeholder="نظر خود را بنویسید"
+          value={comment}
+          onInput={(e) => {
+            setComment((e.target as HTMLInputElement).value);
+          }}
+          onChange={(e) => {
+            setComment((e.target as HTMLInputElement).value);
+          }}
+        />
+        <img
+          src={send}
+          alt=""
+          className="cursor-pointer"
+          onClick={() => {
+            if (comment.includes(`@${props.parentCommentUsername}}`)) {
+              mutate({
+                comment: comment,
+                parentCommentId: props.parentCommentId,
+                postId: props.postId,
+              });
+            } else {
+              mutate({
+                comment: comment,
+                parentCommentId: "",
+                postId: props.postId,
+              });
+            }
+          }}
+        />
+      </div>
     </div>
   );
 };

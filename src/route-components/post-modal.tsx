@@ -162,17 +162,17 @@ export const PostModal = () => {
 
   return (
     <ContainterWeb className="relative m-20 flex grow justify-between gap-3">
+      <img
+        src={PlusIcon}
+        onClick={() => {
+          navigate(-1);
+        }}
+        className="absolute inset-5 m-0 h-4 w-4 rotate-45 rounded-full bg-secondary p-2 shadow-sm shadow-gray-500"
+        alt=""
+      />
       {post && (
         <>
           <Carousel photoUrls={post.photoUrls} />
-          <img
-            src={PlusIcon}
-            onClick={() => {
-              navigate(-1);
-            }}
-            className="absolute inset-5 m-0 h-4 w-4 rotate-45 rounded-full bg-secondary p-2 shadow-sm shadow-gray-500"
-            alt=""
-          />
           <div className="flex grow flex-col gap-3 p-5">
             <div className="flex flex-row justify-between">
               <ProfileSummary />
