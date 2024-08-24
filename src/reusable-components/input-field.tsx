@@ -46,7 +46,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
       customClasses.concat(` ${status["error"]}`);
     }
     return (
-      <div className="flex w-fit items-center">
+      <div className="flex w-fit flex-col items-center">
         <div className={customClasses}>
           {svg && <img src={svg} className="m-1 h-7" alt="" />}
           <input
