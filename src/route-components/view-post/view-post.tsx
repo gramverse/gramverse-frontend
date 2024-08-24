@@ -14,6 +14,8 @@ import { Bookmark } from "../../reusable-components/bookmark";
 import { useState } from "react";
 import { getPersianDatePast } from "../../common/utilities/date-time";
 import { Carousel } from "../../reusable-components/carousel/carousel";
+import { Comment, ViewComments } from "../../reusable-components/comment";
+import { CommentProps } from "../../common/types/comment";
 
 type ViewPostProps = {
   postId: string;
@@ -58,13 +60,18 @@ const ViewPostLayout = ({ postId }: ViewPostProps) => {
   const isSetProfileImage =
     profile?.profileImage && profile?.profileImage != "";
 
+  const [commentProps, setCommentProps] = useState<CommentProps>({
+    parentCommentId: "",
+    parentCommentUsername: "",
+    postId: post?._id ?? "",
+  });
   // if (isGetPostError) {
   //   //use error handler
   //   console.log(getPoswtError);
   // }
 
   return (
-    <div className="flex flex-col bg-form-bg">
+    <div className="flex flex-col items-center bg-primary">
       <div className="w-[520px]">
         <div className="flex w-[520px] flex-row py-4">
           <div className="flex w-[385px] flex-row items-center">
@@ -150,7 +157,13 @@ const ViewPostLayout = ({ postId }: ViewPostProps) => {
             <p className="text-xs">{post?.bookmarksCount}</p>
           </div>
         </div>
-        <div className="">comment component</div>
+      </div>
+      <div className="w-full self-center">
+        <Comment {...commentProps} />
+        <ViewComments
+          setCommentProps={setCommentProps}
+          comments={post?.comments ?? []}
+        />
       </div>
     </div>
   );

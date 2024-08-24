@@ -207,7 +207,6 @@ export const PostViewMobile = () => {
     parentCommentUsername: "",
     postId: post?._id ?? "",
   });
-  console.log(post);
   return (
     <div className="absolute inset-0 flex grow flex-col bg-primary">
       <img

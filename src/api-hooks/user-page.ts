@@ -33,7 +33,7 @@ export const useFollowUser = () => {
       return httpClient.post(url, { json }).json();
     },
     onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ["getFollowingProfile"] });
+      queryClient.invalidateQueries({ queryKey: ["getUserProfile"] });
     },
   });
 };

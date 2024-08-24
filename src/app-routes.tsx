@@ -31,7 +31,10 @@ import {
   UserPageMobile,
 } from "./route-components/user-page/user-page";
 import { DrawerMenu } from "./route-components/main/mobile-drawer-menu";
-import { ViewPost, ViewPostMobile } from "./route-components/view-post/view-post";
+import {
+  ViewPost,
+  ViewPostMobile,
+} from "./route-components/view-post/view-post";
 
 export const AppRoutes = () => {
   return (
@@ -87,16 +90,15 @@ export const AppRoutes = () => {
         </Route>
         <Route index element={<Explore />} />
       </Route>
-      <Route path={`${urls.viewPost}/:postId`} element={<ViewPost/>}>
+      <Route path={`${urls.viewPost}/:postId`} element={<ViewPost />} />
       <Route
-            path="edit"
-            element={
-              <Modal>
-                <CreatePost />
-              </Modal>
-            }
-          />
-      </Route>
+        path="view-post/:postId/edit"
+        element={
+          <Modal>
+            <CreatePost />
+          </Modal>
+        }
+      />
       <Route path="*" element={<UrlErrorPage></UrlErrorPage>} />
       <Route path={urls.notFound} element={<UrlErrorPage></UrlErrorPage>} />
       <Route
