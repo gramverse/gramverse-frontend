@@ -11,7 +11,6 @@ import clsx from "clsx";
 import back from "../assets/svg/back.svg";
 import { ContainterWeb } from "../reusable-components/container";
 import { useGetPost } from "../api-hooks/post";
-import { replaceEmojiCodes } from "../reusable-components/emoji/emoji-utilities";
 import { Comment, ViewComments } from "../reusable-components/comment";
 import { CommentProps } from "../common/types/comment";
 import { getTimeDifference } from "../utilitis.ts/time-difference";
@@ -185,7 +184,7 @@ export const PostModal = () => {
               </Button>
             </div>
             <PostCaptions
-              caption={replaceEmojiCodes(post.caption)}
+              caption={post.caption}
               mentions={post.mentions}
               tags={post.tags}
               creationDate={post.creationDate}
@@ -235,7 +234,7 @@ export const PostViewMobile = () => {
 
           <CarouselMobile photoUrls={post.photoUrls} />
           <PostCaptions
-            caption={replaceEmojiCodes(post.caption)}
+            caption={post.caption}
             mentions={post.mentions}
             tags={post.tags}
             creationDate={post.creationDate}

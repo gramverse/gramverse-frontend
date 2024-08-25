@@ -31,10 +31,6 @@ import Close from "../../assets/svg/close.svg";
 import { ProgressIndicator } from "./progress-indicator";
 import { EmojiKeyboard } from "../../reusable-components/emoji/emoji-keyboard";
 import { z } from "zod";
-import {
-  replaceEmojiCodes,
-  replaceEmojiWithCodes,
-} from "../../reusable-components/emoji/emoji-utilities";
 import { useNavigate, useParams } from "react-router-dom";
 const ProgressBar = ({ stage }: { stage: number }) => {
   return (
@@ -180,16 +176,9 @@ const SelectPhotos = forwardRef<HTMLInputElement, photoProps>((props, ref) => {
 
 const Caption = forwardRef<HTMLTextAreaElement, captionProps>((props, ref) => {
   const { name, onChange, caption, setCaption, hashtags } = props;
-  const hashtagString = hashtags
-    ?.map((mention) => `#${mention}`)
-    .reduce((prev, cur) => `${prev} ${cur}`, "");
-  const [text, setText] = useState(
-    replaceEmojiCodes(caption) + "\n" + hashtagString,
-  );
-
-  useEffect(() => {
-    setCaption(replaceEmojiWithCodes(text));
-  }, [setCaption, text]);
+  // const hashtagString = hashtags
+  //   ?.map((mention) => `#${mention}`)
+  //   .reduce((prev, cur) => `${prev} ${cur}`, "");
 
   const [isKeyBoardVisible, setKeyboardVisibility] = useState(false);
   return (
@@ -208,7 +197,7 @@ const Caption = forwardRef<HTMLTextAreaElement, captionProps>((props, ref) => {
         <EmojiKeyboard
           visibility={isKeyBoardVisible}
           setEmoji={(emoji) => {
-            setText((text) => text.concat(String.fromCodePoint(emoji)));
+            setCaption((caption) => caption.concat(emoji));
             setKeyboardVisibility(false);
           }}
         />
@@ -217,10 +206,10 @@ const Caption = forwardRef<HTMLTextAreaElement, captionProps>((props, ref) => {
           id="caption"
           autoFocus
           ref={ref}
-          value={text}
+          value={caption}
           name={name}
           onChange={(e) => {
-            setText(e.target.value);
+            setCaption(e.target.value);
             onChange?.(e);
           }}
           maxLength={500}
