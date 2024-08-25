@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import {
   useBookmarkPost,
   useGetPost,
@@ -165,6 +165,7 @@ const ViewPostLayout = ({ postId }: ViewPostProps) => {
           comments={post?.comments ?? []}
         />
       </div>
+      <Outlet />
     </div>
   );
 };

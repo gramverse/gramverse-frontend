@@ -88,17 +88,19 @@ export const AppRoutes = () => {
             }
           />
         </Route>
+        <Route path={`view-post/:postId`} element={<ViewPost />}>
+          <Route
+            path="edit"
+            element={
+              <Modal>
+                <CreatePost />
+              </Modal>
+            }
+          />
+        </Route>
+
         <Route index element={<Explore />} />
       </Route>
-      <Route path={`${urls.viewPost}/:postId`} element={<ViewPost />} />
-      <Route
-        path="view-post/:postId/edit"
-        element={
-          <Modal>
-            <CreatePost />
-          </Modal>
-        }
-      />
       <Route path="*" element={<UrlErrorPage></UrlErrorPage>} />
       <Route path={urls.notFound} element={<UrlErrorPage></UrlErrorPage>} />
       <Route
