@@ -65,38 +65,42 @@ export const ViewComments = ({ comments, setCommentProps }: CommentsView) => {
     <div>
       {comments.map((comment) => {
         return (
-          <div className="flex flex-col">
-            <div className="flex">
-              <span>{comment.userName}</span>
-              <span>
+          <div className="mb-2 flex w-full flex-col justify-between gap-3">
+            <div className="relative flex w-full items-center justify-start gap-2">
+              <span className="text-xl font-bold">{comment.userName}</span>
+              <small className="text-xs">
                 {getTimeDifference(new Date(), new Date(comment.creationDate))}
-              </span>
-              <div>
-                <span>{comment.likesCount}</span>
-                <img
-                  src={comment.isLiked ? heartFill : heartOutline}
-                  alt=""
+              </small>
+              <div className="absolute left-0 flex gap-3">
+                <div className="flex gap-2">
+                  <span>{comment.likesCount}</span>
+                  <img
+                    src={comment.isLiked ? heartFill : heartOutline}
+                    alt=""
+                    onClick={() => {
+                      mutate({
+                        isLike: !comment.isLiked,
+                        commentId: comment._id,
+                      });
+                    }}
+                  />
+                </div>
+                <div
+                  className="flex gap-2"
                   onClick={() => {
-                    mutate({
-                      isLike: !comment.isLiked,
-                      commentId: comment._id,
+                    setCommentProps({
+                      parentCommentId: comment.parentCommentId,
+                      parentCommentUsername: comment.userName,
+                      postId: comment.postId,
                     });
                   }}
-                />
-              </div>
-              <div
-                onClick={() => {
-                  setCommentProps({
-                    parentCommentId: comment.parentCommentId,
-                    parentCommentUsername: comment.userName,
-                    postId: comment.postId,
-                  });
-                }}
-              >
-                <span>پاسخ</span>
-                <img src={reply} alt="" />
+                >
+                  <span>پاسخ</span>
+                  <img src={reply} alt="" />
+                </div>
               </div>
             </div>
+            <span>{comment.comment}</span>
           </div>
         );
       })}

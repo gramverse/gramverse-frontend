@@ -22,7 +22,7 @@ const MyPageLayout = () => {
     // user error handler
     console.log("just for build err", postError);
   }
-
+  console.log(profileData?.bio?.split(""));
   return (
     <div className="flex grow flex-col gap-8 bg-primary">
       <p className="text-right text-xl font-extrabold leading-8">{"صفحه من"}</p>

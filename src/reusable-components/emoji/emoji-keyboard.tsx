@@ -5,7 +5,7 @@ export const EmojiKeyboard = ({
   setEmoji,
   visibility,
 }: {
-  setEmoji: (emoji: number) => void;
+  setEmoji: (emoji: string) => void;
   visibility: boolean;
 }) => {
   return (
@@ -25,7 +25,7 @@ export const EmojiKeyboard = ({
             (document.querySelector("#caption") as HTMLElement).focus();
           }}
         >
-          {String.fromCodePoint(emoji)}
+          {emoji}
         </span>
       ))}
     </div>
