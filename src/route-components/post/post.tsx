@@ -32,9 +32,10 @@ import { ProgressIndicator } from "./progress-indicator";
 import { EmojiKeyboard } from "../../reusable-components/emoji/emoji-keyboard";
 import { z } from "zod";
 import { useNavigate, useParams } from "react-router-dom";
+import { Switch } from "../../reusable-components/switch";
 const ProgressBar = ({ stage }: { stage: number }) => {
   return (
-    <div dir="ltr" className="m-0 flex flex-row-reverse items-center p-0">
+    <div className="m-0 flex flex-row-reverse items-center p-0">
       <ProgressIndicator
         text={"عکس"}
         state={stage === 1 ? "current" : "done"}
@@ -175,7 +176,7 @@ const SelectPhotos = forwardRef<HTMLInputElement, photoProps>((props, ref) => {
 });
 
 const Caption = forwardRef<HTMLTextAreaElement, captionProps>((props, ref) => {
-  const { name, onChange, caption, setCaption, hashtags } = props;
+  const { name, onChange, caption, setCaption } = props;
   // const hashtagString = hashtags
   //   ?.map((mention) => `#${mention}`)
   //   .reduce((prev, cur) => `${prev} ${cur}`, "");
@@ -296,12 +297,15 @@ const CreatePostLayout = () => {
   });
   const [photoError, setPhotoError] = useState(errors.photos?.message);
 
-  const onSubmit: SubmitHandler<z.infer<typeof PostFormDataSchema>> = () => {
+  const onSubmit: SubmitHandler<z.infer<typeof PostFormDataSchema>> = (
+    data,
+  ) => {
     const postData: PostFormData = {
       caption,
       mentions,
       photoURLs,
       photoFiles,
+      isForCloseFriends: data.isForCloseFriends,
     };
     if (params.id) {
       const editPostData: EditPostFormData = {
@@ -375,6 +379,13 @@ const CreatePostLayout = () => {
             />
           )}
         </section>
+        {stage === 3 && (
+          <Switch
+            className=""
+            label="فقط به دوستان نزدیکم نمایش بده"
+            {...register("isForCloseFriends")}
+          />
+        )}
         <section className="flex items-center justify-end gap-5 self-end">
           <Button
             onClick={() => {
@@ -389,6 +400,7 @@ const CreatePostLayout = () => {
               {"بعدی"}
             </Button>
           )}
+
           {stage === 3 && <Button type="submit">{"ثبت و انتشار پست"}</Button>}
         </section>
       </form>

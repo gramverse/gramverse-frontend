@@ -11,7 +11,7 @@ import {
 export const useGetPost = (id: string | undefined) => {
   const httpClient = useHttpClient();
   return useQuery<unknown, HTTPError, PostDetail>({
-    queryKey: ["getPost"],
+    queryKey: ["getPost", id],
     queryFn: () => (id ? httpClient.get(`posts/post/${id}`).json() : () => {}),
   });
 };
@@ -39,10 +39,10 @@ export const useEditPost = () => {
   return useMutation<unknown, HTTPError, EditPostFormData>({
     mutationFn: ({ photoFiles, ...rest }: EditPostFormData) => {
       const formData = new FormData();
-      const { caption, mentions, photoURLs } = rest;
+      const { caption, mentions, photoURLs, _id } = rest;
       formData.append(
         "postFields",
-        JSON.stringify({ caption, mentions, photoUrls: photoURLs }),
+        JSON.stringify({ caption, mentions, photoUrls: photoURLs, _id }),
       );
       photoFiles.forEach((file) => formData.append("photoFiles", file));
       return httpClient.post("files/editPost", { body: formData }).json();

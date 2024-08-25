@@ -7,6 +7,7 @@ import leftArrow from "../assets/svg/arrow.svg";
 import pen from "../assets/svg/pen.svg";
 import dot from "../assets/svg/dot.svg";
 import PlusIcon from "../assets/svg/plus.svg";
+import expand from "../assets/svg/expand.svg";
 import clsx from "clsx";
 import back from "../assets/svg/back.svg";
 import { ContainterWeb } from "../reusable-components/container";
@@ -157,19 +158,29 @@ const CarouselMobile = (props: Carousel) => {
 export const PostModal = () => {
   const navigate = useNavigate();
   const params = useParams();
-  const { data: post } = useGetPost(params.id);
-
+  const { data: post, isSuccess } = useGetPost(params.id);
+  console.log(isSuccess);
+  console.log(post, params.id);
   return (
     <ContainterWeb className="relative m-20 flex grow justify-between gap-3">
-      <img
-        src={PlusIcon}
-        onClick={() => {
-          navigate(-1);
-        }}
-        className="absolute inset-5 m-0 h-4 w-4 rotate-45 rounded-full bg-secondary p-2 shadow-sm shadow-gray-500"
-        alt=""
-      />
-      {post && (
+      <div className="absolute inset-5 m-0 flex gap-2">
+        <img
+          src={expand}
+          className="h-8"
+          onClick={() => {
+            navigate(`/view-post/${post?._id}`);
+          }}
+        />
+        <img
+          src={PlusIcon}
+          onClick={() => {
+            navigate(-1);
+          }}
+          className="h-4 w-4 rotate-45 rounded-full bg-secondary p-2 shadow-sm shadow-gray-500"
+          alt=""
+        />
+      </div>
+      {isSuccess && (
         <>
           <Carousel photoUrls={post.photoUrls} />
           <div className="flex grow flex-col gap-3 p-5">
@@ -200,7 +211,7 @@ export const PostModal = () => {
 export const PostViewMobile = () => {
   const navigate = useNavigate();
   const params = useParams();
-  const { data: post } = useGetPost(params.id);
+  const { data: post, isSuccess } = useGetPost(params.id);
   const [commentProps, setCommentProps] = useState<CommentProps>({
     parentCommentId: "",
     parentCommentUsername: "",
@@ -218,7 +229,7 @@ export const PostViewMobile = () => {
       />
       <div className="h-0.5 w-full border border-solid border-gray-300"></div>
 
-      {post && (
+      {isSuccess && (
         <>
           <div className="flex flex-row justify-between">
             <ProfileSummary className="my-1" />
