@@ -19,7 +19,7 @@ export const PostDetailSchema = z.object({
   caption: z.string(),
   mentions: z.string().array().optional(),
   tags: z.string().array().optional(),
-  creationDate: z.coerce.date(),
+  creationDate: z.string(),
   isLiked: z.boolean(),
   isBookmarked: z.boolean(),
   likesCount: z.number(),
@@ -30,3 +30,5 @@ export const PostDetailSchema = z.object({
 export interface PostDetail extends z.infer<typeof PostDetailSchema> {
   comments: CommentDto[];
 }
+
+export type Post = Pick<PostDetail, "_id" | "photoUrls" | "creationDate">;

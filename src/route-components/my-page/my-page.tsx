@@ -48,7 +48,9 @@ const MyPageLayout = () => {
         </div>
       </div>
       <div>
-        {thereIsNoPost && <EmptyGallery />}
+        {thereIsNoPost && (
+          <EmptyGallery userName={profileData?.userName ?? undefined} />
+        )}
         {!thereIsNoPost && <Gallery posts={posts} />}
       </div>
       <Outlet />

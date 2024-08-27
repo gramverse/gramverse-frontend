@@ -10,23 +10,26 @@ export const EmojiKeyboard = ({
 }) => {
   return (
     <div
+      lang="en"
+      dir="ltr"
+      id="emoji"
       className={clsx(
-        "grid-flow-rows absolute -left-2 grid grid-cols-10 rounded-b-xl rounded-tr-xl border border-solid border-gray-300 bg-primary p-2 brightness-105 transition-all",
+        "grid-flow-rows absolute -left-2 grid grid-cols-10 rounded-b-xl rounded-tr-xl border border-solid border-gray-300 bg-primary p-2 text-left font-mono normal-nums brightness-105 transition-all",
         visibility && "z-20 h-44",
         !visibility && "-z-10 h-0 overflow-hidden",
       )}
     >
       {topEmojis.map((emoji, index) => (
-        <span
+        <p
           key={index}
           className="m-1"
           onClick={() => {
-            setEmoji(emoji);
+            setEmoji(String.fromCodePoint(emoji));
             (document.querySelector("#caption") as HTMLElement).focus();
           }}
         >
-          {emoji}
-        </span>
+          {String.fromCodePoint(emoji)}
+        </p>
       ))}
     </div>
   );

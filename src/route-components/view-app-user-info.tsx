@@ -20,15 +20,11 @@ export const ViewAppUserInfo = ({
   const isSetProfileImage =
     userInfo.profileImage && userInfo.profileImage != "";
   return (
-    <>
-      <div className="w-[133px]">
-        <label className="block h-[133px] w-[133px] overflow-hidden rounded-full">
-          <img
-            className="h-full w-full object-cover"
-            src={isSetProfileImage ? userInfo.profileImage : PersonIcon}
-          />
-        </label>
-      </div>
+    <div className="flex items-center gap-2">
+      <img
+        className="h-40 w-40 object-cover"
+        src={isSetProfileImage ? userInfo.profileImage : PersonIcon}
+      />
       <div className="mb-5 flex h-fit w-[377px] flex-col justify-start gap-4">
         <div className="w-full text-sm font-normal text-[#C19008]">{`${userInfo.userName}@`}</div>
         {!followMode && (
@@ -64,7 +60,7 @@ export const ViewAppUserInfo = ({
           {userInfo.bio}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

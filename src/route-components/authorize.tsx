@@ -10,7 +10,7 @@ import {
   ContainterMobile,
   ContainterWeb,
 } from "../reusable-components/container";
-import { Tab } from "../reusable-components/tab";
+import { TwinTab } from "../reusable-components/twin-tabs";
 
 const AuthorizeComponent = ({ defaultValue }: { defaultValue: number }) => {
   const [value, setValue] = useState(defaultValue);
@@ -25,36 +25,16 @@ const AuthorizeComponent = ({ defaultValue }: { defaultValue: number }) => {
     }
   }, [value, navigate]);
 
-  const handleChange = (newValue: number) => {
-    setValue(newValue);
-  };
-
   return (
     <div className="w-full grow items-center justify-center gap-5 bg-primary text-center">
       <img src={rahnema} alt="" className="my-5" />
       <div className="my-5 flex grow justify-center gap-6">
-        <Tab
-          text="ورود"
-          className="w-fit"
-          value="0"
-          selectedValue={`${value}`}
-          selectedStyle="text"
-          onClick={() => {
-            handleChange(0);
-          }}
-        ></Tab>
-        <div className="h-10 w-0.5 bg-gray-400" />
-
-        <Tab
-          text={"ثبت نام"}
-          className="w-fit"
-          value="1"
-          selectedValue={`${value}`}
-          selectedStyle="text"
-          onClick={() => {
-            handleChange(1);
-          }}
-        ></Tab>
+        <TwinTab
+          tab1={{ text: "ورود", url: urls.login }}
+          tab2={{ text: "ثبت نام", url: urls.signup }}
+          tab={value}
+          setTab={setValue}
+        />
       </div>
       <div className="flex grow flex-col items-start">
         <div className="flex items-center self-center">
@@ -89,20 +69,20 @@ const AuthorizeComponent = ({ defaultValue }: { defaultValue: number }) => {
   );
 };
 
-export const Authroize = () => {
+export const Authroize = ({ defaultValue }: { defaultValue: number }) => {
   return (
     <CollegeBackground>
       <ContainterWeb>
-        <AuthorizeComponent defaultValue={0}></AuthorizeComponent>
+        <AuthorizeComponent defaultValue={defaultValue}></AuthorizeComponent>
       </ContainterWeb>
     </CollegeBackground>
   );
 };
 
-export const AuthroizeMobile = () => {
+export const AuthroizeMobile = ({ defaultValue }: { defaultValue: number }) => {
   return (
     <ContainterMobile>
-      <AuthorizeComponent defaultValue={0}></AuthorizeComponent>
+      <AuthorizeComponent defaultValue={defaultValue}></AuthorizeComponent>
     </ContainterMobile>
   );
 };

@@ -19,8 +19,8 @@ import {
 } from "./route-components/reset-password/reset-password";
 import { Explore, ExploreMobile } from "./route-components/explore";
 import { CreatePost, CreatePostMobile } from "./route-components/post/post";
-import { PostModal, PostViewMobile } from "./route-components/post-modal";
-import { Modal } from "./reusable-components/modal";
+import { PostModal } from "./route-components/post-view/post-modal";
+import { Modal, ModalMobile } from "./reusable-components/modal";
 import {
   EditProfile,
   EditProfileMoblie,
@@ -32,15 +32,15 @@ import {
 } from "./route-components/user-page/user-page";
 import { DrawerMenu } from "./route-components/main/mobile-drawer-menu";
 import {
-  ViewPost,
-  ViewPostMobile,
-} from "./route-components/view-post/view-post";
+  PostViewWeb,
+  PostViewMobile,
+} from "./route-components/post-view/my-post-view";
 
 export const AppRoutes = () => {
   return (
     <Routes>
-      <Route path={urls.signup} element={<Authroize></Authroize>} />
-      <Route path={urls.login} element={<Authroize></Authroize>} />
+      <Route path={urls.signup} element={<Authroize defaultValue={1} />} />
+      <Route path={urls.login} element={<Authroize defaultValue={0} />} />
       <Route path={urls.forgetPassword} element={<ForgetPassword />} />
       <Route
         path={`${urls.resetPassword}/:token`}
@@ -52,15 +52,17 @@ export const AppRoutes = () => {
       ></Route>
 
       <Route path={"/"} element={<Main></Main>}>
-        <Route
-          path="create-post"
-          element={
-            <Modal>
-              <CreatePost />
-            </Modal>
-          }
-        />
-        <Route path={"user/:userName"} element={<UserPage />}></Route>
+        <Route path={"user/:userName"} element={<UserPage />}>
+          <Route
+            path="post/:postId"
+            element={
+              <Modal>
+                <PostModal />
+              </Modal>
+            }
+          />
+          <Route path={`post-view/:postId`} element={<PostViewWeb />} />
+        </Route>
         <Route path={"profile/:userName"} element={<MyPage />}>
           <Route
             path="edit-profile"
@@ -70,9 +72,16 @@ export const AppRoutes = () => {
               </Modal>
             }
           />
-
           <Route
-            path="post/:id"
+            path="create-post"
+            element={
+              <Modal>
+                <CreatePost />
+              </Modal>
+            }
+          />
+          <Route
+            path="post/:postId"
             element={
               <Modal>
                 <PostModal />
@@ -80,7 +89,7 @@ export const AppRoutes = () => {
             }
           />
           <Route
-            path="post/:id/edit"
+            path="post/:postId/edit"
             element={
               <Modal>
                 <CreatePost />
@@ -88,7 +97,10 @@ export const AppRoutes = () => {
             }
           />
         </Route>
-        <Route path={`view-post/:postId`} element={<ViewPost />}>
+        <Route
+          path={`profile/:userName/post-view/:postId`}
+          element={<PostViewWeb />}
+        >
           <Route
             path="edit"
             element={
@@ -114,8 +126,11 @@ export const AppRoutes = () => {
 export const AppRoutesMobile = () => {
   return (
     <Routes>
-      <Route path={urls.signup} element={<AuthroizeMobile></AuthroizeMobile>} />
-      <Route path={urls.login} element={<AuthroizeMobile></AuthroizeMobile>} />
+      <Route
+        path={urls.signup}
+        element={<AuthroizeMobile defaultValue={1} />}
+      />
+      <Route path={urls.login} element={<AuthroizeMobile defaultValue={0} />} />
 
       <Route
         path={`${urls.resetPassword}/:token`}
@@ -125,36 +140,46 @@ export const AppRoutesMobile = () => {
       <Route path={urls.forgetPassword} element={<ForgetPasswordMobile />} />
       <Route path={urls.forgetPasswordInfo} element={<ForgetPasswordInfo />} />
       <Route path={"/"} element={<MainMobile />}>
-        <Route path="create-post" element={<CreatePostMobile />} />
+        <Route
+          path="create-post"
+          element={
+            <ModalMobile>
+              <CreatePostMobile />
+            </ModalMobile>
+          }
+        />
         <Route
           path="menu"
           element={
-            <Modal>
+            <ModalMobile>
               <DrawerMenu />
-            </Modal>
+            </ModalMobile>
           }
         />
         <Route path={"user/:userName"} element={<UserPageMobile />}>
-          <Route path="post/:id" element={<PostViewMobile />} />
+          <Route path="post/:postId" element={<PostViewMobile />} />
         </Route>
         <Route path={"profile/:userName"} element={<MyPageMobile />}>
           <Route
             path="edit-profile"
             element={
-              <Modal>
+              <ModalMobile>
                 <EditProfileMoblie />
-              </Modal>
+              </ModalMobile>
             }
           />
-          <Route path="post/:id/edit" element={<CreatePostMobile />} />
-          <Route path="post/:id" element={<PostViewMobile />} />{" "}
+          <Route
+            path="post/:postId/edit"
+            element={
+              <ModalMobile>
+                <CreatePostMobile />
+              </ModalMobile>
+            }
+          />
+          <Route path="post/:postId" element={<PostViewMobile />} />
         </Route>
         <Route index element={<ExploreMobile />} />
       </Route>
-      <Route
-        path={`${urls.viewPost}/:postId`}
-        element={<ViewPostMobile />}
-      ></Route>
       <Route
         path="*"
         element={<UrlErrorPageMobile></UrlErrorPageMobile>}

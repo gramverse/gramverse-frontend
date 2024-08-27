@@ -8,7 +8,7 @@ export const ContainterWeb = ({
   return (
     <div
       className={clsx(
-        "modal flex h-fit w-[465px] items-center justify-center rounded-3xl bg-primary p-10",
+        "container-shadow flex h-fit w-fit items-center justify-center rounded-3xl bg-primary p-10",
         className,
       )}
     >
@@ -18,9 +18,15 @@ export const ContainterWeb = ({
 };
 export const ContainterMobile = ({
   children,
+  className,
 }: HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div className="flex h-full w-[335px] grow flex-col items-center justify-between self-center bg-primary px-5">
+    <div
+      className={clsx(
+        "flex h-full grow flex-col items-center justify-between self-center overflow-hidden bg-primary px-5",
+        className,
+      )}
+    >
       {children}
     </div>
   );

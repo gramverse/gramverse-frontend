@@ -4,7 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { PostDetail } from "../common/types/post-detail";
 import { queryClient } from "../common/query-client";
 
-export const useGetPost = (id: string) => {
+export const useGetPost = (id: string | undefined) => {
   const httpClient = useHttpClient();
   return useQuery<PostDetail, HTTPError>({
     queryKey: ["getPost", id],
