@@ -15,7 +15,10 @@ import cameraIcon from "../assets/svg/camera-icon.svg";
 import { Button } from "../reusable-components/button.tsx";
 import { UploadImage } from "../reusable-components/upload-image.tsx";
 import { Switch } from "../reusable-components/switch.tsx";
-import { ContainterWeb } from "../reusable-components/container.tsx";
+import {
+  ContainterMobile,
+  ContainterWeb,
+} from "../reusable-components/container.tsx";
 import { TextArea } from "../reusable-components/text-area.tsx";
 import { useGetProfile } from "../api-hooks/get-my-profile.ts";
 import { useNavigate } from "react-router-dom";
@@ -31,10 +34,10 @@ const EditProfileLayout = () => {
     criteriaMode: "all",
     resolver: zodResolver(editProfileFormValueSchema),
   });
-  const navigate = useNavigate();
   const handleProfileUpdated = () => {
     refetch();
-    navigate(`/profile/${profile?.userName}`);
+    const closeButton = document.body.querySelector("#close-modal");
+    (closeButton as HTMLElement).click();
   };
 
   const { isError, error, mutate } = useEditProfile(handleProfileUpdated);
@@ -47,7 +50,7 @@ const EditProfileLayout = () => {
   };
 
   const isSetProfileImage = profile?.profileImage && profile.profileImage != "";
-
+  const navigate = useNavigate();
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -132,7 +135,12 @@ const EditProfileLayout = () => {
           <Button
             btnColor="transparent"
             type="button"
-            onClick={() => navigate(`/profile/${profile?.userName}`)}
+            id="close-modal"
+            onClick={() => {
+              setTimeout(() => {
+                navigate(-1);
+              }, 450);
+            }}
           >
             پشیمون شدم
           </Button>
@@ -155,8 +163,8 @@ export const EditProfile = () => {
 
 export const EditProfileMoblie = () => {
   return (
-    <div className="flex grow flex-col items-center justify-center self-end rounded-t-3xl border-2 border-solid border-gray-300 bg-primary shadow-lg">
+    <ContainterMobile className="w-fit rounded-t-3xl border-2 border-solid border-gray-300">
       <EditProfileLayout />
-    </div>
+    </ContainterMobile>
   );
 };

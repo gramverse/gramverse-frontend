@@ -5,11 +5,11 @@ import send from "../assets/svg/letter.svg";
 import { useState } from "react";
 import { useLikeComment, useSendComment } from "../api-hooks/comment";
 import { CommentProps } from "../common/types/comment";
-import { CommentDto } from "../common/types/post";
-import heartFill from "../assets/svg/heart.svg";
+import { CommentDto } from "../common/types/post-detail";
 import reply from "../assets/svg/reply.svg";
-import heartOutline from "../assets/svg/heart-outline.svg";
 import { getTimeDifference } from "../utilitis.ts/time-difference";
+import { Like } from "../route-components/post-view/post-shared-components/like";
+import person from "../assets/svg/profile.svg";
 
 export const Comment = (props: CommentProps) => {
   const { data: profile } = useGetProfile();
@@ -17,11 +17,20 @@ export const Comment = (props: CommentProps) => {
   const { mutate } = useSendComment(props.postId);
   return (
     <div>
-      <div className="flex w-[300px] items-center justify-between gap-5">
-        <RoundPicture size="small" picture={profile?.profileImage ?? ""} />
+      <div className="flex items-center justify-around">
+        <RoundPicture
+          size="small"
+          picture={
+            profile?.profileImage && profile.profileImage !== ""
+              ? profile.profileImage
+              : person
+          }
+        />
         <InputField
           placeholder="نظر خود را بنویسید"
+          usesError={false}
           value={comment}
+          fieldsize={"mobile"}
           onInput={(e) => {
             setComment((e.target as HTMLInputElement).value);
           }}
@@ -61,6 +70,7 @@ interface CommentsView {
 
 export const ViewComments = ({ comments, setCommentProps }: CommentsView) => {
   const { mutate } = useLikeComment();
+  const [isLiked, setIsLiked] = useState<boolean | undefined>(undefined);
   return (
     <div>
       {comments.map((comment) => {
@@ -74,13 +84,15 @@ export const ViewComments = ({ comments, setCommentProps }: CommentsView) => {
               <div className="absolute left-0 flex gap-3">
                 <div className="flex gap-2">
                   <span>{comment.likesCount}</span>
-                  <img
-                    src={comment.isLiked ? heartFill : heartOutline}
-                    alt=""
+                  <Like
+                    defaultValue={comment.isLiked}
+                    isLiked={isLiked}
                     onClick={() => {
+                      const likeValue = isLiked == undefined ? true : !isLiked;
+                      setIsLiked(likeValue);
                       mutate({
-                        isLike: !comment.isLiked,
                         commentId: comment._id,
+                        isLike: likeValue ?? false,
                       });
                     }}
                   />

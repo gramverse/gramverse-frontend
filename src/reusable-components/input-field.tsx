@@ -3,6 +3,7 @@ import Error from "../assets/svg/error.svg";
 import clsx from "clsx";
 
 const fieldSizes: Record<Sizes, string> = {
+  mobile: "w-60 h-5 px-1 gap-1 rounded-3xl",
   xsmall: "w-80 h-5 px-1 gap-1 rounded-3xl",
   small: "w-80 h-7 px-2  gap-2 rounded-2xl ",
   medium: "w-80 h-10 gap-3 rounded-2xl ",
@@ -23,8 +24,9 @@ interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   classes?: string;
   fieldsize?: Sizes;
   direction?: Directions;
+  usesError?: boolean;
 }
-type Sizes = "xsmall" | "small" | "medium" | "large";
+type Sizes = "xsmall" | "small" | "medium" | "large" | "mobile";
 type Status = "error" | "normal";
 type Directions = "left" | "right";
 export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
@@ -36,6 +38,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
       error = "",
       placeholder = "",
       type = "text",
+      usesError = true,
       classes,
       defaultValue,
       onKeyDown,
@@ -67,18 +70,20 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
             {...rest}
           ></input>
         </div>
-        <div
-          className={clsx(
-            "h-5 scale-0",
-            !!error &&
-              "mt-2 flex scale-100 items-center justify-start ps-2 transition-all",
-          )}
-        >
-          <img src={Error} className="m-2 h-full" alt="" />
-          <span className="w-fit grow text-start text-xs text-red-600">
-            {error}
-          </span>
-        </div>
+        {usesError && (
+          <div
+            className={clsx(
+              "h-5 w-full scale-0",
+              !!error &&
+                "mt-2 flex scale-100 items-center justify-start ps-2 transition-all",
+            )}
+          >
+            <img src={Error} className="m-2 h-full" alt="" />
+            <span className="w-fit grow text-start text-xs text-red-600">
+              {error}
+            </span>
+          </div>
+        )}
       </div>
     );
   },

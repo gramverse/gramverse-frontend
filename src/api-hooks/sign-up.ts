@@ -3,7 +3,6 @@ import { useHttpClient } from "../common/http-client";
 import { SignupFormValue } from "../common/types/sign-up";
 import { HTTPError } from "ky";
 import { useNavigate } from "react-router-dom";
-import { urls } from "../common/routes";
 
 export const useSignup = () => {
   const navigate = useNavigate();
@@ -15,11 +14,9 @@ export const useSignup = () => {
           json: { userName, email, password },
         })
         .json(),
-    async onSuccess(_, { userName }) {
+    async onSuccess() {
       localStorage.setItem("authorize", "signup");
-      navigate(urls.main, {
-        state: { userName },
-      });
+      navigate("/");
     },
   });
 };

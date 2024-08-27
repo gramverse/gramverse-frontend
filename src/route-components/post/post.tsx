@@ -10,7 +10,13 @@ import React, {
   useState,
 } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useCreatePost, useEditPost, useGetPost } from "../../api-hooks/post";
+import { useNavigate, useParams } from "react-router-dom";
+import { z } from "zod";
+import { useCreatePost, useEditPost } from "../../api-hooks/post";
+import { useGetPost } from "../../api-hooks/post-details";
+import Camera from "../../assets/svg/camera.svg";
+import Close from "../../assets/svg/close.svg";
+import Emoji from "../../assets/svg/emoji.svg";
 import {
   EditPostFormData,
   PostFormData,
@@ -22,17 +28,12 @@ import {
   ContainterMobile,
   ContainterWeb,
 } from "../../reusable-components/container";
+import { EmojiKeyboard } from "../../reusable-components/emoji/emoji-keyboard";
 import { InputField } from "../../reusable-components/input-field";
+import { Switch } from "../../reusable-components/switch";
 import { TextArea } from "../../reusable-components/text-area";
 import { UploadImage } from "../../reusable-components/upload-image";
-import Camera from "../../assets/svg/camera.svg";
-import Emoji from "../../assets/svg/emoji.svg";
-import Close from "../../assets/svg/close.svg";
 import { ProgressIndicator } from "./progress-indicator";
-import { EmojiKeyboard } from "../../reusable-components/emoji/emoji-keyboard";
-import { z } from "zod";
-import { useNavigate, useParams } from "react-router-dom";
-import { Switch } from "../../reusable-components/switch";
 const ProgressBar = ({ stage }: { stage: number }) => {
   return (
     <div className="m-0 flex flex-row-reverse items-center p-0">
@@ -272,14 +273,22 @@ const Mention = forwardRef<HTMLInputElement, mentionProps>((props, ref) => {
   );
 });
 
-const CreatePostLayout = () => {
+const CreatePostLayout = ({ classes }: { classes?: string }) => {
   const params = useParams();
-  const { data: post } = useGetPost(params.id);
-  const [stage, setStage] = useState(1);
-  const { mutate: createPost } = useCreatePost();
-  const { mutate: editPost } = useEditPost();
-  const [mentions, setMentions] = useState<Array<string>>(post?.mentions ?? []);
   const navigate = useNavigate();
+  const { data: post } = useGetPost(params.postId);
+  const [stage, setStage] = useState(1);
+
+  const handleSuccess = useCallback(() => {
+    // const closeButton = document.body.querySelector("#close-modal");
+    // (closeButton as HTMLElement).click();
+    navigate(-1);
+  }, [navigate]);
+  const { mutate: createPost, isPending: isCreatePending } =
+    useCreatePost(handleSuccess);
+  const { mutate: editPost, isPending: isEditPending } =
+    useEditPost(handleSuccess);
+  const [mentions, setMentions] = useState<Array<string>>(post?.mentions ?? []);
   const [caption, setCaption] = useState(post?.caption ?? "");
   const [photoFiles, setPhotoFiles] = useState<Array<File>>([]);
   const [photoURLs, setPhotoURLs] = useState<Array<string>>(
@@ -307,7 +316,7 @@ const CreatePostLayout = () => {
       photoFiles,
       isForCloseFriends: data.isForCloseFriends,
     };
-    if (params.id) {
+    if (params.postId) {
       const editPostData: EditPostFormData = {
         ...postData,
         _id: post?._id ?? "",
@@ -320,24 +329,27 @@ const CreatePostLayout = () => {
   const handleClick = useCallback(() => {
     stage === 1
       ? trigger("photos").then((value) => {
-          value && (photoError === "" || photoError === undefined)
+          value && (photoFiles.length !== 0 || photoURLs.length !== 0)
             ? setStage(stage + 1)
             : setStage(stage);
         })
       : stage === 2
         ? setStage(stage + 1)
         : () => {};
-  }, [photoError, stage, trigger]);
+  }, [photoFiles.length, photoURLs.length, stage, trigger]);
   useEffect(() => {
-    if (photoFiles.length === 0 && photoURLs.length === 0) {
-      setPhotoError("حدافل یک عکس انتخاب کنید");
-    } else {
+    if (photoFiles.length !== 0 || photoURLs.length !== 0) {
       setPhotoError(errors.photos?.message);
     }
   }, [errors.photos?.message, photoFiles.length, photoURLs.length]);
 
   return (
-    <div className="my-5 flex min-h-80 w-fit grow flex-col items-center gap-5 transition-transform">
+    <div
+      className={clsx(
+        "my-5 flex min-h-96 w-80 grow flex-col items-center gap-5 transition-transform",
+        classes,
+      )}
+    >
       <ProgressBar stage={stage} />
       <Alert
         status="error"
@@ -388,20 +400,40 @@ const CreatePostLayout = () => {
         )}
         <section className="flex items-center justify-end gap-5 self-end">
           <Button
-            onClick={() => {
-              navigate(-1);
-            }}
             btnColor="transparent"
+            id={"close-modal"}
+            onClick={() => {
+              setTimeout(() => {
+                navigate(-1);
+              }, 450);
+            }}
           >
             پشیمون شدم
           </Button>
           {stage < 3 && (
-            <Button type="button" onClick={handleClick}>
+            <Button
+              type="button"
+              onClick={() => {
+                if (photoFiles.length === 0 && photoURLs.length === 0) {
+                  setPhotoError("حدافل یک عکس انتخاب کنید");
+                } else {
+                  setPhotoError(errors.photos?.message);
+                }
+                handleClick();
+              }}
+            >
               {"بعدی"}
             </Button>
           )}
-
-          {stage === 3 && <Button type="submit">{"ثبت و انتشار پست"}</Button>}
+          {stage === 3 && (
+            <Button
+              type="submit"
+              id="submit-modal"
+              isPending={isCreatePending || isEditPending}
+            >
+              {"ثبت و انتشار پست"}
+            </Button>
+          )}
         </section>
       </form>
     </div>
@@ -418,8 +450,8 @@ export const CreatePost = () => {
 
 export const CreatePostMobile = () => {
   return (
-    <ContainterMobile>
-      <CreatePostLayout />
+    <ContainterMobile className="w-fit rounded-t-3xl border-2 border-solid border-gray-300">
+      <CreatePostLayout classes="h-[700px] px-1 " />
     </ContainterMobile>
   );
 };

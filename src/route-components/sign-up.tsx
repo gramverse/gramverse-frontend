@@ -30,7 +30,7 @@ const SignUpLayout = () => {
 
   return (
     <form
-      className="m-auto flex grow flex-col items-center gap-y-8 bg-primary"
+      className="m-auto flex grow flex-col items-center gap-y-2 bg-primary"
       onSubmit={handleSubmit(onSubmit)}
       noValidate
     >

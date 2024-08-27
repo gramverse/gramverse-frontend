@@ -28,5 +28,9 @@ export const useLikeComment = () => {
           json: data,
         })
         .json(),
+    //  onSettled: (_data, _error, { commentId }) =>
+    //     queryClient.invalidateQueries({
+    //       queryKey: ["getComments", commentId],
+    //     }),
   });
 };

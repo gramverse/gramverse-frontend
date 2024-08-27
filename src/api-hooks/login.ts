@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { LoginFormData, loginResponse } from "../common/types/login";
+import { LoginFormData } from "../common/types/login";
 import { useHttpClient } from "../common/http-client";
 
 export const useLogin = () => {
@@ -13,10 +13,9 @@ export const useLogin = () => {
           json: { userName, password, rememberMe },
         })
         .json(),
-    onSuccess(data) {
-      const { userName } = loginResponse.parse(data);
+    onSuccess() {
       localStorage.setItem("authorize", "login");
-      navigate("/", { state: { userName } });
+      navigate("/");
     },
   });
   return registerMutation;

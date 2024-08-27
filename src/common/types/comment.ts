@@ -10,7 +10,7 @@ export interface CommentProps extends Omit<CommentData, "comment"> {
 export interface CommentResponse {
   _id: string;
   postId: string;
-  username: string;
+  userName: string;
   comment: string;
   creationDate: string;
   parentCommentId: string;
