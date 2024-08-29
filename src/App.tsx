@@ -1,4 +1,3 @@
-import "./assets/styles/App.css";
 import { AppRoutes, AppRoutesMobile } from "./app-routes";
 // import useMediaQuery from "@mui/material/useMediaQuery";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -16,7 +15,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <div
         lang="fa"
-        className="flex h-screen w-screen items-center justify-center bg-primary"
+        className="flex h-full w-full items-center justify-center"
       >
         {mobile && <AppRoutesMobile></AppRoutesMobile>}
         {!mobile && <AppRoutes></AppRoutes>}

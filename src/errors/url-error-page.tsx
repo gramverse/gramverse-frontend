@@ -3,7 +3,6 @@ import cloudsMobile from "../assets/svg/m-error-bottom.svg";
 import drippingWeb from "../assets/svg/w-error-top.svg";
 import cloudsWeb1 from "../assets/svg/w-error-bottom1.svg";
 import cloudsWeb2 from "../assets/svg/w-error-bottom2.svg";
-import "../assets/styles/App.css";
 import { Link } from "react-router-dom";
 
 const ErrorMessage = ({ size }: { size: "mobile" | "web" }) => {
@@ -39,10 +38,10 @@ const ErrorMessage = ({ size }: { size: "mobile" | "web" }) => {
 
 export const UrlErrorPage = () => {
   return (
-    <div className="flex h-screen flex-col items-center justify-between">
-      <img src={drippingWeb} className="w-screen" alt="" />
+    <div className="flex w-full h-screen flex-col items-center justify-between">
+      <img src={drippingWeb} className="w-full" alt="" />
       <ErrorMessage size={"web"}></ErrorMessage>
-      <div className="mb-20 flex w-screen justify-evenly">
+      <div className="mb-20 flex justify-evenly">
         <img src={cloudsWeb1} alt="" />
         <img src={cloudsWeb2} alt="" />
       </div>
@@ -53,10 +52,10 @@ export const UrlErrorPage = () => {
 export const UrlErrorPageMobile = () => {
   return (
     <div className="flex h-screen flex-col items-center justify-between">
-      <img src={drippingMobile} className="w-screen" alt="" />
+      <img src={drippingMobile} className="w-full" alt="" />
       <ErrorMessage size={"mobile"}></ErrorMessage>
-      <div className="mb-20 flex w-screen justify-evenly">
-        <img src={cloudsMobile} className="w-screen" alt="" />
+      <div className="mb-20 flex w-full justify-evenly">
+        <img src={cloudsMobile} className="w-full" alt="" />
       </div>
     </div>
   );

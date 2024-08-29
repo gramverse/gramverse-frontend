@@ -22,18 +22,16 @@ export const Main = () => {
   }, [location.pathname]);
 
   return (
-    <div className="flex h-screen grow overflow-y-hidden bg-primary">
-      <div className="flex grow flex-row justify-stretch bg-primary px-5 pt-16">
-        <img src={rahnema} className="absolute left-20" alt="" />
-        <div className="flex h-full w-fit flex-col items-center gap-5 self-start">
-          <Panel tab={tab} />
-        </div>
-        <div className="flex grow flex-col items-center justify-center px-12">
-          <Outlet />
-        </div>
+    <div className="flex grow flex-row items-start h-full bg-primary px-5 pt-16 box-border">
+      <img src={rahnema} className="absolute left-20" alt="" />
+      <div className="flex h-full w-fit flex-col items-center gap-5 self-start">
+        <Panel tab={tab} />
+      </div>
+      <div className="flex grow flex-col h-full items-center justify-center px-12">
+        <Outlet />
       </div>
     </div>
-  );
+    );
 };
 
 export const MainMobile = () => {
