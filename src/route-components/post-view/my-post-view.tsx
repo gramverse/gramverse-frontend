@@ -1,6 +1,5 @@
 import { useState } from "react";
 // import { Outlet } from "react-router-dom";
-import { CommentProps } from "../../common/types/comment";
 import { Comment, ViewComments } from "./post-shared-components/comment";
 import back from "../../assets/svg/back.svg";
 import pen from "../../assets/svg/pen.svg";
@@ -14,57 +13,59 @@ import { PostCaptions } from "./post-shared-components/captions";
 import { PostDetailSummary } from "./post-shared-components/summary-bar";
 import { Modal } from "../../reusable-components/modal";
 import { EditPost } from "../post/edit-post";
+import { CommentFieldProps } from "../../common/types/comment";
 
 export const PostViewWeb = () => {
   const params = useParams();
   const { data: post } = useGetPost(params.postId);
   const [isEditOpen, OpenEdit] = useState(false);
-  const [commentProps, setCommentProps] = useState<CommentProps>({
+  const [commentProps, setCommentProps] = useState<CommentFieldProps>({
     parentCommentId: "",
     parentCommentUserName: "",
-    postId: post?._id ?? "",
   });
   return (
-    <div className="flex h-fit justify-between gap-3 self-center">
-      <Modal
-        isOpen={isEditOpen}
-        close={() => {
-          OpenEdit(false);
-        }}
-      >
-        {post?._id && (
-          <EditPost
-            postId={post?._id}
-            close={() => {
-              OpenEdit(false);
-            }}
+    <div>
+      <div className="flex h-fit justify-between gap-3 self-center">
+        <Modal
+          isOpen={isEditOpen}
+          close={() => {
+            OpenEdit(false);
+          }}
+        >
+          {post?._id && (
+            <EditPost
+              postId={post?._id}
+              close={() => {
+                OpenEdit(false);
+              }}
+            />
+          )}
+        </Modal>
+        <Carousel photoUrls={post?.photoUrls ?? []} />
+        <div className="flex grow flex-col gap-3 p-5">
+          <div className="flex flex-row justify-between gap-5">
+            <ProfileSummary />
+            <img
+              src={pen}
+              onClick={() => {
+                OpenEdit(true);
+              }}
+            />
+          </div>
+          <PostCaptions
+            caption={post?.caption ?? ""}
+            mentions={post?.mentions ?? []}
+            tags={post?.tags ?? []}
+            creationDate={post?.creationDate ?? ""}
           />
-        )}
-      </Modal>
-      <Carousel photoUrls={post?.photoUrls ?? []} />
-      <div className="flex grow flex-col gap-3 p-5">
-        <div className="flex flex-row justify-between gap-5">
-          <ProfileSummary />
-          <img
-            src={pen}
-            onClick={() => {
-              OpenEdit(true);
-            }}
-          />
+          <PostDetailSummary post={post} />
+          <Comment postId={post?._id ?? ""} {...commentProps} />
         </div>
-        <PostCaptions
-          caption={post?.caption ?? ""}
-          mentions={post?.mentions ?? []}
-          tags={post?.tags ?? []}
-          creationDate={post?.creationDate ?? ""}
-        />
-        <PostDetailSummary post={post} />
-        <Comment {...commentProps} />
       </div>
       <ViewComments
         setCommentProps={setCommentProps}
         postId={post?._id ?? ""}
-      />{" "}
+      />
     </div>
   );
 };
@@ -73,10 +74,9 @@ export const PostViewMobile = () => {
   const navigate = useNavigate();
   const params = useParams();
   const { data: post } = useGetPost(params.postId ?? "");
-  const [commentProps, setCommentProps] = useState<CommentProps>({
+  const [commentProps, setCommentProps] = useState<CommentFieldProps>({
     parentCommentId: "",
     parentCommentUserName: "",
-    postId: post?._id ?? "",
   });
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-start bg-primary">
@@ -112,7 +112,7 @@ export const PostViewMobile = () => {
           tags={post?.tags ?? []}
           creationDate={post?.creationDate ?? ""}
         />
-        <Comment {...commentProps} />
+        <Comment postId={post?._id ?? ""} {...commentProps} />
       </div>
       <ViewComments
         setCommentProps={setCommentProps}

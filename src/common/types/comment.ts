@@ -6,11 +6,15 @@ export interface AddCommentData {
   parentCommentId: string;
   parentCommentUserName: string;
 }
-export interface CommentProps extends Omit<AddCommentData, "comment"> {}
 export interface LikeComment {
   isLike: boolean;
   commentId: string;
 }
+
+export type CommentFieldProps = {
+  parentCommentId: string;
+  parentCommentUserName: string;
+};
 
 export const SingleCommentResponseSchema: z.ZodType<CommentDto> = z.lazy(() =>
   z.object({

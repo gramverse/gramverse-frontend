@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 import { UserAccountInfo } from "./user-account-info";
 import { requestStatus } from "../../common/types/user-profile";
 import { UserBlockedGallery } from "./user-blocked-gallery";
-import { Test } from "../test";
+// import { Test } from "../test";
 
 export const UserPageLayout = () => {
   const { userName } = useParams();

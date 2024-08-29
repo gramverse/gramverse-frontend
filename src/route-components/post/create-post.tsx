@@ -7,7 +7,6 @@ import React, {
   TextareaHTMLAttributes,
   useCallback,
   useEffect,
-  useRef,
   useState,
 } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -226,9 +225,6 @@ const CreatePostLayout = ({
 }) => {
   const navigate = useNavigate();
   const [stage, setStage] = useState(1);
-  const closeButton = useRef<HTMLButtonElement | null>(
-    document.querySelector("#close-modal"),
-  );
   const [mentions, setMentions] = useState<Array<string>>([]);
   const [caption, setCaption] = useState("");
   const [photoFiles, setPhotoFiles] = useState<Array<File>>([]);
@@ -335,7 +331,6 @@ const CreatePostLayout = ({
           <Button
             btnColor="transparent"
             id={"close-modal"}
-            ref={closeButton}
             onClick={() => {
               if (close) {
                 close();

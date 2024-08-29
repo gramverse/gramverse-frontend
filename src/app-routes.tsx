@@ -2,10 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { Main, MainMobile } from "./route-components/main/main";
 import { Authroize, AuthroizeMobile } from "./route-components/authorize";
 import { UrlErrorPage, UrlErrorPageMobile } from "./errors/url-error-page";
-import {
-  ServerErrorPage,
-  ServerErrorPageMoblie,
-} from "./errors/server-error-page";
+import { ServerErrorPage, ServerErrorPageMoblie } from "./errors/server-error";
 
 import { urls } from "./common/routes";
 import {
