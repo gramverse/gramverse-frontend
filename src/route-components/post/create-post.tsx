@@ -7,19 +7,18 @@ import React, {
   TextareaHTMLAttributes,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-import { useCreatePost, useEditPost } from "../../api-hooks/post";
-import { useGetPost } from "../../api-hooks/post-details";
+import { useCreatePost } from "../../api-hooks/post";
 import Camera from "../../assets/svg/camera.svg";
 import Close from "../../assets/svg/close.svg";
 import Emoji from "../../assets/svg/emoji.svg";
 import {
-  EditPostFormData,
-  PostFormData,
+  CreatePostFormData,
   PostFormDataSchema,
 } from "../../common/types/post";
 import { Alert } from "../../reusable-components/alert";
@@ -29,11 +28,11 @@ import {
   ContainterWeb,
 } from "../../reusable-components/container";
 import { EmojiKeyboard } from "../../reusable-components/emoji/emoji-keyboard";
-import { InputField } from "../../reusable-components/input-field";
 import { Switch } from "../../reusable-components/switch";
 import { TextArea } from "../../reusable-components/text-area";
 import { UploadImage } from "../../reusable-components/upload-image";
 import { ProgressIndicator } from "./progress-indicator";
+import { Mention } from "./mentions";
 const ProgressBar = ({ stage }: { stage: number }) => {
   return (
     <div className="m-0 flex flex-row-reverse items-center p-0">
@@ -70,11 +69,6 @@ const ProgressBar = ({ stage }: { stage: number }) => {
   );
 };
 
-interface mentionProps extends InputHTMLAttributes<HTMLInputElement> {
-  mentions: Array<string>;
-  setMentions: React.Dispatch<React.SetStateAction<string[]>>;
-  removeMention: (index: number) => void;
-}
 interface photoProps extends InputHTMLAttributes<HTMLInputElement> {
   photoFiles: Array<File>;
   setPhotoFiles: React.Dispatch<React.SetStateAction<Array<File>>>;
@@ -223,78 +217,29 @@ const Caption = forwardRef<HTMLTextAreaElement, captionProps>((props, ref) => {
   );
 });
 
-const Mention = forwardRef<HTMLInputElement, mentionProps>((props, ref) => {
-  const { name, onChange, mentions, setMentions, removeMention } = props;
-  return (
-    <div className="flex w-full flex-col items-center">
-      <p>اینجا می‌تونی دوستانت رو منشن کنی:</p>
-      <InputField
-        direction="left"
-        autoFocus
-        ref={ref}
-        dir="ltr"
-        name={name}
-        onKeyDown={(e) => {
-          if (e.key == "Enter") {
-            const typedMention = (e.target as HTMLInputElement).value;
-            if (typedMention.match(/(@[A-Za-z0-9_]+)/g)?.length === 1) {
-              setMentions((mentions) => mentions.concat(typedMention.slice(1)));
-              (e.target as HTMLInputElement).value = "";
-            }
-          } else if (e.key == " ") {
-            e.preventDefault();
-            (e.target as HTMLInputElement).value = (
-              e.target as HTMLInputElement
-            ).value.trim();
-          }
-        }}
-        onChange={onChange}
-        fieldsize={"medium"}
-      />
-
-      <div className="flex flex-row-reverse flex-wrap self-end">
-        {mentions.map((mention, index) => (
-          <div className="relative h-10" key={nanoid()}>
-            <img
-              src={Close}
-              className="absolute -left-1 -top-2 z-10 h-4 w-4 cursor-pointer"
-              onClick={() => removeMention(index)}
-            />
-            <span
-              key={mention + index}
-              className="mx-1 my-2 rounded-md bg-gray-300 px-2 py-2 text-xs text-black"
-            >
-              {mention}
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-});
-
-const CreatePostLayout = ({ classes }: { classes?: string }) => {
-  const params = useParams();
+const CreatePostLayout = ({
+  classes,
+  close,
+}: {
+  classes?: string;
+  close?: () => void;
+}) => {
   const navigate = useNavigate();
-  const { data: post } = useGetPost(params.postId);
   const [stage, setStage] = useState(1);
-
-  const handleSuccess = useCallback(() => {
-    // const closeButton = document.body.querySelector("#close-modal");
-    // (closeButton as HTMLElement).click();
-    navigate(-1);
-  }, [navigate]);
-  const { mutate: createPost, isPending: isCreatePending } =
-    useCreatePost(handleSuccess);
-  const { mutate: editPost, isPending: isEditPending } =
-    useEditPost(handleSuccess);
-  const [mentions, setMentions] = useState<Array<string>>(post?.mentions ?? []);
-  const [caption, setCaption] = useState(post?.caption ?? "");
-  const [photoFiles, setPhotoFiles] = useState<Array<File>>([]);
-  const [photoURLs, setPhotoURLs] = useState<Array<string>>(
-    post?.photoUrls ?? [],
+  const closeButton = useRef<HTMLButtonElement | null>(
+    document.querySelector("#close-modal"),
   );
-
+  const [mentions, setMentions] = useState<Array<string>>([]);
+  const [caption, setCaption] = useState("");
+  const [photoFiles, setPhotoFiles] = useState<Array<File>>([]);
+  const [photoURLs, setPhotoURLs] = useState<Array<string>>([]);
+  const handleSuccess = useCallback(() => {
+    if (close) {
+      close();
+    } else {
+      navigate(-1);
+    }
+  }, [close, navigate]);
   const {
     register,
     handleSubmit,
@@ -305,26 +250,18 @@ const CreatePostLayout = ({ classes }: { classes?: string }) => {
     resolver: zodResolver(PostFormDataSchema),
   });
   const [photoError, setPhotoError] = useState(errors.photos?.message);
+  const { isPending, mutate } = useCreatePost(handleSuccess);
 
   const onSubmit: SubmitHandler<z.infer<typeof PostFormDataSchema>> = (
     data,
   ) => {
-    const postData: PostFormData = {
+    const postData: CreatePostFormData = {
       caption,
       mentions,
-      photoURLs,
       photoFiles,
       isForCloseFriends: data.isForCloseFriends,
     };
-    if (params.postId) {
-      const editPostData: EditPostFormData = {
-        ...postData,
-        _id: post?._id ?? "",
-      };
-      editPost(editPostData);
-    } else {
-      createPost(postData);
-    }
+    mutate(postData);
   };
   const handleClick = useCallback(() => {
     stage === 1
@@ -372,11 +309,7 @@ const CreatePostLayout = ({ classes }: { classes?: string }) => {
             />
           )}
           {stage === 2 && (
-            <Caption
-              caption={caption}
-              setCaption={setCaption}
-              hashtags={post?.tags ?? []}
-            />
+            <Caption caption={caption} setCaption={setCaption} hashtags={[]} />
           )}
           {stage === 3 && (
             <Mention
@@ -402,10 +335,13 @@ const CreatePostLayout = ({ classes }: { classes?: string }) => {
           <Button
             btnColor="transparent"
             id={"close-modal"}
+            ref={closeButton}
             onClick={() => {
-              setTimeout(() => {
+              if (close) {
+                close();
+              } else {
                 navigate(-1);
-              }, 450);
+              }
             }}
           >
             پشیمون شدم
@@ -426,11 +362,7 @@ const CreatePostLayout = ({ classes }: { classes?: string }) => {
             </Button>
           )}
           {stage === 3 && (
-            <Button
-              type="submit"
-              id="submit-modal"
-              isPending={isCreatePending || isEditPending}
-            >
+            <Button type="submit" id="submit-modal" isPending={isPending}>
               {"ثبت و انتشار پست"}
             </Button>
           )}
@@ -439,19 +371,18 @@ const CreatePostLayout = ({ classes }: { classes?: string }) => {
     </div>
   );
 };
-
-export const CreatePost = () => {
+export const CreatePost = ({ close }: { close: () => void }) => {
   return (
     <ContainterWeb>
-      <CreatePostLayout />
+      <CreatePostLayout close={close} />
     </ContainterWeb>
   );
 };
 
 export const CreatePostMobile = () => {
   return (
-    <ContainterMobile className="w-fit rounded-t-3xl border-2 border-solid border-gray-300">
-      <CreatePostLayout classes="h-[700px] px-1 " />
+    <ContainterMobile>
+      <CreatePostLayout classes={clsx("h-[700px] px-1")} />
     </ContainterMobile>
   );
 };

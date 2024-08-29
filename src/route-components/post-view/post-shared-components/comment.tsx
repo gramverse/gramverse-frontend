@@ -1,34 +1,203 @@
-import { MouseEventHandler } from "react";
+import { useEffect, useState } from "react";
+import {
+  useGetComments,
+  useLikeComment,
+  useSendComment,
+} from "../../../api-hooks/comment";
+import { useGetProfile } from "../../../api-hooks/get-my-profile";
+import send from "../../../assets/svg/letter.svg";
+import person from "../../../assets/svg/profile.svg";
+import reply from "../../../assets/svg/reply.svg";
+import {
+  CommentProps,
+  CommentsArray,
+  SingleComment,
+} from "../../../common/types/comment";
+import { InputField } from "../../../reusable-components/input-field";
+import { RoundPicture } from "../../../reusable-components/profile-picture";
+import { Like } from "../../../route-components/post-view/post-shared-components/like";
+import { getTimeDifference } from "../../../utilitis.ts/time-difference";
+import { Button } from "../../../reusable-components/button";
 
-type CommentProps = {
-  onClick: MouseEventHandler<SVGSVGElement>;
-  count?: number | undefined;
-};
-export const Comment = ({ count }: CommentProps) => {
+export const Comment = (props: CommentProps) => {
+  const { data: profile } = useGetProfile();
+  const [comment, setComment] = useState(props.parentCommentUserName);
+  const { mutate } = useSendComment(props.postId);
   return (
-    <div className="flex flex-col items-center gap-2">
-      <svg
-        width="22"
-        height="22"
-        viewBox="-1 0 22 25"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle
-          cx="9"
-          cy="9"
-          r="10"
-          transform="matrix(1 0 0 -1 2.5 20.4424)"
-          stroke="#EA5A69"
-          strokeWidth="2"
+    <div>
+      <div className="flex items-center justify-around">
+        <RoundPicture
+          size="small"
+          picture={
+            profile?.profileImage && profile.profileImage !== ""
+              ? profile.profileImage
+              : person
+          }
         />
-        <path
-          d="M4.20649 18.2353L2.905 16.9338L2.52135 18.7339L3.49939 18.9424L2.52133 18.734L2.5213 18.7342L2.52116 18.7348L2.52063 18.7373L2.51859 18.7469L2.51073 18.7839L2.48108 18.9239C2.45562 19.0445 2.41936 19.2166 2.37614 19.4236C2.28975 19.8373 2.17529 20.391 2.06341 20.9493C1.95185 21.5059 1.84151 22.0739 1.76413 22.5135C1.72579 22.7313 1.6934 22.9297 1.67326 23.0835C1.66355 23.1576 1.65407 23.2407 1.64993 23.3178C1.648 23.3539 1.6457 23.4142 1.65013 23.4829C1.65232 23.5168 1.65744 23.575 1.67242 23.6444C1.68336 23.6951 1.71885 23.8502 1.83218 24.0132C2.01052 24.2697 2.25214 24.3714 2.39373 24.4105C2.53338 24.4491 2.65048 24.4492 2.71071 24.4468C2.83234 24.4421 2.93039 24.4169 2.97178 24.4057C3.06825 24.3796 3.16119 24.3429 3.22729 24.3155C3.37084 24.2558 3.54949 24.1706 3.7366 24.0774C4.11727 23.8877 4.60771 23.6271 5.08538 23.3681C5.56537 23.1078 6.04169 22.8441 6.39742 22.6458C6.57544 22.5466 6.72362 22.4636 6.82741 22.4053L6.94804 22.3374L6.98002 22.3194L6.98833 22.3147L6.99049 22.3135L6.99107 22.3132L6.99123 22.3131L6.49939 21.4424L6.9913 22.313L8.40771 21.5128L7.05409 20.6103L5.63647 19.6653L4.20649 18.2353Z"
-          stroke="#EA5A69"
-          strokeWidth="2"
+        <InputField
+          placeholder="نظر خود را بنویسید"
+          usesError={false}
+          value={comment}
+          fieldsize={"mobile"}
+          onInput={(e) => {
+            setComment((e.target as HTMLInputElement).value);
+          }}
+          onChange={(e) => {
+            setComment((e.target as HTMLInputElement).value);
+          }}
         />
-      </svg>
-      <small>{count}</small>
+        <img
+          src={send}
+          alt=""
+          className="cursor-pointer"
+          onClick={() => {
+            if (comment.includes(`@${props.parentCommentUserName}}`)) {
+              mutate({
+                comment: comment,
+                parentCommentId: props.parentCommentId,
+                postId: props.postId,
+                parentCommentUserName: props.parentCommentUserName,
+              });
+            } else {
+              mutate({
+                comment: comment,
+                parentCommentId: "",
+                postId: props.postId,
+                parentCommentUserName: "",
+              });
+            }
+          }}
+        />
+      </div>
+    </div>
+  );
+};
+
+interface CommentsView {
+  postId: string;
+  setCommentProps: React.Dispatch<React.SetStateAction<CommentProps>>;
+}
+
+const flattenComments = (data: CommentsArray) => {
+  const flattened: Omit<SingleComment, "childDtos">[] = [];
+  const flatten = (comment: SingleComment) => {
+    const { childDtos, ...rest } = comment;
+    flattened.push(rest);
+    if (childDtos.length > 0) {
+      childDtos.forEach((child) => {
+        flatten(child);
+      });
+    } else {
+      return;
+    }
+  };
+  data.forEach((comment) => {
+    flatten(comment);
+  });
+  return flattened;
+};
+export const ViewComments = ({ postId, setCommentProps }: CommentsView) => {
+  const { mutate } = useLikeComment({ postId });
+  const [isLiked, setIsLiked] = useState<boolean | undefined>(undefined);
+  const [comments, setComments] = useState<Omit<SingleComment, "childDtos">[]>(
+    [],
+  );
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    isSuccess,
+  } = useGetComments({ postId });
+  useEffect(() => {
+    const lastChunckOfData = data?.pages.slice(-1)[0].comments;
+    if (isSuccess) {
+      setComments((comments) =>
+        comments.concat(flattenComments(lastChunckOfData ?? [])),
+      );
+    }
+  }, [data?.pages, isSuccess]);
+  return (
+    <div className="h-[200px] overflow-scroll">
+      {comments.map((comment) => {
+        return (
+          <div className="mb-2 flex w-full flex-col justify-between gap-3">
+            <div className="relative flex w-full items-center justify-start gap-2">
+              <span className="text-xl font-bold">{comment.userName}</span>
+              <small className="text-xs">
+                {getTimeDifference(new Date(), comment.creationDate)}
+              </small>
+              <div className="absolute left-0 flex gap-3">
+                <div className="flex gap-2">
+                  <span>{comment.likesCount}</span>
+                  <Like
+                    defaultValue={comment.isLiked}
+                    isLiked={isLiked}
+                    onClick={() => {
+                      const likeValue = isLiked == undefined ? true : !isLiked;
+                      setIsLiked(likeValue);
+                      mutate({
+                        commentId: comment._id,
+                        isLike: likeValue ?? false,
+                      });
+                    }}
+                  />
+                </div>
+                <div
+                  className="flex gap-2"
+                  onClick={() => {
+                    setCommentProps({
+                      parentCommentId: comment.parentCommentId,
+                      parentCommentUserName: comment.userName,
+                      postId: comment.postId,
+                    });
+                  }}
+                >
+                  <span>پاسخ</span>
+                  <img src={reply} alt="" />
+                </div>
+              </div>
+            </div>
+            <span>{comment.comment}</span>
+          </div>
+        );
+      })}
+      <div>
+        {isFetching && (
+          <svg
+            className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+        )}
+        <Button
+          btnColor="transparent"
+          disabled={isFetchingNextPage ?? hasNextPage}
+          onClick={() => fetchNextPage()}
+        >
+          {isFetchingNextPage
+            ? "درحال بارگیری"
+            : hasNextPage
+              ? "بارگیری بیشتر"
+              : ""}
+        </Button>
+      </div>
     </div>
   );
 };

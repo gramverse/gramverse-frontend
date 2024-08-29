@@ -1,16 +1,16 @@
-import { ReactNode } from "react";
 import background from "../assets/svg/background.svg";
+import { Outlet } from "react-router-dom";
 
-export const CollegeBackground = ({ children }: { children: ReactNode }) => {
+export const CollegeBackground = () => {
   return (
     <div
-      className="w-full h-screen flex justify-center items-center"
+      className="z-0 flex h-screen w-full items-center justify-center"
       style={{
         backgroundImage: `url(${background})`,
         backgroundSize: "cover",
       }}
     >
-      {children}
+      <Outlet />
     </div>
   );
 };

@@ -1,12 +1,12 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
 import { HTTPError } from "ky";
-import { EditPostFormData, PostFormData } from "../common/types/post";
+import { CreatePostFormData, EditPostFormData } from "../common/types/post";
 
 export const useCreatePost = (onSuccess: () => void) => {
   const httpClient = useHttpClient();
-  return useMutation<unknown, HTTPError, PostFormData>({
-    mutationFn: ({ photoFiles, ...rest }: PostFormData) => {
+  return useMutation<unknown, HTTPError, CreatePostFormData>({
+    mutationFn: ({ photoFiles, ...rest }: CreatePostFormData) => {
       const formData = new FormData();
       const { caption, mentions } = rest;
       formData.append("postFields", JSON.stringify({ caption, mentions }));
@@ -31,5 +31,19 @@ export const useEditPost = (onSuccess: () => void) => {
       return httpClient.post("files/editPost", { body: formData }).json();
     },
     onSuccess,
+  });
+};
+
+export const useFindUser = (userName: string) => {
+  const httpClient = useHttpClient();
+  return useQuery({
+    queryKey: ["findUser", userName],
+    queryFn: () =>
+      httpClient
+        .get(`check-username/${userName}`)
+        .json()
+        .then((data) => {
+          return data;
+        }),
   });
 };

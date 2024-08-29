@@ -2,28 +2,47 @@ import { itemList } from "./menu-data";
 import { Tab } from "../../reusable-components/tab";
 import { ProfileSummary } from "../../reusable-components/profile-summary";
 import { useGetProfile } from "../../api-hooks/get-my-profile";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../../reusable-components/button";
 import PlusIcon from "../../assets/svg/plus-round.svg";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Modal } from "../../reusable-components/modal";
+import { CreatePost } from "../post/create-post";
+import { Menu } from "./menu";
 
 export const Panel = ({ tab }: { tab: string }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { data, isSuccess, isFetched } = useGetProfile();
+  const [createPost, setCreatePost] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   useEffect(() => {
     if (isFetched) {
       if (data?.userName === undefined) {
-        console.log("wtf");
         navigate("/login");
       }
     }
   }, [data, isFetched, navigate]);
+  useEffect(() => {}, [location.pathname]);
   return (
     <>
+      <Modal
+        isOpen={createPost}
+        close={() => {
+          setCreatePost(false);
+        }}
+      >
+        <CreatePost
+          close={() => {
+            setCreatePost(false);
+          }}
+        />
+      </Modal>
       <Button
         classes="flex items-center justify-center"
         onClick={() => {
-          navigate(`profile/${data?.userName}/create-post`);
+          setCreatePost(true);
         }}
       >
         <img src={PlusIcon} alt="" />
@@ -66,21 +85,26 @@ export const Panel = ({ tab }: { tab: string }) => {
                 ></Tab>
               );
             })}
-          {Object.values(itemList)
-            .slice(7)
-            .map(({ text, icon }, index) => {
-              return (
-                <Tab
-                  key={text + index}
-                  text={text}
-                  icon={icon}
-                  selectedValue={tab}
-                  value={Object.keys(itemList)[index + 7]}
-                  className="absolute bottom-4"
-                  onClick={() => {}}
-                ></Tab>
-              );
-            })}
+          <div className="absolute bottom-4">
+            {isMenuOpen && (
+              <Menu
+                close={() => {
+                  setIsMenuOpen(false);
+                }}
+              />
+            )}
+            <Tab
+              key={itemList["more"].text + 7}
+              text={itemList["more"].text}
+              icon={itemList["more"].icon}
+              selectedValue={tab}
+              value={Object.keys(itemList)[7]}
+              className="absolute bottom-4"
+              onClick={() => {
+                setIsMenuOpen((isMenuOpen) => !isMenuOpen);
+              }}
+            />
+          </div>
         </section>
       </div>
     </>

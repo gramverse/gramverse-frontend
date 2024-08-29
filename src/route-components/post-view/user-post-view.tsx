@@ -1,11 +1,11 @@
 import { useState } from "react";
 // import { Outlet } from "react-router-dom";
 import { CommentProps } from "../../common/types/comment";
-import { Comment, ViewComments } from "../../reusable-components/comment";
+import { Comment, ViewComments } from "./post-shared-components/comment";
 import back from "../../assets/svg/back.svg";
 import pen from "../../assets/svg/pen.svg";
 import { CarouselMobile } from "./post-shared-components/carousel";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../../reusable-components/button";
 import { useGetPost } from "../../api-hooks/post-details";
 import { Carousel } from "./post-shared-components/carousel";
@@ -17,7 +17,11 @@ export const UserPostViewWeb = () => {
   const navigate = useNavigate();
   const params = useParams();
   const { data: post } = useGetPost(params.postId);
-
+  const [commentProps, setCommentProps] = useState<CommentProps>({
+    parentCommentId: "",
+    parentCommentUserName: "",
+    postId: post?._id ?? "",
+  });
   return (
     <div className="flex h-fit justify-between gap-3 self-center">
       <Carousel photoUrls={post?.photoUrls ?? []} />
@@ -38,8 +42,12 @@ export const UserPostViewWeb = () => {
           creationDate={post?.creationDate ?? ""}
         />
         <PostDetailSummary post={post} />
+        <Comment {...commentProps} />
       </div>
-      <Outlet />
+      <ViewComments
+        setCommentProps={setCommentProps}
+        postId={post?._id ?? ""}
+      />
     </div>
   );
 };
@@ -50,7 +58,7 @@ export const UserPostViewMobile = () => {
   const { data: post } = useGetPost(params.postId ?? "");
   const [commentProps, setCommentProps] = useState<CommentProps>({
     parentCommentId: "",
-    parentCommentUsername: "",
+    parentCommentUserName: "",
     postId: post?._id ?? "",
   });
   return (
@@ -94,7 +102,7 @@ export const UserPostViewMobile = () => {
       </div>
       <ViewComments
         setCommentProps={setCommentProps}
-        comments={post?.comments ?? []}
+        postId={post?._id ?? ""}
       />
     </div>
   );

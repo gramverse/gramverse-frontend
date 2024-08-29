@@ -1,13 +1,29 @@
+import { Outlet } from "react-router-dom";
 import { Alert } from "../reusable-components/alert";
 import { Button } from "../reusable-components/button";
+import { useEffect, useState } from "react";
 
 const ExploreMessage = () => {
-  const login = localStorage.getItem("authorize");
+  const [login, setLogin] = useState(true);
+  useEffect(() => {
+    switch (localStorage.getItem("authorize")) {
+      case "login":
+        setLogin(true);
+        break;
+      case "signup":
+        setLogin(false);
+        break;
+    }
+  }, []);
   return (
     <>
-      {login === "login" ? (
+      {login ? (
         <div className="flex w-fit flex-col items-center gap-10">
-          <Alert message="با موفقیت وارد شدید" status="success" />
+          <Alert
+            message="با موفقیت وارد شدید"
+            status="success"
+            time={100000000000}
+          />
         </div>
       ) : (
         <div className="m-7 flex flex-col items-center justify-between gap-9 rounded-xl border border-solid border-stone-300 bg-primary px-2 py-16">
@@ -21,6 +37,7 @@ const ExploreMessage = () => {
           <Button>جستجوی کالج گرامی ها</Button>
         </div>
       )}
+      <Outlet />
     </>
   );
 };

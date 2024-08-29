@@ -3,7 +3,7 @@ import { useBookmarkPost, useLikePost } from "../../../api-hooks/post-details";
 import { Bookmark } from "./bookmark";
 import { Like } from "./like";
 import { PostDetailSchema } from "../../../common/types/post-detail";
-import { Comment } from "./comment";
+import { Comment } from "./comment-count";
 import { z } from "zod";
 
 export const PostDetailSummary = ({

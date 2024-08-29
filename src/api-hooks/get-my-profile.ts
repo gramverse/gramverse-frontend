@@ -8,5 +8,6 @@ export const useGetProfile = () => {
   return useQuery<Profile, HTTPError>({
     queryKey: ["getProfile"],
     queryFn: () => httpClient.get(`users/myProfile`).json(),
+    retry: 3,
   });
 };

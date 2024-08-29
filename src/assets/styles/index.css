@@ -31,4 +31,7 @@
   .modal {
     @apply shadow-md shadow-black;
   }
+  .container-shadow {
+    @apply shadow-md shadow-black;
+  }
 }

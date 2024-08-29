@@ -1,14 +1,26 @@
+import { useState } from "react";
 import { Button } from "../../reusable-components/button";
 import { useNavigate } from "react-router-dom";
+import { Modal } from "../../reusable-components/modal";
+import { CreatePost } from "../post/create-post";
 
-export const EmptyGallery = ({
-  userName,
-}: {
-  userName: string | undefined;
-}) => {
-  const navigate = useNavigate();
+export const EmptyGallery = () => {
+  const [createPost, setCreatePost] = useState(false);
+
   return (
     <div className="flex w-full flex-col items-center justify-center gap-8 rounded-3xl border border-solid border-form-border py-12">
+      <Modal
+        isOpen={createPost}
+        close={() => {
+          setCreatePost(false);
+        }}
+      >
+        <CreatePost
+          close={() => {
+            setCreatePost(false);
+          }}
+        />
+      </Modal>
       <div className="size-5 h-[71px] w-[356px] text-center font-bold leading-8">
         هنوز هیچ پستی توی صفحه‌ات نذاشتی! بجنب تا دیر نشده
       </div>
@@ -17,9 +29,7 @@ export const EmptyGallery = ({
           classes="w-48 m-auto"
           type="submit"
           onClick={() => {
-            if (userName) {
-              navigate(`/profile/${userName}/create-post`);
-            }
+            setCreatePost(true);
           }}
         >
           ایجاد پست جدید

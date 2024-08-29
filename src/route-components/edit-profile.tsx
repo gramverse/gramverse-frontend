@@ -21,9 +21,8 @@ import {
 } from "../reusable-components/container.tsx";
 import { TextArea } from "../reusable-components/text-area.tsx";
 import { useGetProfile } from "../api-hooks/get-my-profile.ts";
-import { useNavigate } from "react-router-dom";
 
-const EditProfileLayout = () => {
+const EditProfileLayout = ({ close }: { close: () => void }) => {
   const { data: profile, refetch } = useGetProfile();
   const {
     register,
@@ -36,8 +35,7 @@ const EditProfileLayout = () => {
   });
   const handleProfileUpdated = () => {
     refetch();
-    const closeButton = document.body.querySelector("#close-modal");
-    (closeButton as HTMLElement).click();
+    close();
   };
 
   const { isError, error, mutate } = useEditProfile(handleProfileUpdated);
@@ -50,7 +48,6 @@ const EditProfileLayout = () => {
   };
 
   const isSetProfileImage = profile?.profileImage && profile.profileImage != "";
-  const navigate = useNavigate();
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -135,11 +132,8 @@ const EditProfileLayout = () => {
           <Button
             btnColor="transparent"
             type="button"
-            id="close-modal"
             onClick={() => {
-              setTimeout(() => {
-                navigate(-1);
-              }, 450);
+              close();
             }}
           >
             پشیمون شدم
@@ -153,18 +147,18 @@ const EditProfileLayout = () => {
   );
 };
 
-export const EditProfile = () => {
+export const EditProfile = ({ close }: { close: () => void }) => {
   return (
     <ContainterWeb>
-      <EditProfileLayout />
+      <EditProfileLayout close={close} />
     </ContainterWeb>
   );
 };
 
-export const EditProfileMoblie = () => {
+export const EditProfileMoblie = ({ close }: { close: () => void }) => {
   return (
     <ContainterMobile className="w-fit rounded-t-3xl border-2 border-solid border-gray-300">
-      <EditProfileLayout />
+      <EditProfileLayout close={close} />
     </ContainterMobile>
   );
 };

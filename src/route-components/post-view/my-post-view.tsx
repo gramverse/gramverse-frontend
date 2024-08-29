@@ -1,25 +1,46 @@
 import { useState } from "react";
 // import { Outlet } from "react-router-dom";
 import { CommentProps } from "../../common/types/comment";
-import { Comment, ViewComments } from "../../reusable-components/comment";
+import { Comment, ViewComments } from "./post-shared-components/comment";
 import back from "../../assets/svg/back.svg";
 import pen from "../../assets/svg/pen.svg";
 import { CarouselMobile } from "./post-shared-components/carousel";
 import { ProfileSummary } from "../../reusable-components/profile-summary";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../../reusable-components/button";
 import { useGetPost } from "../../api-hooks/post-details";
 import { Carousel } from "./post-shared-components/carousel";
 import { PostCaptions } from "./post-shared-components/captions";
 import { PostDetailSummary } from "./post-shared-components/summary-bar";
+import { Modal } from "../../reusable-components/modal";
+import { EditPost } from "../post/edit-post";
 
 export const PostViewWeb = () => {
-  const navigate = useNavigate();
   const params = useParams();
   const { data: post } = useGetPost(params.postId);
-
+  const [isEditOpen, OpenEdit] = useState(false);
+  const [commentProps, setCommentProps] = useState<CommentProps>({
+    parentCommentId: "",
+    parentCommentUserName: "",
+    postId: post?._id ?? "",
+  });
   return (
     <div className="flex h-fit justify-between gap-3 self-center">
+      <Modal
+        isOpen={isEditOpen}
+        close={() => {
+          OpenEdit(false);
+        }}
+      >
+        {post?._id && (
+          <EditPost
+            postId={post?._id}
+            close={() => {
+              OpenEdit(false);
+            }}
+          />
+        )}
+      </Modal>
       <Carousel photoUrls={post?.photoUrls ?? []} />
       <div className="flex grow flex-col gap-3 p-5">
         <div className="flex flex-row justify-between gap-5">
@@ -27,7 +48,7 @@ export const PostViewWeb = () => {
           <img
             src={pen}
             onClick={() => {
-              navigate("edit");
+              OpenEdit(true);
             }}
           />
         </div>
@@ -38,8 +59,12 @@ export const PostViewWeb = () => {
           creationDate={post?.creationDate ?? ""}
         />
         <PostDetailSummary post={post} />
+        <Comment {...commentProps} />
       </div>
-      <Outlet />
+      <ViewComments
+        setCommentProps={setCommentProps}
+        postId={post?._id ?? ""}
+      />{" "}
     </div>
   );
 };
@@ -50,7 +75,7 @@ export const PostViewMobile = () => {
   const { data: post } = useGetPost(params.postId ?? "");
   const [commentProps, setCommentProps] = useState<CommentProps>({
     parentCommentId: "",
-    parentCommentUsername: "",
+    parentCommentUserName: "",
     postId: post?._id ?? "",
   });
   return (
@@ -91,7 +116,7 @@ export const PostViewMobile = () => {
       </div>
       <ViewComments
         setCommentProps={setCommentProps}
-        comments={post?.comments ?? []}
+        postId={post?._id ?? ""}
       />
     </div>
   );
