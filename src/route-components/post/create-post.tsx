@@ -22,10 +22,7 @@ import {
 } from "../../common/types/post";
 import { Alert } from "../../reusable-components/alert";
 import { Button } from "../../reusable-components/button";
-import {
-  ContainterMobile,
-  ContainterWeb,
-} from "../../reusable-components/container";
+import { ContainterWeb } from "../../reusable-components/container";
 import { EmojiKeyboard } from "../../reusable-components/emoji/emoji-keyboard";
 import { Switch } from "../../reusable-components/switch";
 import { TextArea } from "../../reusable-components/text-area";
@@ -279,7 +276,7 @@ const CreatePostLayout = ({
   return (
     <div
       className={clsx(
-        "my-5 flex min-h-96 w-80 grow flex-col items-center gap-5 transition-transform",
+        "my-5 flex w-80 grow flex-col items-center gap-5 transition-transform",
         classes,
       )}
     >
@@ -376,8 +373,8 @@ export const CreatePost = ({ close }: { close: () => void }) => {
 
 export const CreatePostMobile = () => {
   return (
-    <ContainterMobile>
-      <CreatePostLayout classes={clsx("h-[700px] px-1")} />
-    </ContainterMobile>
+    <div className="grow">
+      <CreatePostLayout classes={clsx("h-[680px] px-1")} />
+    </div>
   );
 };

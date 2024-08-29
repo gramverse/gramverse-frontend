@@ -28,16 +28,16 @@ export const Main = () => {
   }, [location.pathname, navigate]);
 
   return (
-    <div className="flex grow flex-row items-start h-full bg-primary px-5 pt-16 box-border">
+    <div className="box-border flex h-full grow flex-row items-start bg-primary px-5 pt-16">
       <img src={rahnema} className="absolute left-20" alt="" />
       <div className="flex h-full w-fit flex-col items-center gap-5 self-start">
         <Panel tab={tab} />
       </div>
-      <div className="flex grow flex-col h-full items-center justify-center px-12">
+      <div className="flex h-full grow flex-col items-center justify-center px-12">
         <Outlet />
       </div>
     </div>
-    );
+  );
 };
 
 export const MainMobile = () => {
@@ -65,7 +65,7 @@ export const MainMobile = () => {
     }
   }, [location.pathname]);
   useEffect(() => {
-    if (location.pathname.startsWith("/post/")) {
+    if (location.pathname.includes("/post")) {
       showTopNavigation(false);
     } else {
       showTopNavigation(true);
@@ -82,7 +82,7 @@ export const MainMobile = () => {
     }
   }, [location.pathname, navigate]);
   return (
-    <ContainterMobile>
+    <ContainterMobile className="overflow-y-scroll">
       {topNavigation && (
         <MobileTopNavigation
           userName={profileSummary?.userName}

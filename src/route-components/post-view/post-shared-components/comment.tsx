@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   useGetComments,
   useLikeComment,
@@ -18,7 +18,6 @@ import { InputField } from "../../../reusable-components/input-field";
 import { RoundPicture } from "../../../reusable-components/profile-picture";
 import { Like } from "../../../route-components/post-view/post-shared-components/like";
 import { getTimeDifference } from "../../../utilitis.ts/time-difference";
-import { Button } from "../../../reusable-components/button";
 import clsx from "clsx";
 import { useInView } from "react-intersection-observer";
 import { Loading } from "../../../reusable-components/loading";
@@ -30,7 +29,16 @@ type CommentProps = {
 };
 export const Comment = (props: CommentProps) => {
   const { data: profile } = useGetProfile();
-  const [comment, setComment] = useState(props.parentCommentUserName);
+  const [comment, setComment] = useState("");
+  const textField = useRef(null);
+  useEffect(() => {
+    if (props.parentCommentUserName !== "") {
+      setComment("@" + props.parentCommentUserName + " ");
+      textField.current ? (textField.current as HTMLElement).focus() : () => {};
+    } else {
+      setComment("");
+    }
+  }, [props]);
   const { mutate } = useSendComment(props.postId);
   return (
     <div>
@@ -44,6 +52,8 @@ export const Comment = (props: CommentProps) => {
           }
         />
         <InputField
+          ref={textField}
+          autoFocus
           placeholder="نظر خود را بنویسید"
           usesError={false}
           value={comment}
@@ -56,8 +66,7 @@ export const Comment = (props: CommentProps) => {
           }}
           onKeyDown={(e) => {
             if (e.key == "Enter") {
-              console.log("enter");
-              if (comment.includes(`@${props.parentCommentUserName}}`)) {
+              if (comment.includes(`@${props.parentCommentUserName}`)) {
                 mutate({
                   comment: comment,
                   parentCommentId: props.parentCommentId,
@@ -79,7 +88,8 @@ export const Comment = (props: CommentProps) => {
           alt=""
           className="cursor-pointer"
           onClick={() => {
-            if (comment.includes(`@${props.parentCommentUserName}}`)) {
+            console.log(comment);
+            if (comment.includes(`@${props.parentCommentUserName}`)) {
               mutate({
                 comment: comment,
                 parentCommentId: props.parentCommentId,
@@ -102,7 +112,8 @@ export const Comment = (props: CommentProps) => {
 
 interface CommentsView {
   postId: string;
-  setCommentProps: React.Dispatch<React.SetStateAction<CommentFieldProps>>;
+  setCommentProps: (props: CommentFieldProps) => void;
+  className?: string;
 }
 
 const flattenComments = (data: CommentsArray | undefined) => {
@@ -126,21 +137,36 @@ const flattenComments = (data: CommentsArray | undefined) => {
   });
   return flattened;
 };
-export const ViewComments = ({ postId, setCommentProps }: CommentsView) => {
+export const ViewComments = ({
+  postId,
+  setCommentProps,
+  className,
+}: CommentsView) => {
   const { mutate } = useLikeComment({ postId });
-  const [isLiked, setIsLiked] = useState<boolean | undefined>(undefined);
   const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } =
-    useGetComments({ postId });
+    useGetComments({ postId, limit: 1 });
   const { ref, inView } = useInView({
-    threshold: 1,
+    threshold: 0.1,
   });
   useEffect(() => {
-    if (inView && hasNextPage && !isFetching && !isFetchingNextPage) {
+    if (inView && hasNextPage) {
       fetchNextPage();
     }
-  }, [fetchNextPage, hasNextPage, inView, isFetching, isFetchingNextPage]);
+  }, [
+    data,
+    fetchNextPage,
+    hasNextPage,
+    inView,
+    isFetching,
+    isFetchingNextPage,
+  ]);
   return (
-    <div className="h-[200px] overflow-scroll">
+    <div
+      className={clsx(
+        "flex w-full flex-col items-center gap-10 overflow-y-scroll",
+        className,
+      )}
+    >
       {flattenComments(
         data?.pages.reduce<CommentDto[]>(
           (prev, curr) => prev.concat(curr.comments),
@@ -148,63 +174,64 @@ export const ViewComments = ({ postId, setCommentProps }: CommentsView) => {
         ),
       ).map((comment) => {
         return (
-          <div
-            className={clsx("mb-2 flex w-full flex-col justify-between gap-3", {
-              "ms-5": comment.parentCommentId === "",
-            })}
-          >
-            <div className="relative flex w-full items-center justify-start gap-2">
-              <span className="text-xl font-bold">{comment.userName}</span>
-              <small className="text-xs">
-                {getTimeDifference(new Date(), comment.creationDate)}
-              </small>
-              <div className="absolute left-0 flex gap-3">
-                <div className="flex gap-2">
-                  <span>{comment.likesCount}</span>
-                  <Like
-                    defaultValue={comment.isLiked}
-                    isLiked={isLiked}
+          <div className="flex w-full">
+            <span
+              className={clsx({ "w-12": comment.parentCommentId !== "" })}
+            />
+
+            <div
+              className={clsx("flex w-full flex-col justify-between gap-3")}
+              key={comment._id}
+            >
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="text-l font-bold">{comment.userName}</span>
+                  <small className="text-xs">
+                    {getTimeDifference(
+                      new Date(),
+                      new Date(comment.creationDate),
+                    )}
+                  </small>
+                </div>
+                <div className="flex items-center gap-2 justify-self-end">
+                  <div className="flex items-center gap-1">
+                    <span>{comment.likesCount}</span>
+                    <Like
+                      defaultValue={comment.isLiked}
+                      isLiked={undefined}
+                      onClick={() => {
+                        mutate({
+                          commentId: comment._id,
+                          isLike: !comment.isLiked,
+                        });
+                      }}
+                    />
+                  </div>
+                  <div
+                    className="flex items-center gap-2"
                     onClick={() => {
-                      const likeValue = isLiked == undefined ? true : !isLiked;
-                      setIsLiked(likeValue);
-                      mutate({
-                        commentId: comment._id,
-                        isLike: likeValue ?? false,
+                      setCommentProps({
+                        parentCommentId: comment._id,
+                        parentCommentUserName: comment.userName,
                       });
                     }}
-                  />
-                </div>
-                <div
-                  className="flex gap-2"
-                  onClick={() => {
-                    setCommentProps({
-                      parentCommentId: comment.parentCommentId,
-                      parentCommentUserName: comment.userName,
-                    });
-                  }}
-                >
-                  <span>پاسخ</span>
-                  <img src={reply} alt="" />
+                  >
+                    <span className="text-xs">پاسخ</span>
+                    <img src={reply} className="w-4" alt="" />
+                  </div>
                 </div>
               </div>
+              <span>{comment.comment}</span>
             </div>
-            <span>{comment.comment}</span>
           </div>
         );
       })}
       <div>
-        <Loading isLoading={isFetching} ref={ref} />
-        <Button
-          btnColor="transparent"
-          disabled={isFetchingNextPage ?? hasNextPage}
-          onClick={() => fetchNextPage()}
-        >
-          {isFetchingNextPage
-            ? "درحال بارگیری"
-            : hasNextPage
-              ? "بارگیری بیشتر"
-              : ""}
-        </Button>
+        <Loading
+          isLoading={isFetching || isFetchingNextPage}
+          className="self-center"
+          ref={ref}
+        />
       </div>
     </div>
   );

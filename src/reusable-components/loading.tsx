@@ -1,11 +1,12 @@
 import { forwardRef } from "react";
 type LoadingProps = {
   isLoading: boolean;
+  className?: string;
 };
 export const Loading = forwardRef<HTMLDivElement, LoadingProps>(
-  ({ isLoading }, ref) => {
+  ({ isLoading, className }, ref) => {
     return (
-      <div ref={ref}>
+      <div ref={ref} className={className}>
         {isLoading && (
           <svg
             className="-ml-1 mr-3 h-5 w-5 animate-spin text-gray-200"

@@ -20,10 +20,7 @@ import Emoji from "../../assets/svg/emoji.svg";
 import { EditPostFormData, PostFormDataSchema } from "../../common/types/post";
 import { Alert } from "../../reusable-components/alert";
 import { Button } from "../../reusable-components/button";
-import {
-  ContainterMobile,
-  ContainterWeb,
-} from "../../reusable-components/container";
+import { ContainterWeb } from "../../reusable-components/container";
 import { EmojiKeyboard } from "../../reusable-components/emoji/emoji-keyboard";
 import { Switch } from "../../reusable-components/switch";
 import { TextArea } from "../../reusable-components/text-area";
@@ -392,8 +389,8 @@ export const EditPost = ({
 
 export const EditPostMobile = () => {
   return (
-    <ContainterMobile>
-      <EditPostLayout classes={clsx("h-[700px] px-1")} />
-    </ContainterMobile>
+    <div className="grow">
+      <EditPostLayout classes={clsx("h-[680px] px-1")} />
+    </div>
   );
 };

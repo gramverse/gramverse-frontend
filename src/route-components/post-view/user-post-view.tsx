@@ -44,7 +44,8 @@ export const UserPostViewWeb = () => {
         <Comment postId={post?._id ?? ""} {...commentProps} />
       </div>
       <ViewComments
-        setCommentProps={setCommentProps}
+        className="mt-5 h-96 w-1/2 self-end"
+        setCommentProps={(props: CommentFieldProps) => setCommentProps(props)}
         postId={post?._id ?? ""}
       />
     </div>
@@ -98,10 +99,13 @@ export const UserPostViewMobile = () => {
         />
         <Comment postId={post?._id ?? ""} {...commentProps} />
       </div>
-      <ViewComments
-        setCommentProps={setCommentProps}
-        postId={post?._id ?? ""}
-      />
+      <div className="px-3">
+        <ViewComments
+          className="mt-10 h-[500px] grow self-end"
+          setCommentProps={(props: CommentFieldProps) => setCommentProps(props)}
+          postId={post?._id ?? ""}
+        />
+      </div>
     </div>
   );
 };

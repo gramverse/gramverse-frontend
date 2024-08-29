@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import { Outlet } from "react-router-dom";
 import { Comment, ViewComments } from "./post-shared-components/comment";
 import back from "../../assets/svg/back.svg";
@@ -23,8 +23,11 @@ export const PostViewWeb = () => {
     parentCommentId: "",
     parentCommentUserName: "",
   });
+  useEffect(() => {
+    console.log(commentProps);
+  }, [commentProps]);
   return (
-    <div>
+    <div className="flex flex-col items-end">
       <div className="flex h-fit justify-between gap-3 self-center">
         <Modal
           isOpen={isEditOpen}
@@ -63,7 +66,8 @@ export const PostViewWeb = () => {
         </div>
       </div>
       <ViewComments
-        setCommentProps={setCommentProps}
+        className="mt-5 h-96 w-1/2 self-end"
+        setCommentProps={(props: CommentFieldProps) => setCommentProps(props)}
         postId={post?._id ?? ""}
       />
     </div>
@@ -79,7 +83,7 @@ export const PostViewMobile = () => {
     parentCommentUserName: "",
   });
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-start bg-primary">
+    <div className="flex h-full flex-col items-stretch justify-start overflow-y-scroll bg-primary">
       <div className="mt-2 w-full text-end">
         <img
           src={back}
@@ -114,10 +118,13 @@ export const PostViewMobile = () => {
         />
         <Comment postId={post?._id ?? ""} {...commentProps} />
       </div>
-      <ViewComments
-        setCommentProps={setCommentProps}
-        postId={post?._id ?? ""}
-      />
+      <div className="px-3">
+        <ViewComments
+          className="mt-10 h-[500px] grow self-end"
+          setCommentProps={(props: CommentFieldProps) => setCommentProps(props)}
+          postId={post?._id ?? ""}
+        />
+      </div>
     </div>
   );
 };
