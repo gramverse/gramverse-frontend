@@ -104,6 +104,14 @@ export const AppRoutesMobile = () => {
       <Route path={urls.forgetPassword} element={<ForgetPasswordMobile />} />
       <Route path={urls.forgetPasswordInfo} element={<ForgetPasswordInfo />} />
       <Route path={"/"} element={<MainMobile />}>
+        <Route
+          path="profile/:userName/post/:postId"
+          element={<PostViewMobile />}
+        />
+        <Route
+          path="user/:userName/post/:postId"
+          element={<UserPostViewMobile />}
+        />
         <Route element={<ListMobile />}>
           <Route path={"close-friends"} element={<CloseFriendsMobile />} />
           <Route path={"black-list"} element={<BlackListMobile />} />
@@ -113,12 +121,8 @@ export const AppRoutesMobile = () => {
           path="profile/:userName/post/:postId/edit"
           element={<EditPostMobile />}
         />
-        <Route path={"user/:userName"} element={<UserPageMobile />}>
-          <Route path="post/:postId" element={<UserPostViewMobile />} />
-        </Route>
-        <Route path={"profile/:userName"} element={<MyPageMobile />}>
-          <Route path="post/:postId" element={<PostViewMobile />} />
-        </Route>
+        <Route path={"user/:userName"} element={<UserPageMobile />} />
+        <Route path={"profile/:userName"} element={<MyPageMobile />} />
         <Route index element={<ExploreMobile />} />
       </Route>
 

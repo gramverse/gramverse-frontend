@@ -12,7 +12,7 @@ export const UserGallery = ({ posts }: UserGalleryProps) => {
         return (
           <div
             key={post._id}
-            className="h-[304px] w-[295px] overflow-hidden rounded-t-3xl bg-neutral-400"
+            className="h-[304px] w-[295px] rounded-t-3xl bg-neutral-400"
             onClick={() => {
               navigate(`post/${post._id}`);
             }}
@@ -36,7 +36,7 @@ export const UserGalleryMobile = ({ posts }: UserGalleryProps) => {
         return (
           <div
             key={post._id}
-            className="h-36 w-36 overflow-hidden rounded-t-3xl bg-neutral-400"
+            className="h-36 w-36 rounded-t-3xl bg-neutral-400"
             onClick={() => {
               navigate(`post/${post._id}`);
             }}

@@ -3,7 +3,7 @@ import { useHttpClient } from "../common/http-client";
 import {
   AddCommentData,
   CommentsResponse,
-  CommentsResponseSchema,
+  // CommentsResponseSchema,
 } from "../common/types/comment";
 import { LikeComment } from "../common/types/comment";
 import { queryClient } from "../common/query-client";
@@ -33,25 +33,31 @@ export const useLikeComment = ({ postId }: { postId: string }) => {
           json: data,
         })
         .json(),
-    onSettled: () =>
+    onSuccess: () =>
       queryClient.invalidateQueries({
         queryKey: ["getComments", postId],
       }),
   });
 };
 
-export const useGetComments = ({ postId }: { postId: string }) => {
+export const useGetComments = ({
+  postId,
+  limit,
+}: {
+  postId: string;
+  limit: number;
+}) => {
   const httpClient = useHttpClient();
   return useInfiniteQuery<CommentsResponse, HTTPError>({
-    queryKey: ["getComments", { postId }],
+    queryKey: ["getComments", postId],
     queryFn: ({ pageParam = 1 }) =>
       httpClient
-        .get(`posts/comments?postId=${postId}&page=${pageParam}&limit=${5}`)
-        .json()
-        .then(CommentsResponseSchema.parse),
+        .get(`posts/comments?postId=${postId}&page=${pageParam}&limit=${limit}`)
+        .json(),
+    // .then(CommentsResponseSchema.parse),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
-      const remaining = lastPage.totalCount - allPages.length * 5;
+      const remaining = lastPage.totalCount - allPages.length * limit;
       if (remaining <= 0) {
         return undefined;
       }
