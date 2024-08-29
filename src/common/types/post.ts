@@ -18,15 +18,19 @@ export const PostFormDataSchema = z.object({
   isForCloseFriends: z.boolean(),
 });
 
-export interface PostFormData {
+export interface CreatePostFormData {
+  caption: string;
+  mentions: Array<string>;
+  photoFiles: File[];
+  isForCloseFriends?: boolean;
+}
+
+export interface EditPostFormData {
   caption: string;
   mentions: Array<string>;
   photoURLs: Array<string>;
   photoFiles: File[];
   isForCloseFriends?: boolean;
-}
-
-export interface EditPostFormData extends PostFormData {
   _id: string;
 }
 export const PostSchema = z.object({

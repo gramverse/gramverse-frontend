@@ -3,7 +3,9 @@ import { Tab } from "../../reusable-components/tab";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { ProfileSchema } from "../../common/types/profile-data";
-export const DrawerMenu = () => {
+import friend from "../../assets/svg/close-friend.svg";
+import blocked from "../../assets/svg/blocked.svg";
+export const DrawerMenu = ({ close }: { close: () => void }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const data = ProfileSchema.parse(queryClient.getQueryData(["getProfile"]));
@@ -18,29 +20,33 @@ export const DrawerMenu = () => {
               text={text}
               icon={icon}
               onClick={() => {
-                setTimeout(() => {
-                  if (data.userName) {
-                    navigate(`/profile/${data.userName}`);
-                  } else {
-                    navigate("/");
-                  }
-                }, 490);
+                close();
+                if (data.userName) {
+                  navigate(`/profile/${data.userName}`);
+                } else {
+                  navigate("/");
+                }
               }}
             ></Tab>
           );
         })}
-      {Object.values(itemList)
-        .slice(7)
-        .map(({ text, icon }, index) => {
-          return (
-            <Tab
-              key={text + index}
-              text={text}
-              icon={icon}
-              onClick={() => {}}
-            ></Tab>
-          );
-        })}
+
+      <Tab
+        text="دوستان نزدیک"
+        icon={friend}
+        onClick={() => {
+          close();
+          navigate("/close-friends");
+        }}
+      />
+      <Tab
+        text="لیست سیاه"
+        icon={blocked}
+        onClick={() => {
+          close();
+          navigate("/black-list");
+        }}
+      />
     </div>
   );
 };

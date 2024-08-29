@@ -1,5 +1,5 @@
 import { ProfileSummary } from "../../reusable-components/profile-summary";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../../reusable-components/button";
 import expand from "../../assets/svg/expand.svg";
 import { ContainterWeb } from "../../reusable-components/container";
@@ -9,11 +9,16 @@ import { PostCaptions } from "./post-shared-components/captions";
 import { useGetProfile } from "../../api-hooks/get-my-profile";
 import { PostDetailSummary } from "./post-shared-components/summary-bar";
 
-export const PostModal = () => {
+export const PostModal = ({
+  postId,
+  openEditPost,
+}: {
+  postId: string;
+  openEditPost: () => void;
+}) => {
   const navigate = useNavigate();
   const { data } = useGetProfile();
-  const params = useParams();
-  const { data: post } = useGetPost(params.postId);
+  const { data: post } = useGetPost(postId);
   return (
     <ContainterWeb className="relative flex grow justify-between gap-3 pt-16">
       <img
@@ -29,7 +34,7 @@ export const PostModal = () => {
           <ProfileSummary />
           <Button
             onClick={() => {
-              navigate("edit");
+              openEditPost();
             }}
           >
             ویرایش پست

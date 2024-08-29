@@ -16,7 +16,6 @@ import { Button } from "../../reusable-components/button";
 
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { CollegeBackground } from "../../reusable-components/rahnema-background";
 import {
   ContainterMobile,
   ContainterWeb,
@@ -49,7 +48,7 @@ const ResetPassWordComponent = () => {
   };
 
   return (
-    <div className="flex h-full w-fit flex-col items-center justify-center bg-primary">
+    <div className="flex h-[800px] w-[300px] flex-col items-center justify-center bg-primary">
       <img src={rahnemaLogo} alt="" />
       <p className="font-semibold leading-5"> تنظیم رمز عبور جدید </p>
       <form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>
@@ -84,11 +83,9 @@ const ResetPassWordComponent = () => {
 
 export const ResetPassWord = () => {
   return (
-    <CollegeBackground>
-      <ContainterWeb>
-        <ResetPassWordComponent></ResetPassWordComponent>
-      </ContainterWeb>
-    </CollegeBackground>
+    <ContainterWeb>
+      <ResetPassWordComponent></ResetPassWordComponent>
+    </ContainterWeb>
   );
 };
 

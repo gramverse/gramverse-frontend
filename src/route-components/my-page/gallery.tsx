@@ -1,21 +1,55 @@
+import { useState } from "react";
 import { Post } from "../../common/types/post";
 import { useNavigate } from "react-router-dom";
+import { Modal } from "../../reusable-components/modal";
+import { PostModal } from "../post-view/post-modal";
+import { EditPost } from "../post/edit-post";
 type GalleryProps = {
   posts: Post[];
 };
 
 export const Gallery = ({ posts }: GalleryProps) => {
-  const navigate = useNavigate();
+  const [isPostOpen, openPost] = useState(false);
+  const [postId, setPostId] = useState<string>("");
+  const [isEditOpen, OpenEdit] = useState(false);
 
   return (
-    <div className="flex grow flex-row flex-wrap gap-5">
+    <div className="flex w-[925px] flex-row flex-wrap gap-5">
+      <Modal
+        isOpen={isPostOpen}
+        close={() => {
+          openPost(false);
+        }}
+      >
+        <PostModal
+          postId={postId}
+          openEditPost={() => {
+            openPost(false);
+            OpenEdit(true);
+          }}
+        />
+      </Modal>
+      <Modal
+        isOpen={isEditOpen}
+        close={() => {
+          OpenEdit(false);
+        }}
+      >
+        <EditPost
+          postId={postId}
+          close={() => {
+            OpenEdit(false);
+          }}
+        />
+      </Modal>
       {posts.map((post) => {
         return (
           <div
             key={post._id}
             className="h-[304px] w-[295px] overflow-hidden rounded-t-3xl bg-neutral-400"
             onClick={() => {
-              navigate(`post/${post._id}`);
+              setPostId(post._id);
+              openPost(true);
             }}
           >
             <img

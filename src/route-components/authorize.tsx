@@ -1,44 +1,40 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import rahnema from "../assets/svg/rahnema.svg";
 import { useEffect, useState } from "react";
-import { Login } from "./login";
-import { Signup } from "./sign-up";
 import { urls } from "../common/routes";
 import arrow from "../assets/svg/arrow.svg";
-import { CollegeBackground } from "../reusable-components/rahnema-background";
 import {
   ContainterMobile,
   ContainterWeb,
 } from "../reusable-components/container";
 import { TwinTab } from "../reusable-components/twin-tabs";
 
-const AuthorizeComponent = ({ defaultValue }: { defaultValue: number }) => {
-  const [value, setValue] = useState(defaultValue);
-  const navigate = useNavigate();
+const AuthorizeComponent = () => {
+  const [value, setValue] = useState(0);
+  const location = useLocation();
   useEffect(() => {
-    switch (value) {
-      case 0:
-        navigate(urls.login);
+    switch (true) {
+      case location.pathname.includes("login"):
+        setValue(0);
         break;
-      case 1:
-        navigate(urls.signup);
+      case location.pathname.includes("signup"):
+        setValue(1);
     }
-  }, [value, navigate]);
+  }, [location.pathname]);
 
   return (
-    <div className="w-full grow items-center justify-center gap-5 bg-primary text-center">
+    <div className="h-[800px] w-[300px] grow items-center justify-center gap-5 bg-primary text-center">
       <img src={rahnema} alt="" className="my-5" />
       <div className="my-5 flex grow justify-center gap-6">
         <TwinTab
           tab1={{ text: "ورود", url: urls.login }}
           tab2={{ text: "ثبت نام", url: urls.signup }}
           tab={value}
-          setTab={setValue}
         />
       </div>
       <div className="flex grow flex-col items-start">
         <div className="flex items-center self-center">
-          {value === 0 ? <Login></Login> : <Signup></Signup>}
+          <Outlet />
         </div>
         {value == 0 && (
           <div className="mb-6 flex grow flex-col items-start gap-3">
@@ -69,20 +65,18 @@ const AuthorizeComponent = ({ defaultValue }: { defaultValue: number }) => {
   );
 };
 
-export const Authroize = ({ defaultValue }: { defaultValue: number }) => {
+export const Authroize = () => {
   return (
-    <CollegeBackground>
-      <ContainterWeb>
-        <AuthorizeComponent defaultValue={defaultValue}></AuthorizeComponent>
-      </ContainterWeb>
-    </CollegeBackground>
+    <ContainterWeb className="px-20">
+      <AuthorizeComponent></AuthorizeComponent>
+    </ContainterWeb>
   );
 };
 
-export const AuthroizeMobile = ({ defaultValue }: { defaultValue: number }) => {
+export const AuthroizeMobile = () => {
   return (
     <ContainterMobile>
-      <AuthorizeComponent defaultValue={defaultValue}></AuthorizeComponent>
+      <AuthorizeComponent></AuthorizeComponent>
     </ContainterMobile>
   );
 };

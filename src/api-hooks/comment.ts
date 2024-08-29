@@ -1,12 +1,17 @@
-import { useMutation } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
-import { CommentData } from "../common/types/comment";
+import {
+  AddCommentData,
+  CommentsResponse,
+  CommentsResponseSchema,
+} from "../common/types/comment";
 import { LikeComment } from "../common/types/comment";
 import { queryClient } from "../common/query-client";
-export const useSendComment = (id: string) => {
+import { HTTPError } from "ky";
+export const useSendComment = (postId: string) => {
   const client = useHttpClient();
   return useMutation({
-    mutationFn: (data: CommentData) => {
+    mutationFn: (data: AddCommentData) => {
       return client
         .post("posts/addComment", {
           json: data,
@@ -14,12 +19,12 @@ export const useSendComment = (id: string) => {
         .json();
     },
     onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ["getPost", id] });
+      queryClient.invalidateQueries({ queryKey: ["getComments", postId] });
     },
   });
 };
 
-export const useLikeComment = () => {
+export const useLikeComment = ({ postId }: { postId: string }) => {
   const client = useHttpClient();
   return useMutation({
     mutationFn: (data: LikeComment) =>
@@ -28,9 +33,29 @@ export const useLikeComment = () => {
           json: data,
         })
         .json(),
-    //  onSettled: (_data, _error, { commentId }) =>
-    //     queryClient.invalidateQueries({
-    //       queryKey: ["getComments", commentId],
-    //     }),
+    onSettled: () =>
+      queryClient.invalidateQueries({
+        queryKey: ["getComments", postId],
+      }),
+  });
+};
+
+export const useGetComments = ({ postId }: { postId: string }) => {
+  const httpClient = useHttpClient();
+  return useInfiniteQuery<CommentsResponse, HTTPError>({
+    queryKey: ["getComments", { postId }],
+    queryFn: ({ pageParam = 1 }) =>
+      httpClient
+        .get(`posts/comments?postId=${postId}&page=${pageParam}&limit=${5}`)
+        .json()
+        .then(CommentsResponseSchema.parse),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => {
+      const remaining = lastPage.totalCount - allPages.length * 5;
+      if (remaining <= 0) {
+        return undefined;
+      }
+      return allPages.length + 1;
+    },
   });
 };

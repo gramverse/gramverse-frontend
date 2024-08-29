@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { ButtonHTMLAttributes } from "react";
+import { ButtonHTMLAttributes, forwardRef } from "react";
 
 const sizes: Record<Sizes, string> = {
   small: "h-7 px-2 py-2 gap-2 rounded-xl text-sm ",

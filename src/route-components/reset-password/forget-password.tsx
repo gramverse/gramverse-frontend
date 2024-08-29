@@ -6,9 +6,8 @@ import { Alert } from "../../reusable-components/alert";
 import { useForgetPassword } from "../../api-hooks/forget-password";
 import { InputField } from "../../reusable-components/input-field";
 import { Button } from "../../reusable-components/button";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { urls } from "../../common/routes";
-import { CollegeBackground } from "../../reusable-components/rahnema-background";
 import {
   ContainterMobile,
   ContainterWeb,
@@ -17,7 +16,7 @@ import {
 
 const ForgetPasswordLayout = () => {
   const { register, handleSubmit } = useForm<forgetPassFormValue>({});
-
+  const navigate = useNavigate();
   const { error, mutate } = useForgetPassword();
 
   const onSubmit: SubmitHandler<forgetPassFormValue> = (formData) => {
@@ -25,7 +24,7 @@ const ForgetPasswordLayout = () => {
   };
 
   return (
-    <div className="flex w-fit flex-col items-center justify-center gap-5 bg-primary py-20">
+    <div className="flex h-[600px] w-[300px] flex-col items-center justify-center gap-5 bg-primary">
       <img src={rahnemaLogo} alt="" />
       <p className="font-semibold leading-5">بازیابی رمز عبور</p>
       <form
@@ -43,9 +42,14 @@ const ForgetPasswordLayout = () => {
           {...register("email")}
         />
         <div className="flex flex-row items-center justify-end gap-5 self-end">
-          <Link className="no-underline" to={urls.login}>
+          <Button
+            btnColor="transparent"
+            onClick={() => {
+              navigate(urls.login);
+            }}
+          >
             انصراف
-          </Link>
+          </Button>
           <Button type={"submit"} size="medium">
             ارسال لینک بازیابی رمز عبور
           </Button>
@@ -57,11 +61,9 @@ const ForgetPasswordLayout = () => {
 
 export const ForgetPassword = () => {
   return (
-    <CollegeBackground>
-      <ContainterWeb>
-        <ForgetPasswordLayout></ForgetPasswordLayout>
-      </ContainterWeb>
-    </CollegeBackground>
+    <ContainterWeb className="px-20">
+      <ForgetPasswordLayout></ForgetPasswordLayout>
+    </ContainterWeb>
   );
 };
 
