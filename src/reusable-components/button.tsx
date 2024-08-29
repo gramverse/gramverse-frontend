@@ -12,6 +12,7 @@ const btnStyles: Record<BtnStyles, string> = {
   transparent: "bg-transparent text-black border-none",
   outline:
     "bg-transparent text-submit-btn border-solid border-2 border-red-600",
+  disabled: "bg-neutral-400 border-none pointer-events-none text-white",
 };
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: "small" | "medium" | "large";
@@ -21,7 +22,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 type Sizes = "small" | "medium" | "large";
-type BtnStyles = "secondary" | "transparent" | "outline";
+type BtnStyles = "secondary" | "transparent" | "outline" | "disabled";
 export const Button = (props: ButtonProps) => {
   const {
     size = "medium",

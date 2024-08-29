@@ -30,7 +30,7 @@ type Sizes = "xsmall" | "small" | "medium" | "large" | "mobile";
 type Status = "error" | "normal";
 type Directions = "left" | "right";
 export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
-  (props, ref) => {
+  function InputField(props, ref) {
     const {
       fieldsize: fieldSize = "small",
       direction = "right",

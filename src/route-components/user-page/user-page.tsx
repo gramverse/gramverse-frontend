@@ -1,14 +1,18 @@
-import { ViewAppUserInfo } from "../view-app-user-info";
 import {
+  useCancelRequest,
   useFollowUser,
   useGetUserPosts,
   useGetUserProfile,
 } from "../../api-hooks/user-page";
-import { NotAllowedViewGallery } from "./not-allowed-view-user-post";
+import { PrivateGallery } from "./user-private-gallery";
 import { UserEmptyGallery } from "./user-empty-gallery";
 import { UserGallery } from "./user-gallery";
 import { ContainterMobile } from "../../reusable-components/container";
 import { useParams } from "react-router-dom";
+import { UserAccountInfo } from "./user-account-info";
+import { requestStatus } from "../../common/types/user-profile";
+import { UserBlockedGallery } from "./user-blocked-gallery";
+import { Test } from "../test";
 
 export const UserPageLayout = () => {
   const { userName } = useParams();
@@ -22,21 +26,44 @@ export const UserPageLayout = () => {
     data: userPosts,
     isError: isUserPostError,
     error: userPostError,
-  } = useGetUserPosts(userInfo?.userName, userInfo?.isFollowed);
+  } = useGetUserPosts(
+    userInfo?.userName,
+    (!userInfo?.hasBlockedUs &&
+      userInfo?.followRequestState == requestStatus.accepted) ||
+      !userInfo?.isPrivate,
+  );
 
+  const isFollowedUser =
+    userInfo &&
+    !userInfo.hasBlockedUs &&
+    userInfo.followRequestState === requestStatus.accepted;
+  const isPublicPage =
+    userInfo && !userInfo.hasBlockedUs && !userInfo.isPrivate;
+  const IsUserBlockedUs = userInfo && userInfo.hasBlockedUs;
   const isEmptyGallery =
-    userInfo?.isFollowed && userPosts && userPosts.length == 0;
-  const isTherePost = userInfo?.isFollowed && userPosts && userPosts.length > 0;
-
+    (isPublicPage || isFollowedUser) && userPosts && userPosts.length == 0;
+  const isNoneEmptyGallery =
+    (isPublicPage || isFollowedUser) && userPosts && userPosts.length > 0;
+  const isStillPrivatePage =
+    userInfo &&
+    !userInfo.hasBlockedUs &&
+    userInfo.isPrivate &&
+    userInfo.followRequestState !== requestStatus.accepted;
   const {
     isError: isFollowError,
     error: followError,
     mutate: followMutate,
   } = useFollowUser();
 
+  const {
+    // isError: iscancelRequestError,
+    // error: cancelRequestError,
+    mutate: cancelRequestMutate,
+  } = useCancelRequest();
+
   if (isProfileError) {
     //use error handler
-    console.log("error", profileError);
+    console.log("profile error", profileError);
   }
   if (isUserPostError) {
     //use error handler
@@ -48,37 +75,35 @@ export const UserPageLayout = () => {
   }
 
   return (
-    <div className="flex w-[952px] flex-col gap-3">
-      <div className="flex h-[160px] w-[952px] flex-row items-center gap-8 border border-x-0 border-t-0 border-solid border-form-border pb-6">
+    <div className="flex h-full w-[952px] flex-col gap-3 pt-36">
+      <div className="flex h-40 w-[952px] flex-row items-center gap-8 border border-x-0 border-t-0 border-solid border-form-border pb-6">
         {userInfo && (
-          <ViewAppUserInfo
-            followMode
-            userInfo={userInfo}
-            isFollowed={userInfo.isFollowed}
+          <UserAccountInfo
+            accountInfo={userInfo}
             onFollowMethod={followMutate}
+            onCancelRequestMethod={cancelRequestMutate}
           />
         )}
         {/* 3noghte? */}
         <div className="flex h-40 w-[377px] flex-col items-end justify-center gap-[3px]">
-          <div className="h-[8px] w-[8px] rounded-full bg-submit-btn"></div>
-          <div className="h-[8px] w-[8px] rounded-full bg-submit-btn"></div>
-          <div className="h-[8px] w-[8px] rounded-full bg-submit-btn"></div>
+          <div className="h-2 w-2 rounded-full bg-submit-btn"></div>
+          <div className="h-2 w-2 rounded-full bg-submit-btn"></div>
+          <div className="h-2 w-2 rounded-full bg-submit-btn"></div>
         </div>
       </div>
 
-      <div>
-        {userInfo && !userInfo.isFollowed && (
-          <NotAllowedViewGallery
-            userName={userInfo.userName}
-            onFollowMethod={followMutate}
-          />
-        )}
+      {/* { <Test />} */}
+      {IsUserBlockedUs && <UserBlockedGallery userName={userInfo.userName} />}
 
-        {userInfo && isEmptyGallery && (
-          <UserEmptyGallery userName={userInfo.userName} />
-        )}
-        {userInfo && isTherePost && <UserGallery posts={userPosts} />}
-      </div>
+      {isStillPrivatePage && (
+        <PrivateGallery
+          accountInfo={userInfo}
+          onFollowMethod={followMutate}
+          onCancelRequestMethod={cancelRequestMutate}
+        />
+      )}
+      {isEmptyGallery && <UserEmptyGallery userName={userInfo.userName} />}
+      {isNoneEmptyGallery && <UserGallery posts={userPosts} />}
     </div>
   );
 };

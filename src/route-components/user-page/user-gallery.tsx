@@ -7,7 +7,7 @@ type UserGalleryProps = {
 export const UserGallery = ({ posts }: UserGalleryProps) => {
   const navigate = useNavigate();
   return (
-    <div className="flex w-[925px] flex-row flex-wrap gap-5">
+    <div className="flex grow flex-row flex-wrap gap-5">
       {posts.map((post) => {
         return (
           <div
@@ -31,7 +31,7 @@ export const UserGallery = ({ posts }: UserGalleryProps) => {
 export const UserGalleryMobile = ({ posts }: UserGalleryProps) => {
   const navigate = useNavigate();
   return (
-    <div className="flex w-[311px] flex-row flex-wrap gap-5">
+    <div className="flex h-full w-[311px] flex-row flex-wrap gap-5">
       {posts.map((post) => {
         return (
           <div

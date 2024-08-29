@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const display = {
   hidden: "w-0 h-0 opacity-0 inset-0 absolute",
   visible:
-    "absolute z-20 opacity-100 transition-opacity flex h-screen w-screen inset-0 items-center justify-center backdrop-blur-sm backdrop-brightness-50 transition-all",
+    "absolute z-20 opacity-100 transition-opacity flex h-screen w-full inset-0 items-center justify-center backdrop-blur-sm backdrop-brightness-50 transition-all",
 };
 
 export const Modal = ({ children = null }: { children?: ReactNode }) => {
@@ -59,7 +59,7 @@ export const ModalMobile = ({ children = null }: { children?: ReactNode }) => {
   return (
     <div
       className={clsx(
-        "absolute inset-0 z-20 flex h-screen w-screen flex-col items-center justify-end opacity-100 backdrop-blur-sm backdrop-brightness-50 transition-opacity",
+        "absolute inset-0 z-20 flex h-screen w-full flex-col items-center justify-end opacity-100 backdrop-blur-sm backdrop-brightness-50 transition-opacity",
       )}
       key={nanoid()}
       onClick={() => {

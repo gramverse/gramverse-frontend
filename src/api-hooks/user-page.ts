@@ -1,24 +1,19 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
 import { HTTPError } from "ky";
-import {
-  FollowingProfile,
-  followingProfileSchema,
-} from "../common/types/following-profile";
 import { queryClient } from "../common/query-client";
 import { getPostsResponseSchema, Post } from "../common/types/post";
+import { UserProfile, userProfileSchema } from "../common/types/user-profile";
 
 export const useGetUserProfile = (userName: string) => {
   const httpClient = useHttpClient();
-  return useQuery<FollowingProfile, HTTPError>({
+  return useQuery<UserProfile, HTTPError>({
     queryKey: ["getUserProfile"],
     queryFn: () =>
       httpClient
         .get(`users/profile/${userName}`)
         .json()
-        .then((data) => {
-          return followingProfileSchema.parse(data);
-        }),
+        .then(userProfileSchema.parse)
   });
 };
 
@@ -32,15 +27,32 @@ export const useFollowUser = () => {
       const json = { followingUserName: userName };
       return httpClient.post(url, { json }).json();
     },
-    onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ["getUserProfile"] });
+    onSuccess(_, variables) {
+      queryClient.invalidateQueries({
+        queryKey: ["getUserProfile", variables.userName],
+      });
+    },
+  });
+};
+
+export const useCancelRequest = () => {
+  const httpClient = useHttpClient();
+  return useMutation<unknown, HTTPError, string>({
+    mutationFn: (userName) => {
+      const json = { userName: userName };
+      return httpClient.post("users/cancelRequest", { json }).json();
+    },
+    onSuccess(_, variables) {
+      queryClient.invalidateQueries({
+        queryKey: ["getUserProfile", variables],
+      });
     },
   });
 };
 
 export const useGetUserPosts = (
   userName: string | undefined,
-  isFollowed: boolean | undefined,
+  allowedViewPost: boolean | undefined,
 ) => {
   const httpClient = useHttpClient();
   return useQuery<Post[], HTTPError>({
@@ -50,6 +62,6 @@ export const useGetUserPosts = (
         .get(`posts/username/${userName}`)
         .json()
         .then(getPostsResponseSchema.parse),
-    enabled: userName != undefined && isFollowed,
+    enabled: userName != undefined && allowedViewPost,
   });
 };

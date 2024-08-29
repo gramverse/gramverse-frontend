@@ -23,7 +23,7 @@ export const ContainterMobile = ({
   return (
     <div
       className={clsx(
-        "flex h-full grow flex-col items-center justify-between self-center overflow-hidden bg-primary px-5",
+        "flex h-full grow flex-col items-center justify-between self-center bg-primary px-5",
         className,
       )}
     >

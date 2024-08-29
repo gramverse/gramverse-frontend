@@ -8,7 +8,7 @@ export const Gallery = ({ posts }: GalleryProps) => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex w-[925px] flex-row flex-wrap gap-5">
+    <div className="flex grow flex-row flex-wrap gap-5">
       {posts.map((post) => {
         return (
           <div
