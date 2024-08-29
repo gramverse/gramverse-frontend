@@ -12,7 +12,7 @@ export const useGetCloseFriends = () => {
         .get(`users/getCloseFriends?pageNumber=${pageParam}?limit:${10}'`)
         .json()
         .then(UsersInfoSchema.parse),
-    initialPageParam: 0,
+    initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage.length < 10) {
         return undefined;
@@ -31,7 +31,7 @@ export const useGetBlackList = () => {
         .get(`users/getBlackList?pageNumber=${pageParam}?limit:${10}'`)
         .json()
         .then(UsersInfoSchema.parse),
-    initialPageParam: 0,
+    initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage.length < 10) {
         return undefined;

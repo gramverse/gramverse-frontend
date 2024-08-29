@@ -1,6 +1,6 @@
 import { useState } from "react";
 // import { Outlet } from "react-router-dom";
-import { CommentProps } from "../../common/types/comment";
+import { CommentFieldProps } from "../../common/types/comment";
 import { Comment, ViewComments } from "./post-shared-components/comment";
 import back from "../../assets/svg/back.svg";
 import pen from "../../assets/svg/pen.svg";
@@ -17,10 +17,9 @@ export const UserPostViewWeb = () => {
   const navigate = useNavigate();
   const params = useParams();
   const { data: post } = useGetPost(params.postId);
-  const [commentProps, setCommentProps] = useState<CommentProps>({
+  const [commentProps, setCommentProps] = useState<CommentFieldProps>({
     parentCommentId: "",
     parentCommentUserName: "",
-    postId: post?._id ?? "",
   });
   return (
     <div className="flex h-fit justify-between gap-3 self-center">
@@ -42,7 +41,7 @@ export const UserPostViewWeb = () => {
           creationDate={post?.creationDate ?? ""}
         />
         <PostDetailSummary post={post} />
-        <Comment {...commentProps} />
+        <Comment postId={post?._id ?? ""} {...commentProps} />
       </div>
       <ViewComments
         setCommentProps={setCommentProps}
@@ -56,10 +55,9 @@ export const UserPostViewMobile = () => {
   const navigate = useNavigate();
   const params = useParams();
   const { data: post } = useGetPost(params.postId ?? "");
-  const [commentProps, setCommentProps] = useState<CommentProps>({
+  const [commentProps, setCommentProps] = useState<CommentFieldProps>({
     parentCommentId: "",
     parentCommentUserName: "",
-    postId: post?._id ?? "",
   });
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-start bg-primary">
@@ -98,7 +96,7 @@ export const UserPostViewMobile = () => {
           tags={post?.tags ?? []}
           creationDate={post?.creationDate ?? ""}
         />
-        <Comment {...commentProps} />
+        <Comment postId={post?._id ?? ""} {...commentProps} />
       </div>
       <ViewComments
         setCommentProps={setCommentProps}

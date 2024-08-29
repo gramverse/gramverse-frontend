@@ -13,7 +13,7 @@ export const Test = () => {
   const [nearEndRef, isNearEnd] = useInView();
 
   const httpClient = useHttpClient();
-  const defaultPage = 1;
+  // const defaultPage = 1;
 
   const initialPageParam = 1;
   const totalCount = 200;
@@ -28,7 +28,7 @@ export const Test = () => {
     isFetching,
     isFetchingNextPage,
     fetchNextPage,
-    status,
+    // status,
   } = useInfiniteQuery(
     // <unknown,HTTPError,Post[]>
     {

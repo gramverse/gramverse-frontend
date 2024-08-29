@@ -9,7 +9,8 @@ import send from "../../../assets/svg/letter.svg";
 import person from "../../../assets/svg/profile.svg";
 import reply from "../../../assets/svg/reply.svg";
 import {
-  CommentProps,
+  CommentDto,
+  CommentFieldProps,
   CommentsArray,
   SingleComment,
 } from "../../../common/types/comment";
@@ -18,7 +19,15 @@ import { RoundPicture } from "../../../reusable-components/profile-picture";
 import { Like } from "../../../route-components/post-view/post-shared-components/like";
 import { getTimeDifference } from "../../../utilitis.ts/time-difference";
 import { Button } from "../../../reusable-components/button";
+import clsx from "clsx";
+import { useInView } from "react-intersection-observer";
+import { Loading } from "../../../reusable-components/loading";
 
+type CommentProps = {
+  parentCommentId: string;
+  parentCommentUserName: string;
+  postId: string;
+};
 export const Comment = (props: CommentProps) => {
   const { data: profile } = useGetProfile();
   const [comment, setComment] = useState(props.parentCommentUserName);
@@ -45,6 +54,25 @@ export const Comment = (props: CommentProps) => {
           onChange={(e) => {
             setComment((e.target as HTMLInputElement).value);
           }}
+          onKeyDown={(e) => {
+            if (e.key == "Enter") {
+              console.log("enter");
+              if (comment.includes(`@${props.parentCommentUserName}}`)) {
+                mutate({
+                  comment: comment,
+                  parentCommentId: props.parentCommentId,
+                  postId: props.postId,
+                });
+              } else {
+                mutate({
+                  comment: comment,
+                  parentCommentId: "",
+                  postId: props.postId,
+                });
+              }
+              setComment("");
+            }
+          }}
         />
         <img
           src={send}
@@ -56,16 +84,15 @@ export const Comment = (props: CommentProps) => {
                 comment: comment,
                 parentCommentId: props.parentCommentId,
                 postId: props.postId,
-                parentCommentUserName: props.parentCommentUserName,
               });
             } else {
               mutate({
                 comment: comment,
                 parentCommentId: "",
                 postId: props.postId,
-                parentCommentUserName: "",
               });
             }
+            setComment("");
           }}
         />
       </div>
@@ -75,10 +102,13 @@ export const Comment = (props: CommentProps) => {
 
 interface CommentsView {
   postId: string;
-  setCommentProps: React.Dispatch<React.SetStateAction<CommentProps>>;
+  setCommentProps: React.Dispatch<React.SetStateAction<CommentFieldProps>>;
 }
 
-const flattenComments = (data: CommentsArray) => {
+const flattenComments = (data: CommentsArray | undefined) => {
+  if (data === undefined) {
+    return [];
+  }
   const flattened: Omit<SingleComment, "childDtos">[] = [];
   const flatten = (comment: SingleComment) => {
     const { childDtos, ...rest } = comment;
@@ -99,30 +129,30 @@ const flattenComments = (data: CommentsArray) => {
 export const ViewComments = ({ postId, setCommentProps }: CommentsView) => {
   const { mutate } = useLikeComment({ postId });
   const [isLiked, setIsLiked] = useState<boolean | undefined>(undefined);
-  const [comments, setComments] = useState<Omit<SingleComment, "childDtos">[]>(
-    [],
-  );
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-    isSuccess,
-  } = useGetComments({ postId });
+  const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } =
+    useGetComments({ postId });
+  const { ref, inView } = useInView({
+    threshold: 1,
+  });
   useEffect(() => {
-    const lastChunckOfData = data?.pages.slice(-1)[0].comments;
-    if (isSuccess) {
-      setComments((comments) =>
-        comments.concat(flattenComments(lastChunckOfData ?? [])),
-      );
+    if (inView && hasNextPage && !isFetching && !isFetchingNextPage) {
+      fetchNextPage();
     }
-  }, [data?.pages, isSuccess]);
+  }, [fetchNextPage, hasNextPage, inView, isFetching, isFetchingNextPage]);
   return (
     <div className="h-[200px] overflow-scroll">
-      {comments.map((comment) => {
+      {flattenComments(
+        data?.pages.reduce<CommentDto[]>(
+          (prev, curr) => prev.concat(curr.comments),
+          [],
+        ),
+      ).map((comment) => {
         return (
-          <div className="mb-2 flex w-full flex-col justify-between gap-3">
+          <div
+            className={clsx("mb-2 flex w-full flex-col justify-between gap-3", {
+              "ms-5": comment.parentCommentId === "",
+            })}
+          >
             <div className="relative flex w-full items-center justify-start gap-2">
               <span className="text-xl font-bold">{comment.userName}</span>
               <small className="text-xs">
@@ -150,7 +180,6 @@ export const ViewComments = ({ postId, setCommentProps }: CommentsView) => {
                     setCommentProps({
                       parentCommentId: comment.parentCommentId,
                       parentCommentUserName: comment.userName,
-                      postId: comment.postId,
                     });
                   }}
                 >
@@ -164,28 +193,7 @@ export const ViewComments = ({ postId, setCommentProps }: CommentsView) => {
         );
       })}
       <div>
-        {isFetching && (
-          <svg
-            className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-            ></circle>
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            ></path>
-          </svg>
-        )}
+        <Loading isLoading={isFetching} ref={ref} />
         <Button
           btnColor="transparent"
           disabled={isFetchingNextPage ?? hasNextPage}

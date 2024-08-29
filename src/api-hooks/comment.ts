@@ -11,7 +11,7 @@ import { HTTPError } from "ky";
 export const useSendComment = (postId: string) => {
   const client = useHttpClient();
   return useMutation({
-    mutationFn: (data: AddCommentData) => {
+    mutationFn: (data: Omit<AddCommentData, "parentCommentUserName">) => {
       return client
         .post("posts/addComment", {
           json: data,
@@ -49,7 +49,7 @@ export const useGetComments = ({ postId }: { postId: string }) => {
         .get(`posts/comments?postId=${postId}&page=${pageParam}&limit=${5}`)
         .json()
         .then(CommentsResponseSchema.parse),
-    initialPageParam: 0,
+    initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       const remaining = lastPage.totalCount - allPages.length * 5;
       if (remaining <= 0) {
