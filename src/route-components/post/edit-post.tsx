@@ -257,7 +257,7 @@ const EditPostLayout = ({
       mentions,
       photoURLs,
       photoFiles,
-      isForCloseFriends: data.isForCloseFriends,
+      forCloseFriends: data.forCloseFriends,
       _id: post?._id ?? "",
     };
     mutate(postData);
@@ -331,7 +331,7 @@ const EditPostLayout = ({
           <Switch
             className=""
             label="فقط به دوستان نزدیکم نمایش بده"
-            {...register("isForCloseFriends")}
+            {...register("forCloseFriends")}
           />
         )}
         <section className="flex items-center justify-end gap-5 self-end">

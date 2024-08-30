@@ -89,9 +89,7 @@ export const MainMobile = () => {
           profileImage={profileSummary?.profileImage}
         />
       )}
-      <div className="flex grow flex-col">
-        <Outlet />
-      </div>
+      <Outlet />
       {buttomNavigation && <MobileBottomNavigation />}
     </ContainterMobile>
   );

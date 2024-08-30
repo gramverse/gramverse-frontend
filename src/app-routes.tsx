@@ -48,8 +48,8 @@ export const AppRoutes = () => {
     <Routes>
       <Route element={<CollegeBackground />}>
         <Route element={<Authroize />}>
-          <Route path={urls.signup} element={<Login />} />
-          <Route path={urls.login} element={<Signup />} />
+          <Route path={urls.login} element={<Login />} />
+          <Route path={urls.signup} element={<Signup />} />
         </Route>
         <Route path={urls.forgetPassword} element={<ForgetPassword />} />
         <Route
@@ -92,8 +92,8 @@ export const AppRoutesMobile = () => {
   return (
     <Routes>
       <Route element={<AuthroizeMobile />}>
-        <Route path={urls.signup} element={<LoginMobile />} />
-        <Route path={urls.login} element={<SignupMoblie />} />
+        <Route path={urls.login} element={<LoginMobile />} />
+        <Route path={urls.signup} element={<SignupMoblie />} />
       </Route>
 
       <Route

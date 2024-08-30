@@ -9,7 +9,7 @@ export const useGetCloseFriends = () => {
     queryKey: ["close-friends"],
     queryFn: ({ pageParam = 1 }) =>
       httpClient
-        .get(`users/getCloseFriends?pageNumber=${pageParam}?limit:${10}'`)
+        .get(`users/closeFriends?pageNumber=${pageParam}?limit:${10}'`)
         .json()
         .then(UsersInfoSchema.parse),
     initialPageParam: 1,
@@ -28,7 +28,7 @@ export const useGetBlackList = () => {
     queryKey: ["blackList"],
     queryFn: ({ pageParam = 1 }) =>
       httpClient
-        .get(`users/getBlackList?pageNumber=${pageParam}?limit:${10}'`)
+        .get(`users/blackList?pageNumber=${pageParam}?limit:${10}'`)
         .json()
         .then(UsersInfoSchema.parse),
     initialPageParam: 1,

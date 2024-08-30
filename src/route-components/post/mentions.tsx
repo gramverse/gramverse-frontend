@@ -1,7 +1,9 @@
 import { nanoid } from "nanoid";
-import { InputHTMLAttributes, forwardRef } from "react";
+import { InputHTMLAttributes, forwardRef, useEffect, useState } from "react";
 import { InputField } from "../../reusable-components/input-field";
 import Close from "../../assets/svg/close.svg";
+import { useFindUser } from "../../api-hooks/post";
+import { Alert } from "../../reusable-components/alert";
 // import { Alert } from "../../reusable-components/alert";
 // import { useFindUser } from "../../api-hooks/post";
 
@@ -13,26 +15,30 @@ interface mentionProps extends InputHTMLAttributes<HTMLInputElement> {
 export const Mention = forwardRef<HTMLInputElement, mentionProps>(
   (props, ref) => {
     const { name, onChange, mentions, setMentions, removeMention } = props;
-    // const [userName, setUserName] = useState("");
-    // const [isUserFound, setUserFound] = useState(true);
-    // const { refetch } = useFindUser(userName);
-    // useEffect(() => {
-    //   refetch().then((value) => {
-    //     if (value) {
-    //       console.log(value);
-    //       setMentions((mentions) => mentions.concat(userName));
-    //       setUserFound(true);
-    //     } else {
-    //       setUserFound(false);
-    //     }
-    //   });
-    // }, [refetch, setMentions, userName]);
+    const [userName, setUserName] = useState("");
+    const { data, refetch, isFetching, isSuccess, isRefetching } =
+      useFindUser(userName);
+    useEffect(() => {
+      refetch();
+    }, [refetch, userName]);
 
     return (
       <div className="flex w-full flex-col items-center">
         <p>اینجا می‌تونی دوستانت رو منشن کنی:</p>
-        {/* {isUserFound ? "" : "کاربر وجود ندارد"} */}
-        {/* <Alert status="error" message={isUserFound ? "" : "کاربر وجود ندارد"} /> */}
+        <Alert
+          status={
+            data && data.exists && !isFetching && isSuccess && !isRefetching
+              ? "success"
+              : "error"
+          }
+          message={
+            data && data.exists && !isFetching && isSuccess && !isRefetching
+              ? ` ${userName} وجود دارد`
+              : data && !data.exists
+                ? ` ${userName} وجود ندارد`
+                : ""
+          }
+        />
         <InputField
           direction="left"
           autoFocus
@@ -43,10 +49,20 @@ export const Mention = forwardRef<HTMLInputElement, mentionProps>(
             if (e.key == "Enter") {
               const typedMention = (e.target as HTMLInputElement).value;
               if (typedMention.match(/(@[A-Za-z0-9_]+)/g)?.length === 1) {
-                setMentions((mentions) =>
-                  mentions.concat(typedMention.slice(1)),
-                );
-                (e.target as HTMLInputElement).value = "";
+                setUserName(typedMention.slice(1));
+                if (
+                  data &&
+                  data.exists &&
+                  isSuccess &&
+                  !isFetching &&
+                  !isRefetching &&
+                  userName === typedMention.slice(1)
+                ) {
+                  setMentions((mentions) =>
+                    mentions.concat(typedMention.slice(1)),
+                  );
+                  (e.target as HTMLInputElement).value = "";
+                }
               }
             } else if (e.key == " ") {
               e.preventDefault();
