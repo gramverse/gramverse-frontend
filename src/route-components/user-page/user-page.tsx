@@ -82,7 +82,7 @@ export const UserPageLayout = () => {
     //use error handler
     console.log("profile error", profileError);
   }
-  
+
   if (isFollowError) {
     //use error handler
     console.log("error", followError);
@@ -130,7 +130,6 @@ export const UserPageLayout = () => {
             onShowFollowerList={() => setOpenFollowerList(true)}
           />
         )}
-        {/* 3noghte? */}
         <div className="flex h-40 w-[377px] flex-col items-end justify-center gap-[3px]">
           <div className="h-2 w-2 rounded-full bg-submit-btn"></div>
           <div className="h-2 w-2 rounded-full bg-submit-btn"></div>
@@ -138,7 +137,6 @@ export const UserPageLayout = () => {
         </div>
       </div>
 
-      {/* { <Test />} */}
       {IsUserBlockedUs && (
         <UserBlockedGallery userName={userProfile.userName} />
       )}
