@@ -1,20 +1,41 @@
-import { useState } from "react";
-import { Post } from "../../common/types/post";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "../../reusable-components/modal";
 import { PostModal } from "../post-view/post-modal";
 import { EditPost } from "../post/edit-post";
-type GalleryProps = {
-  posts: Post[];
-};
+import clsx from "clsx";
+import { useInView } from "react-intersection-observer";
+import { useGetPosts } from "../../api-hooks/my-page";
 
-export const Gallery = ({ posts }: GalleryProps) => {
+export const Gallery = () => {
   const [isPostOpen, openPost] = useState(false);
   const [postId, setPostId] = useState<string>("");
+  const postLimit = 6;
+  const [nearEndPostRef, isNearPostEnd] = useInView();
   const [isEditOpen, OpenEdit] = useState(false);
 
+  const {
+    data: postPages,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage: isFetchingNextPostPage,
+    fetchNextPage: fetchNextPosts,
+    isError: isPostError,
+    error: postError,
+  } = useGetPosts(postLimit);
+  const posts = postPages?.pages.flatMap((x) => x.posts) ?? [];
+
+  useEffect(() => {
+    if (!hasNextPage || !isNearPostEnd || isFetching) return;
+    fetchNextPosts();
+  }, [isNearPostEnd, isFetchingNextPostPage, hasNextPage]);
+  if (isPostError) {
+    // user error handler
+    console.log("just for build err", postError);
+  }
+
   return (
-    <div className="flex w-[925px] flex-row flex-wrap gap-5">
+    <div className="flex h-[570px] w-[981px] flex-row flex-wrap gap-5 overflow-y-scroll">
       <Modal
         isOpen={isPostOpen}
         close={() => {
@@ -59,12 +80,43 @@ export const Gallery = ({ posts }: GalleryProps) => {
           </div>
         );
       })}
+
+      <div
+        ref={nearEndPostRef}
+        className={clsx(
+          "flex w-full items-center justify-center text-2xl",
+          hasNextPage ? "h-[calc(11rem/3)]" : "", //check it!!!!!!!!!!!!!!!!
+        )}
+      >
+        {hasNextPage && isFetchingNextPostPage && <div>Loading...</div>}
+      </div>
     </div>
   );
 };
 
-export const GalleryMobile = ({ posts }: GalleryProps) => {
+export const GalleryMobile = () => {
   const navigate = useNavigate();
+  const postLimit = 6;
+  const [nearEndPostRef, isNearPostEnd] = useInView();
+  const {
+    data: postPages,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage: isFetchingNextPostPage,
+    fetchNextPage: fetchNextPosts,
+    isError: isPostError,
+    error: postError,
+  } = useGetPosts(postLimit);
+  const posts = postPages?.pages.flatMap((x) => x.posts) ?? [];
+
+  useEffect(() => {
+    if (!hasNextPage || !isNearPostEnd || isFetching) return;
+    fetchNextPosts();
+  }, [isNearPostEnd, isFetchingNextPostPage, hasNextPage]);
+  if (isPostError) {
+    // user error handler
+    console.log("just for build err", postError);
+  }
 
   return (
     <div className="flex w-[311px] flex-row flex-wrap gap-5">
@@ -84,6 +136,15 @@ export const GalleryMobile = ({ posts }: GalleryProps) => {
           </div>
         );
       })}
+      <div
+        ref={nearEndPostRef}
+        className={clsx(
+          "flex w-full items-center justify-center text-2xl",
+          hasNextPage ? "h-[calc(11rem/3)]" : "", //check it!!!!!!!!!!!!!!!!
+        )}
+      >
+        {hasNextPage && isFetchingNextPostPage && <div>Loading...</div>}
+      </div>
     </div>
   );
 };
