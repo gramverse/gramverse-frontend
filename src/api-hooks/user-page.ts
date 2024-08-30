@@ -1,8 +1,8 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
 import { HTTPError } from "ky";
 import { queryClient } from "../common/query-client";
-import { getPostsResponseSchema, Post } from "../common/types/post";
+import { getPostResponseSchema } from "../common/types/post";
 import { UserProfile, userProfileSchema } from "../common/types/user-profile";
 
 export const useGetUserProfile = (userName: string) => {
@@ -13,7 +13,7 @@ export const useGetUserProfile = (userName: string) => {
       httpClient
         .get(`users/profile/${userName}`)
         .json()
-        .then(userProfileSchema.parse)
+        .then(userProfileSchema.parse),
   });
 };
 
@@ -50,18 +50,46 @@ export const useCancelRequest = () => {
   });
 };
 
+// export const useGetUserPosts = (
+//   userName: string | undefined,
+//   allowedViewPost: boolean | undefined,
+// ) => {
+//   const httpClient = useHttpClient();
+//   return useQuery({
+//     queryKey: ["getPosts", userName],
+//     queryFn: () =>
+//       httpClient
+//         .get(`posts/username/${userName}`)
+//         .json()
+//         .then(getPostResponseSchema.parse),
+//     enabled: userName != undefined && allowedViewPost,
+//   });
+// };
+
 export const useGetUserPosts = (
   userName: string | undefined,
   allowedViewPost: boolean | undefined,
+  limit: number,
 ) => {
   const httpClient = useHttpClient();
-  return useQuery<Post[], HTTPError>({
-    queryKey: ["getPosts", userName],
-    queryFn: () =>
-      httpClient
-        .get(`posts/username/${userName}`)
+  const initialPageParam = 1;
+  return useInfiniteQuery({
+    queryKey: ["getUserPosts", userName], //va ye chiz dg
+    queryFn: async ({ pageParam }) => {
+      return await httpClient
+        .get(`posts/username/${userName}`, {
+          searchParams: { page: pageParam, limit },
+        })
         .json()
-        .then(getPostsResponseSchema.parse),
+        .then(getPostResponseSchema.parse);
+    },
+    initialPageParam: initialPageParam,
+    getNextPageParam: (lastPage, pages) => {
+      const totalPage = lastPage.totalCount / limit;
+      return pages.length > totalPage
+        ? undefined
+        : initialPageParam + pages.length;
+    },
     enabled: userName != undefined && allowedViewPost,
   });
 };

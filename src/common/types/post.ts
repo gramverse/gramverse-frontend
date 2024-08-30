@@ -40,8 +40,14 @@ export const PostSchema = z.object({
   mentions: z.string().array().optional(),
   hashtags: z.string().array().optional(),
   creationDate: z.string(),
+  forCloseFriends : z.boolean().optional() //remove optianal
+});
+
+export const getPostResponseSchema = z.object({
+  posts: PostSchema.array(),
+  totalCount: z.number(),
 });
 
 export type Post = z.infer<typeof PostSchema>;
 
-export const getPostsResponseSchema = PostSchema.array();
+//export const getPostsResponseSchema = PostSchema.array();

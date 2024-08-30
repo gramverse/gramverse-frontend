@@ -8,7 +8,7 @@ export const EmptyGallery = () => {
   const [createPost, setCreatePost] = useState(false);
 
   return (
-    <div className="flex w-full flex-col items-center justify-center gap-8 rounded-3xl border border-solid border-form-border py-12">
+    <div className="flex w-full h-full flex-col items-center justify-center gap-8 rounded-3xl border border-solid border-form-border py-12">
       <Modal
         isOpen={createPost}
         close={() => {

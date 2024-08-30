@@ -7,6 +7,8 @@ type AppUserInfoProps = {
   accountInfo: UserProfile;
   onFollowMethod?: (args: FollowMutationArgs) => void;
   onCancelRequestMethod?: (userName: string) => void;
+  onShowFollowerList: () => void;
+  onShowFollowingList: () => void;
 };
 
 //check mobile functinality
@@ -14,6 +16,8 @@ export const UserAccountInfo = ({
   accountInfo: accountInfo,
   onFollowMethod,
   onCancelRequestMethod,
+  onShowFollowerList,
+  onShowFollowingList,
 }: AppUserInfoProps) => {
   const isSetProfileImage =
     accountInfo.profileImage && accountInfo.profileImage != "";
@@ -72,9 +76,19 @@ export const UserAccountInfo = ({
 
         <div className="w-96 text-sm font-normal leading-6"></div>
         <div className="w-96 text-sm font-normal leading-6">
-          <span className="ml-3 w-24 text-amber-500">{`‍${accountInfo.followerCount} دنبال کننده  ‍`}</span>
+          <span
+            className="ml-3 w-24 text-amber-500"
+            onClick={() => {
+              onShowFollowerList();
+            }}
+          >{`‍${accountInfo.followerCount} دنبال کننده  ‍`}</span>
           <span>|</span>
-          <span className="mx-3 w-24 text-amber-500">{`‍  ${accountInfo.followingCount} دنبال شونده`}</span>
+          <span
+            className="mx-3 w-24 text-amber-500"
+            onClick={() => {
+              onShowFollowingList();
+            }}
+          >{`‍  ${accountInfo.followingCount} دنبال شونده`}</span>
           <span>|</span>
           <span className="mr-3 w-24">{`‍ ${accountInfo.postCount} پست ‍`}</span>
         </div>
