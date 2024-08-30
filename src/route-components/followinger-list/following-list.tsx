@@ -34,30 +34,32 @@ export const FollowingList = ({ userName, close }: FollowerListProps) => {
   }, [isNearEnd, isFetchingNextPage, hasNextPage]);
 
   const followings = data?.pages.flatMap((x) => x.followingers) ?? [];
-
   return (
-    <div className="flex h-[calc(200vh/3)] p-8 max-h-80 max-w-[60rem] flex-col items-center justify-center bg-primary">
-      <p className="text-center text-xl mt-0 mb-8 font-bold">{"دنبال‌کننده‌ها"}</p>
-      {/* <div className="h-[480px] w-[332px] overflow-y-scroll"> */}
-      <div className="grow w-[40rem] overflow-y-scroll">
-        {followings.map((following) => (
-          <FollowingersInfo
-            key={following.userName}
-            userName={following.userName}
-            followerCount={following.followerCount}
-            profileImage={following.profileImage}
-          />
-        ))}
-        <div
-          ref={nearEndRef}
-          className={clsx(
-            "flex w-full items-center justify-center text-2xl",
-            hasNextPage ? "h-[calc(11rem/3)]" : "", //check it!!!!!!!!!!!!!!!!
-          )}
-        >
-          {hasNextPage && isFetchingNextPage && <div>Loading...</div>}
+    <div className="flex h-[42rem] w-[23.25rem] flex-col items-center justify-center bg-primary px-16">
+      <p className="mb-8 mt-0 text-center text-xl font-bold">
+        {"دنبال‌شونده‌ها"}
+      </p>
+      <div className="flex h-3/4 w-2/3 flex-col items-center justify-center">
+        <div className="h-[25.75rem] w-[20.75rem] overflow-y-scroll">
+          {followings.map((following) => (
+            <FollowingersInfo
+              key={following.userName}
+              userName={following.userName}
+              followerCount={following.followerCount}
+              profileImage={following.profileImage}
+            />
+          ))}
+          <div
+            ref={nearEndRef}
+            className={clsx(
+              "flex w-full items-center justify-center text-2xl",
+              hasNextPage ? "h-[calc(11rem/3)]" : "",
+            )}
+          >
+            {hasNextPage && isFetchingNextPage && <div>Loading...</div>}
+          </div>
         </div>
-        <div className="flex flex-row justify-end">
+        <div className="flex w-full flex-row justify-end">
           <Button
             btnColor="secondary"
             type="button"

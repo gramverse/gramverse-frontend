@@ -1,5 +1,6 @@
 import { Profile } from "../../common/types/profile-data";
 import PersonIcon from "../../assets/svg/profile.svg";
+import clsx from "clsx";
 
 type AccountInfoInfoProps = {
   accountInfo: Profile;
@@ -14,10 +15,13 @@ export const AccountInfo = ({
 }: AccountInfoInfoProps) => {
   const isSetProfileImage =
     accountInfo.profileImage && accountInfo.profileImage != "";
+  const existFollowing = accountInfo.followingCount > 0;
+  const existFollower = accountInfo.followerCount > 0;
+
   return (
     <div className="flex items-center gap-2">
       <img
-        className="h-40 w-40 object-cover border-none rounded-full"
+        className="h-40 w-40 rounded-full border-none object-cover"
         src={isSetProfileImage ? accountInfo.profileImage : PersonIcon}
       />
       <div className="mb-5 flex h-fit w-[377px] flex-col justify-start gap-4">
@@ -26,19 +30,21 @@ export const AccountInfo = ({
         <div className="w-96 text-sm font-normal leading-6"></div>
         <div className="w-96 text-sm font-normal leading-6">
           <span
-            className="ml-3 w-24 text-amber-500"
-            onClick={() => {
-              onShowFollowerList();
-            }}
+            className={clsx(
+              "ml-3 w-24 text-amber-500",
+              existFollower && "cursor-pointer",
+            )}
+            {...(existFollower && { onClick: onShowFollowerList })}
           >
             {`‍${accountInfo.followerCount} دنبال کننده  ‍`}{" "}
           </span>
           <span>|</span>
           <span
-            className="mx-3 w-24 text-amber-500"
-            onClick={() => {
-              onShowFollowingList();
-            }}
+            className={clsx(
+              "mx-3 w-24 text-amber-500",
+              existFollowing && "cursor-pointer",
+            )}
+            {...(existFollowing && { onClick: onShowFollowingList })}
           >{`‍  ${accountInfo.followingCount} دنبال شونده`}</span>
           <span>|</span>
           <span className="mr-3 w-24">{`‍ ${accountInfo.postCount} پست ‍`}</span>
@@ -58,6 +64,7 @@ type AccountInfoMobileProps = {
 export const AccountInfoMobile = ({ accountInfo }: AccountInfoMobileProps) => {
   const isSetProfileImage =
     accountInfo.profileImage && accountInfo.profileImage != "";
+
   return (
     <>
       <div className="flex w-[311px] flex-col items-center justify-center gap-4">

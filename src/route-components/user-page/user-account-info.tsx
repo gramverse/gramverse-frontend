@@ -2,6 +2,7 @@ import { Button } from "../../reusable-components/button";
 import PersonIcon from "../../assets/svg/profile.svg";
 import { FollowMutationArgs } from "../../api-hooks/user-page";
 import { requestStatus, UserProfile } from "../../common/types/user-profile";
+import clsx from "clsx";
 
 type AppUserInfoProps = {
   accountInfo: UserProfile;
@@ -48,6 +49,8 @@ export const UserAccountInfo = ({
         });
   };
 
+  const existFollowing = accountInfo.followingCount > 0;
+  const existFollower = accountInfo.followerCount > 0;
   return (
     <>
       <div className="w-[133px]">
@@ -64,7 +67,6 @@ export const UserAccountInfo = ({
         <div className="flex w-96 flex-row gap-4">
           <div className="size-5 w-32 font-bold">{`${accountInfo.firstName} ${accountInfo.lastName}`}</div>
           <Button
-            //type="submit"
             size="medium"
             onClick={handleFollowBtn}
             btnColor={followBtnColor}
@@ -77,17 +79,23 @@ export const UserAccountInfo = ({
         <div className="w-96 text-sm font-normal leading-6"></div>
         <div className="w-96 text-sm font-normal leading-6">
           <span
-            className="ml-3 w-24 text-amber-500"
-            onClick={() => {
-              onShowFollowerList();
-            }}
+            className={clsx(
+              "ml-3 w-24 text-amber-500",
+              existFollower && "cursor-pointer",
+            )}
+            {...(existFollower && {
+              onClick: onShowFollowerList,
+            })}
           >{`‍${accountInfo.followerCount} دنبال کننده  ‍`}</span>
           <span>|</span>
           <span
-            className="mx-3 w-24 text-amber-500"
-            onClick={() => {
-              onShowFollowingList();
-            }}
+            className={clsx(
+              "mx-3 w-24 text-amber-500",
+              existFollowing && "cursor-pointer",
+            )}
+            {...(existFollowing && {
+              onClick: onShowFollowingList,
+            })}
           >{`‍  ${accountInfo.followingCount} دنبال شونده`}</span>
           <span>|</span>
           <span className="mr-3 w-24">{`‍ ${accountInfo.postCount} پست ‍`}</span>
