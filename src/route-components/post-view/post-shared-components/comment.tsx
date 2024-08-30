@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   useGetComments,
   useLikeComment,
@@ -40,6 +40,29 @@ export const Comment = (props: CommentProps) => {
     }
   }, [props]);
   const { mutate } = useSendComment(props.postId);
+
+  const SubmitComment = useCallback(() => {
+    if (comment.includes(`@${props.parentCommentUserName}`)) {
+      mutate({
+        comment: comment,
+        parentCommentId: props.parentCommentId,
+        postId: props.postId,
+      });
+    } else {
+      mutate({
+        comment: comment,
+        parentCommentId: "",
+        postId: props.postId,
+      });
+    }
+    setComment("");
+  }, [
+    comment,
+    mutate,
+    props.parentCommentId,
+    props.parentCommentUserName,
+    props.postId,
+  ]);
   return (
     <div>
       <div className="flex items-center justify-around">
@@ -66,20 +89,7 @@ export const Comment = (props: CommentProps) => {
           }}
           onKeyDown={(e) => {
             if (e.key == "Enter") {
-              if (comment.includes(`@${props.parentCommentUserName}`)) {
-                mutate({
-                  comment: comment,
-                  parentCommentId: props.parentCommentId,
-                  postId: props.postId,
-                });
-              } else {
-                mutate({
-                  comment: comment,
-                  parentCommentId: "",
-                  postId: props.postId,
-                });
-              }
-              setComment("");
+              SubmitComment();
             }
           }}
         />
@@ -88,21 +98,7 @@ export const Comment = (props: CommentProps) => {
           alt=""
           className="cursor-pointer"
           onClick={() => {
-            console.log(comment);
-            if (comment.includes(`@${props.parentCommentUserName}`)) {
-              mutate({
-                comment: comment,
-                parentCommentId: props.parentCommentId,
-                postId: props.postId,
-              });
-            } else {
-              mutate({
-                comment: comment,
-                parentCommentId: "",
-                postId: props.postId,
-              });
-            }
-            setComment("");
+            SubmitComment();
           }}
         />
       </div>

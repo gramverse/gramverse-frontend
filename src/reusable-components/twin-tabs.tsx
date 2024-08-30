@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { Tab } from "./tab";
 import { useNavigate } from "react-router-dom";
 
@@ -5,15 +6,17 @@ export const TwinTab = ({
   tab1,
   tab2,
   tab,
+  className,
 }: {
   tab1: { text: string; url: string };
   tab2: { text: string; url: string };
   tab: number;
+  className?: string;
 }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="my-5 flex grow justify-center gap-6">
+    <div className={clsx("my-5 flex justify-center gap-6", className)}>
       <Tab
         text={tab1.text}
         className="w-fit"

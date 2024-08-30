@@ -252,7 +252,7 @@ const CreatePostLayout = ({
       caption,
       mentions,
       photoFiles,
-      isForCloseFriends: data.isForCloseFriends,
+      forCloseFriends: data.forCloseFriends,
     };
     mutate(postData);
   };
@@ -321,7 +321,7 @@ const CreatePostLayout = ({
           <Switch
             className=""
             label="فقط به دوستان نزدیکم نمایش بده"
-            {...register("isForCloseFriends")}
+            {...register("forCloseFriends")}
           />
         )}
         <section className="flex items-center justify-end gap-5 self-end">

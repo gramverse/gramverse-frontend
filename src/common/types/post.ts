@@ -15,14 +15,14 @@ export const PostFormDataSchema = z.object({
     },
     { message: "لطفا فرمت منشن را رعایت کنید" },
   ),
-  isForCloseFriends: z.boolean(),
+  forCloseFriends: z.boolean(),
 });
 
 export interface CreatePostFormData {
   caption: string;
   mentions: Array<string>;
   photoFiles: File[];
-  isForCloseFriends?: boolean;
+  forCloseFriends: boolean;
 }
 
 export interface EditPostFormData {
@@ -30,7 +30,7 @@ export interface EditPostFormData {
   mentions: Array<string>;
   photoURLs: Array<string>;
   photoFiles: File[];
-  isForCloseFriends?: boolean;
+  forCloseFriends: boolean;
   _id: string;
 }
 export const PostSchema = z.object({

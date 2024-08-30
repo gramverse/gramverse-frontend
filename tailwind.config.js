@@ -33,11 +33,16 @@ export default {
           "100%": { transform: "scaleX(0) scaleY(0)" },
         },
         openDrawer: {
-          "0%": { transform: "translateY(100%)" },
-          "100%": { transform: "translateY(0%)" },
+          "0%": { transform: "translateY(100%) scaleY(0)" },
+          "40%": { transform: "translateY(60%) scaleY(0.4)" },
+          "80%": { transform: "translateY(20%) scaleY(0.8)" },
+          "100%": { transform: "translateY(0%) scaleY(1)" },
         },
         closeDrawer: {
-          "100%": { transform: "translateY(100%)" },
+          "100%": { transform: "translateY(100%) scaleY(0)" },
+          "80%": { transform: "translateY(60%) scaleY(0.4)" },
+          "40%": { transform: "translateY(20%) scaleY(0.8)" },
+          "0%": { transform: "translateY(0%) scaleY(1)" },
         },
       },
       animation: {
