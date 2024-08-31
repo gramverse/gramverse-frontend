@@ -6,17 +6,14 @@ import clsx from "clsx";
 
 type AppUserInfoProps = {
   accountInfo: UserProfile;
-  onFollowMethod?: (args: FollowMutationArgs) => void;
-  onCancelRequestMethod?: (userName: string) => void;
+  onFollowMethod: (args: FollowMutationArgs) => void;
   onShowFollowerList: () => void;
   onShowFollowingList: () => void;
 };
 
-//check mobile functinality
 export const UserAccountInfo = ({
   accountInfo: accountInfo,
   onFollowMethod,
-  onCancelRequestMethod,
   onShowFollowerList,
   onShowFollowingList,
 }: AppUserInfoProps) => {
@@ -38,15 +35,13 @@ export const UserAccountInfo = ({
       ? "outline"
       : "secondary";
   const handleFollowBtn = () => {
-    accountInfo.followRequestState == requestStatus.pending
-      ? onCancelRequestMethod?.(accountInfo.userName)
-      : onFollowMethod?.({
-          userName: accountInfo.userName,
-          follow:
-            accountInfo.followRequestState == requestStatus.none ||
-            accountInfo.followRequestState == requestStatus.unfollowed, //check kon tu halate acepted dorost kar mikone
-          // !accountInfo.isFollowed,
-        });
+    onFollowMethod?.({
+      userName: accountInfo.userName,
+      follow:
+        accountInfo.followRequestState == requestStatus.none ||
+        accountInfo.followRequestState == requestStatus.unfollowed ||
+        !(accountInfo.followRequestState == requestStatus.pending),
+    });
   };
 
   const existFollowing = accountInfo.followingCount > 0;
@@ -111,7 +106,6 @@ export const UserAccountInfo = ({
 export const ViewAppUserInfoMobile = ({
   accountInfo: accountInfo,
   onFollowMethod,
-  onCancelRequestMethod,
 }: AppUserInfoProps) => {
   const isSetProfileImage =
     accountInfo.profileImage && accountInfo.profileImage != "";
@@ -129,13 +123,13 @@ export const ViewAppUserInfoMobile = ({
       ? "outline"
       : "secondary";
   const handleFollowBtn = () => {
-    accountInfo.followRequestState == requestStatus.pending
-      ? onCancelRequestMethod?.(accountInfo.userName)
-      : onFollowMethod?.({
-          userName: accountInfo.userName,
-          follow: accountInfo.followRequestState == requestStatus.none, //check kon tu halate acepted dorost kar mikone
-          // !accountInfo.isFollowed,
-        });
+    onFollowMethod?.({
+      userName: accountInfo.userName,
+      follow:
+        accountInfo.followRequestState == requestStatus.none ||
+        accountInfo.followRequestState == requestStatus.unfollowed ||
+        !(accountInfo.followRequestState == requestStatus.pending),
+    });
   };
 
   return (

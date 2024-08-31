@@ -1,5 +1,4 @@
 import {
-  useCancelRequest,
   useFollowUser,
   useGetUserProfile,
 } from "../../api-hooks/user-page";
@@ -72,12 +71,7 @@ export const UserPageLayout = () => {
     mutate: followMutate,
   } = useFollowUser();
 
-  const {
-    // isError: iscancelRequestError,
-    // error: cancelRequestError,
-    mutate: cancelRequestMutate,
-  } = useCancelRequest();
-
+ 
   if (isProfileError) {
     //use error handler
     console.log("profile error", profileError);
@@ -125,7 +119,6 @@ export const UserPageLayout = () => {
           <UserAccountInfo
             accountInfo={userProfile}
             onFollowMethod={followMutate}
-            onCancelRequestMethod={cancelRequestMutate}
             onShowFollowingList={() => setOpenFollowingList(true)}
             onShowFollowerList={() => setOpenFollowerList(true)}
           />
@@ -145,7 +138,6 @@ export const UserPageLayout = () => {
         <PrivateGallery
           accountInfo={userProfile}
           onFollowMethod={followMutate}
-          onCancelRequestMethod={cancelRequestMutate}
         />
       )}
       {isEmptyGallery && <UserEmptyGallery userName={userProfile.userName} />}

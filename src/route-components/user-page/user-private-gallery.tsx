@@ -3,14 +3,11 @@ import { requestStatus, UserProfile } from "../../common/types/user-profile";
 import { Button } from "../../reusable-components/button";
 
 type NotAllowedViewGalleryProps = {
-  //userName: string;
   accountInfo: UserProfile;
   onFollowMethod: (args: FollowMutationArgs) => void;
-  onCancelRequestMethod: (userName: string) => void;
 };
 export const PrivateGallery = ({
   onFollowMethod,
-  onCancelRequestMethod,
   accountInfo,
 }: NotAllowedViewGalleryProps) => {
   const followBtnText =
@@ -25,14 +22,13 @@ export const PrivateGallery = ({
       ? "outline"
       : "secondary";
   const handleFollowBtn = () => {
-    accountInfo.followRequestState == requestStatus.pending
-      ? onCancelRequestMethod?.(accountInfo.userName)
-      : onFollowMethod?.({
-          userName: accountInfo.userName,
-          follow:
-            accountInfo.followRequestState == requestStatus.none ||
-            accountInfo.followRequestState == requestStatus.unfollowed,
-        });
+    onFollowMethod?.({
+      userName: accountInfo.userName,
+      follow:
+        accountInfo.followRequestState == requestStatus.none ||
+        accountInfo.followRequestState == requestStatus.unfollowed ||
+        !(accountInfo.followRequestState == requestStatus.pending),
+    });
   };
 
   return (
@@ -40,11 +36,7 @@ export const PrivateGallery = ({
       <div className="size-5 h-[71px] w-[356px] text-center font-bold leading-8">
         {`برای دیدن صفحه ${accountInfo.userName} باید دنبالش کنی.`}
       </div>
-      <Button
-        size="medium"
-        onClick={handleFollowBtn}
-        btnColor={followBtnColor}
-      >
+      <Button size="medium" onClick={handleFollowBtn} btnColor={followBtnColor}>
         {followBtnText}
       </Button>
     </div>
@@ -53,7 +45,6 @@ export const PrivateGallery = ({
 
 export const PrivateGalleryMobile = ({
   onFollowMethod,
-  onCancelRequestMethod,
   accountInfo,
 }: NotAllowedViewGalleryProps) => {
   const followBtnText =
@@ -68,14 +59,13 @@ export const PrivateGalleryMobile = ({
       ? "outline"
       : "secondary";
   const handleFollowBtn = () => {
-    accountInfo.followRequestState == requestStatus.pending
-      ? onCancelRequestMethod?.(accountInfo.userName)
-      : onFollowMethod?.({
-          userName: accountInfo.userName,
-          follow:
-            accountInfo.followRequestState == requestStatus.none ||
-            accountInfo.followRequestState == requestStatus.unfollowed,
-        });
+    onFollowMethod?.({
+      userName: accountInfo.userName,
+      follow:
+        accountInfo.followRequestState == requestStatus.none ||
+        accountInfo.followRequestState == requestStatus.unfollowed ||
+        !(accountInfo.followRequestState == requestStatus.pending),
+    });
   };
 
   return (
