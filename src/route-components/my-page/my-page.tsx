@@ -49,7 +49,7 @@ const MyPageLayout = () => {
   // }
   return (
     // check mt
-    <div className="mt-9 flex grow flex-col gap-8 bg-primary">
+    <div className="mt-9 w-2/3 flex grow flex-col gap-8 bg-primary">
       <Modal
         isOpen={isEditProfileOpen}
         close={() => {
@@ -94,7 +94,7 @@ const MyPageLayout = () => {
       )}
 
       <p className="text-right text-xl font-extrabold leading-8">{"صفحه من"}</p>
-      <div className="flex h-44 flex-col gap-3 border border-x-0 border-t-0 border-solid border-form-border">
+      <div className="flex h-44 flex-col gap-3 border border-x-0 border-t-0 border-solid border-form-border pb-8">
         <div className="flex h-40 flex-row items-center gap-8">
           {profile && (
             <AccountInfo
@@ -105,11 +105,11 @@ const MyPageLayout = () => {
           )}
           {!profile && (
             <>
-              <div className="w-[133px]"></div>
-              <div className="flex h-40 w-[377px] flex-col justify-start gap-4"></div>
+              <div className="w-[8.31rem]"></div>
+              <div className="flex h-40 w-[23.5rem] flex-col justify-start gap-4"></div>
             </>
           )}
-          <div className="flex h-40 w-[377px] flex-col items-end justify-center">
+          <div className="flex h-40 w-[23.5rem] flex-col items-end justify-center">
             <Button
               classes="w-48"
               type="button"

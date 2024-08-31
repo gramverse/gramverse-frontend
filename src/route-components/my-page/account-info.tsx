@@ -24,7 +24,7 @@ export const AccountInfo = ({
         className="h-40 w-40 rounded-full border-none object-cover"
         src={isSetProfileImage ? accountInfo.profileImage : PersonIcon}
       />
-      <div className="mb-5 flex h-fit w-[377px] flex-col justify-start gap-4">
+      <div className="mb-5 flex h-fit w-[23.5rem] flex-col justify-start gap-4">
         <div className="w-full text-sm font-normal text-[#C19008]">{`${accountInfo.userName}@`}</div>
         <div className="size-5 w-full font-bold">{`${accountInfo.firstName} ${accountInfo.lastName}`}</div>
         <div className="w-96 text-sm font-normal leading-6"></div>
@@ -67,7 +67,7 @@ export const AccountInfoMobile = ({ accountInfo }: AccountInfoMobileProps) => {
 
   return (
     <>
-      <div className="flex w-[311px] flex-col items-center justify-center gap-4">
+      <div className="flex w-[19.4rem] flex-col items-center justify-center gap-4">
         <div className="flex w-full flex-row gap-4">
           <label className="block h-14 w-14 overflow-hidden rounded-full">
             <img

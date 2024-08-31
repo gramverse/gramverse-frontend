@@ -53,15 +53,15 @@ export const UserAccountInfo = ({
   const existFollower = accountInfo.followerCount > 0;
   return (
     <>
-      <div className="w-[133px]">
-        <label className="block h-[133px] w-[133px] overflow-hidden rounded-full">
+      <div className="w-[8.31rem]">
+        <label className="block h-[8.31rem] w-[8.31rem] overflow-hidden rounded-full">
           <img
             className="h-full w-full object-cover"
             src={isSetProfileImage ? accountInfo.profileImage : PersonIcon}
           />
         </label>
       </div>
-      <div className="mb-5 flex h-fit w-[377px] flex-col justify-start gap-4">
+      <div className="mb-5 flex h-fit w-[23.5rem] flex-col justify-start gap-4">
         <div className="w-full text-sm font-normal text-[#C19008]">{`${accountInfo.userName}@`}</div>
 
         <div className="flex w-96 flex-row gap-4">
@@ -140,7 +140,7 @@ export const ViewAppUserInfoMobile = ({
 
   return (
     <>
-      <div className="flex w-[311px] flex-col items-center justify-center gap-4">
+      <div className="flex w-[19.43rem] flex-col items-center justify-center gap-4">
         <div className="flex w-full flex-row gap-4">
           <label className="block h-14 w-14 overflow-hidden rounded-full">
             <img
