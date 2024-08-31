@@ -23,8 +23,7 @@ export const useFollowUser = () => {
   const httpClient = useHttpClient();
   return useMutation<unknown, HTTPError, FollowMutationArgs>({
     mutationFn: ({ userName, follow }) => {
-     // const url = follow ? "users/follow" : "users/unfollow";
-      const json = { followingUserName: userName , isFollow: follow};
+      const json = { followingUserName: userName, isFollow: follow };
       return httpClient.post("users/follow", { json }).json();
     },
     onSuccess(_, variables) {
@@ -34,37 +33,6 @@ export const useFollowUser = () => {
     },
   });
 };
-
-export const useCancelRequest = () => {
-  const httpClient = useHttpClient();
-  return useMutation<unknown, HTTPError, string>({
-    mutationFn: (userName) => {
-      const json = { userName: userName };
-      return httpClient.post("users/cancelRequest", { json }).json();
-    },
-    onSuccess(_, variables) {
-      queryClient.invalidateQueries({
-        queryKey: ["getUserProfile", variables],
-      });
-    },
-  });
-};
-
-// export const useGetUserPosts = (
-//   userName: string | undefined,
-//   allowedViewPost: boolean | undefined,
-// ) => {
-//   const httpClient = useHttpClient();
-//   return useQuery({
-//     queryKey: ["getPosts", userName],
-//     queryFn: () =>
-//       httpClient
-//         .get(`posts/username/${userName}`)
-//         .json()
-//         .then(getPostResponseSchema.parse),
-//     enabled: userName != undefined && allowedViewPost,
-//   });
-// };
 
 export const useGetUserPosts = (
   userName: string | undefined,

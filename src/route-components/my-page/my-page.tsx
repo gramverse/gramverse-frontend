@@ -17,23 +17,6 @@ const MyPageLayout = () => {
     isError: isProfileError,
   } = useGetProfile();
 
-  // const {
-  //   data: postPages,
-  //   hasNextPage,
-  //   isFetching,
-  //   isFetchingNextPage : isFetchingNextPostPage,
-  //   fetchNextPage : fetchNextPosts,
-  //   isError : isPostError,
-  //   error : postError,
-  // } = useGetPosts(postLimit);
-
-  // useEffect(() => {
-  //   if (!hasNextPage || !isNearPostEnd || isFetching) return;
-  //   fetchNextPosts();
-  // }, [isNearPostEnd, isFetchingNextPostPage, hasNextPage]);
-
-  //const posts = postPages?.pages.flatMap((x) => x.posts) ?? [];
-  //const thereIsNoPost = !posts || (posts && posts.length == 0);
   const thereIsNoPost = !profile || (profile && profile.postCount == 0);
   const [isEditProfileOpen, openEditProfile] = useState(false);
   const [isOpenFollowerList, setOpenFollowerList] = useState(false);
@@ -43,13 +26,9 @@ const MyPageLayout = () => {
     // user error handler
     console.log("just for build err", profileError);
   }
-  // if (isPostError) {
-  //   // user error handler
-  //   console.log("just for build err", postError);
-  // }
+
   return (
-    // check mt
-    <div className="mt-9 w-2/3 flex grow flex-col gap-8 bg-primary">
+    <div className="mt-9 flex w-2/3 grow flex-col gap-8 bg-primary">
       <Modal
         isOpen={isEditProfileOpen}
         close={() => {
@@ -142,23 +121,12 @@ export const MyPageMobile = () => {
     isError: isProfileError,
   } = useGetProfile();
 
-  // const {
-  //   data: postPages,
-  //   hasNextPage,
-  //   isFetching,
-  //   isFetchingNextPage,
-  //   fetchNextPage: fetchNextPosts,
-  //   isError: isPostError,
-  //   error: postError,
-  // } = useGetPosts(postLimit);
-
-  //const posts = postPages?.pages.flatMap((x) => x.posts) ?? [];
   const thereIsNoPost = !profile || (profile && profile.postCount == 0);
   if (isProfileError) {
     //use error handler
     console.log("just for build err", profileError);
   }
- 
+
   const [isEditOpen, setIsEditOpen] = useState(false);
 
   return (
@@ -191,7 +159,7 @@ export const MyPageMobile = () => {
       </div>
       <div>
         {thereIsNoPost && <EmptyGalleryMobile />}
-        {!thereIsNoPost && <GalleryMobile  />}
+        {!thereIsNoPost && <GalleryMobile />}
       </div>
       <Outlet />
     </div>

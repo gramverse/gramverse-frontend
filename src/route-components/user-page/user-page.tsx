@@ -1,5 +1,4 @@
 import {
-  useCancelRequest,
   useFollowUser,
   useGetUserProfile,
 } from "../../api-hooks/user-page";
@@ -28,20 +27,6 @@ export const UserPageLayout = () => {
     isError: isProfileError,
   } = useGetUserProfile(userName ?? "");
 
-  // const postLimit = 6;
-  // const {
-  //   data: postPages,
-  //   isError: isUserPostError,
-  //   error: userPostError,
-  // } = useGetUserPosts(
-  //   userProfile?.userName,
-  //   (!userProfile?.hasBlockedUs &&
-  //     userProfile?.followRequestState == requestStatus.accepted) ||
-  //     !userProfile?.isPrivate,
-  //   postLimit,
-  // );
-
-  //const userPosts = postPages?.pages.flatMap((x) => x.posts) ?? [];
   const isAllowedViewPosts =
     (!userProfile?.hasBlockedUs &&
       userProfile?.followRequestState == requestStatus.accepted) ||
@@ -72,12 +57,7 @@ export const UserPageLayout = () => {
     mutate: followMutate,
   } = useFollowUser();
 
-  const {
-    // isError: iscancelRequestError,
-    // error: cancelRequestError,
-    mutate: cancelRequestMutate,
-  } = useCancelRequest();
-
+ 
   if (isProfileError) {
     //use error handler
     console.log("profile error", profileError);
@@ -125,7 +105,6 @@ export const UserPageLayout = () => {
           <UserAccountInfo
             accountInfo={userProfile}
             onFollowMethod={followMutate}
-            onCancelRequestMethod={cancelRequestMutate}
             onShowFollowingList={() => setOpenFollowingList(true)}
             onShowFollowerList={() => setOpenFollowerList(true)}
           />
@@ -145,7 +124,6 @@ export const UserPageLayout = () => {
         <PrivateGallery
           accountInfo={userProfile}
           onFollowMethod={followMutate}
-          onCancelRequestMethod={cancelRequestMutate}
         />
       )}
       {isEmptyGallery && <UserEmptyGallery userName={userProfile.userName} />}
