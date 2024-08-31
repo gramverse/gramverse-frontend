@@ -5,10 +5,13 @@ import { useEffect } from "react";
 import clsx from "clsx";
 
 type UserGalleryProps = {
- userName: string,
- isAllowedToViewPosts: boolean
+  userName: string;
+  isAllowedToViewPosts: boolean;
 };
-export const UserGallery = ({ userName, isAllowedToViewPosts }: UserGalleryProps) => {
+export const UserGallery = ({
+  userName,
+  isAllowedToViewPosts,
+}: UserGalleryProps) => {
   const navigate = useNavigate();
   const [nearEndPostRef, isNearPostEnd] = useInView();
   const postLimit = 6;
@@ -20,11 +23,7 @@ export const UserGallery = ({ userName, isAllowedToViewPosts }: UserGalleryProps
     fetchNextPage: fetchNextPosts,
     isError: isPostError,
     error: postError,
-  } = useGetUserPosts(
-    userName,
-    isAllowedToViewPosts,
-    postLimit,
-  );
+  } = useGetUserPosts(userName, isAllowedToViewPosts, postLimit);
 
   const userPosts = postPages?.pages.flatMap((x) => x.posts) ?? [];
 
@@ -39,12 +38,12 @@ export const UserGallery = ({ userName, isAllowedToViewPosts }: UserGalleryProps
   }
 
   return (
-    <div className="flex grow flex-row flex-wrap gap-5 overflow-y-scroll">
+    <div className="flex h-[570px] w-[981px] grow flex-row flex-wrap gap-5 overflow-y-scroll pb-8">
       {userPosts.map((post) => {
         return (
           <div
             key={post._id}
-            className="h-[304px] w-[295px] rounded-t-3xl bg-neutral-400"
+            className="h-[304px] w-[295px] overflow-hidden rounded-t-3xl bg-neutral-400"
             onClick={() => {
               navigate(`post/${post._id}`);
             }}
@@ -69,7 +68,10 @@ export const UserGallery = ({ userName, isAllowedToViewPosts }: UserGalleryProps
   );
 };
 
-export const UserGalleryMobile = ({ userName, isAllowedToViewPosts }: UserGalleryProps) => {
+export const UserGalleryMobile = ({
+  userName,
+  isAllowedToViewPosts,
+}: UserGalleryProps) => {
   const navigate = useNavigate();
   const [nearEndPostRef, isNearPostEnd] = useInView();
   const postLimit = 6;
@@ -81,11 +83,7 @@ export const UserGalleryMobile = ({ userName, isAllowedToViewPosts }: UserGaller
     fetchNextPage: fetchNextPosts,
     isError: isPostError,
     error: postError,
-  } = useGetUserPosts(
-    userName,
-    isAllowedToViewPosts,
-    postLimit,
-  );
+  } = useGetUserPosts(userName, isAllowedToViewPosts, postLimit);
 
   const userPosts = postPages?.pages.flatMap((x) => x.posts) ?? [];
 
@@ -98,8 +96,7 @@ export const UserGalleryMobile = ({ userName, isAllowedToViewPosts }: UserGaller
     // user error handler
     console.log("just for build err", postError);
   }
-  
-  
+
   return (
     <div className="flex h-[570px] w-[311px] flex-row flex-wrap gap-5 overflow-y-scroll">
       {userPosts.map((post) => {

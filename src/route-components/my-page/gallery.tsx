@@ -35,7 +35,7 @@ export const Gallery = () => {
   }
 
   return (
-    <div className="flex h-[570px] w-[981px] flex-row flex-wrap gap-5 overflow-y-scroll">
+    <div className="flex h-[35.62rem] w-full flex-row flex-wrap gap-5 overflow-y-scroll">
       <Modal
         isOpen={isPostOpen}
         close={() => {
@@ -67,7 +67,7 @@ export const Gallery = () => {
         return (
           <div
             key={post._id}
-            className="h-[304px] w-[295px] rounded-t-3xl bg-neutral-400"
+            className="h-[19rem] w-[18.43rem] overflow-hidden rounded-t-3xl bg-neutral-400"
             onClick={() => {
               setPostId(post._id);
               openPost(true);
@@ -119,7 +119,7 @@ export const GalleryMobile = () => {
   }
 
   return (
-    <div className="flex w-[311px] flex-row flex-wrap gap-5">
+    <div className="flex w-[19.4rem] flex-row flex-wrap gap-5">
       {posts.map((post) => {
         return (
           <div
