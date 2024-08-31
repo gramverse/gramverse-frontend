@@ -1,5 +1,6 @@
 import { Profile } from "../../common/types/profile-data";
 import PersonIcon from "../../assets/svg/profile.svg";
+import clsx from "clsx";
 
 type AccountInfoInfoProps = {
   accountInfo: Profile;
@@ -14,31 +15,36 @@ export const AccountInfo = ({
 }: AccountInfoInfoProps) => {
   const isSetProfileImage =
     accountInfo.profileImage && accountInfo.profileImage != "";
+  const existFollowing = accountInfo.followingCount > 0;
+  const existFollower = accountInfo.followerCount > 0;
+
   return (
     <div className="flex items-center gap-2">
       <img
-        className="h-40 w-40 object-cover border-none rounded-full"
+        className="h-40 w-40 rounded-full border-none object-cover"
         src={isSetProfileImage ? accountInfo.profileImage : PersonIcon}
       />
-      <div className="mb-5 flex h-fit w-[377px] flex-col justify-start gap-4">
+      <div className="mb-5 flex h-fit w-[23.5rem] flex-col justify-start gap-4">
         <div className="w-full text-sm font-normal text-[#C19008]">{`${accountInfo.userName}@`}</div>
         <div className="size-5 w-full font-bold">{`${accountInfo.firstName} ${accountInfo.lastName}`}</div>
         <div className="w-96 text-sm font-normal leading-6"></div>
         <div className="w-96 text-sm font-normal leading-6">
           <span
-            className="ml-3 w-24 text-amber-500"
-            onClick={() => {
-              onShowFollowerList();
-            }}
+            className={clsx(
+              "ml-3 w-24 text-amber-500",
+              existFollower && "cursor-pointer",
+            )}
+            {...(existFollower && { onClick: onShowFollowerList })}
           >
             {`‍${accountInfo.followerCount} دنبال کننده  ‍`}{" "}
           </span>
           <span>|</span>
           <span
-            className="mx-3 w-24 text-amber-500"
-            onClick={() => {
-              onShowFollowingList();
-            }}
+            className={clsx(
+              "mx-3 w-24 text-amber-500",
+              existFollowing && "cursor-pointer",
+            )}
+            {...(existFollowing && { onClick: onShowFollowingList })}
           >{`‍  ${accountInfo.followingCount} دنبال شونده`}</span>
           <span>|</span>
           <span className="mr-3 w-24">{`‍ ${accountInfo.postCount} پست ‍`}</span>
@@ -58,9 +64,10 @@ type AccountInfoMobileProps = {
 export const AccountInfoMobile = ({ accountInfo }: AccountInfoMobileProps) => {
   const isSetProfileImage =
     accountInfo.profileImage && accountInfo.profileImage != "";
+
   return (
     <>
-      <div className="flex w-[311px] flex-col items-center justify-center gap-4">
+      <div className="flex w-[19.4rem] flex-col items-center justify-center gap-4">
         <div className="flex w-full flex-row gap-4">
           <label className="block h-14 w-14 overflow-hidden rounded-full">
             <img

@@ -10,16 +10,18 @@ export const  FollowingersInfo = ({
 }: FollowerInfoProps) => {
   const isSetProfileImage = profileImage && profileImage != "";
   return (
-    <div className="flex h-20 w-80 flex-row items-center border border-x-0 border-t-0 border-solid border-form-border">
-      <img
-        className="h-14 w-14 object-cover"
-        src={isSetProfileImage ? profileImage : PersonIcon}
-      />
-      <div className="flex w-48 flex-col">
-        <p>{userName}</p>
-        <p>{`${followerCount} دنبال کننده`}</p>
+    <div className="flex h-20 w-[19.5rem] flex-row items-center border border-x-0 border-t-0 border-solid border-form-border">
+      <label className="block h-14 w-14 overflow-hidden rounded-full ml-4">
+          <img
+            className="h-full w-full object-cover"
+            src={isSetProfileImage ? profileImage : PersonIcon}
+          />
+        </label>
+      <div className="flex h-12 w-48 flex-col">
+        <div className="text-sm font-bold">{userName}</div>
+        <div className="text-xs font-normal">{`${followerCount} دنبال کننده`}</div>
       </div>
-      <div className="flex h-20 flex-col items-end justify-center gap-[3px]">
+      <div className="flex w-11 h-20 flex-col items-end justify-center gap-[3px] pl-4">
         <div className="h-2 w-2 rounded-full bg-submit-btn"></div>
         <div className="h-2 w-2 rounded-full bg-submit-btn"></div>
         <div className="h-2 w-2 rounded-full bg-submit-btn"></div>

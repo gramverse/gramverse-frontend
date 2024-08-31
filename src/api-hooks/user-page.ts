@@ -8,7 +8,7 @@ import { UserProfile, userProfileSchema } from "../common/types/user-profile";
 export const useGetUserProfile = (userName: string) => {
   const httpClient = useHttpClient();
   return useQuery<UserProfile, HTTPError>({
-    queryKey: ["getUserProfile"],
+    queryKey: ["getUserProfile", userName],
     queryFn: () =>
       httpClient
         .get(`users/profile/${userName}`)
@@ -23,9 +23,9 @@ export const useFollowUser = () => {
   const httpClient = useHttpClient();
   return useMutation<unknown, HTTPError, FollowMutationArgs>({
     mutationFn: ({ userName, follow }) => {
-      const url = follow ? "users/follow" : "users/unfollow";
-      const json = { followingUserName: userName };
-      return httpClient.post(url, { json }).json();
+     // const url = follow ? "users/follow" : "users/unfollow";
+      const json = { followingUserName: userName , isFollow: follow};
+      return httpClient.post("users/follow", { json }).json();
     },
     onSuccess(_, variables) {
       queryClient.invalidateQueries({
