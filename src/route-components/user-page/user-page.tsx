@@ -27,20 +27,6 @@ export const UserPageLayout = () => {
     isError: isProfileError,
   } = useGetUserProfile(userName ?? "");
 
-  // const postLimit = 6;
-  // const {
-  //   data: postPages,
-  //   isError: isUserPostError,
-  //   error: userPostError,
-  // } = useGetUserPosts(
-  //   userProfile?.userName,
-  //   (!userProfile?.hasBlockedUs &&
-  //     userProfile?.followRequestState == requestStatus.accepted) ||
-  //     !userProfile?.isPrivate,
-  //   postLimit,
-  // );
-
-  //const userPosts = postPages?.pages.flatMap((x) => x.posts) ?? [];
   const isAllowedViewPosts =
     (!userProfile?.hasBlockedUs &&
       userProfile?.followRequestState == requestStatus.accepted) ||

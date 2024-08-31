@@ -85,7 +85,7 @@ export const Gallery = () => {
         ref={nearEndPostRef}
         className={clsx(
           "flex w-full items-center justify-center text-2xl",
-          hasNextPage ? "h-[calc(11rem/3)]" : "", //check it!!!!!!!!!!!!!!!!
+          hasNextPage ? "h-[calc(11rem/3)]" : "", 
         )}
       >
         {hasNextPage && isFetchingNextPostPage && <div>Loading...</div>}
@@ -140,7 +140,7 @@ export const GalleryMobile = () => {
         ref={nearEndPostRef}
         className={clsx(
           "flex w-full items-center justify-center text-2xl",
-          hasNextPage ? "h-[calc(11rem/3)]" : "", //check it!!!!!!!!!!!!!!!!
+          hasNextPage ? "h-[calc(11rem/3)]" : "",
         )}
       >
         {hasNextPage && isFetchingNextPostPage && <div>Loading...</div>}
