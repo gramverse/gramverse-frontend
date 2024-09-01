@@ -1,8 +1,6 @@
 import clsx from "clsx";
 import { getTimeDifference } from "../../../utilitis.ts/time-difference";
 import { PostDetail } from "../../../common/types/post-detail";
-import { useFindUser } from "../../../api-hooks/post";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface Captions
@@ -13,12 +11,6 @@ export const PostCaptions = (props: Captions) => {
   const date = new Date(creationDate);
   const now = new Date();
   const navigate = useNavigate();
-  const [userName, setUserName] = useState("");
-  const { data, refetch, isFetching, isSuccess, isRefetching } =
-    useFindUser(userName);
-  useEffect(() => {
-    refetch();
-  }, [refetch, userName]);
   return (
     <section
       className={clsx(
@@ -44,17 +36,7 @@ export const PostCaptions = (props: Captions) => {
               key={mention}
               className="m-2 rounded-lg bg-emerald-200 p-2 text-xs"
               onClick={() => {
-                setUserName(mention);
-                if (
-                  data &&
-                  data.exists &&
-                  isSuccess &&
-                  !isFetching &&
-                  !isRefetching &&
-                  userName === mention
-                ) {
-                  navigate(`/user/${userName}`);
-                }
+                navigate(`/${mention}`);
               }}
             >
               {mention}

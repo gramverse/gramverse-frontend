@@ -123,6 +123,7 @@ const EditProfileLayout = ({ close }: { close: () => void }) => {
           <TextArea
             rows={2}
             cols={40}
+            maxLength={100}
             defaultValue={profile?.bio}
             {...register("bio")}
           />

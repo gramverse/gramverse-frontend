@@ -65,19 +65,15 @@ export const Gallery = () => {
       </Modal>
       {posts.map((post) => {
         return (
-          <div
+          <img
             key={post._id}
-            className="h-[19rem] w-[18.43rem] overflow-hidden rounded-t-3xl bg-neutral-400"
+            className="h-[19rem] w-[18.43rem] overflow-hidden rounded-t-3xl bg-neutral-400 object-cover"
             onClick={() => {
               setPostId(post._id);
               openPost(true);
             }}
-          >
-            <img
-              className="h-full w-full object-cover"
-              src={post.photoUrls[0]}
-            />
-          </div>
+            src={post.photoUrls[0]}
+          />
         );
       })}
 
@@ -85,7 +81,7 @@ export const Gallery = () => {
         ref={nearEndPostRef}
         className={clsx(
           "flex w-full items-center justify-center text-2xl",
-          hasNextPage ? "h-[calc(11rem/3)]" : "", 
+          hasNextPage ? "h-[calc(11rem/3)]" : "",
         )}
       >
         {hasNextPage && isFetchingNextPostPage && <div>Loading...</div>}
@@ -119,21 +115,17 @@ export const GalleryMobile = () => {
   }
 
   return (
-    <div className="flex w-[19.4rem] flex-row flex-wrap gap-5">
+    <div className="absolute inset-x-0 mx-auto flex h-[500px] w-[19.4rem] flex-row flex-wrap gap-5 self-center overflow-y-scroll">
       {posts.map((post) => {
         return (
-          <div
+          <img
             key={post._id}
-            className="h-36 w-36 rounded-t-3xl bg-neutral-400"
+            className="h-36 w-36 rounded-3xl bg-neutral-400 object-cover"
             onClick={() => {
               navigate(`post/${post._id}`);
             }}
-          >
-            <img
-              className="h-full w-full object-cover"
-              src={post.photoUrls[0]}
-            />
-          </div>
+            src={post.photoUrls[0]}
+          />
         );
       })}
       <div

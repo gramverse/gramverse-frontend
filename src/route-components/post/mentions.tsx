@@ -56,7 +56,8 @@ export const Mention = forwardRef<HTMLInputElement, mentionProps>(
                   isSuccess &&
                   !isFetching &&
                   !isRefetching &&
-                  userName === typedMention.slice(1)
+                  userName === typedMention.slice(1) &&
+                  !mentions.includes(typedMention.slice(1))
                 ) {
                   setMentions((mentions) =>
                     mentions.concat(typedMention.slice(1)),

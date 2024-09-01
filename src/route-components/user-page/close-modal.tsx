@@ -4,7 +4,7 @@ import { Button } from "../../reusable-components/button";
 import { ContainterWeb } from "../../reusable-components/container";
 import { UserProfileSummary } from "../../reusable-components/user-profile-summary";
 
-export const Unclose = ({
+export const Close = ({
   user,
   close,
 }: {
@@ -12,6 +12,7 @@ export const Unclose = ({
   close: () => void;
 }) => {
   const { mutate } = useAddCloseFriends(close);
+
   return (
     <ContainterWeb className="mx-5 max-w-96">
       {user && (
@@ -21,10 +22,10 @@ export const Unclose = ({
             profilePicture={user.profileImage}
             followerCount={user.followerCount}
           />
-          <h5 className="text-start font-bold">{`مطمئنی میخوای ${user.userName} رو  از دوستان نزدیکت حذف کنی؟`}</h5>
+          <h5 className="text-start font-bold">{`مطمئنی میخوای ${user.userName} رو  به دوستان نزدیکت اضافه کنی؟`}</h5>
           <p className="text-start text-xs text-gray-500">
-            اگر از دوستان نزدینکت حذفش کنی؛ دیگه نمی‌تونه پیام‌های مخصوص دوستان
-            نزدیک رو ببینه اما هنوز دوست تو باقی می‌مونه
+            در این صورت اون می‌تونه محتواهایی که برای دوستان نزدیکت به اشتراک
+            گذاشتی رو ببینه.
           </p>
 
           <div className="flex self-end">
@@ -38,7 +39,7 @@ export const Unclose = ({
             </Button>
             <Button
               onClick={() => {
-                mutate({ userName: user.userName, isAdd: false });
+                mutate({ userName: user.userName, isAdd: true });
               }}
             >
               {"آره، حتما"}

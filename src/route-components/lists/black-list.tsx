@@ -81,7 +81,7 @@ export const BlackListLayout = () => {
   const [modal, openModal] = useState(false);
   return (
     <div
-      className="flex w-full flex-col gap-4 overflow-y-scroll"
+      className="flex w-full grow flex-col gap-4 overflow-y-scroll"
       onClick={() => {
         openMenu(false);
       }}
@@ -123,8 +123,16 @@ export const BlackListLayout = () => {
               className="me-5"
               onClick={(e) => {
                 e.stopPropagation();
-                setSelectedUser(user);
-                openMenu(true);
+                if (
+                  selectedUser &&
+                  user.userName === selectedUser.userName &&
+                  menu
+                ) {
+                  openMenu(false);
+                } else {
+                  openMenu(true);
+                  setSelectedUser(user);
+                }
               }}
             />
           </div>

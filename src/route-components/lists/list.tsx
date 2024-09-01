@@ -20,7 +20,7 @@ export const ListLayout = ({ mobile }: { mobile: boolean }) => {
     <div
       className={clsx(
         "mb-7 flex grow flex-col items-center justify-start gap-7 overflow-y-scroll bg-primary text-center",
-        mobile ? "w-full" : "w-96 self-start",
+        mobile ? "w-full" : "w-[400px] self-start",
       )}
     >
       <TwinTab

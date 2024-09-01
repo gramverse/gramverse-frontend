@@ -1,6 +1,7 @@
 import { Profile } from "../../common/types/profile-data";
 import PersonIcon from "../../assets/svg/profile.svg";
 import clsx from "clsx";
+import { RoundPicture } from "../../reusable-components/profile-picture";
 
 type AccountInfoInfoProps = {
   accountInfo: Profile;
@@ -13,16 +14,18 @@ export const AccountInfo = ({
   onShowFollowerList,
   onShowFollowingList,
 }: AccountInfoInfoProps) => {
-  const isSetProfileImage =
-    accountInfo.profileImage && accountInfo.profileImage != "";
   const existFollowing = accountInfo.followingCount > 0;
   const existFollower = accountInfo.followerCount > 0;
 
   return (
     <div className="flex items-center gap-2">
-      <img
-        className="h-40 w-40 rounded-full border-none object-cover"
-        src={isSetProfileImage ? accountInfo.profileImage : PersonIcon}
+      <RoundPicture
+        size="xlarge"
+        picture={
+          accountInfo.profileImage && accountInfo.profileImage != ""
+            ? accountInfo.profileImage
+            : PersonIcon
+        }
       />
       <div className="mb-5 flex h-fit w-[23.5rem] flex-col justify-start gap-4">
         <div className="w-full text-sm font-normal text-[#C19008]">{`${accountInfo.userName}@`}</div>
@@ -62,39 +65,35 @@ type AccountInfoMobileProps = {
 };
 
 export const AccountInfoMobile = ({ accountInfo }: AccountInfoMobileProps) => {
-  const isSetProfileImage =
-    accountInfo.profileImage && accountInfo.profileImage != "";
-
   return (
-    <>
-      <div className="flex w-[19.4rem] flex-col items-center justify-center gap-4">
-        <div className="flex w-full flex-row gap-4">
-          <label className="block h-14 w-14 overflow-hidden rounded-full">
-            <img
-              className="h-full w-full object-cover"
-              src={isSetProfileImage ? accountInfo.profileImage : PersonIcon}
-            />
-          </label>
-          <div className="flex flex-col gap-2">
-            <div className="ml-4 w-full text-sm font-normal text-[#C19008]">{`${accountInfo.userName}@`}</div>
-
-            <div className="w-full text-xl font-bold">{`${accountInfo.firstName} ${accountInfo.lastName}`}</div>
-          </div>
-        </div>
-
-        <div className="flex w-full flex-col items-center justify-center">
-          <div className="w-full text-sm font-normal leading-6">
-            <span className="ml-3 w-24 text-amber-500">{`‍${accountInfo.followerCount} دنبال کننده  ‍`}</span>
-            <span>|</span>
-            <span>{`‍  ${accountInfo.followingCount} دنبال شونده`}</span>
-            <span>|</span>
-            <span className="mr-3 w-24">{`‍ ${accountInfo.postCount} پست ‍`}</span>
-          </div>
-          <div className="text-sm font-normal text-[#A5A5A5]">
-            {accountInfo.bio}
-          </div>
+    <div className="max-h-1/3 flex w-[19.4rem] flex-col items-center justify-center gap-4">
+      <div className="flex w-full flex-row gap-4">
+        <RoundPicture
+          size="medium"
+          picture={
+            accountInfo.profileImage && accountInfo.profileImage != ""
+              ? accountInfo.profileImage
+              : PersonIcon
+          }
+        />
+        <div className="flex flex-col gap-2">
+          <div className="ml-4 w-full text-sm font-normal text-[#C19008]">{`${accountInfo.userName}@`}</div>
+          <div className="w-full text-xl font-bold">{`${accountInfo.firstName} ${accountInfo.lastName}`}</div>
         </div>
       </div>
-    </>
+
+      <div className="flex w-full flex-col">
+        <div className="flex w-fit gap-2 text-sm font-normal">
+          <span className="text-nowrap text-amber-500">{`‍${accountInfo.followerCount} دنبال کننده`}</span>
+          <span>|</span>
+          <span className="text-nowrap">{`‍${accountInfo.followingCount} دنبال شونده`}</span>
+          <span>|</span>
+          <span className="text-nowrap">{`‍ ${accountInfo.postCount} پست`}</span>
+        </div>
+        <div className="text-sm font-normal text-[#A5A5A5]">
+          {accountInfo.bio}
+        </div>
+      </div>
+    </div>
   );
 };
