@@ -22,7 +22,7 @@ export const DrawerMenu = ({ close }: { close: () => void }) => {
               onClick={() => {
                 close();
                 if (data.userName) {
-                  navigate(`/profile/${data.userName}`);
+                  navigate(`/${data.userName}`);
                 } else {
                   navigate("/");
                 }

@@ -9,3 +9,13 @@ export const UserInfoSumarySchema = z.object({
 export type UserInfoSummary = z.infer<typeof UserInfoSumarySchema>;
 
 export const UsersInfoSchema = UserInfoSumarySchema.array();
+
+export type UserResponse = {
+  users: UserInfoSummary[];
+  totalCount: number;
+};
+
+export const UserResponseSchema = z.object({
+  followingers: UserInfoSumarySchema.array(),
+  totalCount: z.number(),
+});

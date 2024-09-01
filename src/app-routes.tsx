@@ -42,8 +42,13 @@ import {
   UserPostViewMobile,
   UserPostViewWeb,
 } from "./route-components/post-view/user-post-view";
+import { useGetProfile } from "./api-hooks/get-my-profile";
+import { FollowerListMobile } from "./route-components/followinger-list/follower-list";
+import { FollowingListMobile } from "./route-components/followinger-list/following-list";
 
 export const AppRoutes = () => {
+  const { data } = useGetProfile();
+
   return (
     <Routes>
       <Route element={<CollegeBackground />}>
@@ -67,12 +72,14 @@ export const AppRoutes = () => {
           <Route path={"close-friends"} element={<CloseFriends />} />
           <Route path={"black-list"} element={<BlackList />} />
         </Route>
-        <Route path={"user/:userName"} element={<UserPage />}>
+        <Route path={"/:userName"} element={<UserPage />}>
           <Route path={`post-view/:postId`} element={<UserPostViewWeb />} />
         </Route>
-        <Route path={"profile/:userName"} element={<MyPage />} />
+        {data?.userName && (
+          <Route path={`/${data?.userName}`} element={<MyPage />} />
+        )}
         <Route
-          path={`profile/:userName/post-view/:postId`}
+          path={`/:userName/post-view/:postId`}
           element={<PostViewWeb />}
         />
 
@@ -89,6 +96,8 @@ export const AppRoutes = () => {
 };
 
 export const AppRoutesMobile = () => {
+  const { data } = useGetProfile();
+
   return (
     <Routes>
       <Route element={<AuthroizeMobile />}>
@@ -104,12 +113,9 @@ export const AppRoutesMobile = () => {
       <Route path={urls.forgetPassword} element={<ForgetPasswordMobile />} />
       <Route path={urls.forgetPasswordInfo} element={<ForgetPasswordInfo />} />
       <Route path={"/"} element={<MainMobile />}>
+        <Route path="/:userName/post/:postId" element={<PostViewMobile />} />
         <Route
-          path="profile/:userName/post/:postId"
-          element={<PostViewMobile />}
-        />
-        <Route
-          path="user/:userName/post/:postId"
+          path="/:userName/post/:postId"
           element={<UserPostViewMobile />}
         />
         <Route element={<ListMobile />}>
@@ -118,11 +124,19 @@ export const AppRoutesMobile = () => {
         </Route>
         <Route path="create-post" element={<CreatePostMobile />} />
         <Route
-          path="profile/:userName/post/:postId/edit"
+          path="/:userName/post/:postId/edit"
           element={<EditPostMobile />}
         />
-        <Route path={"user/:userName"} element={<UserPageMobile />} />
-        <Route path={"profile/:userName"} element={<MyPageMobile />} />
+        <Route path={"/:userName"} element={<UserPageMobile />} />
+        <Route path={"/:userName/followers"} element={<FollowerListMobile />} />
+        <Route
+          path={"/:userName/followings"}
+          element={<FollowingListMobile />}
+        />
+
+        {data?.userName && (
+          <Route path={`/${data?.userName}`} element={<MyPageMobile />} />
+        )}
         <Route index element={<ExploreMobile />} />
       </Route>
 

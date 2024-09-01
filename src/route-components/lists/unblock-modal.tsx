@@ -16,7 +16,7 @@ export const Unblock = ({
         <div className="flex flex-col items-start gap-3">
           <UserProfileSummary
             userName={user.userName}
-            // profilePicture={user.profileImage}
+            profilePicture={user.profileImage}
             followerCount={user.followerCount}
           />
           <h5 className="text-start font-bold">{`مطمئنی میخوای ${user.userName} رو آنبلاک کنی؟`}</h5>

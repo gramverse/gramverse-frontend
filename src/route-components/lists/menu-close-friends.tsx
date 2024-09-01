@@ -13,7 +13,7 @@ export const MenuCloseFriends = ({
   return (
     <>
       {isOpen && (
-        <div className="absolute left-10 z-10 h-fit w-[200px] rounded-b-2xl rounded-tr-2xl border-2 border-solid border-gray-300 bg-white px-5">
+        <div className="absolute left-10 z-10 h-fit w-fit rounded-b-2xl rounded-tr-2xl border-2 border-solid border-gray-300 bg-white ps-2">
           <Tab
             text="حدف از دوستان نزدیک"
             icon={removeCloseFriend}

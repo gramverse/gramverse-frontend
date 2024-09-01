@@ -33,7 +33,7 @@ export default function MobileTopNavigation({
       <div className="mb-3 mt-2 flex h-10 w-full justify-between">
         <RoundPicture
           picture={profileImage && profileImage !== "" ? profileImage : profile}
-          onClick={() => navigate(userName ? `profile/${userName}` : "/")}
+          onClick={() => navigate(userName ? `${userName}` : "/")}
         />
         <img
           src={menu}

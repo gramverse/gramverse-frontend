@@ -28,7 +28,7 @@ const MyPageLayout = () => {
   }
 
   return (
-    <div className="mt-9 flex w-2/3 grow flex-col gap-8 bg-primary">
+    <div className="mt-9 flex grow flex-col gap-8 bg-primary">
       <Modal
         isOpen={isEditProfileOpen}
         close={() => {
@@ -130,7 +130,7 @@ export const MyPageMobile = () => {
   const [isEditOpen, setIsEditOpen] = useState(false);
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4">
+    <div className="flex grow flex-col items-center justify-start gap-4">
       <ModalMobile
         isOpen={isEditOpen}
         close={() => {
@@ -145,17 +145,15 @@ export const MyPageMobile = () => {
       </ModalMobile>
       <div className="flex flex-col gap-6 border border-x-0 border-t-0 border-solid border-form-border">
         {profile && <AccountInfoMobile accountInfo={profile} />}
-        <div className="flex flex-col items-center justify-center">
-          <Button
-            classes="w-48 my-2 "
-            type="button"
-            onClick={() => {
-              setIsEditOpen(true);
-            }}
-          >
-            ویرایش پروفایل
-          </Button>
-        </div>
+        <Button
+          classes="my-2 w-full text-center justify-center"
+          type="button"
+          onClick={() => {
+            setIsEditOpen(true);
+          }}
+        >
+          ویرایش پروفایل
+        </Button>
       </div>
       <div>
         {thereIsNoPost && <EmptyGalleryMobile />}

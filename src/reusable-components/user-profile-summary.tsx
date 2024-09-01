@@ -18,7 +18,7 @@ export const UserProfileSummary = (props: UserProfile) => {
     <div
       className={clsx("flex items-center gap-5", className)}
       onClick={() => {
-        isSuccess && navigate(`/user/${profileSummary.userName}`);
+        isSuccess && navigate(`/${profileSummary.userName}`);
       }}
     >
       <RoundPicture

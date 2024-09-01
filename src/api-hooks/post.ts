@@ -3,6 +3,7 @@ import { useHttpClient } from "../common/http-client";
 import { HTTPError } from "ky";
 import { CreatePostFormData, EditPostFormData } from "../common/types/post";
 import { z } from "zod";
+import { queryClient } from "../common/query-client";
 
 export const useCreatePost = (onSuccess: () => void) => {
   const httpClient = useHttpClient();
@@ -17,7 +18,10 @@ export const useCreatePost = (onSuccess: () => void) => {
       photoFiles.forEach((file) => formData.append("photoFiles", file));
       return httpClient.post("files/addPost", { body: formData }).json();
     },
-    onSuccess,
+    onSuccess: () => {
+      onSuccess();
+      queryClient.invalidateQueries({ queryKey: ["getMyPosts"] });
+    },
   });
 };
 
@@ -40,7 +44,10 @@ export const useEditPost = (onSuccess: () => void) => {
       photoFiles.forEach((file) => formData.append("photoFiles", file));
       return httpClient.post("files/editPost", { body: formData }).json();
     },
-    onSuccess,
+    onSuccess: () => {
+      onSuccess();
+      queryClient.invalidateQueries({ queryKey: ["getMyPosts"] });
+    },
   });
 };
 

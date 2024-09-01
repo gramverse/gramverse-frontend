@@ -22,7 +22,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 type Sizes = "small" | "medium" | "large";
-type BtnStyles = "secondary" | "transparent" | "outline" | "disabled";
+export type BtnStyles = "secondary" | "transparent" | "outline" | "disabled";
 export const Button = (props: ButtonProps) => {
   const {
     size = "medium",
@@ -38,7 +38,7 @@ export const Button = (props: ButtonProps) => {
     <button
       type={type}
       className={clsx(
-        `flex w-fit cursor-pointer items-center hover:brightness-90 active:scale-90`,
+        `flex w-fit cursor-pointer items-center text-center hover:brightness-90 active:scale-90`,
         sizes[size],
         btnStyles[btnColor],
         classes,

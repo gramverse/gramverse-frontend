@@ -62,7 +62,7 @@ export const Panel = ({ tab }: { tab: string }) => {
                   value={Object.keys(itemList)[index]}
                   selectedValue={tab}
                   onClick={() => {
-                    isSuccess && navigate(`profile/${data.userName}`);
+                    isSuccess && navigate(`${data.userName}`);
                   }}
                 />
               );
