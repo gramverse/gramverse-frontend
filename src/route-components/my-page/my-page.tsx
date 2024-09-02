@@ -6,7 +6,7 @@ import { AccountInfo, AccountInfoMobile } from "./account-info";
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
 import { Modal, ModalMobile } from "../../reusable-components/modal";
-import { EditProfile, EditProfileMoblie } from "../edit-profile";
+import { EditProfile, EditProfileMoblie } from "./edit-profile";
 import { FollowerList } from "../followinger-list/follower-list";
 import { FollowingList } from "../followinger-list/following-list";
 

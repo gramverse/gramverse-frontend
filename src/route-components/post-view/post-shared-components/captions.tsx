@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { getTimeDifference } from "../../../utilitis.ts/time-difference";
+import { getTimeDifference } from "../../../common/utilities/time-difference";
 import { PostDetail } from "../../../common/types/post-detail";
 import { useNavigate } from "react-router-dom";
 

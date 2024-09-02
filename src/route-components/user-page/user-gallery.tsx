@@ -97,8 +97,6 @@ export const UserGalleryMobile = ({
     error: postError,
   } = useGetUserPosts(userName, isAllowedToViewPosts, postLimit);
 
-  const userPosts = postPages?.pages.flatMap((x) => x.posts) ?? [];
-
   useEffect(() => {
     if (!hasNextPage || !isNearPostEnd || isFetching) return;
     fetchNextPosts();
@@ -111,22 +109,24 @@ export const UserGalleryMobile = ({
 
   return (
     <div className="flex h-[570px] w-[311px] flex-row flex-wrap gap-5 overflow-y-scroll">
-      {userPosts.map((post) => {
-        return (
-          <div
-            key={post._id}
-            className="h-36 w-36 rounded-t-3xl bg-neutral-400"
-            onClick={() => {
-              navigate(`post/${post._id}`);
-            }}
-          >
-            <img
-              className="h-full w-full object-cover"
-              src={post.photoUrls[0]}
-            />
-          </div>
-        );
-      })}
+      {postPages?.pages
+        .flatMap((x) => x.posts)
+        .map((post) => {
+          return (
+            <div
+              key={post._id}
+              className="h-36 w-36 rounded-t-3xl bg-neutral-400"
+              onClick={() => {
+                navigate(`post/${post._id}`);
+              }}
+            >
+              <img
+                className="h-full w-full object-cover"
+                src={post.photoUrls[0]}
+              />
+            </div>
+          );
+        })}
       <div
         ref={nearEndPostRef}
         className={clsx(

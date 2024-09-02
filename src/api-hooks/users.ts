@@ -2,6 +2,7 @@ import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
 import { UserResponseSchema } from "../common/types/user";
 import { queryClient } from "../common/query-client";
+import { Keys } from "./query-keys";
 
 export const useGetCloseFriends = ({ limit }: { limit: number }) => {
   const httpClient = useHttpClient();
@@ -43,18 +44,22 @@ export const useGetBlackList = ({ limit }: { limit: number }) => {
   });
 };
 
-export const useBlockUser = () => {
+export const useBlockUser = (onSuccess: () => void) => {
   const client = useHttpClient();
   return useMutation({
-    mutationFn: (data: { userName: string }) => {
+    mutationFn: (data: { userName: string; isBlock: boolean }) => {
       return client
         .post("users/block", {
           json: data,
         })
         .json();
     },
-    onSuccess() {
+    onSuccess(_, variables) {
+      onSuccess();
       queryClient.invalidateQueries({ queryKey: ["blackList"] });
+      queryClient.invalidateQueries({
+        queryKey: [Keys.userProfile, variables.userName],
+      });
     },
   });
 };

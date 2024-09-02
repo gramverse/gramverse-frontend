@@ -63,5 +63,6 @@ export const useFindUser = (userName: string) => {
         .get(`users/check-username/${userName}`)
         .json()
         .then(UserExists.parse),
+    enabled: userName !== "" && userName !== undefined,
   });
 };

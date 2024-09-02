@@ -1,8 +1,8 @@
-import drippingMobile from "../assets/svg/m-error-top.svg";
-import cloudsMobile from "../assets/svg/m-error-bottom.svg";
-import drippingWeb from "../assets/svg/w-error-top.svg";
-import cloudsWeb1 from "../assets/svg/w-error-bottom1.svg";
-import cloudsWeb2 from "../assets/svg/w-error-bottom2.svg";
+import drippingMobile from "../../assets/svg/m-error-top.svg";
+import cloudsMobile from "../../assets/svg/m-error-bottom.svg";
+import drippingWeb from "../../assets/svg/w-error-top.svg";
+import cloudsWeb1 from "../../assets/svg/w-error-bottom1.svg";
+import cloudsWeb2 from "../../assets/svg/w-error-bottom2.svg";
 import { Link } from "react-router-dom";
 
 const ErrorMessage = ({ size }: { size: "mobile" | "web" }) => {
@@ -38,7 +38,7 @@ const ErrorMessage = ({ size }: { size: "mobile" | "web" }) => {
 
 export const UrlErrorPage = () => {
   return (
-    <div className="flex w-full h-screen flex-col items-center justify-between">
+    <div className="flex h-screen w-full flex-col items-center justify-between">
       <img src={drippingWeb} className="w-full" alt="" />
       <ErrorMessage size={"web"}></ErrorMessage>
       <div className="mb-20 flex justify-evenly">

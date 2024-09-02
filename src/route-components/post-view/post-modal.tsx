@@ -25,7 +25,7 @@ export const PostModal = ({
         src={expand}
         className="absolute inset-5 h-8 cursor-pointer"
         onClick={() => {
-          navigate(`/${data?.userName}/post-view/${post?._id}`);
+          navigate(`/${data?.userName}/post/${post?._id}`);
         }}
       />
       <Carousel photoUrls={post?.photoUrls ?? []} />

@@ -23,7 +23,6 @@ export const Gallery = () => {
     isError: isPostError,
     error: postError,
   } = useGetPosts(postLimit);
-  const posts = postPages?.pages.flatMap((x) => x.posts) ?? [];
 
   useEffect(() => {
     if (!hasNextPage || !isNearPostEnd || isFetching) return;
@@ -63,19 +62,21 @@ export const Gallery = () => {
           }}
         />
       </Modal>
-      {posts.map((post) => {
-        return (
-          <img
-            key={post._id}
-            className="h-[19rem] w-[18.43rem] overflow-hidden rounded-t-3xl bg-neutral-400 object-cover"
-            onClick={() => {
-              setPostId(post._id);
-              openPost(true);
-            }}
-            src={post.photoUrls[0]}
-          />
-        );
-      })}
+      {postPages?.pages
+        .flatMap((x) => x.posts)
+        .map((post) => {
+          return (
+            <img
+              key={post._id}
+              className="h-[19rem] w-[18.43rem] overflow-hidden rounded-t-3xl bg-neutral-400 object-cover"
+              onClick={() => {
+                setPostId(post._id);
+                openPost(true);
+              }}
+              src={post.photoUrls[0]}
+            />
+          );
+        })}
 
       <div
         ref={nearEndPostRef}
@@ -103,7 +104,7 @@ export const GalleryMobile = () => {
     isError: isPostError,
     error: postError,
   } = useGetPosts(postLimit);
-  const posts = postPages?.pages.flatMap((x) => x.posts) ?? [];
+  // const posts = postPages?.pages.flatMap((x) => x.posts) ?? [];
 
   useEffect(() => {
     if (!hasNextPage || !isNearPostEnd || isFetching) return;
@@ -116,18 +117,20 @@ export const GalleryMobile = () => {
 
   return (
     <div className="absolute inset-x-0 mx-auto flex h-[500px] w-[19.4rem] flex-row flex-wrap gap-5 self-center overflow-y-scroll">
-      {posts.map((post) => {
-        return (
-          <img
-            key={post._id}
-            className="h-36 w-36 rounded-3xl bg-neutral-400 object-cover"
-            onClick={() => {
-              navigate(`post/${post._id}`);
-            }}
-            src={post.photoUrls[0]}
-          />
-        );
-      })}
+      {postPages?.pages
+        .flatMap((x) => x.posts)
+        .map((post) => {
+          return (
+            <img
+              key={post._id}
+              className="h-36 w-36 rounded-3xl bg-neutral-400 object-cover"
+              onClick={() => {
+                navigate(`post/${post._id}`);
+              }}
+              src={post.photoUrls[0]}
+            />
+          );
+        })}
       <div
         ref={nearEndPostRef}
         className={clsx(
