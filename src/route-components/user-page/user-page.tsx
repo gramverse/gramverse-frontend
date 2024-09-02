@@ -10,8 +10,8 @@ import { useEffect, useState } from "react";
 import { Modal } from "../../reusable-components/modal";
 import { FollowerList } from "../followinger-list/follower-list";
 import { FollowingList } from "../followinger-list/following-list";
-import { Block } from "../lists/block-modal";
-import { Close } from "./close-modal";
+import { Block } from "../user-relationship-modals/block-modal";
+import { Close } from "../user-relationship-modals/close-modal";
 import { Menu } from "./menu";
 import { UserInfoSummary } from "../../common/types/user";
 import more from "../../assets/svg/menu-dots.svg";
@@ -22,60 +22,63 @@ type FollowStateType = {
   follow: boolean;
 };
 
+const useModals = () => {
+  const [isFollowerListOpen, openFollowerList] = useState(false);
+  const [isFollowingListOpen, openFollowingList] = useState(false);
+  return {
+    isFollowerListOpen,
+    openFollowerList,
+    isFollowingListOpen,
+    openFollowingList,
+  };
+};
 const useRelation = (userName: string | undefined) => {
   const {
     data: userProfile,
     error: profileError,
     isError: isProfileError,
   } = useGetUserProfile(userName ?? "");
-  const [isOpenFollowerList, setOpenFollowerList] = useState(false);
-  const [isOpenFollowingList, setOpenFollowingList] = useState(false);
+
   const [state, setState] = useState({
-    isAllowedViewPosts: false,
-    isFollowedUser: false,
-    isPublicPage: false,
-    IsUserBlockedUs: false,
-    isStillPrivatePage: false,
+    isGalleryVisible: false,
+    isUserFollowed: false,
+    isPublic: false,
+    hasUserBlockedUs: false,
+    isGalleryHidden: false,
   });
   const [pendingState, setPendingState] = useState({
-    isEmptyGallery: false,
-    isNoneEmptyGallery: false,
+    isGalleryEmpty: false,
+    isGalleryNotEmpty: false,
   });
   useEffect(() => {
     setState({
-      isAllowedViewPosts:
+      isGalleryVisible:
         !userProfile?.hasBlockedUs &&
-        (userProfile?.followRequestState == requestStatus.accepted ||
+        (userProfile?.followRequestState == "accepted" ||
           !userProfile?.isPrivate),
-      isFollowedUser:
-        userProfile !== undefined &&
-        !userProfile.hasBlockedUs &&
-        userProfile.followRequestState === requestStatus.accepted,
-      isPublicPage:
-        userProfile !== undefined &&
-        !userProfile.hasBlockedUs &&
-        !userProfile.isPrivate,
-      IsUserBlockedUs: userProfile !== undefined && userProfile.hasBlockedUs,
-
-      isStillPrivatePage:
-        userProfile !== undefined &&
-        !userProfile.hasBlockedUs &&
-        userProfile.isPrivate &&
-        userProfile.followRequestState !== requestStatus.accepted,
+      isUserFollowed:
+        !userProfile?.hasBlockedUs &&
+        userProfile?.followRequestState === "accepted",
+      isPublic: !userProfile?.hasBlockedUs && !userProfile?.isPrivate,
+      hasUserBlockedUs: !!userProfile?.hasBlockedUs,
+      isGalleryHidden:
+        !userProfile?.hasBlockedUs &&
+        !!userProfile?.isPrivate &&
+        userProfile?.followRequestState !== "accepted",
     });
   }, [userProfile]);
   useEffect(() => {
     setPendingState({
-      isEmptyGallery:
-        (state.isPublicPage || state.isFollowedUser) &&
+      isGalleryEmpty:
+        (state.isPublic || state.isUserFollowed) &&
         userProfile !== undefined &&
         userProfile.postCount == 0,
-      isNoneEmptyGallery:
-        (state.isPublicPage || state.isFollowedUser) &&
+      isGalleryNotEmpty:
+        (state.isPublic || state.isUserFollowed) &&
         userProfile !== undefined &&
         userProfile.postCount > 0,
     });
-  }, [state.isFollowedUser, state.isPublicPage, userProfile]);
+  }, [state.isUserFollowed, state.isPublic, userProfile]);
 
   const {
     isError: isFollowError,
@@ -86,10 +89,6 @@ const useRelation = (userName: string | undefined) => {
     conditions: {
       ...state,
       ...pendingState,
-      isOpenFollowerList,
-      setOpenFollowerList,
-      isOpenFollowingList,
-      setOpenFollowingList,
     },
 
     isFollowError,
@@ -311,21 +310,23 @@ export const UserPage = () => {
 
 export const UserPageMobile = () => {
   const { userName } = useParams();
+  const {
+    isFollowerListOpen,
+    isFollowingListOpen,
+    openFollowerList,
+    openFollowingList,
+  } = useModals();
 
   const {
     userProfile,
     followMutate,
     conditions: {
-      isOpenFollowerList,
-      setOpenFollowerList,
-      isOpenFollowingList,
-      setOpenFollowingList,
       // IsUserBlockedUs,
       // isStillPrivatePage,
       // isEmptyGallery,
       // isNoneEmptyGallery,
       // isAllowedViewPosts,
-      isFollowedUser,
+      isUserFollowed: isFollowedUser,
     },
   } = useRelation(userName);
   const [menu, openMenu] = useState(false);
@@ -367,29 +368,29 @@ export const UserPageMobile = () => {
         />
       </Modal>
       <Modal
-        isOpen={isOpenFollowerList && userProfile !== undefined}
+        isOpen={isFollowerListOpen && userProfile !== undefined}
         close={() => {
-          setOpenFollowerList(false);
+          openFollowerList(false);
         }}
       >
         <FollowerList
           userName={userProfile?.userName ?? ""}
           close={() => {
-            setOpenFollowerList(false);
+            openFollowerList(false);
           }}
         />
       </Modal>
 
       <Modal
-        isOpen={isOpenFollowingList && userProfile !== undefined}
+        isOpen={isFollowingListOpen && userProfile !== undefined}
         close={() => {
-          setOpenFollowingList(false);
+          openFollowingList(false);
         }}
       >
         <FollowingList
           userName={userProfile?.userName ?? ""}
           close={() => {
-            setOpenFollowingList(false);
+            openFollowingList(false);
           }}
         />
       </Modal>

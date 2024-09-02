@@ -1,8 +1,17 @@
 import { Routes, Route } from "react-router-dom";
 import { Main, MainMobile } from "./route-components/main/main";
-import { Authroize, AuthroizeMobile } from "./route-components/authorize";
-import { UrlErrorPage, UrlErrorPageMobile } from "./errors/url-error-page";
-import { ServerErrorPage, ServerErrorPageMoblie } from "./errors/server-error";
+import {
+  Authroize,
+  AuthroizeMobile,
+} from "./route-components/authentication/authentication";
+import {
+  UrlErrorPage,
+  UrlErrorPageMobile,
+} from "./route-components/error-pages/url-error-page";
+import {
+  ServerErrorPage,
+  ServerErrorPageMoblie,
+} from "./route-components/error-pages/server-error";
 
 import { urls } from "./common/routes";
 import {
@@ -14,7 +23,7 @@ import {
   ResetPassWord,
   ResetPassWordMobile,
 } from "./route-components/reset-password/reset-password";
-import { Explore, ExploreMobile } from "./route-components/explore";
+import { Explore, ExploreMobile } from "./route-components/explore/explore";
 import { EditPostMobile } from "./route-components/post/edit-post";
 import { MyPage, MyPageMobile } from "./route-components/my-page/my-page";
 import {
@@ -27,8 +36,11 @@ import {
 } from "./route-components/post-view/my-post-view";
 import { CreatePostMobile } from "./route-components/post/create-post";
 import { CollegeBackground } from "./reusable-components/rahnema-background";
-import { Signup, SignupMoblie } from "./route-components/sign-up";
-import { Login, LoginMobile } from "./route-components/login";
+import {
+  Signup,
+  SignupMoblie,
+} from "./route-components/authentication/sign-up";
+import { Login, LoginMobile } from "./route-components/authentication/login";
 import {
   CloseFriends,
   CloseFriendsMobile,
@@ -72,14 +84,14 @@ export const AppRoutes = () => {
           <Route path={"close-friends"} element={<CloseFriends />} />
           <Route path={"black-list"} element={<BlackList />} />
         </Route>
-        <Route path={"/:userName"} element={<UserPage />}>
-          <Route path={`post-view/:postId`} element={<UserPostViewWeb />} />
-        </Route>
+        <Route path={"/:userName"} element={<UserPage />} />
+        <Route path={`/:userName/post/:postId`} element={<UserPostViewWeb />} />
+
         {data?.userName && (
           <Route path={`/${data?.userName}`} element={<MyPage />} />
         )}
         <Route
-          path={`/:userName/post-view/:postId`}
+          path={`/${data?.userName}/post/:postId`}
           element={<PostViewWeb />}
         />
 
@@ -113,7 +125,10 @@ export const AppRoutesMobile = () => {
       <Route path={urls.forgetPassword} element={<ForgetPasswordMobile />} />
       <Route path={urls.forgetPasswordInfo} element={<ForgetPasswordInfo />} />
       <Route path={"/"} element={<MainMobile />}>
-        <Route path="/:userName/post/:postId" element={<PostViewMobile />} />
+        <Route
+          path={`/${data?.userName}/post/:postId`}
+          element={<PostViewMobile />}
+        />
         <Route
           path="/:userName/post/:postId"
           element={<UserPostViewMobile />}

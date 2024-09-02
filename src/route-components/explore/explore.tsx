@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
-import { Alert } from "../reusable-components/alert";
-import { Button } from "../reusable-components/button";
+import { Alert } from "../../reusable-components/alert";
+import { Button } from "../../reusable-components/button";
 import { useEffect, useState } from "react";
 
 const ExploreMessage = () => {

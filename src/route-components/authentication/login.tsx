@@ -1,11 +1,11 @@
-import Key from "../assets/svg/key.svg";
-import Envelope from "../assets/svg/envelope.svg";
+import Key from "../../assets/svg/key.svg";
+import Envelope from "../../assets/svg/envelope.svg";
 import { useForm } from "react-hook-form";
-import { InputField } from "../reusable-components/input-field.tsx";
-import { LoginFormData } from "../common/types/login.ts";
-import { useLogin } from "../api-hooks/login.ts";
-import { Button } from "../reusable-components/button.tsx";
-import { Alert } from "../reusable-components/alert.tsx";
+import { InputField } from "../../reusable-components/input-field.tsx";
+import { LoginFormData } from "../../common/types/login.ts";
+import { useLogin } from "../../api-hooks/login.ts";
+import { Button } from "../../reusable-components/button.tsx";
+import { Alert } from "../../reusable-components/alert.tsx";
 // import { errorMessages } from "../../common/error-messages";
 
 const LoginLayout = () => {

@@ -1,16 +1,16 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Alert } from "../reusable-components/alert.tsx";
+import { Alert } from "../../reusable-components/alert.tsx";
 import {
   SignupFormValue,
   signupFormValueSchema,
-} from "../common/types/sign-up";
-import { useSignup } from "../api-hooks/sign-up";
-import { InputField } from "../reusable-components/input-field";
-import { Button } from "../reusable-components/button.tsx";
-import PersonIcon from "../assets/svg/profile.svg";
-import Key from "../assets/svg/key.svg";
-import Envelope from "../assets/svg/envelope.svg";
+} from "../../common/types/sign-up";
+import { useSignup } from "../../api-hooks/sign-up";
+import { InputField } from "../../reusable-components/input-field";
+import { Button } from "../../reusable-components/button.tsx";
+import PersonIcon from "../../assets/svg/profile.svg";
+import Key from "../../assets/svg/key.svg";
+import Envelope from "../../assets/svg/envelope.svg";
 
 const SignUpLayout = () => {
   const {

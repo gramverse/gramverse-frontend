@@ -1,26 +1,26 @@
-import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
 
-import { InputField } from "../reusable-components/input-field";
-import PersonIcon from "../assets/svg/profile.svg";
-import KeyIcon from "../assets/svg/key.svg";
-import EnvelopeIcon from "../assets/svg/envelope.svg";
-import { useEditProfile } from "../api-hooks/edit-profile.ts";
+import { useEditProfile } from "../../api-hooks/edit-profile.ts";
+import { useGetProfile } from "../../api-hooks/get-my-profile.ts";
 import {
   ProfileFormValue,
   editProfileFormValueSchema,
-} from "../common/types/profile.ts";
-import { Alert } from "../reusable-components/alert";
-import cameraIcon from "../assets/svg/camera-icon.svg";
-import { Button } from "../reusable-components/button.tsx";
-import { UploadImage } from "../reusable-components/upload-image.tsx";
-import { Switch } from "../reusable-components/switch.tsx";
+} from "../../common/types/profile.ts";
+import { Alert } from "../../reusable-components/alert.tsx";
+import { Button } from "../../reusable-components/button.tsx";
 import {
   ContainterMobile,
   ContainterWeb,
-} from "../reusable-components/container.tsx";
-import { TextArea } from "../reusable-components/text-area.tsx";
-import { useGetProfile } from "../api-hooks/get-my-profile.ts";
+} from "../../reusable-components/container.tsx";
+import { InputField } from "../../reusable-components/input-field.tsx";
+import { Switch } from "../../reusable-components/switch.tsx";
+import { TextArea } from "../../reusable-components/text-area.tsx";
+import { UploadImage } from "../../reusable-components/upload-image.tsx";
+import cameraIcon from "../../assets/svg/camera-icon.svg";
+import EnvelopeIcon from "../../assets/svg/envelope.svg";
+import KeyIcon from "../../assets/svg/key.svg";
+import PersonIcon from "../../assets/svg/profile.svg";
 
 const EditProfileLayout = ({ close }: { close: () => void }) => {
   const { data: profile, refetch } = useGetProfile();

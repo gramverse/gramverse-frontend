@@ -1,10 +1,10 @@
-import drippingMobile from "../assets/svg/m-error-top.svg";
-import cloudsMobile from "../assets/svg/m-error-bottom.svg";
-import drippingWeb from "../assets/svg/w-error-top.svg";
-import cloudsWeb1 from "../assets/svg/w-error-bottom1.svg";
-import cloudsWeb2 from "../assets/svg/w-error-bottom2.svg";
+import drippingMobile from "../../assets/svg/m-error-top.svg";
+import cloudsMobile from "../../assets/svg/m-error-bottom.svg";
+import drippingWeb from "../../assets/svg/w-error-top.svg";
+import cloudsWeb1 from "../../assets/svg/w-error-bottom1.svg";
+import cloudsWeb2 from "../../assets/svg/w-error-bottom2.svg";
 import { Link } from "react-router-dom";
-import { Button } from "../reusable-components/button";
+import { Button } from "../../reusable-components/button";
 
 const ErrorMessage = ({ size }: { size: "mobile" | "web" }) => {
   return (

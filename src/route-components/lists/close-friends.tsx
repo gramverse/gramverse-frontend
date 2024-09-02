@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { Modal } from "../../reusable-components/modal";
 import { MenuCloseFriends } from "./menu-close-friends";
 import { UserInfoSummary } from "../../common/types/user";
-import { Block } from "./block-modal";
-import { Unclose } from "./unclose-modal";
+import { Block } from "../user-relationship-modals/block-modal";
+import { Unclose } from "../user-relationship-modals/unclose-modal";
 import { useInView } from "react-intersection-observer";
 import { useGetCloseFriends } from "../../api-hooks/users";
 import { Loading } from "../../reusable-components/loading";
@@ -66,7 +66,7 @@ export const CloseFriendsLayout = () => {
           <div className="flex w-full justify-between" key={user.userName}>
             <UserProfileSummary
               userName={user.userName}
-              // profilePicture={user.profileImage}
+              profilePicture={user.profileImage}
               followerCount={user.followerCount}
             />
             <div className="relative">

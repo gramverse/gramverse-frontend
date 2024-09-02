@@ -1,3 +1,4 @@
+import { useBlockUser } from "../../api-hooks/users";
 import { UserInfoSummary } from "../../common/types/user";
 import { Button } from "../../reusable-components/button";
 import { ContainterWeb } from "../../reusable-components/container";
@@ -10,6 +11,7 @@ export const Block = ({
   user: UserInfoSummary | undefined;
   close: () => void;
 }) => {
+  const { mutate } = useBlockUser(close);
   return (
     <ContainterWeb className="mx-5 max-w-96">
       {user && (
@@ -34,7 +36,13 @@ export const Block = ({
             >
               {"پشیمون شدم"}
             </Button>
-            <Button>{"آره، حتما"}</Button>
+            <Button
+              onClick={() => {
+                mutate({ userName: user.userName, isBlock: true });
+              }}
+            >
+              {"آره، حتما"}
+            </Button>
           </div>
         </div>
       )}

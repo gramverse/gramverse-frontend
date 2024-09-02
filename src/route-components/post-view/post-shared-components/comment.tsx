@@ -17,7 +17,7 @@ import {
 import { InputField } from "../../../reusable-components/input-field";
 import { RoundPicture } from "../../../reusable-components/profile-picture";
 import { Like } from "../../../route-components/post-view/post-shared-components/like";
-import { getTimeDifference } from "../../../utilitis.ts/time-difference";
+import { getTimeDifference } from "../../../common/utilities/time-difference";
 import clsx from "clsx";
 import { useInView } from "react-intersection-observer";
 import { Loading } from "../../../reusable-components/loading";

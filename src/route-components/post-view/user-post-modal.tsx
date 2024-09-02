@@ -19,7 +19,7 @@ export const UserPostModal = ({ postId }: { postId: string }) => {
         src={expand}
         className="absolute inset-5 h-8 cursor-pointer"
         onClick={() => {
-          navigate(`/${user?.userName}/post-view/${post?._id}`);
+          navigate(`/${user?.userName}/post/${post?._id}`);
         }}
       />
       <Carousel photoUrls={post?.photoUrls ?? []} />

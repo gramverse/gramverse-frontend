@@ -14,7 +14,6 @@ import { PostDetailSummary } from "./post-shared-components/summary-bar";
 import { UserProfileSummary } from "../../reusable-components/user-profile-summary";
 
 export const UserPostViewWeb = () => {
-  const navigate = useNavigate();
   const params = useParams();
   const { data: post } = useGetPost(params.postId);
   const [commentProps, setCommentProps] = useState<CommentFieldProps>({
@@ -22,29 +21,25 @@ export const UserPostViewWeb = () => {
     parentCommentUserName: "",
   });
   return (
-    <div className="flex h-fit justify-between gap-3 self-center">
-      <Carousel photoUrls={post?.photoUrls ?? []} />
-      <div className="flex grow flex-col gap-3 p-5">
-        <div className="flex flex-row justify-between gap-5">
-          <UserProfileSummary userName={params.userName ?? ""} />
-          <img
-            src={pen}
-            onClick={() => {
-              navigate("edit");
-            }}
+    <div className="flex flex-col items-end">
+      <div className="flex h-fit justify-between gap-3 self-center">
+        <Carousel photoUrls={post?.photoUrls ?? []} />
+        <div className="flex grow flex-col gap-3 p-5">
+          <div className="flex flex-row justify-between gap-5">
+            <UserProfileSummary userName={params.userName ?? ""} />
+          </div>
+          <PostCaptions
+            caption={post?.caption ?? ""}
+            mentions={post?.mentions ?? []}
+            tags={post?.tags ?? []}
+            creationDate={post?.creationDate ?? ""}
           />
+          <PostDetailSummary post={post} />
+          <Comment postId={post?._id ?? ""} {...commentProps} />
         </div>
-        <PostCaptions
-          caption={post?.caption ?? ""}
-          mentions={post?.mentions ?? []}
-          tags={post?.tags ?? []}
-          creationDate={post?.creationDate ?? ""}
-        />
-        <PostDetailSummary post={post} />
-        <Comment postId={post?._id ?? ""} {...commentProps} />
       </div>
       <ViewComments
-        className="mt-5 h-96 w-1/2 self-end"
+        className="mt-5 h-96 w-2/5 self-end"
         setCommentProps={(props: CommentFieldProps) => setCommentProps(props)}
         postId={post?._id ?? ""}
       />

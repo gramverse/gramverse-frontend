@@ -1,15 +1,15 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
-import rahnema from "../assets/svg/rahnema.svg";
+import rahnema from "../../assets/svg/rahnema.svg";
 import { useEffect, useState } from "react";
-import { urls } from "../common/routes";
-import arrow from "../assets/svg/arrow.svg";
+import { urls } from "../../common/routes";
+import arrow from "../../assets/svg/arrow.svg";
 import {
   ContainterMobile,
   ContainterWeb,
-} from "../reusable-components/container";
-import { TwinTab } from "../reusable-components/twin-tabs";
+} from "../../reusable-components/container";
+import { TwinTab } from "../../reusable-components/twin-tabs";
 
-const AuthorizeComponent = () => {
+const AuthenticationLayout = () => {
   const [value, setValue] = useState(0);
   const location = useLocation();
   useEffect(() => {
@@ -68,7 +68,7 @@ const AuthorizeComponent = () => {
 export const Authroize = () => {
   return (
     <ContainterWeb className="px-20">
-      <AuthorizeComponent></AuthorizeComponent>
+      <AuthenticationLayout></AuthenticationLayout>
     </ContainterWeb>
   );
 };
@@ -76,7 +76,7 @@ export const Authroize = () => {
 export const AuthroizeMobile = () => {
   return (
     <ContainterMobile>
-      <AuthorizeComponent></AuthorizeComponent>
+      <AuthenticationLayout></AuthenticationLayout>
     </ContainterMobile>
   );
 };
