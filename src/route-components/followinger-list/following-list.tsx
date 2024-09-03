@@ -18,7 +18,7 @@ export const FollowingList = ({ userName, close }: FollowerListProps) => {
   const myProfile = ProfileSchema.parse(
     queryClient.getQueryData(["getProfile"]),
   );
-  const activityPermit = myProfile?.userName == userName ?? false;
+  const activityPermit = myProfile?.userName === userName;
   const [nearEndRef, isNearEnd] = useInView();
   const limit = 6;
   const {
@@ -48,43 +48,43 @@ export const FollowingList = ({ userName, close }: FollowerListProps) => {
       <p className="mb-8 mt-0 text-center text-xl font-bold">
         {"دنبال‌شونده‌ها"}
       </p>
-        <div className="h-[25.75rem] w-[23.75rem] overflow-y-scroll flex flex-col items-center">
-          {followings.map((following) => (
-            <FollowingersInfo
-              selectedUser={selectedUser}
-              setUser={(user: string) => setSelectedUser(user)}
-              close={() => {
-                close();
-              }}
-              follower={false}
-              activityPermit ={activityPermit}
-              key={following.userName}
-              userName={following.userName}
-              followerCount={following.followerCount}
-              profileImage={following.profileImage}
-            />
-          ))}
-          <div
-            ref={nearEndRef}
-            className={clsx(
-              "flex w-full items-center justify-center text-2xl",
-              hasNextPage ? "h-[calc(11rem/3)]" : "",
-            )}
-          >
-            {hasNextPage && isFetchingNextPage && <div>Loading...</div>}
-          </div>
-        </div>
-        <div className="flex w-full flex-row justify-end mt-9">
-          <Button
-            btnColor="secondary"
-            type="button"
-            onClick={() => {
+      <div className="flex h-[25.75rem] w-[23.75rem] flex-col items-center overflow-y-scroll">
+        {followings.map((following) => (
+          <FollowingersInfo
+            selectedUser={selectedUser}
+            setUser={(user: string) => setSelectedUser(user)}
+            close={() => {
               close();
             }}
-          >
-            بستن
-          </Button>
+            follower={false}
+            activityPermit={activityPermit}
+            key={following.userName}
+            userName={following.userName}
+            followerCount={following.followerCount}
+            profileImage={following.profileImage}
+          />
+        ))}
+        <div
+          ref={nearEndRef}
+          className={clsx(
+            "flex w-full items-center justify-center text-2xl",
+            hasNextPage ? "h-[calc(11rem/3)]" : "",
+          )}
+        >
+          {hasNextPage && isFetchingNextPage && <div>Loading...</div>}
         </div>
+      </div>
+      <div className="mt-9 flex w-full flex-row justify-end">
+        <Button
+          btnColor="secondary"
+          type="button"
+          onClick={() => {
+            close();
+          }}
+        >
+          بستن
+        </Button>
+      </div>
     </div>
   );
 };
@@ -95,7 +95,7 @@ export const FollowingListMobile = () => {
   const myProfile = ProfileSchema.parse(
     queryClient.getQueryData(["getProfile"]),
   );
-  const activityPermit = myProfile?.userName == myUserName ?? false;
+  const activityPermit = myProfile?.userName === myUserName;
   const [nearEndRef, isNearEnd] = useInView();
   const limit = 6;
   const {
@@ -107,6 +107,7 @@ export const FollowingListMobile = () => {
     isError,
     error,
   } = useGetFollowingerList(myUserName ?? "", true, limit);
+  
 
   if (isError) {
     //for test
@@ -132,7 +133,7 @@ export const FollowingListMobile = () => {
               selectedUser={selectedUser}
               setUser={(user: string) => setSelectedUser(user)}
               follower={false}
-              activityPermit ={activityPermit}
+              activityPermit={activityPermit}
               key={following.userName}
               userName={following.userName}
               myUserName={myUserName}

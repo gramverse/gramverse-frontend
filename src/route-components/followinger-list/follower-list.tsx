@@ -18,8 +18,7 @@ export const FollowerList = ({ userName, close }: FollowerListProps) => {
   const myProfile = ProfileSchema.parse(
     queryClient.getQueryData(["getProfile"]),
   );
-  const activityPermit = myProfile?.userName == userName ?? false;
-
+  const activityPermit = myProfile?.userName === userName;
   const [nearEndRef, isNearEnd] = useInView();
   const limit = 6;
   const {
@@ -96,8 +95,7 @@ export const FollowerListMobile = () => {
   const myProfile = ProfileSchema.parse(
     queryClient.getQueryData(["getProfile"]),
   );
-  const activityPermit = myProfile?.userName == myUserName ?? false;
-
+  const activityPermit = myProfile?.userName === myUserName;
   const [nearEndRef, isNearEnd] = useInView();
   const limit = 6;
   const {
