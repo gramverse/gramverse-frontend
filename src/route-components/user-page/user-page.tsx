@@ -4,9 +4,8 @@ import { UserEmptyGallery, UserEmptyGalleryMobile } from "./user-empty-gallery";
 import { UserGallery, UserGalleryMobile } from "./user-gallery";
 import { useParams } from "react-router-dom";
 import { UserAccountInfo, UserAccountInfoMobile } from "./user-account-info";
-import { RequestStatus, UserProfile } from "../../common/types/user-profile";
 import { UserBlockedGallery } from "./user-blocked-gallery";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Modal } from "../../reusable-components/modal";
 import { FollowerList } from "../followinger-list/follower-list";
 import { FollowingList } from "../followinger-list/following-list";
@@ -16,11 +15,6 @@ import { Menu } from "./menu";
 import { UserInfoSummary } from "../../common/types/user";
 import more from "../../assets/svg/menu-dots.svg";
 import { BtnStyles, Button } from "../../reusable-components/button";
-// type FollowStateType = {
-//   followBtnText: string;
-//   followBtnColor: BtnStyles;
-//   follow: boolean;
-// };
 
 const useModals = () => {
   const [isFollowerListOpen, openFollowerList] = useState(false);
@@ -32,108 +26,7 @@ const useModals = () => {
     openFollowingList,
   };
 };
-// const useRelation = (userName: string | undefined) => {
-//   const {
-//     data: userProfile,
-//     error: profileError,
-//     isError: isProfileError,
-//   } = useGetUserProfile(userName ?? "");
 
-//   const [state, setState] = useState({
-//     isGalleryVisible: false,
-//     isUserFollowed: false,
-//     isPublic: false,
-//     hasUserBlockedUs: false,
-//     isGalleryHidden: false,
-//   });
-//   const [pendingState, setPendingState] = useState({
-//     isGalleryEmpty: false,
-//     isGalleryNotEmpty: false,
-//   });
-//   useEffect(() => {
-//     setState({
-//       isGalleryVisible:
-//         !userProfile?.hasBlockedUs &&
-//         (userProfile?.followRequestState == "accepted" ||
-//           !userProfile?.isPrivate),
-//       isUserFollowed:
-//         !userProfile?.hasBlockedUs &&
-//         userProfile?.followRequestState === "accepted",
-//       isPublic: !userProfile?.hasBlockedUs && !userProfile?.isPrivate,
-//       hasUserBlockedUs: !!userProfile?.hasBlockedUs,
-//       isGalleryHidden:
-//         !userProfile?.hasBlockedUs &&
-//         !!userProfile?.isPrivate &&
-//         userProfile?.followRequestState !== "accepted",
-//     });
-//   }, [userProfile]);
-//   useEffect(() => {
-//     setPendingState({
-//       isGalleryEmpty:
-//         (state.isPublic || state.isUserFollowed) &&
-//         userProfile !== undefined &&
-//         userProfile.postCount == 0,
-//       isGalleryNotEmpty:
-//         (state.isPublic || state.isUserFollowed) &&
-//         userProfile !== undefined &&
-//         userProfile.postCount > 0,
-//     });
-//   }, [state.isUserFollowed, state.isPublic, userProfile]);
-
-//   const {
-//     isError: isFollowError,
-//     error: followError,
-//     mutate: followMutate,
-//   } = useFollowUser();
-//   return {
-//     conditions: {
-//       ...state,
-//       ...pendingState,
-//     },
-
-//     isFollowError,
-//     followError,
-//     followMutate,
-//     userProfile,
-//     profileError,
-//     isProfileError,
-//   };
-// };
-// const useFollow = (accountInfo: UserProfile | undefined) => {
-//   const [state, setState] = useState<FollowStateType>({
-//     followBtnText: "دنبال کردن +",
-//     followBtnColor: "secondary",
-//     follow: true,
-//   });
-
-//   useEffect(() => {
-//     if (accountInfo) {
-//       setState({
-//         followBtnText: accountInfo.hasBlockedUs
-//           ? "+ دنبال کردن"
-//           : accountInfo.followRequestState == requestStatus.pending
-//             ? "لغو درخواست"
-//             : accountInfo.followRequestState == requestStatus.accepted
-//               ? "دنبال نکردن"
-//               : "+ دنبال کردن",
-//         followBtnColor: accountInfo.hasBlockedUs
-//           ? "disabled"
-//           : accountInfo.followRequestState == requestStatus.pending ||
-//               accountInfo.followRequestState == requestStatus.accepted
-//             ? "outline"
-//             : "secondary",
-//         follow:
-//           accountInfo.followRequestState == requestStatus.none ||
-//           accountInfo.followRequestState == requestStatus.unfollowed ||
-//           accountInfo.followRequestState == requestStatus.declined
-//             ? true
-//             : false,
-//       });
-//     }
-//   }, [accountInfo, accountInfo?.followRequestState, accountInfo?.hasBlockedUs]);
-
-//   return { ...state };
-// };
 export const UserPageLayout = () => {
   const { userName } = useParams();
   const [isOpenFollowerList, setOpenFollowerList] = useState(false);
@@ -151,7 +44,7 @@ export const UserPageLayout = () => {
     followBtnColor,
     error: profileError,
     isError: isProfileError,
-  } = useGetUserProfile(userName ?? ""); //age username khali bud bezanim khatai rokh dade
+  } = useGetUserProfile(userName ?? "");
 
   const {
     isError: isFollowError,
@@ -325,18 +218,6 @@ export const UserPageMobile = () => {
     // error: followError,
     mutate: followMutate,
   } = useFollowUser(userName ?? "");
-  // const {
-  //   userProfile,
-  //   followMutate,
-  //   conditions: {
-  //     // IsUserBlockedUs,
-  //     // isStillPrivatePage,
-  //     // isEmptyGallery,
-  //     // isNoneEmptyGallery,
-  //     // isAllowedViewPosts,
-  //     isUserFollowed: isFollowedUser,
-  //   },
-  // } = useRelation(userName);
   const [menu, openMenu] = useState(false);
   const [modal, setModal] = useState<"block" | "close" | null>(null);
 
@@ -345,11 +226,9 @@ export const UserPageMobile = () => {
     profileImage: userProfile?.profileImage,
     followerCount: userProfile?.followerCount ?? 0,
   };
-  // const { followBtnColor, followBtnText, follow } = useFollow(userProfile);
 
   return (
     <div
-      // className="flex h-full w-fit flex-col gap-3"
       className="flex grow flex-col items-center justify-start gap-4"
       onClick={() => {
         openMenu(false);

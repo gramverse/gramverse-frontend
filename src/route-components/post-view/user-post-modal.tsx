@@ -11,7 +11,7 @@ import { useGetPost } from "../../api-hooks/post-details";
 export const UserPostModal = ({ postId }: { postId: string }) => {
   const navigate = useNavigate();
   const params = useParams();
-  const { data: user } = useGetUserProfile(params.userName ?? "");
+  const { userProfile: user } = useGetUserProfile(params.userName ?? "");
   const { data: post } = useGetPost(postId);
   return (
     <ContainterWeb className="relative flex grow justify-between gap-3 pt-16">

@@ -12,13 +12,13 @@ interface UserProfile extends HTMLAttributes<HTMLDivElement> {
 }
 export const UserProfileSummary = (props: UserProfile) => {
   const { className, userName, profilePicture, followerCount } = props;
-  const { data: profileSummary, isSuccess } = useGetUserProfile(userName);
+  const { userProfile: profileSummary, isSuccess } = useGetUserProfile(userName);
   const navigate = useNavigate();
   return (
     <div
       className={clsx("flex items-center gap-5", className)}
       onClick={() => {
-        isSuccess && navigate(`/${profileSummary.userName}`);
+        isSuccess && navigate(`/${profileSummary?.userName}`);
       }}
     >
       <RoundPicture
