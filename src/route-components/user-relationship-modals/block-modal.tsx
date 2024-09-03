@@ -3,6 +3,7 @@ import { UserInfoSummary } from "../../common/types/user";
 import { Button } from "../../reusable-components/button";
 import { ContainterWeb } from "../../reusable-components/container";
 import { UserProfileSummary } from "../../reusable-components/user-profile-summary";
+import PersonIcon from "../../assets/svg/profile.svg";
 
 export const Block = ({
   user,
@@ -12,13 +13,17 @@ export const Block = ({
   close: () => void;
 }) => {
   const { mutate } = useBlockUser(close);
+  const profileImage =
+    user?.profileImage && user.profileImage != ""
+      ? user.profileImage
+      : PersonIcon;
   return (
     <ContainterWeb className="mx-5 max-w-96">
       {user && (
         <div className="flex flex-col items-start gap-3">
           <UserProfileSummary
             userName={user.userName}
-            profilePicture={user.profileImage}
+            profilePicture={profileImage}
             followerCount={user.followerCount}
           />
           <h5 className="text-start font-bold">{`مطمئنی میخوای ${user.userName} رو بلاک کنی؟`}</h5>

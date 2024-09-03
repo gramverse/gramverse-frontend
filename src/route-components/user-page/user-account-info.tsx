@@ -1,16 +1,18 @@
-import { Button } from "../../reusable-components/button";
+import { BtnStyles, Button } from "../../reusable-components/button";
 import PersonIcon from "../../assets/svg/profile.svg";
-import { FollowMutationArgs } from "../../api-hooks/user-page";
-import { requestStatus, UserProfile } from "../../common/types/user-profile";
+import { UserProfile } from "../../common/types/user-profile";
 import clsx from "clsx";
 import { RoundPicture } from "../../reusable-components/profile-picture";
 import { useNavigate } from "react-router-dom";
 
 type AppUserInfoProps = {
   accountInfo: UserProfile;
-  onFollowMethod?: (args: FollowMutationArgs) => void;
+  onFollowMethod?: () => void;
   onShowFollowerList?: () => void;
   onShowFollowingList?: () => void;
+  isUserDataVisible: boolean;
+  followBtnText?: string;
+  followBtnColor?: BtnStyles;
 };
 
 export const UserAccountInfo = ({
@@ -18,30 +20,24 @@ export const UserAccountInfo = ({
   onFollowMethod,
   onShowFollowerList,
   onShowFollowingList,
+  isUserDataVisible,
+  followBtnText,
+  followBtnColor,
 }: AppUserInfoProps) => {
-  const followBtnText = accountInfo.hasBlockedUs
-    ? "+ دنبال کردن"
-    : accountInfo.followRequestState == requestStatus.pending
-      ? "لغو درخواست"
-      : accountInfo.followRequestState == requestStatus.accepted
-        ? "دنبال نکردن"
-        : "+ دنبال کردن";
+  // const followBtnText = accountInfo.hasBlockedUs
+  //   ? "+ دنبال کردن"
+  //   : accountInfo.followRequestState == RequestStatus.pending
+  //     ? "لغو درخواست"
+  //     : accountInfo.followRequestState == RequestStatus.accepted
+  //       ? "دنبال نکردن"
+  //       : "+ دنبال کردن";
 
-  const followBtnColor = accountInfo.hasBlockedUs
-    ? "disabled"
-    : accountInfo.followRequestState == requestStatus.pending ||
-        accountInfo.followRequestState == requestStatus.accepted
-      ? "outline"
-      : "secondary";
-  const handleFollowBtn = () => {
-    onFollowMethod?.({
-      userName: accountInfo.userName,
-      follow:
-        accountInfo.followRequestState == requestStatus.none ||
-        accountInfo.followRequestState == requestStatus.unfollowed ||
-        !(accountInfo.followRequestState == requestStatus.pending),
-    });
-  };
+  // const followBtnColor = accountInfo.hasBlockedUs
+  //   ? "disabled"
+  //   : accountInfo.followRequestState == RequestStatus.pending ||
+  //       accountInfo.followRequestState == RequestStatus.accepted
+  //     ? "outline"
+  //     : "secondary";
 
   const existFollowing = accountInfo.followingCount > 0;
   const existFollower = accountInfo.followerCount > 0;
@@ -62,7 +58,9 @@ export const UserAccountInfo = ({
           <div className="size-5 w-32 font-bold">{`${accountInfo.firstName} ${accountInfo.lastName}`}</div>
           <Button
             size="medium"
-            onClick={handleFollowBtn}
+            onClick={() => {
+              onFollowMethod?.();
+            }}
             btnColor={followBtnColor}
             disabled={accountInfo.hasBlockedUs}
           >
@@ -77,9 +75,10 @@ export const UserAccountInfo = ({
               "ml-3 w-24 text-amber-500",
               existFollower && "cursor-pointer",
             )}
-            {...(existFollower && {
-              onClick: onShowFollowerList,
-            })}
+            {...(existFollower &&
+              isUserDataVisible && {
+                onClick: onShowFollowerList,
+              })}
           >{`‍${accountInfo.followerCount} دنبال کننده  ‍`}</span>
           <span>|</span>
           <span
@@ -87,9 +86,10 @@ export const UserAccountInfo = ({
               "mx-3 w-24 text-amber-500",
               existFollowing && "cursor-pointer",
             )}
-            {...(existFollowing && {
-              onClick: onShowFollowingList,
-            })}
+            {...(existFollowing &&
+              isUserDataVisible && {
+                onClick: onShowFollowingList,
+              })}
           >{`‍  ${accountInfo.followingCount} دنبال شونده`}</span>
           <span>|</span>
           <span className="mr-3 w-24">{`‍ ${accountInfo.postCount} پست ‍`}</span>
@@ -104,6 +104,7 @@ export const UserAccountInfo = ({
 
 export const UserAccountInfoMobile = ({
   accountInfo: accountInfo,
+  isUserDataVisible,
 }: AppUserInfoProps) => {
   const existFollowing = accountInfo.followingCount > 0;
   const existFollower = accountInfo.followerCount > 0;
@@ -132,11 +133,12 @@ export const UserAccountInfoMobile = ({
               "text-amber-500",
               existFollower && "cursor-pointer",
             )}
-            {...(existFollower && {
-              onClick: () => {
-                navigate(`/${accountInfo.userName}/followers`);
-              },
-            })}
+            {...(existFollower &&
+              isUserDataVisible && {
+                onClick: () => {
+                  navigate(`/${accountInfo.userName}/followers`);
+                },
+              })}
           >{`‍${accountInfo.followerCount} دنبال کننده  ‍`}</span>
           <span>|</span>
           <span
@@ -144,11 +146,12 @@ export const UserAccountInfoMobile = ({
               "text-amber-500",
               existFollowing && "cursor-pointer",
             )}
-            {...(existFollowing && {
-              onClick: () => {
-                navigate(`/${accountInfo.userName}/followings`);
-              },
-            })}
+            {...(existFollowing &&
+              isUserDataVisible && {
+                onClick: () => {
+                  navigate(`/${accountInfo.userName}/followings`);
+                },
+              })}
           >{`‍  ${accountInfo.followingCount} دنبال شونده`}</span>
           <span>|</span>
           <span className="text-nowrap">{`‍ ${accountInfo.postCount} پست`}</span>

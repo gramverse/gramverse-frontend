@@ -1,8 +1,9 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
 import { HTTPError } from "ky";
 import { getPostResponseSchema } from "../common/types/post";
 import { Profile, ProfileSchema } from "../common/types/profile-data";
+import { queryClient } from "../common/query-client";
 
 export const useGetProfile = () => {
   const httpClient = useHttpClient();
@@ -12,16 +13,6 @@ export const useGetProfile = () => {
       httpClient.get(`users/myProfile`).json().then(ProfileSchema.parse),
   });
 };
-
-// export const useGetPosts = () => {
-//   const httpClient = useHttpClient();
-//   return useQuery({
-//     queryKey: ["getPosts"],
-//     queryFn: () =>
-//       httpClient.get("posts/myPosts").json().then(getPostResponseSchema.parse),
-//     retry: false,
-//   });
-// };
 
 export const useGetPosts = (limit: number) => {
   const httpClient = useHttpClient();
@@ -42,6 +33,21 @@ export const useGetPosts = (limit: number) => {
       return pages.length > totalPage
         ? undefined
         : initialPageParam + pages.length;
+    },
+  });
+};
+
+export const useRemoveFollower = (followerUserName: string) => {
+  const httpClient = useHttpClient();
+  return useMutation({
+    async mutationFn() {
+      const json = { followerUserName: followerUserName };
+      return httpClient.post("users/removeFollow", { json }).json();
+    },
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ["getProfile"],
+      });
     },
   });
 };
