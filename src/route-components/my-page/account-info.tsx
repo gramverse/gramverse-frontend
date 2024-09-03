@@ -2,6 +2,7 @@ import { Profile } from "../../common/types/profile-data";
 import PersonIcon from "../../assets/svg/profile.svg";
 import clsx from "clsx";
 import { RoundPicture } from "../../reusable-components/profile-picture";
+import { useNavigate } from "react-router-dom";
 
 type AccountInfoInfoProps = {
   accountInfo: Profile;
@@ -65,6 +66,9 @@ type AccountInfoMobileProps = {
 };
 
 export const AccountInfoMobile = ({ accountInfo }: AccountInfoMobileProps) => {
+  const existFollowing = accountInfo.followingCount > 0;
+  const existFollower = accountInfo.followerCount > 0;
+  const navigate = useNavigate();
   return (
     <div className="max-h-1/3 flex w-[19.4rem] flex-col items-center justify-center gap-4">
       <div className="flex w-full flex-row gap-4">
@@ -84,9 +88,29 @@ export const AccountInfoMobile = ({ accountInfo }: AccountInfoMobileProps) => {
 
       <div className="flex w-full flex-col">
         <div className="flex w-fit gap-2 text-sm font-normal">
-          <span className="text-nowrap text-amber-500">{`‍${accountInfo.followerCount} دنبال کننده`}</span>
+          <span
+            className={clsx(
+              "text-nowrap text-amber-500",
+              existFollower && "cursor-pointer",
+            )}
+            {...(existFollower && {
+              onClick: () => {
+                navigate(`/${accountInfo.userName}/followers`);
+              },
+            })}
+          >{`‍${accountInfo.followerCount} دنبال کننده`}</span>
           <span>|</span>
-          <span className="text-nowrap">{`‍${accountInfo.followingCount} دنبال شونده`}</span>
+          <span
+            className={clsx(
+              "text-amber-500",
+              existFollowing && "cursor-pointer",
+            )}
+            {...(existFollowing && {
+              onClick: () => {
+                navigate(`/${accountInfo.userName}/followings`);
+              },
+            })}
+          >{`‍${accountInfo.followingCount} دنبال شونده`}</span>
           <span>|</span>
           <span className="text-nowrap">{`‍ ${accountInfo.postCount} پست`}</span>
         </div>

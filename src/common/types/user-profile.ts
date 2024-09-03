@@ -1,24 +1,13 @@
 import { z } from "zod";
 
- export const requestStatus = Object.freeze({
+export const RequestStatus = Object.freeze({
   none: "none",
-  unfollowed: "unfollowed",
   pending: "pending",
   accepted: "accepted",
   declined: "declined",
 });
 
-// type Stringable = { toString: () => string };
-
-// const x: Stringable = 5;
-// x.toString()
-
-// type RequestStatusObjectType = typeof requestStatus;
-
-// type Keys = keyof RequestStatusObjectType;
-
-// export type requestStatus = RequestStatusObjectType[Keys]; //typee value enum
-export type requestStatus = (typeof requestStatus)[keyof typeof requestStatus];
+export type RequestStatus = (typeof RequestStatus)[keyof typeof RequestStatus];
 
 export const userProfileSchema = z.object({
   _id: z.string().optional(),
@@ -34,7 +23,7 @@ export const userProfileSchema = z.object({
   isBlocked: z.boolean(),
   hasBlockedUs: z.boolean(),
   isCloseFriend: z.boolean(),
-  followRequestState: z.nativeEnum(requestStatus),
+  followRequestState: z.nativeEnum(RequestStatus),
 });
 
 export type UserProfile = z.infer<typeof userProfileSchema>;

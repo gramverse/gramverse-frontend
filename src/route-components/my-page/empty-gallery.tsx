@@ -42,7 +42,7 @@ export const EmptyGallery = () => {
 export const EmptyGalleryMobile = () => {
   const navigate = useNavigate();
   return (
-    <div className="flex h-[21.6rem] w-full flex-col items-center justify-center gap-8 rounded-3xl border border-solid border-form-border py-12">
+    <div className="flex h-full w-full flex-col items-center justify-center gap-8 rounded-3xl border border-solid border-form-border py-12">
       <div className="h-24 w-[19.4rem] text-center text-xl font-bold leading-8">
         هنوز هیچ پستی توی صفحه‌ات نذاشتی! بجنب تا دیر نشده
       </div>

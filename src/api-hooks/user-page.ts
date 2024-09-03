@@ -3,32 +3,96 @@ import { useHttpClient } from "../common/http-client";
 import { HTTPError } from "ky";
 import { queryClient } from "../common/query-client";
 import { getPostResponseSchema } from "../common/types/post";
-import { UserProfile, userProfileSchema } from "../common/types/user-profile";
+import {
+  RequestStatus,
+  UserProfile,
+  userProfileSchema,
+} from "../common/types/user-profile";
+
+const calcUserStates = (userProfile: UserProfile) => {
+  if (!userProfile) return;
+  const isBlockedUs = userProfile.hasBlockedUs;
+  const isUserDataVisible =
+    !isBlockedUs &&
+    (!userProfile?.isPrivate ||
+      userProfile.followRequestState == RequestStatus.accepted);
+  const isFollowedUser =
+    !isBlockedUs && userProfile.followRequestState === RequestStatus.accepted;
+  const isPublicPage = !isBlockedUs && !userProfile.isPrivate;
+  const isEmptyGallery =
+    (isPublicPage || isFollowedUser) && userProfile.postCount == 0;
+  const isNoneEmptyGallery =
+    (isPublicPage || isFollowedUser) && userProfile.postCount > 0;
+  const isPrivatePage =
+    !isBlockedUs &&
+    userProfile.isPrivate &&
+    userProfile.followRequestState !== RequestStatus.accepted;
+  const followBtnText = isBlockedUs
+    ? "+ دنبال کردن"
+    : userProfile.followRequestState == RequestStatus.pending
+      ? "لغو درخواست"
+      : userProfile.followRequestState == RequestStatus.accepted
+        ? "دنبال نکردن"
+        : "+ دنبال کردن";
+  const followBtnColor = userProfile.hasBlockedUs
+    ? "disabled"
+    : userProfile.followRequestState == RequestStatus.pending ||
+        userProfile.followRequestState == RequestStatus.accepted
+      ? "outline"
+      : "secondary";
+  return {
+    isBlockedUs,
+    isUserDataVisible,
+    isFollowedUser,
+    isEmptyGallery,
+    isNoneEmptyGallery,
+    isPrivatePage,
+    followBtnText,
+    followBtnColor,
+  };
+};
 
 export const useGetUserProfile = (userName: string) => {
   const httpClient = useHttpClient();
-  return useQuery<UserProfile, HTTPError>({
+  const { data, ...rest } = useQuery<UserProfile, HTTPError>({
     queryKey: ["getUserProfile", userName],
+    enabled: !!userName,
     queryFn: () =>
       httpClient
         .get(`users/profile/${userName}`)
         .json()
         .then(userProfileSchema.parse),
   });
+
+  const userStates = calcUserStates(data as UserProfile);
+  return { ...rest, userProfile: data, ...userStates };
 };
 
-export type FollowMutationArgs = { userName: string; follow: boolean };
+const calcIsFollowing = (current: RequestStatus) => {
+  return (
+    current == RequestStatus.none ||
+    current == RequestStatus.declined ||
+    !(current == RequestStatus.pending || current == RequestStatus.accepted)
+  );
+};
 
-export const useFollowUser = () => {
+export const useFollowUser = (userName: string) => {
+  const { userProfile } = useGetUserProfile(userName);
   const httpClient = useHttpClient();
-  return useMutation<unknown, HTTPError, FollowMutationArgs>({
-    mutationFn: ({ userName, follow }) => {
-      const json = { followingUserName: userName, isFollow: follow };
+
+  return useMutation({
+    async mutationFn() {
+      if (!userProfile) return;
+      const isFollow = calcIsFollowing(userProfile.followRequestState);
+      const json = { followingUserName: userName, isFollow };
       return httpClient.post("users/follow", { json }).json();
     },
-    onSuccess(_, variables) {
+    onSuccess() {
       queryClient.invalidateQueries({
-        queryKey: ["getUserProfile", variables.userName],
+        queryKey: ["getUserProfile", userName],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["getProfile"],
       });
     },
   });
@@ -42,7 +106,7 @@ export const useGetUserPosts = (
   const httpClient = useHttpClient();
   const initialPageParam = 1;
   return useInfiniteQuery({
-    queryKey: ["getUserPosts", userName], //va ye chiz dg
+    queryKey: ["getUserPosts", userName],
     queryFn: async ({ pageParam }) => {
       return await httpClient
         .get(`posts/username/${userName}`, {
