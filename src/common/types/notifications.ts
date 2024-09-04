@@ -1,39 +1,39 @@
-type mention = {
+export type mention = {
   type: "mention";
   userName: string;
   postId: string;
   postImage: string;
   seen: boolean;
+  creationDate: string;
 };
 
-type like = {
+export type like = {
   type: "like";
   userName: string;
   postId: string;
   postImage: string;
   seen: boolean;
+  creationDate: string;
 };
 
-type follow = {
+export type follow = {
   type: "follow";
   userName: string;
   request: "accepted" | "pending";
-  followRequestState:
-    | "accepted"
-    | "pending"
-    | "none"
-    | "declined"
-    | "unfollowed";
+  profileImage: string;
+  followRequestState: "accepted" | "pending" | "none" | "declined";
   seen: boolean;
+  creationDate: string;
 };
 
-type comment = {
+export type comment = {
   type: "comment";
   comment: string;
   userName: string;
   postId: string;
   postImage: string;
   seen: boolean;
+  creationDate: string;
 };
 
 export type MyNotifications = {
@@ -41,27 +41,31 @@ export type MyNotifications = {
   totalCount: number;
 };
 
-type userComment = {
+export type userComment = {
   type: "comment";
   comment: string;
   userName: string;
   postId: string;
   postImage: string;
   seen: boolean;
+  creationDate: string;
 };
-type userLike = {
+export type userLike = {
   type: "like";
   userName: string;
   postId: string;
   postImage: string;
   seen: boolean;
+  creationDate: string;
 };
-type userFollow = {
+export type userFollow = {
   type: "follow";
   followerUserName: string;
   followingUserName: string;
   followingProfileImage: string;
   seen: boolean;
+  profileImage: string;
+  creationDate: string;
 };
 
 export type FollowingNotifications = {

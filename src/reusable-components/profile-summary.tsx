@@ -1,5 +1,5 @@
 import { useGetProfile } from "../api-hooks/get-my-profile";
-import { RoundPicture } from "./profile-picture";
+import { RoundPicture } from "./round-picture";
 import profile from "../assets/svg/profile.svg";
 import clsx from "clsx";
 import { HTMLAttributes } from "react";

@@ -1,7 +1,8 @@
 import { useState } from "react";
 // import { Outlet } from "react-router-dom";
 import { CommentFieldProps } from "../../common/types/comment";
-import { Comment, ViewComments } from "./post-shared-components/comment";
+import { Comments } from "./post-shared-components/add-comment";
+import { ViewComments } from "./post-shared-components/view-comments";
 import back from "../../assets/svg/back.svg";
 import pen from "../../assets/svg/pen.svg";
 import { CarouselMobile } from "./post-shared-components/carousel";
@@ -35,7 +36,7 @@ export const UserPostViewWeb = () => {
             creationDate={post?.creationDate ?? ""}
           />
           <PostDetailSummary post={post} />
-          <Comment postId={post?._id ?? ""} {...commentProps} />
+          <Comments postId={post?._id ?? ""} {...commentProps} />
         </div>
       </div>
       <ViewComments
@@ -66,7 +67,7 @@ export const UserPostViewMobile = () => {
             navigate(-1);
           }}
         />
-        <div className="absolute h-0 w-[370px] border border-solid border-gray-300 bg-gray-300" />
+        <div className="h-0 w-[370px] border border-solid border-gray-300 bg-gray-300" />
         <div className="mt-2 flex justify-between">
           <UserProfileSummary
             className="my-1"
@@ -92,7 +93,7 @@ export const UserPostViewMobile = () => {
           tags={post?.tags ?? []}
           creationDate={post?.creationDate ?? ""}
         />
-        <Comment postId={post?._id ?? ""} {...commentProps} />
+        <Comments postId={post?._id ?? ""} {...commentProps} />
       </div>
       <div className="px-3">
         <ViewComments

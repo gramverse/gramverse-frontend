@@ -3,7 +3,7 @@ import { UserInfoSummary } from "../../common/types/user";
 import { Button } from "../../reusable-components/button";
 import { ContainterWeb } from "../../reusable-components/container";
 import { UserProfileSummary } from "../../reusable-components/user-profile-summary";
-import PersonIcon from "../../assets/svg/profile.svg";
+import profile from "../../assets/svg/profile.svg";
 
 export const Close = ({
   user,
@@ -23,7 +23,11 @@ export const Close = ({
         <div className="flex flex-col items-start gap-3">
           <UserProfileSummary
             userName={user.userName}
-            profilePicture={profileImage}
+            profilePicture={
+              user.profileImage && user.profileImage !== ""
+                ? user.profileImage
+                : profile
+            }
             followerCount={user.followerCount}
           />
           <h5 className="text-start font-bold">{`مطمئنی میخوای ${user.userName} رو  به دوستان نزدیکت اضافه کنی؟`}</h5>

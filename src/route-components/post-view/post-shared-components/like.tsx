@@ -3,22 +3,33 @@ import { MouseEventHandler } from "react";
 
 type LikeProps = {
   isLiked: boolean | undefined;
-  defaultValue: boolean | undefined;
   onClick: MouseEventHandler<SVGSVGElement>;
   count?: number | undefined;
+  display?: "row" | "col";
 };
 
-export const Like = ({ isLiked, defaultValue, onClick, count }: LikeProps) => {
-  const likeValue = isLiked == undefined ? defaultValue : isLiked;
+export const Like = ({
+  isLiked,
+  onClick,
+  count,
+  display = "col",
+}: LikeProps) => {
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div
+      className={clsx(
+        "flex items-center gap-2",
+        display === "row" && "flex-row",
+        display === "col" && "flex-col",
+      )}
+    >
       <svg
         width="25"
         height="20"
         viewBox="0 -2 25 25"
         className={clsx(
           "stroke-secondary stroke-2",
-          likeValue ? "fill-secondary" : "fill-none",
+          isLiked ? "fill-secondary" : "fill-none",
+          display === "row" && "order-last",
         )}
         xmlns="http://www.w3.org/2000/svg"
         onClick={onClick}

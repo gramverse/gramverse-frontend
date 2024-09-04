@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 // import { Outlet } from "react-router-dom";
-import { Comment, ViewComments } from "./post-shared-components/comment";
+import { Comments } from "./post-shared-components/add-comment";
+import { ViewComments } from "./post-shared-components/view-comments";
 import back from "../../assets/svg/back.svg";
 import pen from "../../assets/svg/pen.svg";
 import { CarouselMobile } from "./post-shared-components/carousel";
@@ -62,7 +63,7 @@ export const PostViewWeb = () => {
             creationDate={post?.creationDate ?? ""}
           />
           <PostDetailSummary post={post} />
-          <Comment postId={post?._id ?? ""} {...commentProps} />
+          <Comments postId={post?._id ?? ""} {...commentProps} />
         </div>
       </div>
       <ViewComments
@@ -83,8 +84,8 @@ export const PostViewMobile = () => {
     parentCommentUserName: "",
   });
   return (
-    <div className="flex h-full flex-col items-stretch justify-start overflow-y-scroll bg-primary">
-      <div className="mt-2 w-full text-end">
+    <div className="flex h-fit w-fit flex-col justify-start overflow-y-scroll bg-primary">
+      <div className="mt-2 text-end">
         <img
           src={back}
           alt=""
@@ -93,7 +94,7 @@ export const PostViewMobile = () => {
             navigate(-1);
           }}
         />
-        <div className="absolute h-0 w-[370px] border border-solid border-gray-300 bg-gray-300" />
+        <div className="h-0 border border-solid border-gray-300 bg-gray-300" />
         <div className="mt-2 flex justify-between">
           <ProfileSummary className="my-1" />
           <Button
@@ -116,11 +117,11 @@ export const PostViewMobile = () => {
           tags={post?.tags ?? []}
           creationDate={post?.creationDate ?? ""}
         />
-        <Comment postId={post?._id ?? ""} {...commentProps} />
+        <Comments postId={post?._id ?? ""} {...commentProps} />
       </div>
       <div className="px-3">
         <ViewComments
-          className="mt-10 h-[500px] grow self-end"
+          className="mt-10 h-[300px] grow self-end"
           setCommentProps={(props: CommentFieldProps) => setCommentProps(props)}
           postId={post?._id ?? ""}
         />

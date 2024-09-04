@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import menu from "../../assets/svg/menu.svg";
 import profile from "../../assets/svg/profile.svg";
-import { RoundPicture } from "../../reusable-components/profile-picture";
+import { RoundPicture } from "../../reusable-components/round-picture";
 import { useState } from "react";
 import { ModalMobile } from "../../reusable-components/modal";
 import { DrawerMenu } from "./mobile-drawer-menu";

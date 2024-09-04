@@ -9,7 +9,7 @@ export const useGetPost = (id: string | undefined) => {
   return useQuery<PostDetail, HTTPError>({
     queryKey: ["getPost", id],
     queryFn: () => httpClient.get(`posts/post/${id}`).json(),
-    enabled: id != undefined,
+    enabled: id !== undefined,
   });
 };
 

@@ -3,6 +3,7 @@ import { UserInfoSummary } from "../../common/types/user";
 import { Button } from "../../reusable-components/button";
 import { ContainterWeb } from "../../reusable-components/container";
 import { UserProfileSummary } from "../../reusable-components/user-profile-summary";
+import profile from "../../assets/svg/profile.svg";
 
 export const Unblock = ({
   user,
@@ -18,7 +19,11 @@ export const Unblock = ({
         <div className="flex flex-col items-start gap-3">
           <UserProfileSummary
             userName={user.userName}
-            profilePicture={user.profileImage}
+            profilePicture={
+              user.profileImage && user.profileImage !== ""
+                ? user.profileImage
+                : profile
+            }
             followerCount={user.followerCount}
           />
           <h5 className="text-start font-bold">{`مطمئنی میخوای ${user.userName} رو آنبلاک کنی؟`}</h5>
@@ -39,7 +44,7 @@ export const Unblock = ({
             <Button
               onClick={() => {
                 mutate({
-                  userName: user.userName,
+                  followingUserName: user.userName,
                   isBlock: true,
                 });
               }}

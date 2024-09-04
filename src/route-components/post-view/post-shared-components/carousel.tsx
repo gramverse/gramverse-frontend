@@ -12,7 +12,7 @@ export const Carousel = (props: Carousel) => {
   return (
     <div className="flex flex-col items-center justify-center gap-2">
       <div
-        className="relative flex h-[375px] w-[500px] items-center justify-between"
+        className="relative flex h-[500px] w-[500px] items-center justify-between"
         {...rest}
       >
         {photoUrls.length > 1 && (
@@ -31,7 +31,7 @@ export const Carousel = (props: Carousel) => {
           src={photoUrls[index]}
           alt=""
           className={clsx(
-            "absolute h-[375px] w-[500px] rounded-3xl bg-slate-200 object-cover",
+            "absolute h-[500px] w-[500px] rounded-3xl bg-slate-200 object-cover",
             photoUrls.length === 0 && "animate-pulse",
           )}
         />
@@ -90,7 +90,7 @@ export const CarouselMobile = (props: Carousel) => {
   return (
     <div className="flex flex-col items-center justify-center gap-2">
       <div
-        className="relative flex h-[300px] w-[375px] items-center justify-between"
+        className="relative flex h-[375px] w-[375px] items-center justify-between"
         {...rest}
       >
         {photoUrls.length > 1 && (
