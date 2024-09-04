@@ -3,6 +3,7 @@ import { UserInfoSummary } from "../../common/types/user";
 import { Button } from "../../reusable-components/button";
 import { ContainterWeb } from "../../reusable-components/container";
 import { UserProfileSummary } from "../../reusable-components/user-profile-summary";
+import profile from "../../assets/svg/profile.svg";
 
 export const Unclose = ({
   user,
@@ -18,7 +19,11 @@ export const Unclose = ({
         <div className="flex flex-col items-start gap-3">
           <UserProfileSummary
             userName={user.userName}
-            profilePicture={user.profileImage}
+            profilePicture={
+              user.profileImage && user.profileImage !== ""
+                ? user.profileImage
+                : profile
+            }
             followerCount={user.followerCount}
           />
           <h5 className="text-start font-bold">{`مطمئنی میخوای ${user.userName} رو  از دوستان نزدیکت حذف کنی؟`}</h5>

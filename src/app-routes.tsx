@@ -57,6 +57,18 @@ import {
 import { useGetProfile } from "./api-hooks/get-my-profile";
 import { FollowerListMobile } from "./route-components/followinger-list/follower-list";
 import { FollowingListMobile } from "./route-components/followinger-list/following-list";
+import {
+  Notification,
+  NotificationMobile,
+} from "./route-components/notifications/notifications";
+import {
+  MyNotifications,
+  MyNotificationsMobile,
+} from "./route-components/notifications/my-notifications";
+import {
+  FriendsNotification,
+  FriendsNotificationMobile,
+} from "./route-components/notifications/friends-notifications";
 
 export const AppRoutes = () => {
   const { data } = useGetProfile();
@@ -86,7 +98,13 @@ export const AppRoutes = () => {
         </Route>
         <Route path={"/:userName"} element={<UserPage />} />
         <Route path={`/:userName/post/:postId`} element={<UserPostViewWeb />} />
-
+        <Route element={<Notification />}>
+          <Route path={"/my-notifications"} element={<MyNotifications />} />
+          <Route
+            path={"/friends-notifications"}
+            element={<FriendsNotification />}
+          />
+        </Route>
         {data?.userName && (
           <Route path={`/${data?.userName}`} element={<MyPage />} />
         )}
@@ -136,6 +154,16 @@ export const AppRoutesMobile = () => {
         <Route element={<ListMobile />}>
           <Route path={"close-friends"} element={<CloseFriendsMobile />} />
           <Route path={"black-list"} element={<BlackListMobile />} />
+        </Route>
+        <Route element={<NotificationMobile />}>
+          <Route
+            path={"/my-notifications"}
+            element={<MyNotificationsMobile />}
+          />
+          <Route
+            path={"/friends-notifications"}
+            element={<FriendsNotificationMobile />}
+          />
         </Route>
         <Route path="create-post" element={<CreatePostMobile />} />
         <Route

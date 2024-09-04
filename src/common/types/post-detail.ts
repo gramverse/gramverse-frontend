@@ -27,8 +27,6 @@ export const PostDetailSchema = z.object({
   commentsCount: z.number(),
 });
 
-export interface PostDetail extends z.infer<typeof PostDetailSchema> {
-  comments: CommentDto[];
-}
+export interface PostDetail extends z.infer<typeof PostDetailSchema> {}
 
 export type Post = Pick<PostDetail, "_id" | "photoUrls" | "creationDate">;

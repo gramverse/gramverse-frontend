@@ -47,7 +47,7 @@ export const useGetBlackList = ({ limit }: { limit: number }) => {
 export const useBlockUser = (onSuccess: () => void) => {
   const client = useHttpClient();
   return useMutation({
-    mutationFn: (data: { userName: string; isBlock: boolean }) => {
+    mutationFn: (data: { followingUserName: string; isBlock: boolean }) => {
       return client
         .post("users/block", {
           json: data,
@@ -58,7 +58,7 @@ export const useBlockUser = (onSuccess: () => void) => {
       onSuccess();
       queryClient.invalidateQueries({ queryKey: ["blackList"] });
       queryClient.invalidateQueries({
-        queryKey: [Keys.userProfile, variables.userName],
+        queryKey: [Keys.userProfile, variables.followingUserName],
       });
     },
   });

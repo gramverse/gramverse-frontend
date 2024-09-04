@@ -9,7 +9,7 @@ export const Loading = forwardRef<HTMLDivElement, LoadingProps>(
       <div ref={ref} className={className}>
         {isLoading && (
           <svg
-            className="-ml-1 mr-3 h-5 w-5 animate-spin text-gray-200"
+            className="-ml-1 mr-3 h-5 w-5 animate-spin text-gray-300"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -20,7 +20,7 @@ export const Loading = forwardRef<HTMLDivElement, LoadingProps>(
               cy="12"
               r="10"
               stroke="#e5e7eb"
-              strokeWidth="4"
+              strokeWidth="6"
             ></circle>
             <path
               className="opacity-75"

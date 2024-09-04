@@ -9,21 +9,23 @@ import { useEffect, useState } from "react";
 import { Modal } from "../../reusable-components/modal";
 import { CreatePost } from "../post/create-post";
 import { Menu } from "./menu";
+import { useSignOut } from "../../api-hooks/signout";
 
 export const Panel = ({ tab }: { tab: string }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { data, isSuccess, isFetched } = useGetProfile();
+  const { data, isSuccess } = useGetProfile();
   const [createPost, setCreatePost] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { mutate: singOut } = useSignOut();
 
-  useEffect(() => {
-    if (isFetched) {
-      if (data?.userName === undefined) {
-        navigate("/login");
-      }
-    }
-  }, [data, isFetched, navigate]);
+  // useEffect(() => {
+  //   if (isFetched) {
+  //     if (data?.userName === undefined) {
+  //       navigate("/login");
+  //     }
+  //   }
+  // }, [data, isFetched, navigate]);
   useEffect(() => {}, [location.pathname]);
   return (
     <>
@@ -51,59 +53,103 @@ export const Panel = ({ tab }: { tab: string }) => {
       <div className="flex w-80 flex-grow flex-col rounded-t-3xl border-2 border-solid border-gray-300 bg-white pt-10">
         <ProfileSummary className="ms-10" />
         <section className="relative flex h-full w-full flex-col items-start gap-5 p-5 pb-20">
-          {Object.values(itemList)
-            .slice(0, 5)
-            .map(({ text, icon }, index) => {
-              return (
-                <Tab
-                  key={text + index}
-                  text={text}
-                  icon={icon}
-                  value={Object.keys(itemList)[index]}
-                  selectedValue={tab}
-                  onClick={() => {
-                    isSuccess && navigate(`${data.userName}`);
-                  }}
-                />
-              );
-            })}
+          <Tab
+            key={itemList["myPage"].text}
+            text={itemList["myPage"].text}
+            icon={itemList["myPage"].icon}
+            selectedValue={tab}
+            value={"myPage"}
+            onClick={() => {
+              isSuccess && navigate(`${data.userName}`);
+            }}
+          />
+          <Tab
+            key={itemList["saved"].text}
+            text={itemList["saved"].text}
+            icon={itemList["saved"].icon}
+            selectedValue={tab}
+            value={"saved"}
+            onClick={() => {}}
+          />
+          <Tab
+            key={itemList["messages"].text}
+            text={itemList["messages"].text}
+            icon={itemList["messages"].icon}
+            selectedValue={tab}
+            value={"messages"}
+            onClick={() => {}}
+          />
+          <Tab
+            key={itemList["notifs"].text}
+            text={itemList["notifs"].text}
+            icon={itemList["notifs"].icon}
+            selectedValue={tab}
+            value={"notifs"}
+            onClick={() => {
+              navigate("/my-notifications");
+            }}
+          />
+          <Tab
+            key={itemList["mention"].text}
+            text={itemList["mention"].text}
+            icon={itemList["mention"].icon}
+            selectedValue={tab}
+            value={"mention"}
+            onClick={() => {
+              isSuccess && navigate(`${data.userName}`);
+            }}
+          />
           <div className="-ms-5 h-0.5 w-80 bg-gray-300" />
 
-          {Object.values(itemList)
-            .slice(5, 7)
-            .map(({ text, icon }, index) => {
-              return (
-                <Tab
-                  key={text + index}
-                  text={text}
-                  icon={icon}
-                  selectedValue={tab}
-                  value={Object.keys(itemList)[index + 5]}
-                  onClick={() => {
-                    navigate("/");
-                  }}
-                ></Tab>
-              );
-            })}
+          <Tab
+            key={itemList["explore"].text}
+            text={itemList["explore"].text}
+            icon={itemList["explore"].icon}
+            selectedValue={tab}
+            value={"explore"}
+            onClick={() => {
+              navigate(`/`);
+            }}
+          />
+          <Tab
+            key={itemList["search"].text}
+            text={itemList["search"].text}
+            icon={itemList["search"].icon}
+            selectedValue={tab}
+            value={"search"}
+            onClick={() => {}}
+          />
+
           <div className="absolute bottom-4">
-            {isMenuOpen && (
-              <Menu
-                close={() => {
-                  setIsMenuOpen(false);
-                }}
-              />
-            )}
             <Tab
-              key={itemList["more"].text + 7}
-              text={itemList["more"].text}
-              icon={itemList["more"].icon}
+              key={itemList["signOut"].text}
+              text={itemList["signOut"].text}
+              icon={itemList["signOut"].icon}
               selectedValue={tab}
-              value={Object.keys(itemList)[7]}
-              className="absolute bottom-4"
+              value={"signOut"}
               onClick={() => {
-                setIsMenuOpen((isMenuOpen) => !isMenuOpen);
+                singOut();
               }}
             />
+            <>
+              {isMenuOpen && (
+                <Menu
+                  close={() => {
+                    setIsMenuOpen(false);
+                  }}
+                />
+              )}
+              <Tab
+                key={itemList["more"].text}
+                text={itemList["more"].text}
+                icon={itemList["more"].icon}
+                selectedValue={tab}
+                value={"more"}
+                onClick={() => {
+                  setIsMenuOpen((isMenuOpen) => !isMenuOpen);
+                }}
+              />
+            </>
           </div>
         </section>
       </div>

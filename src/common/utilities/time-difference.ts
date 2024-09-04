@@ -2,22 +2,32 @@ export const getTimeDifference = (now: Date, date: Date) => {
   const yearDiff = now.getFullYear() - date.getFullYear();
   const monthDiff = now.getMonth() - date.getMonth();
   const dayDiff = now.getDate() - date.getDate();
+  const hourDiff = now.getHours() - date.getHours();
+  const minuteDiff = now.getMinutes() - date.getMinutes();
 
   let years = yearDiff;
   let months = monthDiff;
   let days = dayDiff;
+  let hours = hourDiff;
+  let minutes = minuteDiff;
 
-  // Adjust for negative month or day differences
+  if (minuteDiff < 0) {
+    hours--;
+    minutes += 60;
+  }
+  if (hourDiff < 0) {
+    days--;
+    hours += 24;
+  }
   if (dayDiff < 0) {
     months--;
     days += new Date(now.getFullYear(), now.getMonth(), 0).getDate();
   }
-  if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+  if (monthDiff < 0) {
     years--;
     months += 12;
   }
 
-  // Calculate weeks
   const totalDays = Math.floor(
     (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24),
   );
@@ -29,10 +39,83 @@ export const getTimeDifference = (now: Date, date: Date) => {
     months: [months, "ماه پیش"],
     weeks: [weeks, "هفته پیش"],
     days: [days, "روز پیش"],
+    hours: [hours, "ساعت پیش"],
+    minutes: [minutes, "دقیقه پیش"],
   };
-  return Object.entries(difference)
-    .filter(([, value]) => value[0] > 0)
-    .map(([, value]) => value)
-    .reduce((prev, cur) => prev.concat(`${cur[0]} `).concat(`${cur[1]} `), "")
-    .concat(!(years | months | weeks | days) ? "دقایقی پیش" : "");
+
+  if (years > 0) {
+    return Object.entries(difference)
+      .slice(0, 2)
+      .filter(([, value]) => value[0] > 0)
+      .map(([, value]) => value)
+      .reduce(
+        (prev, cur) => prev.concat(`${cur[0]} `).concat(`${cur[1]} `),
+        "",
+      );
+  } else {
+    if (months > 0) {
+      return Object.entries(difference)
+        .slice(0, 3)
+        .filter(([, value]) => value[0] > 0)
+        .map(([, value]) => value)
+        .reduce(
+          (prev, cur) => prev.concat(`${cur[0]} `).concat(`${cur[1]} `),
+          "",
+        );
+    } else {
+      if (weeks > 0) {
+        return Object.entries(difference)
+          .slice(0, 4)
+          .filter(([, value]) => value[0] > 0)
+          .map(([, value]) => value)
+          .reduce(
+            (prev, cur) => prev.concat(`${cur[0]} `).concat(`${cur[1]} `),
+            "",
+          );
+      } else {
+        if (days > 0) {
+          return Object.entries(difference)
+            .slice(0, 5)
+            .filter(([, value]) => value[0] > 0)
+            .map(([, value]) => value)
+            .reduce(
+              (prev, cur) => prev.concat(`${cur[0]} `).concat(`${cur[1]} `),
+              "",
+            );
+        } else {
+          if (hours > 0) {
+            return Object.entries(difference)
+              .slice(0, 6)
+              .filter(([, value]) => value[0] > 0)
+              .map(([, value]) => value)
+              .reduce(
+                (prev, cur) => prev.concat(`${cur[0]} `).concat(`${cur[1]} `),
+                "",
+              );
+          } else {
+            if (minutes > 0) {
+              return Object.entries(difference)
+                .slice(0, 7)
+                .filter(([, value]) => value[0] > 0)
+                .map(([, value]) => value)
+                .reduce(
+                  (prev, cur) => prev.concat(`${cur[0]} `).concat(`${cur[1]} `),
+                  "",
+                );
+            } else {
+              if (
+                years === 0 &&
+                months === 0 &&
+                weeks === 0 &&
+                days === 0 &&
+                hours === 0 &&
+                minutes === 0
+              )
+                return "همین الان";
+            }
+          }
+        }
+      }
+    }
+  }
 };

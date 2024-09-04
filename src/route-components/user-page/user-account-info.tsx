@@ -2,7 +2,7 @@ import { BtnStyles, Button } from "../../reusable-components/button";
 import PersonIcon from "../../assets/svg/profile.svg";
 import { UserProfile } from "../../common/types/user-profile";
 import clsx from "clsx";
-import { RoundPicture } from "../../reusable-components/profile-picture";
+import { RoundPicture } from "../../reusable-components/round-picture";
 import { useNavigate } from "react-router-dom";
 
 type AppUserInfoProps = {
