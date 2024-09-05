@@ -12,7 +12,8 @@ interface UserProfile extends HTMLAttributes<HTMLDivElement> {
 }
 export const UserProfileSummary = (props: UserProfile) => {
   const { className, userName, profilePicture, followerCount } = props;
-  const { userProfile: profileSummary, isSuccess } = useGetUserProfile(userName);
+  const { userProfile: profileSummary, isSuccess } =
+    useGetUserProfile(userName);
   const navigate = useNavigate();
   return (
     <div
@@ -23,7 +24,13 @@ export const UserProfileSummary = (props: UserProfile) => {
     >
       <RoundPicture
         classes="bg-red-200 p-1"
-        picture={profilePicture ?? profileSummary?.profileImage ?? profile}
+        picture={
+          profilePicture && profilePicture !== ""
+            ? profilePicture
+            : profileSummary?.profileImage && profileSummary.profileImage !== ""
+              ? profileSummary.profileImage
+              : profile
+        }
         size={followerCount ? "large" : "medium"}
       />
       <div className="flex flex-col">

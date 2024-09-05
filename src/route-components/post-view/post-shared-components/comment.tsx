@@ -4,7 +4,7 @@ import { getTimeDifference } from "../../../common/utilities/time-difference";
 import { Like } from "./like";
 import { useLikeComment } from "../../../api-hooks/comment";
 import reply from "../../../assets/svg/reply.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 export const Comment = ({
   comment,
   postId,
@@ -18,6 +18,9 @@ export const Comment = ({
 }) => {
   const { mutate } = useLikeComment({ postId });
   const [isLiked, setIsLiked] = useState<boolean | undefined>(comment.isLiked);
+  useEffect(() => {
+    setIsLiked(comment?.isLiked);
+  }, [comment?.isLiked]);
 
   return (
     <div className="flex w-full" key={key}>

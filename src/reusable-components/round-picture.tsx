@@ -14,6 +14,6 @@ interface ImageProps {
 
 export const RoundPicture = (props: ImageProps) => {
   const { size = "medium", picture, classes = "", onClick } = props;
-  const customClasses = `border-none rounded-full object-cover ${classes} ${sizes[size]}`;
+  const customClasses = `border-none rounded-full object-cove bg-gray-300 ${classes} ${sizes[size]}`;
   return <img onClick={onClick} src={picture} className={customClasses}></img>;
 };

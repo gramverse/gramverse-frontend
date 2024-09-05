@@ -81,13 +81,11 @@ export const ViewComments = ({
           />
         );
       })}
-      <div>
-        <Loading
-          isLoading={isFetching || isFetchingNextPage}
-          className="self-center"
-          ref={ref}
-        />
-      </div>
+      <Loading
+        isLoading={isFetching || isFetchingNextPage}
+        className="self-center"
+        ref={ref}
+      />
     </div>
   );
 };

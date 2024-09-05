@@ -18,7 +18,9 @@ export const ProfileSummary = (props: HTMLAttributes<HTMLDivElement>) => {
     >
       <RoundPicture
         picture={
-          profileSummary?.profileImage ? profileSummary.profileImage : profile
+          profileSummary?.profileImage && profileSummary.profileImage !== ""
+            ? profileSummary.profileImage
+            : profile
         }
       />
       <span>{profileSummary?.userName || ""}</span>

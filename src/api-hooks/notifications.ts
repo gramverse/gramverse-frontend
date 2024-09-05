@@ -1,18 +1,19 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
 import {
   FollowingNotifications,
   MyNotifications,
 } from "../common/types/notifications";
 import { HTTPError } from "ky";
+import { queryClient } from "../common/query-client";
 
 export const useGetMyNotifications = ({ limit }: { limit: number }) => {
   const httpClient = useHttpClient();
   return useInfiniteQuery<MyNotifications, HTTPError>({
-    queryKey: ["myNotifications"],
+    queryKey: ["my-notifications"],
     queryFn: ({ pageParam }) =>
       httpClient
-        .get(`users/myNotifications?page=${pageParam}&limit=${limit}`)
+        .get(`notifications/mine?page=${pageParam}&limit=${limit}`)
         .json(),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
@@ -28,10 +29,10 @@ export const useGetMyNotifications = ({ limit }: { limit: number }) => {
 export const useGetFollowingNotifications = ({ limit }: { limit: number }) => {
   const httpClient = useHttpClient();
   return useInfiniteQuery<FollowingNotifications, HTTPError>({
-    queryKey: ["myNotifications"],
+    queryKey: ["friends-notifications"],
     queryFn: ({ pageParam }) =>
       httpClient
-        .get(`users/followingsNotification?page=${pageParam}&limit=${limit}`)
+        .get(`notifications/followings?page=${pageParam}&limit=${limit}`)
         .json(),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
@@ -48,5 +49,23 @@ export const useGetNotificationCount = () => {
   return useQuery<{ count: number }>({
     queryKey: ["notificationCount"],
     queryFn: () => httpClient.get(`users/notifications`).json(),
+  });
+};
+type AcceptRequest = {
+  followerUserName: string;
+  accepted: boolean;
+};
+export const useAcceptRequest = () => {
+  const httpClient = useHttpClient();
+  return useMutation<unknown, HTTPError, AcceptRequest>({
+    mutationFn: (data: AcceptRequest) =>
+      httpClient
+        .post("users/acceptRequest", {
+          json: data,
+        })
+        .json(),
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ["my-notifications"] });
+    },
   });
 };

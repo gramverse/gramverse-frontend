@@ -75,7 +75,9 @@ const CarouselIndicator = ({
                 />
               );
             } else {
-              return <div className="h-3 w-3 rounded-full bg-white" />;
+              return (
+                <div key={index} className="h-3 w-3 rounded-full bg-white" />
+              );
             }
           })}
         </div>
