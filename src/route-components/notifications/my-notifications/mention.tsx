@@ -1,14 +1,11 @@
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
-import { useGetProfile } from "../../../api-hooks/get-my-profile";
 import { mention } from "../../../common/types/notifications";
 import { getTimeDifference } from "../../../common/utilities/time-difference";
 import { RoundPicture } from "../../../reusable-components/round-picture";
-import profile from "../../../assets/svg/profile.svg";
 
 export const Mention = (props: mention) => {
-  const { postImage, userName, creationDate, postId, seen } = props;
-  const { data } = useGetProfile();
+  const { postImage, performerUserName, creationDate, postId, seen } = props;
   const navigate = useNavigate();
 
   return (
@@ -21,13 +18,13 @@ export const Mention = (props: mention) => {
     >
       <RoundPicture
         size="medium"
-        picture={postImage && postImage !== "" ? postImage : profile}
+        picture={postImage}
         onClick={() => {
-          navigate(`/${data?.userName}/post/${postId}`);
+          navigate(`/${performerUserName}/post/${postId}`);
         }}
       />
       <div className="flex flex-col items-start gap-1">
-        <p>{`${userName}توی این عکس تورو منشن کرده `}</p>
+        <p className="m-0 p-0">{`${performerUserName} توی این پست تورو منشن کرده`}</p>
         <small className="text-xs text-gray-500">
           {getTimeDifference(new Date(), new Date(creationDate))}
         </small>

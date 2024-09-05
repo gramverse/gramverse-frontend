@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useBookmarkPost, useLikePost } from "../../../api-hooks/post-details";
 import { Bookmark } from "./bookmark";
 import { Like } from "./like";
@@ -12,9 +12,15 @@ export const PostDetailSummary = ({
   post: z.infer<typeof PostDetailSchema> | undefined;
 }) => {
   const [isLiked, setIsLiked] = useState<boolean | undefined>(post?.isLiked);
+  useEffect(() => {
+    setIsLiked(post?.isLiked);
+  }, [post?.isLiked]);
   const [isBookmarked, setIsBookmarked] = useState<boolean | undefined>(
     post?.isBookmarked,
   );
+  useEffect(() => {
+    setIsBookmarked(post?.isBookmarked);
+  }, [post?.isBookmarked]);
   const { mutate: likeMutate } = useLikePost();
   const { mutate: bookmarkMutate } = useBookmarkPost();
 

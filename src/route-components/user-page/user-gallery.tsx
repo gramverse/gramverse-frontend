@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { Modal } from "../../reusable-components/modal";
 import { UserPostModal } from "../post-view/user-post-modal";
+import { Loading } from "../../reusable-components/loading";
 
 type UserGalleryProps = {
   userName: string;
@@ -67,15 +68,10 @@ export const UserGallery = ({
           </div>
         );
       })}
-      <div
+      <Loading
+        isLoading={isFetching || isFetchingNextPostPage}
         ref={nearEndPostRef}
-        className={clsx(
-          "flex w-full items-center justify-center text-2xl",
-          hasNextPage ? "h-[calc(11rem/3)]" : "",
-        )}
-      >
-        {hasNextPage && isFetchingNextPostPage && <div>Loading...</div>}
-      </div>
+      />
     </div>
   );
 };
@@ -108,7 +104,7 @@ export const UserGalleryMobile = ({
   }
 
   return (
-    <div className=" inset-x-0 my-2 mx-auto flex h-[500px] w-[19.4rem] flex-row flex-wrap gap-5 self-center overflow-y-scroll">
+    <div className="inset-x-0 mx-auto my-2 flex h-[500px] w-[19.4rem] flex-row flex-wrap gap-5 self-center overflow-y-scroll">
       {postPages?.pages
         .flatMap((x) => x.posts)
         .map((post) => {

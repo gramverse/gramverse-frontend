@@ -1,14 +1,18 @@
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
-import { useGetProfile } from "../../../api-hooks/get-my-profile";
-import { comment } from "../../../common/types/notifications";
+import { userLike } from "../../../common/types/notifications";
 import { getTimeDifference } from "../../../common/utilities/time-difference";
 import { RoundPicture } from "../../../reusable-components/round-picture";
 
-export const Comment = (props: comment) => {
-  const { postImage, performerUserName, creationDate, postId, seen, comment } =
-    props;
-  const { data } = useGetProfile();
+export const Like = (props: userLike) => {
+  const {
+    postImage,
+    performerUserName,
+    creationDate,
+    postId,
+    seen,
+    postCreator,
+  } = props;
   const navigate = useNavigate();
 
   return (
@@ -23,12 +27,11 @@ export const Comment = (props: comment) => {
         size="medium"
         picture={postImage}
         onClick={() => {
-          navigate(`/${data?.userName}/post/${postId}`);
+          navigate(`/${postCreator}/post/${postId}`);
         }}
       />
       <div className="flex flex-col items-start gap-1">
-        <p className="m-0 p-0">{`${performerUserName} واسه این پستت کامنت گذاشته`}</p>
-        <small className="text-xs text-gray-500">{comment}</small>
+        <p className="m-0 p-0">{`${performerUserName} این پستو لایک کرده`}</p>
         <small className="text-xs text-gray-500">
           {getTimeDifference(new Date(), new Date(creationDate))}
         </small>

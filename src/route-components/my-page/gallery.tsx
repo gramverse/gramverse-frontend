@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Modal } from "../../reusable-components/modal";
 import { PostModal } from "../post-view/post-modal";
 import { EditPost } from "../post/edit-post";
-import clsx from "clsx";
 import { useInView } from "react-intersection-observer";
 import { useGetPosts } from "../../api-hooks/my-page";
+import { Loading } from "../../reusable-components/loading";
 
 export const Gallery = () => {
   const [isPostOpen, openPost] = useState(false);
@@ -78,15 +78,10 @@ export const Gallery = () => {
           );
         })}
 
-      <div
+      <Loading
+        isLoading={isFetching || isFetchingNextPostPage}
         ref={nearEndPostRef}
-        className={clsx(
-          "flex w-full items-center justify-center text-2xl",
-          hasNextPage ? "h-[calc(11rem/3)]" : "",
-        )}
-      >
-        {hasNextPage && isFetchingNextPostPage && <div>Loading...</div>}
-      </div>
+      />
     </div>
   );
 };
@@ -131,15 +126,10 @@ export const GalleryMobile = () => {
             />
           );
         })}
-      <div
+      <Loading
+        isLoading={isFetching || isFetchingNextPostPage}
         ref={nearEndPostRef}
-        className={clsx(
-          "flex w-full items-center justify-center text-2xl",
-          hasNextPage ? "h-[calc(11rem/3)]" : "",
-        )}
-      >
-        {hasNextPage && isFetchingNextPostPage && <div>Loading...</div>}
-      </div>
+      />
     </div>
   );
 };

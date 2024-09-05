@@ -13,6 +13,8 @@ export const UserPostModal = ({ postId }: { postId: string }) => {
   const params = useParams();
   const { userProfile: user } = useGetUserProfile(params.userName ?? "");
   const { data: post } = useGetPost(postId);
+  console.log(post?.isLiked);
+
   return (
     <ContainterWeb className="relative flex grow justify-between gap-3 pt-16">
       <img

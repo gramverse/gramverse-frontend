@@ -1,6 +1,6 @@
 export type mention = {
   type: "mention";
-  userName: string;
+  performerUserName: string;
   postId: string;
   postImage: string;
   seen: boolean;
@@ -9,18 +9,17 @@ export type mention = {
 
 export type like = {
   type: "like";
-  userName: string;
+  performerUserName: string;
   postId: string;
   postImage: string;
   seen: boolean;
   creationDate: string;
+  postCreator: string;
 };
 
 export type follow = {
   type: "follow";
-  userName: string;
-  request: "accepted" | "pending";
-  profileImage: string;
+  performerUserName: string;
   followRequestState: "accepted" | "pending" | "none" | "declined";
   seen: boolean;
   creationDate: string;
@@ -29,11 +28,12 @@ export type follow = {
 export type comment = {
   type: "comment";
   comment: string;
-  userName: string;
+  performerUserName: string;
   postId: string;
   postImage: string;
   seen: boolean;
   creationDate: string;
+  postCreator: string;
 };
 
 export type MyNotifications = {
@@ -44,7 +44,8 @@ export type MyNotifications = {
 export type userComment = {
   type: "comment";
   comment: string;
-  userName: string;
+  performerUserName: string;
+  postCreator: string;
   postId: string;
   postImage: string;
   seen: boolean;
@@ -52,17 +53,17 @@ export type userComment = {
 };
 export type userLike = {
   type: "like";
-  userName: string;
+  performerUserName: string;
   postId: string;
+  postCreator: string;
   postImage: string;
   seen: boolean;
   creationDate: string;
 };
 export type userFollow = {
   type: "follow";
-  followerUserName: string;
+  performerUserName: string;
   followingUserName: string;
-  followingProfileImage: string;
   seen: boolean;
   profileImage: string;
   creationDate: string;

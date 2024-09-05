@@ -1,7 +1,7 @@
 import { Profile } from "../../common/types/profile-data";
 import PersonIcon from "../../assets/svg/profile.svg";
 import clsx from "clsx";
-import { RoundPicture } from "../../reusable-components/profile-picture";
+import { RoundPicture } from "../../reusable-components/round-picture";
 import { useNavigate } from "react-router-dom";
 
 type AccountInfoInfoProps = {
