@@ -8,6 +8,7 @@ export const Comment = ({ count, onClick }: CommentProps) => {
   return (
     <div className="flex flex-col items-center gap-2">
       <svg
+        onClick={onClick}
         width="22"
         height="22"
         viewBox="-1 0 22 25"

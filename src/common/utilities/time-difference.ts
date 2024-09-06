@@ -35,12 +35,12 @@ export const getTimeDifference = (now: Date, date: Date) => {
   days = totalDays % 7;
 
   const difference: Record<string, [number, string]> = {
-    years: [years, "سال پیش"],
-    months: [months, "ماه پیش"],
-    weeks: [weeks, "هفته پیش"],
-    days: [days, "روز پیش"],
-    hours: [hours, "ساعت پیش"],
-    minutes: [minutes, "دقیقه پیش"],
+    years: [years, "سال"],
+    months: [months, "ماه"],
+    weeks: [weeks, "هفته"],
+    days: [days, "روز"],
+    hours: [hours, "ساعت"],
+    minutes: [minutes, "دقیقه"],
   };
 
   if (years > 0) {
@@ -49,9 +49,12 @@ export const getTimeDifference = (now: Date, date: Date) => {
       .filter(([, value]) => value[0] > 0)
       .map(([, value]) => value)
       .reduce(
-        (prev, cur) => prev.concat(`${cur[0]} `).concat(`${cur[1]} `),
+        (prev, cur) =>
+          prev.concat(`${cur[0]}`).concat(`${cur[1]} `).concat(" و "),
         "",
-      );
+      )
+      .slice(0, -3)
+      .concat(" پیش");
   } else {
     if (months > 0) {
       return Object.entries(difference)
@@ -59,9 +62,13 @@ export const getTimeDifference = (now: Date, date: Date) => {
         .filter(([, value]) => value[0] > 0)
         .map(([, value]) => value)
         .reduce(
-          (prev, cur) => prev.concat(`${cur[0]} `).concat(`${cur[1]} `),
+          (prev, cur) =>
+            prev.concat(`${cur[0]}`).concat(`${cur[1]} `).concat(" و "),
+
           "",
-        );
+        )
+        .slice(0, -3)
+        .concat(" پیش");
     } else {
       if (weeks > 0) {
         return Object.entries(difference)
@@ -69,9 +76,13 @@ export const getTimeDifference = (now: Date, date: Date) => {
           .filter(([, value]) => value[0] > 0)
           .map(([, value]) => value)
           .reduce(
-            (prev, cur) => prev.concat(`${cur[0]} `).concat(`${cur[1]} `),
+            (prev, cur) =>
+              prev.concat(`${cur[0]}`).concat(`${cur[1]} `).concat(" و "),
+
             "",
-          );
+          )
+          .slice(0, -3)
+          .concat(" پیش");
       } else {
         if (days > 0) {
           return Object.entries(difference)
@@ -79,9 +90,13 @@ export const getTimeDifference = (now: Date, date: Date) => {
             .filter(([, value]) => value[0] > 0)
             .map(([, value]) => value)
             .reduce(
-              (prev, cur) => prev.concat(`${cur[0]} `).concat(`${cur[1]} `),
+              (prev, cur) =>
+                prev.concat(`${cur[0]}`).concat(`${cur[1]} `).concat(" و "),
+
               "",
-            );
+            )
+            .slice(0, -3)
+            .concat(" پیش");
         } else {
           if (hours > 0) {
             return Object.entries(difference)
@@ -89,9 +104,13 @@ export const getTimeDifference = (now: Date, date: Date) => {
               .filter(([, value]) => value[0] > 0)
               .map(([, value]) => value)
               .reduce(
-                (prev, cur) => prev.concat(`${cur[0]} `).concat(`${cur[1]} `),
+                (prev, cur) =>
+                  prev.concat(`${cur[0]}`).concat(`${cur[1]} `).concat(" و "),
+
                 "",
-              );
+              )
+              .slice(0, -3)
+              .concat(" پیش");
           } else {
             if (minutes > 0) {
               return Object.entries(difference)
@@ -99,9 +118,13 @@ export const getTimeDifference = (now: Date, date: Date) => {
                 .filter(([, value]) => value[0] > 0)
                 .map(([, value]) => value)
                 .reduce(
-                  (prev, cur) => prev.concat(`${cur[0]} `).concat(`${cur[1]} `),
+                  (prev, cur) =>
+                    prev.concat(`${cur[0]}`).concat(`${cur[1]} `).concat(" و "),
+
                   "",
-                );
+                )
+                .slice(0, -3)
+                .concat(" پیش");
             } else {
               if (
                 years === 0 &&
