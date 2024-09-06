@@ -4,13 +4,15 @@ import { Menu, MenuMobile } from "./menu";
 import { useState } from "react";
 import more from "../../assets/svg/menu-dots.svg";
 import { useNavigate } from "react-router-dom";
+import clsx from "clsx";
 interface FollowerInfoProps extends FollowingerInfo {
   close?: () => void;
   follower: boolean;
-  selectedUser: string;
-  setUser: (user: string) => void;
+  selectedUser?: string;
+  setUser?: (user: string) => void;
   activityPermit: boolean;
   myUserName?: string;
+  noBorder?: boolean;
 }
 
 export const FollowingersInfo = ({
@@ -22,13 +24,20 @@ export const FollowingersInfo = ({
   selectedUser,
   setUser,
   activityPermit,
+  noBorder = false,
 }: FollowerInfoProps) => {
   const isSetProfileImage = profileImage && profileImage != "";
   const [menu, openMenu] = useState(false);
   const navigate = useNavigate();
   return (
     <div
-      className="flex h-20 w-full flex-row items-center border border-x-0 border-t-0 border-solid border-form-border"
+      // className="flex h-20 w-full flex-row items-center border border-x-0 border-t-0 border-solid border-form-border"
+      className={clsx(
+        "flex h-20 w-full flex-row items-center",
+        noBorder
+          ? ""
+          : "border border-x-0 border-t-0 border-solid border-form-border",
+      )}
       onClick={() => {
         close?.();
         navigate(`/${userName}`);
@@ -67,7 +76,7 @@ export const FollowingersInfo = ({
                   openMenu(false);
                 } else {
                   openMenu(true);
-                  setUser(userName);
+                  setUser?.(userName);
                 }
               }}
             />
@@ -92,9 +101,6 @@ export const FollowingersInfoMobile = ({
   const isSetProfileImage = profileImage && profileImage != "";
   const [menu, openMenu] = useState(false);
   const navigate = useNavigate();
-  console.log("in followingInfo selectedUser", selectedUser);
-  console.log("in followingInfo userName", userName);
-  console.log("in followingInfo myUserName", myUserName);
   return (
     <div
       className="flex h-20 w-full flex-row items-center border border-x-0 border-t-0 border-solid border-form-border"
@@ -137,7 +143,7 @@ export const FollowingersInfoMobile = ({
                   openMenu(false);
                 } else {
                   openMenu(true);
-                  setUser(userName);
+                  setUser?.(userName);
                 }
               }}
             />

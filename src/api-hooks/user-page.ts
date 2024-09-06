@@ -34,7 +34,7 @@ const calcUserStates = (userProfile: UserProfile) => {
       : userProfile.followRequestState == RequestStatus.accepted
         ? "دنبال نکردن"
         : "+ دنبال کردن";
-  const followBtnColor = userProfile.hasBlockedUs
+  const followBtnColor = (userProfile.hasBlockedUs||userProfile.isBlocked)
     ? "disabled"
     : userProfile.followRequestState == RequestStatus.pending ||
         userProfile.followRequestState == RequestStatus.accepted

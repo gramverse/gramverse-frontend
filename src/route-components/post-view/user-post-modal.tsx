@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import expand from "../../assets/svg/expand.svg";
 import { ContainterWeb } from "../../reusable-components/container";
 import { Carousel } from "./post-shared-components/carousel";
@@ -10,16 +10,16 @@ import { useGetPost } from "../../api-hooks/post-details";
 
 export const UserPostModal = ({
   postId,
+  userName,
   close,
 }: {
   postId: string;
+  userName: string;
   close: () => void;
 }) => {
   const navigate = useNavigate();
-  const params = useParams();
-  const { userProfile: user } = useGetUserProfile(params.userName ?? "");
+  const { userProfile: user } = useGetUserProfile(userName);
   const { data: post } = useGetPost(postId);
-  console.log(post?.isLiked);
 
   return (
     <ContainterWeb className="relative flex grow justify-between gap-3 pt-16">

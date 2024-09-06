@@ -69,7 +69,7 @@ export const UserPageLayout = () => {
   const [modal, setModal] = useState<"block" | "close" | null>(null);
   return (
     <div
-      className="flex h-full w-[952px] flex-col gap-3 pt-36"
+      className="flex h-full w-[64rem] flex-col gap-3 pt-36"
       onClick={() => {
         openMenu(false);
       }}
@@ -125,7 +125,7 @@ export const UserPageLayout = () => {
           />
         </Modal>
       )}
-      <div className="flex h-40 w-[952px] flex-row items-center justify-between gap-8 border border-x-0 border-t-0 border-solid border-form-border pb-6">
+      <div className="flex h-40 w-[64rem] flex-row items-center justify-between gap-8 border border-x-0 border-t-0 border-solid border-form-border pb-6">
         {userProfile && (
           <UserAccountInfo
             accountInfo={userProfile}
@@ -316,6 +316,7 @@ export const UserPageMobile = () => {
         <Button
           classes="my-2 w-full text-center justify-center"
           btnColor={(followBtnColor as BtnStyles) ?? "transparent"}
+          disabled={userProfile?.hasBlockedUs || userProfile?.isBlocked}
           type="button"
           onClick={() => {
             followMutate();
