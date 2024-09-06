@@ -21,7 +21,6 @@ export const PostModal = ({
   const navigate = useNavigate();
   const { data } = useGetProfile();
   const { data: post } = useGetPost(postId);
-  console.log(post?.isLiked);
   return (
     <ContainterWeb className="relative flex grow justify-between gap-3 pt-16">
       <img

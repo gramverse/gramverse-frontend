@@ -4,7 +4,7 @@ type CommentProps = {
   onClick: MouseEventHandler<SVGSVGElement>;
   count?: number | undefined;
 };
-export const Comment = ({ count }: CommentProps) => {
+export const Comment = ({ count, onClick }: CommentProps) => {
   return (
     <div className="flex flex-col items-center gap-2">
       <svg
@@ -13,6 +13,7 @@ export const Comment = ({ count }: CommentProps) => {
         viewBox="-1 0 22 25"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        onClick={onClick}
       >
         <circle
           cx="9"

@@ -49,13 +49,22 @@ export const UserGallery = ({
           openPost(false);
         }}
       >
-        <UserPostModal postId={postId} close={() => openPost(false)} />
+        <UserPostModal
+          postId={postId}
+          userName={userName}
+          close={() => openPost(false)}
+        />
       </Modal>
       {userPosts.map((post) => {
         return (
           <div
             key={post._id}
-            className="h-[304px] w-[295px] overflow-hidden rounded-t-3xl bg-neutral-400"
+            className={clsx(
+              "h-[304px] w-[295px] overflow-hidden rounded-t-3xl bg-neutral-400",
+              post.forCloseFriends
+                ? "border-4 border-solid border-green-500"
+                : "",
+            )}
             onClick={() => {
               setPostId(post._id);
               openPost(true);
@@ -104,19 +113,28 @@ export const UserGalleryMobile = ({
   }
 
   return (
-    <div className="absolute inset-x-0 mx-auto flex h-[500px] w-[19.4rem] flex-row flex-wrap gap-5 self-center overflow-y-scroll">
+    <div className="absolute inset-x-0 mx-auto flex h-[500px] w-[20rem] flex-row flex-wrap gap-3 self-center overflow-y-scroll">
       {postPages?.pages
         .flatMap((x) => x.posts)
         .map((post) => {
           return (
-            <img
+            <div
               key={post._id}
-              className="h-36 w-36 rounded-3xl bg-neutral-400 object-cover"
-              onClick={() => {
-                navigate(`post/${post._id}`);
-              }}
-              src={post.photoUrls[0]}
-            />
+              className={clsx(
+                "box-border h-36 w-36 overflow-hidden rounded-3xl rounded-t-3xl bg-neutral-400",
+                post.forCloseFriends
+                  ? "border-4 border-solid border-green-500"
+                  : "",
+              )}
+            >
+              <img
+                className="h-full w-full object-cover"
+                onClick={() => {
+                  navigate(`post/${post._id}`);
+                }}
+                src={post.photoUrls[0]}
+              />
+            </div>
           );
         })}
       <div
@@ -129,34 +147,5 @@ export const UserGalleryMobile = ({
         {hasNextPage && isFetchingNextPostPage && <div>Loading...</div>}
       </div>
     </div>
-    // <div className="flex h-[570px] w-[311px] flex-row flex-wrap gap-5 overflow-y-scroll">
-    //   {postPages?.pages
-    //     .flatMap((x) => x.posts)
-    //     .map((post) => {
-    //       return (
-    //         <div
-    //           key={post._id}
-    //           className="h-36 w-36 rounded-t-3xl bg-neutral-400"
-    //           onClick={() => {
-    //             navigate(`post/${post._id}`);
-    //           }}
-    //         >
-    //           <img
-    //             className="h-full w-full object-cover"
-    //             src={post.photoUrls[0]}
-    //           />
-    //         </div>
-    //       );
-    //     })}
-    //   <div
-    //     ref={nearEndPostRef}
-    //     className={clsx(
-    //       "flex w-full items-center justify-center text-2xl",
-    //       hasNextPage ? "h-[calc(11rem/3)]" : "",
-    //     )}
-    //   >
-    //     {hasNextPage && isFetchingNextPostPage && <div>Loading...</div>}
-    //   </div>
-    // </div>
   );
 };

@@ -24,20 +24,6 @@ export const UserAccountInfo = ({
   followBtnText,
   followBtnColor,
 }: AppUserInfoProps) => {
-  // const followBtnText = accountInfo.hasBlockedUs
-  //   ? "+ دنبال کردن"
-  //   : accountInfo.followRequestState == RequestStatus.pending
-  //     ? "لغو درخواست"
-  //     : accountInfo.followRequestState == RequestStatus.accepted
-  //       ? "دنبال نکردن"
-  //       : "+ دنبال کردن";
-
-  // const followBtnColor = accountInfo.hasBlockedUs
-  //   ? "disabled"
-  //   : accountInfo.followRequestState == RequestStatus.pending ||
-  //       accountInfo.followRequestState == RequestStatus.accepted
-  //     ? "outline"
-  //     : "secondary";
 
   const existFollowing = accountInfo.followingCount > 0;
   const existFollower = accountInfo.followerCount > 0;
@@ -62,7 +48,7 @@ export const UserAccountInfo = ({
               onFollowMethod?.();
             }}
             btnColor={followBtnColor}
-            disabled={accountInfo.hasBlockedUs}
+            disabled={accountInfo.hasBlockedUs || accountInfo.isBlocked}
           >
             {followBtnText}
           </Button>
