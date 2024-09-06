@@ -3,6 +3,7 @@ import PersonIcon from "../../assets/svg/profile.svg";
 import { Menu, MenuMobile } from "./menu";
 import { useState } from "react";
 import more from "../../assets/svg/menu-dots.svg";
+import { useNavigate } from "react-router-dom";
 interface FollowerInfoProps extends FollowingerInfo {
   close?: () => void;
   follower: boolean;
@@ -24,11 +25,13 @@ export const FollowingersInfo = ({
 }: FollowerInfoProps) => {
   const isSetProfileImage = profileImage && profileImage != "";
   const [menu, openMenu] = useState(false);
+  const navigate = useNavigate();
   return (
     <div
       className="flex h-20 w-full flex-row items-center border border-x-0 border-t-0 border-solid border-form-border"
       onClick={() => {
         close?.();
+        navigate(`/${userName}`);
       }}
     >
       <label className="ml-4 block h-14 w-14 overflow-hidden rounded-full">
@@ -88,6 +91,7 @@ export const FollowingersInfoMobile = ({
 }: FollowerInfoProps) => {
   const isSetProfileImage = profileImage && profileImage != "";
   const [menu, openMenu] = useState(false);
+  const navigate = useNavigate();
   console.log("in followingInfo selectedUser", selectedUser);
   console.log("in followingInfo userName", userName);
   console.log("in followingInfo myUserName", myUserName);
@@ -96,6 +100,7 @@ export const FollowingersInfoMobile = ({
       className="flex h-20 w-full flex-row items-center border border-x-0 border-t-0 border-solid border-form-border"
       onClick={() => {
         close?.();
+        navigate(`/${userName}`);
       }}
     >
       <label className="ml-4 block h-14 w-14 overflow-hidden rounded-full">

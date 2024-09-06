@@ -12,9 +12,11 @@ import { PostDetailSummary } from "./post-shared-components/summary-bar";
 export const PostModal = ({
   postId,
   openEditPost,
+  close,
 }: {
   postId: string;
   openEditPost: () => void;
+  close: () => void;
 }) => {
   const navigate = useNavigate();
   const { data } = useGetProfile();
@@ -42,6 +44,7 @@ export const PostModal = ({
           </Button>
         </div>
         <PostCaptions
+          close={close}
           caption={post?.caption ?? ""}
           mentions={post?.mentions ?? []}
           tags={post?.tags ?? []}

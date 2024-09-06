@@ -49,7 +49,7 @@ export const UserGallery = ({
           openPost(false);
         }}
       >
-        <UserPostModal postId={postId} />
+        <UserPostModal postId={postId} close={() => openPost(false)} />
       </Modal>
       {userPosts.map((post) => {
         return (
@@ -104,7 +104,7 @@ export const UserGalleryMobile = ({
   }
 
   return (
-    <div className="inset-x-0 mx-auto my-2 flex h-[500px] w-[19.4rem] flex-row flex-wrap gap-5 self-center overflow-y-scroll">
+    <div className="absolute inset-x-0 mx-auto flex h-[500px] w-[19.4rem] flex-row flex-wrap gap-5 self-center overflow-y-scroll">
       {postPages?.pages
         .flatMap((x) => x.posts)
         .map((post) => {

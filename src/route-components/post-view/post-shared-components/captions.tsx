@@ -4,10 +4,19 @@ import { PostDetail } from "../../../common/types/post-detail";
 import { useNavigate } from "react-router-dom";
 
 interface Captions
-  extends Pick<PostDetail, "creationDate" | "mentions" | "caption" | "tags"> {}
+  extends Pick<PostDetail, "creationDate" | "mentions" | "caption" | "tags"> {
+  close?: () => void;
+}
 
 export const PostCaptions = (props: Captions) => {
-  const { tags: hashtags, caption, mentions, creationDate, ...rest } = props;
+  const {
+    tags: hashtags,
+    caption,
+    mentions,
+    creationDate,
+    close,
+    ...rest
+  } = props;
   const date = new Date(creationDate);
   const now = new Date();
   const navigate = useNavigate();
@@ -36,6 +45,7 @@ export const PostCaptions = (props: Captions) => {
               key={mention}
               className="m-2 rounded-lg bg-emerald-200 p-2 text-xs"
               onClick={() => {
+                close?.();
                 navigate(`/${mention}`);
               }}
             >

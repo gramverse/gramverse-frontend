@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useGetFollowingerList } from "../../api-hooks/get-followinger-info";
 import { useInView } from "react-intersection-observer";
 import { FollowingersInfo, FollowingersInfoMobile } from "./followinger-info";
-import clsx from "clsx";
 import { Button } from "../../reusable-components/button";
 import { useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { ProfileSchema } from "../../common/types/profile-data";
+import { Loading } from "../../reusable-components/loading";
 
 type FollowerListProps = {
   close: () => void;
@@ -48,7 +48,7 @@ export const FollowerList = ({ userName, close }: FollowerListProps) => {
       <p className="mb-8 mt-0 text-center text-xl font-bold">
         {"دنبال‌کننده‌ها"}
       </p>
-      <div className="h-[25.75rem] w-[23.75rem] overflow-y-scroll">
+      <div className="flex h-[25.75rem] w-[23.75rem] flex-col items-center overflow-y-scroll">
         {followers.map((follower) => (
           <FollowingersInfo
             selectedUser={selectedUser}
@@ -64,15 +64,11 @@ export const FollowerList = ({ userName, close }: FollowerListProps) => {
             profileImage={follower.profileImage}
           />
         ))}
-        <div
+        <Loading
+          isLoading={isFetching || isFetchingNextPage}
+          className="mt-4 self-center"
           ref={nearEndRef}
-          className={clsx(
-            "flex w-full items-center justify-center text-2xl",
-            hasNextPage ? "h-[calc(11rem/3)]" : "",
-          )}
-        >
-          {hasNextPage && isFetchingNextPage && <div>Loading...</div>}
-        </div>
+        />
       </div>
       <div className="mt-9 flex w-full flex-row justify-end">
         <Button
@@ -126,31 +122,25 @@ export const FollowerListMobile = () => {
       <p className="mb-2 mt-0 text-center text-xl font-bold">
         {"دنبال‌کننده‌ها"}
       </p>
-      <div className="flex h-full w-full flex-col items-center justify-center">
-        <div className="h-full w-full overflow-y-scroll">
-          {followers.map((follower) => (
-            <FollowingersInfoMobile
-              selectedUser={selectedUser}
-              setUser={(user: string) => setSelectedUser(user)}
-              follower={true}
-              activityPermit={activityPermit}
-              key={follower.userName}
-              userName={follower.userName}
-              myUserName={myUserName}
-              followerCount={follower.followerCount}
-              profileImage={follower.profileImage}
-            />
-          ))}
-          <div
-            ref={nearEndRef}
-            className={clsx(
-              "flex w-full items-center justify-center text-2xl",
-              hasNextPage ? "h-[calc(11rem/3)]" : "",
-            )}
-          >
-            {hasNextPage && isFetchingNextPage && <div>Loading...</div>}
-          </div>
-        </div>
+      <div className="flex h-full w-full flex-col justify-start overflow-y-scroll">
+        {followers.map((follower) => (
+          <FollowingersInfoMobile
+            selectedUser={selectedUser}
+            setUser={(user: string) => setSelectedUser(user)}
+            follower={true}
+            activityPermit={activityPermit}
+            key={follower.userName}
+            userName={follower.userName}
+            myUserName={myUserName}
+            followerCount={follower.followerCount}
+            profileImage={follower.profileImage}
+          />
+        ))}
+        <Loading
+          isLoading={isFetching || isFetchingNextPage}
+          className="mt-4 self-center"
+          ref={nearEndRef}
+        />
       </div>
     </div>
   );

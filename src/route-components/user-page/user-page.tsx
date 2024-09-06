@@ -45,7 +45,6 @@ export const UserPageLayout = () => {
     error: profileError,
     isError: isProfileError,
   } = useGetUserProfile(userName ?? "");
-
   const {
     isError: isFollowError,
     error: followError,
@@ -326,27 +325,29 @@ export const UserPageMobile = () => {
         </Button>
       </div>
 
-      {isBlockedUs && (
-        <UserBlockedGallery userName={userProfile?.userName ?? ""} />
-      )}
+      <div>
+        {isBlockedUs && (
+          <UserBlockedGallery userName={userProfile?.userName ?? ""} />
+        )}
 
-      {userProfile && isPrivatePage && (
-        <PrivateGalleryMobile
-          accountInfo={userProfile}
-          onFollowMethod={followMutate}
-          followBtnText={followBtnText ?? ""}
-          followBtnColor={(followBtnColor as BtnStyles) ?? "transparent"}
-        />
-      )}
-      {isEmptyGallery && (
-        <UserEmptyGalleryMobile userName={userProfile?.userName ?? ""} />
-      )}
-      {isNoneEmptyGallery && (
-        <UserGalleryMobile
-          userName={userProfile?.userName ?? ""}
-          isAllowedToViewPosts={isUserDataVisible ?? false}
-        />
-      )}
+        {userProfile && isPrivatePage && (
+          <PrivateGalleryMobile
+            accountInfo={userProfile}
+            onFollowMethod={followMutate}
+            followBtnText={followBtnText ?? ""}
+            followBtnColor={(followBtnColor as BtnStyles) ?? "transparent"}
+          />
+        )}
+        {isEmptyGallery && (
+          <UserEmptyGalleryMobile userName={userProfile?.userName ?? ""} />
+        )}
+        {isNoneEmptyGallery && (
+          <UserGalleryMobile
+            userName={userProfile?.userName ?? ""}
+            isAllowedToViewPosts={isUserDataVisible ?? false}
+          />
+        )}
+      </div>
     </div>
   );
 };

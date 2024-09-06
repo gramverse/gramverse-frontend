@@ -43,6 +43,7 @@ export const Gallery = () => {
       >
         <PostModal
           postId={postId}
+          close={() => openPost(false)}
           openEditPost={() => {
             openPost(false);
             OpenEdit(true);
