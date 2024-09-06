@@ -4,6 +4,8 @@ import { InputHTMLAttributes, forwardRef, useState, useEffect } from "react";
 import { UploadImage } from "../../reusable-components/upload-image";
 import Close from "../../assets/svg/close.svg";
 import Camera from "../../assets/svg/camera.svg";
+import { Modal } from "../../reusable-components/modal";
+import { EditPhoto } from "./edit-photo";
 
 interface photoProps extends InputHTMLAttributes<HTMLInputElement> {
   photoFiles: Array<File>;
@@ -45,8 +47,13 @@ export const SelectPhotos = forwardRef<HTMLInputElement, photoProps>(
         ),
       );
     }, [selctedPhotos, setPhotoFiles]);
+    const [isEditOpen, openEdit] = useState(false);
+    const [selectedPhoto, setSelectedPhoto] = useState<File>(new File([], ""));
     return (
       <div className="flex w-full flex-col items-center">
+        <Modal isOpen={isEditOpen} close={() => openEdit(false)}>
+          <EditPhoto photo={selectedPhoto} />
+        </Modal>
         <p>عکس های مورد نظرت رو آپلود کن</p>
         <div
           className={clsx(
@@ -67,17 +74,25 @@ export const SelectPhotos = forwardRef<HTMLInputElement, photoProps>(
           />
           {photoThumbnails.map((photo, index) => {
             return (
-              <div className="relative h-24" key={nanoid()}>
+              <div
+                className="relative h-24"
+                key={nanoid()}
+                onClick={() => {
+                  setSelectedPhoto(photoFiles[index]);
+                  openEdit(true);
+                }}
+              >
                 <img
                   src={Close}
                   className="absolute -right-1 -top-1 z-10 cursor-pointer"
-                  onClick={() =>
+                  onClick={(e) => {
+                    e.stopPropagation();
                     setPhotoThumbnails((photoThumbnails) => {
                       return photoThumbnails
                         .slice(0, index)
                         .concat(photoThumbnails.slice(index + 1));
-                    })
-                  }
+                    });
+                  }}
                 />
                 <img
                   src={photo[0]}
@@ -88,17 +103,25 @@ export const SelectPhotos = forwardRef<HTMLInputElement, photoProps>(
           })}
           {photoURLs.map((photo, index) => {
             return (
-              <div className="relative h-24" key={nanoid()}>
+              <div
+                className="relative h-24"
+                key={nanoid()}
+                onClick={() => {
+                  // setSelectedPhoto(photoFiles[index]);
+                  // openEdit(true);
+                }}
+              >
                 <img
                   src={Close}
                   className="absolute -right-1 -top-1 z-10 cursor-pointer"
-                  onClick={() =>
+                  onClick={(e) => {
+                    e.stopPropagation();
                     setPhotoURLs((photoURLs) => {
                       return photoURLs
                         .slice(0, index)
                         .concat(photoURLs.slice(index + 1));
-                    })
-                  }
+                    });
+                  }}
                 />
                 <img
                   src={photo}

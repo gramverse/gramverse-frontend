@@ -7,12 +7,14 @@ export const Menu = ({
   isOpen,
   canAddToCloseFriends,
   canBlock,
+  canUnblock,
 }: {
   closeMenu: () => void;
-  openModal: (arg: "block" | "close") => void;
+  openModal: (arg: "block" | "close" | "unblock") => void;
   isOpen: boolean;
   canAddToCloseFriends: boolean;
   canBlock: boolean;
+  canUnblock: boolean;
 }) => {
   return (
     <>
@@ -35,6 +37,16 @@ export const Menu = ({
               onClick={() => {
                 closeMenu();
                 openModal("block");
+              }}
+            />
+          )}
+          {canUnblock && (
+            <Tab
+              text="آنبلاک کردن"
+              icon={block}
+              onClick={() => {
+                closeMenu();
+                openModal("unblock");
               }}
             />
           )}

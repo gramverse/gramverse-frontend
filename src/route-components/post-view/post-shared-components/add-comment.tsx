@@ -62,6 +62,7 @@ export const Comments = (props: CommentProps) => {
         <InputField
           ref={textField}
           autoFocus
+          id="addComment"
           placeholder="نظر خود را بنویسید"
           usesError={false}
           value={comment}

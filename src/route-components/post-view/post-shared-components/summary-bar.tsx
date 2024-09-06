@@ -53,7 +53,12 @@ export const PostDetailSummary = ({
         }}
       />
 
-      <Comment count={post?.commentsCount} onClick={() => {}} />
+      <Comment
+        count={post?.commentsCount}
+        onClick={() => {
+          (document.querySelector("#addComment") as HTMLElement).focus();
+        }}
+      />
     </div>
   );
 };

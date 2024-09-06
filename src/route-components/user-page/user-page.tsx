@@ -15,6 +15,7 @@ import { Menu } from "./menu";
 import { UserInfoSummary } from "../../common/types/user";
 import more from "../../assets/svg/menu-dots.svg";
 import { BtnStyles, Button } from "../../reusable-components/button";
+import { Unblock } from "../user-relationship-modals/unblock-modal";
 
 const useModals = () => {
   const [isFollowerListOpen, openFollowerList] = useState(false);
@@ -66,7 +67,9 @@ export const UserPageLayout = () => {
     profileImage: userProfile?.profileImage,
     followerCount: userProfile?.followerCount ?? 0,
   };
-  const [modal, setModal] = useState<"block" | "close" | null>(null);
+  const [modal, setModal] = useState<"block" | "close" | "unblock" | null>(
+    null,
+  );
   return (
     <div
       className="flex h-full w-[64rem] flex-col gap-3 pt-36"
@@ -81,6 +84,14 @@ export const UserPageLayout = () => {
         }}
       >
         <Block user={userProfile} close={() => setModal(null)} />
+      </Modal>
+      <Modal
+        isOpen={modal === "unblock"}
+        close={() => {
+          setModal(null);
+        }}
+      >
+        <Unblock user={userProfile} close={() => setModal(null)} />
       </Modal>
       <Modal
         isOpen={modal === "close"}
@@ -144,10 +155,15 @@ export const UserPageLayout = () => {
               (isFollowedUser && !userProfile?.isCloseFriend) ?? false
             }
             canBlock={!userProfile?.isBlocked}
+            canUnblock={
+              userProfile?.isBlocked !== undefined
+                ? userProfile?.isBlocked
+                : false
+            }
             closeMenu={() => {
               openMenu(false);
             }}
-            openModal={(arg: "block" | "close") => setModal(arg)}
+            openModal={(arg: "block" | "close" | "unblock") => setModal(arg)}
           />
 
           <img
@@ -218,7 +234,9 @@ export const UserPageMobile = () => {
     mutate: followMutate,
   } = useFollowUser(userName ?? "");
   const [menu, openMenu] = useState(false);
-  const [modal, setModal] = useState<"block" | "close" | null>(null);
+  const [modal, setModal] = useState<"block" | "close" | "unblock" | null>(
+    null,
+  );
 
   const selectedUser: UserInfoSummary = {
     userName: userProfile?.userName ?? "",
@@ -240,6 +258,14 @@ export const UserPageMobile = () => {
         }}
       >
         <Block user={userProfile} close={() => setModal(null)} />
+      </Modal>
+      <Modal
+        isOpen={modal === "unblock"}
+        close={() => {
+          setModal(null);
+        }}
+      >
+        <Unblock user={userProfile} close={() => setModal(null)} />
       </Modal>
       <Modal
         isOpen={modal === "close"}
@@ -292,14 +318,22 @@ export const UserPageMobile = () => {
           <div className="relative justify-self-end">
             <Menu
               isOpen={menu}
+              canUnblock={
+                userProfile?.isBlocked !== undefined
+                  ? userProfile?.isBlocked
+                  : false
+              }
               canAddToCloseFriends={
-                (isFollowedUser && !userProfile?.isCloseFriend) ?? false
+                (isFollowedUser &&
+                  !userProfile?.isCloseFriend &&
+                  !userProfile?.isBlocked) ??
+                false
               }
               canBlock={!userProfile?.isBlocked}
               closeMenu={() => {
                 openMenu(false);
               }}
-              openModal={(arg: "block" | "close") => setModal(arg)}
+              openModal={(arg: "block" | "close" | "unblock") => setModal(arg)}
             />
 
             <img

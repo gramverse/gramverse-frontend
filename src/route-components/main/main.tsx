@@ -11,21 +11,28 @@ export const Main = () => {
   const location = useLocation();
   const [tab, setTab] = useState("explore");
   const navigate = useNavigate();
-
+  const { data: myProfile } = useGetProfile();
   useEffect(() => {
     switch (true) {
-      case location.pathname.startsWith("/profile"):
+      case myProfile?.userName &&
+        location.pathname.includes(myProfile?.userName):
         setTab("myPage");
         break;
       case location.pathname == "/" || location.pathname == "":
         setTab("explore");
         break;
+      case location.pathname.includes("notifications"):
+        setTab("notifs");
+        break;
       case location.pathname.includes("close-friends") ||
         location.pathname.includes("black-list"):
         setTab("more");
         break;
+      default:
+        setTab("search");
+        break;
     }
-  }, [location.pathname, navigate]);
+  }, [location.pathname, myProfile?.userName, navigate]);
 
   return (
     <div className="box-border flex h-full grow flex-row items-start bg-primary px-5 pt-16">
