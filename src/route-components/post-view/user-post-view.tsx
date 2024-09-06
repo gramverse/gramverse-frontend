@@ -57,8 +57,8 @@ export const UserPostViewMobile = () => {
     parentCommentUserName: "",
   });
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-start bg-primary">
-      <div className="mt-2 w-full text-end">
+    <div className="flex h-fit w-fit flex-col justify-start overflow-y-scroll bg-primary">
+      <div className="mt-2 text-end">
         <img
           src={back}
           alt=""
@@ -67,7 +67,7 @@ export const UserPostViewMobile = () => {
             navigate(-1);
           }}
         />
-        <div className="h-0 w-[370px] border border-solid border-gray-300 bg-gray-300" />
+        <div className="h-0 border border-solid border-gray-300 bg-gray-300" />
         <div className="mt-2 flex justify-between">
           <UserProfileSummary
             className="my-1"
@@ -97,7 +97,7 @@ export const UserPostViewMobile = () => {
       </div>
       <div className="px-3">
         <ViewComments
-          className="mt-10 h-[500px] grow self-end"
+          className="mt-10 h-[300px] grow self-end"
           setCommentProps={(props: CommentFieldProps) => setCommentProps(props)}
           postId={post?._id ?? ""}
         />

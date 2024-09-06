@@ -45,7 +45,7 @@ export const Unblock = ({
               onClick={() => {
                 mutate({
                   followingUserName: user.userName,
-                  isBlock: true,
+                  isBlock: false,
                 });
               }}
             >

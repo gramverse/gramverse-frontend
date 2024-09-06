@@ -8,7 +8,13 @@ import { useGetUserProfile } from "../../api-hooks/user-page";
 import { UserProfileSummary } from "../../reusable-components/user-profile-summary";
 import { useGetPost } from "../../api-hooks/post-details";
 
-export const UserPostModal = ({ postId }: { postId: string }) => {
+export const UserPostModal = ({
+  postId,
+  close,
+}: {
+  postId: string;
+  close: () => void;
+}) => {
   const navigate = useNavigate();
   const params = useParams();
   const { userProfile: user } = useGetUserProfile(params.userName ?? "");
@@ -30,6 +36,7 @@ export const UserPostModal = ({ postId }: { postId: string }) => {
           <UserProfileSummary userName={user?.userName ?? ""} />
         </div>
         <PostCaptions
+          close={close}
           caption={post?.caption ?? ""}
           mentions={post?.mentions ?? []}
           tags={post?.tags ?? []}

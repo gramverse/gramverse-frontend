@@ -24,7 +24,7 @@ export const userProfileSchema = z.object({
   hasBlockedUs: z.boolean(),
   isCloseFriend: z.boolean(),
   followRequestState: z.nativeEnum(RequestStatus),
-  requestState: z.nativeEnum(RequestStatus),
+  requestState: z.nativeEnum(RequestStatus).optional(),
 });
 
 export type UserProfile = z.infer<typeof userProfileSchema>;
