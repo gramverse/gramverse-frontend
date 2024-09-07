@@ -31,7 +31,7 @@ export const Carousel = (props: Carousel) => {
           src={photoUrls[index]}
           alt=""
           className={clsx(
-            "absolute h-[500px] w-[500px] rounded-3xl bg-slate-200 object-cover",
+            "absolute h-[500px] w-[500px] rounded-3xl bg-slate-200 object-contain",
             photoUrls.length === 0 && "animate-pulse",
           )}
         />
@@ -110,7 +110,7 @@ export const CarouselMobile = (props: Carousel) => {
         <img
           src={photoUrls[index]}
           alt=""
-          className="absolute inset-x-0 h-full w-full object-cover"
+          className="absolute inset-x-0 h-full w-full object-contain"
         />
         {photoUrls.length > 1 && (
           <img

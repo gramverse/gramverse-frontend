@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 // import { Outlet } from "react-router-dom";
-import { Comments } from "./post-shared-components/add-comment";
+import { AddComment } from "./post-shared-components/add-comment";
 import { ViewComments } from "./post-shared-components/view-comments";
 import back from "../../assets/svg/back.svg";
 import pen from "../../assets/svg/pen.svg";
@@ -46,7 +46,7 @@ export const PostViewWeb = () => {
           )}
         </Modal>
         <Carousel photoUrls={post?.photoUrls ?? []} />
-        <div className="flex grow flex-col gap-3 p-5">
+        <div className="flex grow flex-col justify-between gap-3 p-5">
           <div className="flex flex-row justify-between gap-5">
             <ProfileSummary />
             <img
@@ -63,7 +63,7 @@ export const PostViewWeb = () => {
             creationDate={post?.creationDate ?? ""}
           />
           <PostDetailSummary post={post} />
-          <Comments postId={post?._id ?? ""} {...commentProps} />
+          <AddComment postId={post?._id ?? ""} {...commentProps} />
         </div>
       </div>
       <ViewComments
@@ -117,7 +117,7 @@ export const PostViewMobile = () => {
           tags={post?.tags ?? []}
           creationDate={post?.creationDate ?? ""}
         />
-        <Comments postId={post?._id ?? ""} {...commentProps} />
+        <AddComment postId={post?._id ?? ""} {...commentProps} />
       </div>
       <div className="px-3">
         <ViewComments

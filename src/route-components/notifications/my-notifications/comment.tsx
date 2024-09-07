@@ -4,6 +4,7 @@ import { useGetProfile } from "../../../api-hooks/get-my-profile";
 import { comment } from "../../../common/types/notifications";
 import { getTimeDifference } from "../../../common/utilities/time-difference";
 import { RoundPicture } from "../../../reusable-components/round-picture";
+import { useId } from "react";
 
 export const Comment = (props: comment) => {
   const { postImage, performerUserName, creationDate, postId, seen, comment } =
@@ -18,6 +19,7 @@ export const Comment = (props: comment) => {
         seen && "bg-primary",
         !seen && "bg-purple-200",
       )}
+      key={useId()}
     >
       <RoundPicture
         size="medium"

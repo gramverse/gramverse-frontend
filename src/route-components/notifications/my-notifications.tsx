@@ -68,7 +68,7 @@ export const MyNotificationsLayout = () => {
         .map((notificiation) => NotifComponent(notificiation))}
       <Loading
         isLoading={isFetching || isFetchingNextPage}
-        className="self-center"
+        className="self-start"
         ref={ref}
       />
     </div>

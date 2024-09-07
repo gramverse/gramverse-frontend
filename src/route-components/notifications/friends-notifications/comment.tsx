@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { userComment } from "../../../common/types/notifications";
 import { getTimeDifference } from "../../../common/utilities/time-difference";
 import { RoundPicture } from "../../../reusable-components/round-picture";
+import { useId } from "react";
 
 export const Comment = (props: userComment) => {
   const {
@@ -23,6 +24,7 @@ export const Comment = (props: userComment) => {
         seen && "bg-primary",
         !seen && "bg-purple-200",
       )}
+      key={useId()}
     >
       <RoundPicture
         size="medium"

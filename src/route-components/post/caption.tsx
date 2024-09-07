@@ -12,9 +12,6 @@ import Emoji from "../../assets/svg/emoji.svg";
 export const Caption = forwardRef<HTMLTextAreaElement, captionProps>(
   (props, ref) => {
     const { name, onChange, caption, setCaption } = props;
-    // const hashtagString = hashtags
-    //   ?.map((mention) => `#${mention}`)
-    //   .reduce((prev, cur) => `${prev} ${cur}`, "");
 
     const [isKeyBoardVisible, setKeyboardVisibility] = useState(false);
     return (

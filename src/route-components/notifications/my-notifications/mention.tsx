@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { mention } from "../../../common/types/notifications";
 import { getTimeDifference } from "../../../common/utilities/time-difference";
 import { RoundPicture } from "../../../reusable-components/round-picture";
+import { useId } from "react";
 
 export const Mention = (props: mention) => {
   const { postImage, performerUserName, creationDate, postId, seen } = props;
@@ -15,6 +16,7 @@ export const Mention = (props: mention) => {
         seen && "bg-primary",
         !seen && "bg-purple-200",
       )}
+      key={useId()}
     >
       <RoundPicture
         size="medium"

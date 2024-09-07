@@ -20,6 +20,7 @@ export type like = {
 export type follow = {
   type: "follow";
   performerUserName: string;
+  followingUserName: string;
   followRequestState: "accepted" | "pending" | "none" | "declined";
   seen: boolean;
   creationDate: string;
@@ -65,11 +66,11 @@ export type userFollow = {
   performerUserName: string;
   followingUserName: string;
   seen: boolean;
-  profileImage: string;
   creationDate: string;
 };
 
 export type FollowingNotifications = {
   notifications: Array<userComment | userLike | userFollow>;
   totalCount: number;
+  followingUserName: string;
 };

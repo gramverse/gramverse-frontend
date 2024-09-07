@@ -9,12 +9,12 @@ export const Comment = ({
   comment,
   postId,
   setCommentProps,
-  key,
+  commentKey,
 }: {
   comment: Omit<CommentDto, "childDtos">;
   postId: string;
   setCommentProps: (props: CommentFieldProps) => void;
-  key: string;
+  commentKey: React.Key | null | undefined;
 }) => {
   const { mutate } = useLikeComment({ postId });
   const [isLiked, setIsLiked] = useState<boolean | undefined>(comment.isLiked);
@@ -23,7 +23,7 @@ export const Comment = ({
   }, [comment?.isLiked]);
 
   return (
-    <div className="flex w-full" key={key}>
+    <div className="flex w-full" key={commentKey}>
       <span className={clsx({ "w-12": comment.parentCommentId !== "" })} />
 
       <div

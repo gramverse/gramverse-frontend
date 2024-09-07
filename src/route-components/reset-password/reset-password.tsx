@@ -48,7 +48,7 @@ const ResetPassWordComponent = () => {
   };
 
   return (
-    <div className="flex h-[800px] w-[300px] flex-col items-center justify-center bg-primary">
+    <div className="flex h-[800px] w-[400px] flex-col items-center justify-center bg-primary">
       <img src={rahnemaLogo} alt="" />
       <p className="font-semibold leading-5"> تنظیم رمز عبور جدید </p>
       <form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>

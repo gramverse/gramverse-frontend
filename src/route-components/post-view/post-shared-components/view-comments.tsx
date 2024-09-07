@@ -62,7 +62,7 @@ export const ViewComments = ({
   return (
     <div
       className={clsx(
-        "flex w-full flex-col items-center gap-10 overflow-y-scroll",
+        "flex flex-col items-center gap-10 overflow-y-scroll",
         className,
       )}
     >
@@ -74,7 +74,7 @@ export const ViewComments = ({
       ).map((comment) => {
         return (
           <Comment
-            key={comment._id}
+            commentKey={comment._id}
             comment={comment}
             postId={postId}
             setCommentProps={setCommentProps}
