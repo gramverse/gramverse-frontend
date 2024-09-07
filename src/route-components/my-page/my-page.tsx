@@ -28,7 +28,7 @@ const MyPageLayout = () => {
   }
 
   return (
-    <div className="mt-9 flex grow flex-col gap-8 bg-primary">
+    <div className="flex h-full w-[64rem] flex-col gap-3 pt-36">
       <Modal
         isOpen={isEditProfileOpen}
         close={() => {

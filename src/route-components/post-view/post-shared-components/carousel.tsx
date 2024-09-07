@@ -110,7 +110,7 @@ export const CarouselMobile = (props: Carousel) => {
         <img
           src={photoUrls[index]}
           alt=""
-          className="absolute inset-x-0 h-full w-full object-contain"
+          className="absolute inset-x-0 h-full w-full animate-pulse object-contain"
         />
         {photoUrls.length > 1 && (
           <img

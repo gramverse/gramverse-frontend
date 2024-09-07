@@ -14,7 +14,6 @@ export const Comment = ({ count, onClick }: CommentProps) => {
         viewBox="-1 0 22 25"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        onClick={onClick}
       >
         <circle
           cx="9"
