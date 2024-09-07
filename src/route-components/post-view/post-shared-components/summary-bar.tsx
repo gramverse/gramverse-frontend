@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useBookmarkPost, useLikePost } from "../../../api-hooks/post-details";
 import { Bookmark } from "./bookmark";
 import { Like } from "./like";
@@ -11,50 +10,52 @@ export const PostDetailSummary = ({
 }: {
   post: z.infer<typeof PostDetailSchema> | undefined;
 }) => {
-  const [isLiked, setIsLiked] = useState<boolean | undefined>(post?.isLiked);
-  useEffect(() => {
-    setIsLiked(post?.isLiked);
-  }, [post?.isLiked]);
-  const [isBookmarked, setIsBookmarked] = useState<boolean | undefined>(
-    post?.isBookmarked,
-  );
-  useEffect(() => {
-    setIsBookmarked(post?.isBookmarked);
-  }, [post?.isBookmarked]);
-  const { mutate: likeMutate } = useLikePost();
-  const { mutate: bookmarkMutate } = useBookmarkPost();
+  const {
+    mutate: likeMutate,
+    isPending: isLikePending,
+    variables: likeVars,
+  } = useLikePost();
+  const {
+    mutate: bookmarkMutate,
+    isPending: isBookmarkPending,
+    variables: bookmarkVars,
+  } = useBookmarkPost();
 
+  if (!post) return <div className="m-3 h-[61px]" />;
+
+  const changeInLikes = post.isLiked ? -1 : 1;
+  const likesCount = post.likesCount + (isLikePending ? changeInLikes : 0);
+
+  const changeInBookmark = post.isBookmarked ? -1 : 1;
+  const BookmarkCount =
+    post.bookmarksCount + (isBookmarkPending ? changeInBookmark : 0);
   return (
     <div className="m-3 flex h-[61px] flex-row items-center justify-end gap-4">
       <Like
-        count={post?.likesCount}
-        isLiked={isLiked}
+        count={likesCount}
+        isLiked={isLikePending ? likeVars.isLike : post.isLiked}
         onClick={() => {
-          post
-            ? likeMutate({
-                postId: post?._id ?? "",
-                isLike: !isLiked,
-              })
-            : () => {};
-          setIsLiked((isLiked) => !isLiked);
+          likeMutate({
+            postId: post._id,
+            isLike: !post.isLiked,
+          });
         }}
       />
       <Bookmark
-        count={post?.bookmarksCount}
-        isBookmarked={isBookmarked}
+        count={BookmarkCount}
+        isBookmarked={
+          isBookmarkPending ? bookmarkVars.isBookmark : post.isBookmarked
+        }
         onClick={() => {
-          post
-            ? bookmarkMutate({
-                postId: post?._id ?? "",
-                isBookmark: !isBookmarked,
-              })
-            : () => {};
-          setIsBookmarked((isBookmarked) => !isBookmarked);
+          bookmarkMutate({
+            postId: post._id,
+            isBookmark: !post.isBookmarked,
+          });
         }}
       />
 
       <Comment
-        count={post?.commentsCount}
+        count={post.commentsCount}
         onClick={() => {
           (document.querySelector("#addComment") as HTMLElement).focus();
         }}

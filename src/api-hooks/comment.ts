@@ -8,6 +8,7 @@ import {
 import { LikeComment } from "../common/types/comment";
 import { queryClient } from "../common/query-client";
 import { HTTPError } from "ky";
+import { handleRequestError } from "../common/http-error-handler";
 export const useSendComment = (postId: string) => {
   const client = useHttpClient();
   return useMutation({
@@ -20,6 +21,9 @@ export const useSendComment = (postId: string) => {
     },
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["getComments", postId] });
+    },
+    onError: (error) => {
+      handleRequestError(error);
     },
   });
 };
@@ -37,6 +41,9 @@ export const useLikeComment = ({ postId }: { postId: string }) => {
       queryClient.invalidateQueries({
         queryKey: ["getComments", postId],
       }),
+      onError: (error) => {
+        handleRequestError(error);
+      },
   });
 };
 

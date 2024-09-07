@@ -4,6 +4,7 @@ import { HTTPError } from "ky";
 import { CreatePostFormData, EditPostFormData } from "../common/types/post";
 import { z } from "zod";
 import { queryClient } from "../common/query-client";
+import { handleRequestError } from "../common/http-error-handler";
 
 export const useCreatePost = (onSuccess: () => void) => {
   const httpClient = useHttpClient();
@@ -21,6 +22,9 @@ export const useCreatePost = (onSuccess: () => void) => {
     onSuccess: () => {
       onSuccess();
       queryClient.invalidateQueries({ queryKey: ["getMyPosts"] });
+    },
+    onError: (error) => {
+      handleRequestError(error);
     },
   });
 };

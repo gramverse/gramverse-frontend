@@ -6,6 +6,7 @@ import {
 } from "../common/types/notifications";
 import { HTTPError } from "ky";
 import { queryClient } from "../common/query-client";
+import { handleRequestError } from "../common/http-error-handler";
 
 export const useGetMyNotifications = ({ limit }: { limit: number }) => {
   const httpClient = useHttpClient();
@@ -66,6 +67,9 @@ export const useAcceptRequest = () => {
         .json(),
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["my-notifications"] });
+    },
+    onError: (error) => {
+      handleRequestError(error);
     },
   });
 };

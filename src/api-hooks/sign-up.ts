@@ -3,6 +3,7 @@ import { useHttpClient } from "../common/http-client";
 import { SignupFormValue } from "../common/types/sign-up";
 import { HTTPError } from "ky";
 import { useNavigate } from "react-router-dom";
+import { handleRequestError } from "../common/http-error-handler";
 
 export const useSignup = () => {
   const navigate = useNavigate();
@@ -17,6 +18,9 @@ export const useSignup = () => {
     async onSuccess() {
       localStorage.setItem("authorize", "signup");
       navigate("/");
+    }, 
+    onError: (error) => {
+      handleRequestError(error);
     },
   });
 };

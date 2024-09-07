@@ -22,6 +22,5 @@ export const useGetExplorePosts = (limit: number) => {
         ? undefined
         : initialPageParam + pages.length;
     },
-    //enabled: userName != undefined && allowedViewPost,
   });
 };

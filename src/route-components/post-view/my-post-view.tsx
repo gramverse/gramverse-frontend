@@ -27,6 +27,7 @@ export const PostViewWeb = () => {
   useEffect(() => {
     console.log(commentProps);
   }, [commentProps]);
+
   return (
     <div className="flex flex-col items-end">
       <div className="flex h-fit justify-between gap-3 self-center">

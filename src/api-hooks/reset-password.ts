@@ -5,6 +5,7 @@ import { useHttpClient } from "../common/http-client";
 import { urls } from "../common/routes";
 import { useNavigate } from "react-router-dom";
 import { ConfirmResetPasswordData } from "../common/types/reset-password";
+import { handleRequestError } from "../common/http-error-handler";
 
 export const useValidateResetToken = () => {
   const navigate = useNavigate();
@@ -13,7 +14,8 @@ export const useValidateResetToken = () => {
   return useMutation<unknown, HTTPError, string>({
     mutationFn: (token: string) =>
       httpClient.post(`reset/validate-reset-token`, { json:  {token}  }).json(),
-    onError() {
+    onError(error) {
+      handleRequestError(error); 
       navigate(urls.login);
     },
   });

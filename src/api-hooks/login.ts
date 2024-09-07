@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { LoginFormData } from "../common/types/login";
 import { useHttpClient } from "../common/http-client";
+import { handleRequestError } from "../common/http-error-handler";
 
 export const useLogin = () => {
   const navigate = useNavigate();
@@ -16,6 +17,9 @@ export const useLogin = () => {
     onSuccess() {
       localStorage.setItem("authorize", "login");
       navigate("/");
+    },
+    onError: (error) => {
+      handleRequestError(error);
     },
   });
   return registerMutation;

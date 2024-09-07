@@ -3,6 +3,7 @@ import { useHttpClient } from "../common/http-client";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { PostDetail } from "../common/types/post-detail";
 import { queryClient } from "../common/query-client";
+import { handleRequestError } from "../common/http-error-handler";
 
 export const useGetPost = (id: string | undefined) => {
   const httpClient = useHttpClient();
@@ -23,8 +24,9 @@ export const useLikePost = () => {
           json: { postId, isLike },
         })
         .json(),
-
-    //onMutate() {},
+    onError: (error) => {
+      handleRequestError(error);
+    },
     onSettled: (_data, _error, { postId }) =>
       queryClient.invalidateQueries({
         queryKey: ["getPost", postId],
@@ -42,7 +44,9 @@ export const useBookmarkPost = () => {
           json: { postId, isBookmark },
         })
         .json(),
-    // onMutate() {},
+    onError: (error) => {
+      handleRequestError(error);
+    },
     onSettled: (_data, _error, { postId }) =>
       queryClient.invalidateQueries({
         queryKey: ["getPost", postId],

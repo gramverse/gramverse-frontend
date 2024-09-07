@@ -7,7 +7,7 @@ import { z } from "zod";
 import { useEditPost } from "../../api-hooks/post";
 import { useGetPost } from "../../api-hooks/post-details";
 import { EditPostFormData, PostFormDataSchema } from "../../common/types/post";
-import { Alert } from "../../reusable-components/alert";
+// import { Alert } from "../../reusable-components/alert";
 import { Button } from "../../reusable-components/button";
 import { ContainterWeb } from "../../reusable-components/container";
 import { Switch } from "../../reusable-components/switch";
@@ -83,7 +83,7 @@ const EditPostLayout = ({
       setPhotoError(errors.photos?.message);
     }
   }, [errors.photos?.message, photoFiles.length, photoURLs.length]);
-
+console.log('test',photoError)
   return (
     <div
       className={clsx(
@@ -92,12 +92,12 @@ const EditPostLayout = ({
       )}
     >
       <ProgressBar stage={stage} />
-      <Alert
+      {/* <Alert
         status="error"
         message={
           stage === 1 ? photoError : stage === 3 ? errors.mentions?.message : ""
         }
-      />
+      /> */}
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex w-full grow flex-col items-center justify-between gap-6"
