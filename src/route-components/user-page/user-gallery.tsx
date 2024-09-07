@@ -2,7 +2,6 @@ import { useInView } from "react-intersection-observer";
 import { useNavigate } from "react-router-dom";
 import { useGetUserPosts } from "../../api-hooks/user-page";
 import { useEffect, useState } from "react";
-import clsx from "clsx";
 import { Modal } from "../../reusable-components/modal";
 import { UserPostModal } from "../post-view/user-post-modal";
 import { Loading } from "../../reusable-components/loading";
@@ -137,15 +136,11 @@ export const UserGalleryMobile = ({
             </div>
           );
         })}
-      <div
+      <p className="mb-64" />
+      <Loading
+        isLoading={isFetching || isFetchingNextPostPage}
         ref={nearEndPostRef}
-        className={clsx(
-          "flex w-full items-center justify-center text-2xl",
-          hasNextPage ? "h-[calc(11rem/3)]" : "",
-        )}
-      >
-        {hasNextPage && isFetchingNextPostPage && <div>Loading...</div>}
-      </div>
+      />
     </div>
   );
 };

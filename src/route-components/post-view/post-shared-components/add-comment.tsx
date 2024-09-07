@@ -6,13 +6,15 @@ import person from "../../../assets/svg/profile.svg";
 
 import { InputField } from "../../../reusable-components/input-field";
 import { RoundPicture } from "../../../reusable-components/round-picture";
+import clsx from "clsx";
 
 type CommentProps = {
   parentCommentId: string;
   parentCommentUserName: string;
   postId: string;
+  className?: string;
 };
-export const Comments = (props: CommentProps) => {
+export const AddComment = (props: CommentProps) => {
   const { data: profile } = useGetProfile();
   const [comment, setComment] = useState("");
   const textField = useRef(null);
@@ -50,7 +52,9 @@ export const Comments = (props: CommentProps) => {
   ]);
   return (
     <div>
-      <div className="flex items-center justify-around">
+      <div
+        className={clsx("flex items-center justify-around", props.className)}
+      >
         <RoundPicture
           size="small"
           picture={

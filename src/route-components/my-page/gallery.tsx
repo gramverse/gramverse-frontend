@@ -127,6 +127,7 @@ export const GalleryMobile = () => {
             />
           );
         })}
+      <p className="mb-64" />
       <Loading
         isLoading={isFetching || isFetchingNextPostPage}
         ref={nearEndPostRef}

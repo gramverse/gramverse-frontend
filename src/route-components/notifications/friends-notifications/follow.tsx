@@ -6,7 +6,7 @@ import { RoundPicture } from "../../../reusable-components/round-picture";
 import profile from "../../../assets/svg/profile.svg";
 import { Button } from "../../../reusable-components/button";
 import { useFollowUser, useGetUserProfile } from "../../../api-hooks/user-page";
-import { useCallback } from "react";
+import { useCallback, useId } from "react";
 
 interface FollowProps extends userFollow {
   refetch: () => void;
@@ -62,6 +62,7 @@ export const Follow = (props: FollowProps) => {
         seen && "bg-primary",
         !seen && "bg-purple-200",
       )}
+      key={useId()}
     >
       <RoundPicture
         size="medium"

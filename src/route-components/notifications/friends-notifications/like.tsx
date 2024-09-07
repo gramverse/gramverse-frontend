@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { userLike } from "../../../common/types/notifications";
 import { getTimeDifference } from "../../../common/utilities/time-difference";
 import { RoundPicture } from "../../../reusable-components/round-picture";
+import { useId } from "react";
 
 export const Like = (props: userLike) => {
   const {
@@ -22,6 +23,7 @@ export const Like = (props: userLike) => {
         seen && "bg-primary",
         !seen && "bg-purple-200",
       )}
+      key={useId()}
     >
       <RoundPicture
         size="medium"

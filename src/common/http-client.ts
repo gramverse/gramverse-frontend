@@ -1,11 +1,12 @@
 import ky from "ky";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { urls } from "./routes";
 import { API_BASE_URL as baseUrl } from "./base-url";
 import { useMemo } from "react";
 
 export const useHttpClient = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   return useMemo(
     () =>
       ky.create({
@@ -18,13 +19,15 @@ export const useHttpClient = () => {
               //   // navigate(urls.serverError);
               // }
               if (res.status === 401) {
-                navigate(urls.login);
+                if (!location.pathname.includes("reset-password")) {
+                  navigate(urls.login);
+                }
               }
               return res;
             },
           ],
         },
       }),
-    [navigate],
+    [location.pathname, navigate],
   );
 };

@@ -4,6 +4,7 @@ import { useGetProfile } from "../../../api-hooks/get-my-profile";
 import { like } from "../../../common/types/notifications";
 import { getTimeDifference } from "../../../common/utilities/time-difference";
 import { RoundPicture } from "../../../reusable-components/round-picture";
+import { useId } from "react";
 
 export const Like = (props: like) => {
   const { postImage, performerUserName, creationDate, postId, seen } = props;
@@ -17,6 +18,7 @@ export const Like = (props: like) => {
         seen && "bg-primary",
         !seen && "bg-purple-200",
       )}
+      key={useId()}
     >
       <RoundPicture
         size="medium"
