@@ -21,7 +21,14 @@ export type follow = {
   type: "follow";
   performerUserName: string;
   followingUserName: string;
-  followRequestState: "accepted" | "pending" | "none" | "declined";
+  seen: boolean;
+  creationDate: string;
+};
+
+export type followRequest = {
+  type: "followRequest";
+  performerUserName: string;
+  followingUserName: string;
   seen: boolean;
   creationDate: string;
 };
@@ -38,7 +45,7 @@ export type comment = {
 };
 
 export type MyNotifications = {
-  notifications: Array<mention | like | follow | comment>;
+  notifications: Array<mention | like | follow | comment | followRequest>;
   totalCount: number;
 };
 

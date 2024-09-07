@@ -8,10 +8,12 @@ import { useCallback, useEffect } from "react";
 import {
   comment,
   follow,
+  followRequest,
   like,
   mention,
 } from "../../common/types/notifications";
 import { Loading } from "../../reusable-components/loading";
+import { FollowRequest } from "./my-notifications/follow-request";
 
 export const MyNotificationsLayout = () => {
   const {
@@ -23,7 +25,7 @@ export const MyNotificationsLayout = () => {
     isFetchingNextPage,
   } = useGetMyNotifications({ limit: 10 });
   const NotifComponent = useCallback(
-    (notification: mention | like | follow | comment) => {
+    (notification: mention | like | follow | comment | followRequest) => {
       switch (notification.type) {
         case "mention":
           return <Mention {...notification} />;
@@ -39,7 +41,15 @@ export const MyNotificationsLayout = () => {
               {...notification}
             />
           );
-
+        case "followRequest":
+          return (
+            <FollowRequest
+              refetch={() => {
+                refetch();
+              }}
+              {...notification}
+            />
+          );
         case "comment":
           return <Comment {...notification} />;
       }
