@@ -3,6 +3,7 @@ import { useHttpClient } from "../common/http-client";
 import { UserResponseSchema } from "../common/types/user";
 import { queryClient } from "../common/query-client";
 import { Keys } from "./query-keys";
+import { handleRequestError } from "../common/http-error-handler";
 
 export const useGetCloseFriends = ({ limit }: { limit: number }) => {
   const httpClient = useHttpClient();
@@ -80,6 +81,9 @@ export const useAddCloseFriends = (onSuccess: () => void) => {
       queryClient.invalidateQueries({
         queryKey: ["getUserProfile", variables.userName],
       });
+    },
+    onError: (error) => {
+      handleRequestError(error);
     },
   });
 };

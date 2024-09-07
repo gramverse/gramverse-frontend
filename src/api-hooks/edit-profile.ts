@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
 import { HTTPError } from "ky";
 import { ProfileFormValue } from "../common/types/profile";
+import { handleRequestError } from "../common/http-error-handler";
 
 export const useEditProfile = (onSuccess: ()=>void) => {
   const httpClient = useHttpClient();
@@ -19,5 +20,8 @@ export const useEditProfile = (onSuccess: ()=>void) => {
       return httpClient.post("files/myProfile", { body: formData }).json();
     },
     onSuccess,
+    onError: (error) => {
+      handleRequestError(error);
+    },
   });
 };

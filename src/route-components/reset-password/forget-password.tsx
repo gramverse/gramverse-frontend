@@ -2,7 +2,6 @@ import { forgetPassFormValue } from "../../common/types/forget-password";
 import { SubmitHandler, useForm } from "react-hook-form";
 import rahnemaLogo from "../../assets/svg/rahnema-logo.svg";
 import PersonIcon from "../../assets/svg/profile.svg";
-import { Alert } from "../../reusable-components/alert";
 import { useForgetPassword } from "../../api-hooks/forget-password";
 import { InputField } from "../../reusable-components/input-field";
 import { Button } from "../../reusable-components/button";
@@ -17,7 +16,7 @@ import {
 const ForgetPasswordLayout = () => {
   const { register, handleSubmit } = useForm<forgetPassFormValue>({});
   const navigate = useNavigate();
-  const { error, mutate } = useForgetPassword();
+  const {  mutate } = useForgetPassword();
 
   const onSubmit: SubmitHandler<forgetPassFormValue> = (formData) => {
     mutate(formData);
@@ -31,7 +30,7 @@ const ForgetPasswordLayout = () => {
         className="flex flex-col items-center justify-center gap-8"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Alert status="error" message={error?.message} />
+        {/* <Alert status="error" message={error?.message} /> */}
 
         <p className="w-80 text-right text-sm leading-6">
           لطفاً نام‌ کاربری یا ایمیل خودتون رو وارد کنید:

@@ -4,6 +4,7 @@ import { HTTPError } from "ky";
 import { getPostResponseSchema } from "../common/types/post";
 import { Profile, ProfileSchema } from "../common/types/profile-data";
 import { queryClient } from "../common/query-client";
+import { handleRequestError } from "../common/http-error-handler";
 
 export const useGetProfile = () => {
   const httpClient = useHttpClient();
@@ -48,6 +49,9 @@ export const useRemoveFollower = (followerUserName: string) => {
       queryClient.invalidateQueries({
         queryKey: ["getProfile"],
       });
+    },
+    onError: (error) => {
+      handleRequestError(error);
     },
   });
 };
