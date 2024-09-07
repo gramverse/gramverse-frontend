@@ -25,6 +25,7 @@ export const PostDetailSchema = z.object({
   likesCount: z.number(),
   bookmarksCount: z.number(),
   commentsCount: z.number(),
+  forCloseFriends: z.boolean(),
 });
 
 export interface PostDetail extends z.infer<typeof PostDetailSchema> {}

@@ -30,7 +30,7 @@ const ExploreLayout = () => {
   }
 
   return (
-    <div className="flex h-full w-[64rem] flex-col gap-4 pt-36">
+    <div className="mt-32 flex h-[1000px] w-[64rem] flex-col gap-4">
       <div className="w-full py-2 text-2xl font-bold">{"اکسپلور"}</div>
       <div className="flex w-full grow flex-row flex-wrap gap-5 overflow-y-scroll">
         {posts.map((post) => {
@@ -87,7 +87,6 @@ export const ExploreMobile = () => {
 
   return (
     <div className="flex grow flex-col items-center justify-start gap-4">
-   
       <div className="flex h-[500px] w-full grow flex-row flex-wrap gap-5 overflow-y-scroll">
         {posts.map((post) => {
           return <ExplorePostMobile key={post._id} post={post} />;

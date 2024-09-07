@@ -19,7 +19,7 @@ export const FriendsNotificationsLayout = () => {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
-  } = useGetFollowingNotifications({ limit: 1 });
+  } = useGetFollowingNotifications({ limit: 10 });
   const NotifComponent = useCallback(
     (notification: userComment | userLike | userFollow) => {
       switch (notification.type) {

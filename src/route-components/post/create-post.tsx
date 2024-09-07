@@ -159,7 +159,12 @@ const CreatePostLayout = ({
             </Button>
           )}
           {stage === 3 && (
-            <Button type="submit" id="submit-modal" isPending={isPending}>
+            <Button
+              type="submit"
+              id="submit-modal"
+              isPending={isPending}
+              disabled={isPending}
+            >
               {"ثبت و انتشار پست"}
             </Button>
           )}
