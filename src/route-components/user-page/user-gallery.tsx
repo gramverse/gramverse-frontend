@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Modal } from "../../reusable-components/modal";
 import { UserPostModal } from "../post-view/user-post-modal";
 import { Loading } from "../../reusable-components/loading";
+import clsx from "clsx";
 
 type UserGalleryProps = {
   userName: string;
@@ -41,7 +42,7 @@ export const UserGallery = ({
   const [postId, setPostId] = useState<string>("");
 
   return (
-    <div className="flex grow flex-row flex-wrap gap-5 overflow-y-scroll">
+    <div className="flex h-[630px] grow flex-row flex-wrap gap-5 overflow-y-scroll px-3 pt-8">
       <Modal
         isOpen={isPostOpen}
         close={() => {
@@ -59,7 +60,7 @@ export const UserGallery = ({
           <div
             key={post._id}
             className={clsx(
-              "h-[304px] w-[295px] overflow-hidden rounded-t-3xl bg-neutral-400",
+              "hover:animate-postScaleUp h-[304px] w-[295px] overflow-hidden rounded-t-3xl bg-neutral-400 object-cover",
               post.forCloseFriends
                 ? "border-4 border-solid border-green-500"
                 : "",
@@ -120,7 +121,7 @@ export const UserGalleryMobile = ({
             <div
               key={post._id}
               className={clsx(
-                "box-border h-36 w-36 overflow-hidden rounded-3xl rounded-t-3xl bg-neutral-400",
+                "hover:animate-postScaleUp box-border h-36 w-36 overflow-hidden rounded-3xl rounded-t-3xl bg-neutral-400 object-cover",
                 post.forCloseFriends
                   ? "border-4 border-solid border-green-500"
                   : "",
