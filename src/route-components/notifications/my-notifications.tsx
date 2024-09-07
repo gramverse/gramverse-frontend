@@ -21,7 +21,7 @@ export const MyNotificationsLayout = () => {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
-  } = useGetMyNotifications({ limit: 1 });
+  } = useGetMyNotifications({ limit: 10 });
   const NotifComponent = useCallback(
     (notification: mention | like | follow | comment) => {
       switch (notification.type) {

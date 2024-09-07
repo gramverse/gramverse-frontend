@@ -15,6 +15,7 @@ import { Mention } from "./mentions";
 import { SelectPhotos } from "./select-photos";
 import { Caption } from "./caption";
 import { ProgressBar } from "./progress-bar";
+import { Alert } from "../../reusable-components/alert";
 
 const EditPostLayout = ({
   classes,
@@ -83,7 +84,7 @@ const EditPostLayout = ({
       setPhotoError(errors.photos?.message);
     }
   }, [errors.photos?.message, photoFiles.length, photoURLs.length]);
-console.log('test',photoError)
+  console.log("test", photoError);
   return (
     <div
       className={clsx(
@@ -92,12 +93,12 @@ console.log('test',photoError)
       )}
     >
       <ProgressBar stage={stage} />
-      {/* <Alert
+      <Alert
         status="error"
         message={
           stage === 1 ? photoError : stage === 3 ? errors.mentions?.message : ""
         }
-      /> */}
+      />
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex w-full grow flex-col items-center justify-between gap-6"
@@ -134,6 +135,7 @@ console.log('test',photoError)
         </section>
         {stage === 3 && (
           <Switch
+            defaultChecked={post?.forCloseFriends}
             className=""
             label="فقط به دوستان نزدیکم نمایش بده"
             {...register("forCloseFriends")}
@@ -168,7 +170,12 @@ console.log('test',photoError)
             </Button>
           )}
           {stage === 3 && (
-            <Button type="submit" id="submit-modal" isPending={isPending}>
+            <Button
+              type="submit"
+              id="submit-modal"
+              isPending={isPending}
+              disabled={isPending}
+            >
               {"ثبت و انتشار پست"}
             </Button>
           )}
