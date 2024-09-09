@@ -1,0 +1,94 @@
+import { useCallback, useEffect } from "react";
+import { useGetFollowingNotifications } from "../../services/notifications";
+import { Comment } from "./friends-notifications/comment";
+import { Follow } from "./friends-notifications/follow";
+import { Like } from "./friends-notifications/like";
+import { userComment, userFollow, userLike } from "../../types/notifications";
+import { useInView } from "react-intersection-observer";
+import { Loading } from "../../components/loading";
+import { queryClient } from "../../common/query-client";
+
+export const FriendsNotificationsLayout = () => {
+  const {
+    data,
+    refetch,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    isSuccess,
+  } = useGetFollowingNotifications({ limit: 10 });
+  if (isSuccess) {
+    queryClient.invalidateQueries({ queryKey: ["notificationCount"] });
+  }
+  const NotifComponent = useCallback(
+    (notification: userComment | userLike | userFollow) => {
+      switch (notification.type) {
+        case "like":
+          return (
+            <Like
+              {...notification}
+              key={notification.postId + notification.performerUserName}
+            />
+          );
+
+        case "follow":
+          return (
+            <Follow
+              refetch={() => {
+                refetch();
+              }}
+              {...notification}
+              key={
+                notification.followingUserName + notification.performerUserName
+              }
+            />
+          );
+
+        case "comment":
+          return (
+            <Comment
+              {...notification}
+              key={
+                notification.postId +
+                notification.performerUserName +
+                notification.creationDate
+              }
+            />
+          );
+      }
+    },
+    [refetch],
+  );
+  const { ref, inView } = useInView({
+    threshold: 0.1,
+  });
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetching && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [
+    data,
+    fetchNextPage,
+    hasNextPage,
+    inView,
+    isFetching,
+    isFetchingNextPage,
+  ]);
+  return (
+    <div className="flex w-full flex-col gap-2">
+      {data?.pages
+        .flatMap((chunck) => chunck.notifications)
+        .map((notificiation) => NotifComponent(notificiation))}
+      <Loading isLoading={isFetching || isFetchingNextPage} ref={ref} />
+    </div>
+  );
+};
+
+export const FriendsNotification = () => {
+  return <FriendsNotificationsLayout />;
+};
+
+export const FriendsNotificationMobile = () => {
+  return <FriendsNotificationsLayout />;
+};

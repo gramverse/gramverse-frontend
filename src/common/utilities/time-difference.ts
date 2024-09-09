@@ -50,7 +50,7 @@ export const getTimeDifference = (now: Date, date: Date) => {
       .map(([, value]) => value)
       .reduce(
         (prev, cur) =>
-          prev.concat(`${cur[0]}`).concat(`${cur[1]} `).concat(" و "),
+          prev.concat(`${cur[0]} `).concat(`${cur[1]} `).concat(" و "),
         "",
       )
       .slice(0, -3)
@@ -63,7 +63,7 @@ export const getTimeDifference = (now: Date, date: Date) => {
         .map(([, value]) => value)
         .reduce(
           (prev, cur) =>
-            prev.concat(`${cur[0]}`).concat(`${cur[1]} `).concat(" و "),
+            prev.concat(`${cur[0]} `).concat(`${cur[1]} `).concat(" و "),
 
           "",
         )
@@ -77,7 +77,7 @@ export const getTimeDifference = (now: Date, date: Date) => {
           .map(([, value]) => value)
           .reduce(
             (prev, cur) =>
-              prev.concat(`${cur[0]}`).concat(`${cur[1]} `).concat(" و "),
+              prev.concat(`${cur[0]} `).concat(`${cur[1]} `).concat(" و "),
 
             "",
           )
@@ -91,7 +91,7 @@ export const getTimeDifference = (now: Date, date: Date) => {
             .map(([, value]) => value)
             .reduce(
               (prev, cur) =>
-                prev.concat(`${cur[0]}`).concat(`${cur[1]} `).concat(" و "),
+                prev.concat(`${cur[0]} `).concat(`${cur[1]} `).concat(" و "),
 
               "",
             )
@@ -105,7 +105,7 @@ export const getTimeDifference = (now: Date, date: Date) => {
               .map(([, value]) => value)
               .reduce(
                 (prev, cur) =>
-                  prev.concat(`${cur[0]}`).concat(`${cur[1]} `).concat(" و "),
+                  prev.concat(`${cur[0]} `).concat(`${cur[1]} `).concat(" و "),
 
                 "",
               )
@@ -119,7 +119,10 @@ export const getTimeDifference = (now: Date, date: Date) => {
                 .map(([, value]) => value)
                 .reduce(
                   (prev, cur) =>
-                    prev.concat(`${cur[0]}`).concat(`${cur[1]} `).concat(" و "),
+                    prev
+                      .concat(`${cur[0]} `)
+                      .concat(`${cur[1]} `)
+                      .concat(" و "),
 
                   "",
                 )

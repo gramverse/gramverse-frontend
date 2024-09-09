@@ -44,17 +44,12 @@ export default {
           "40%": { transform: "translateY(20%) scaleY(0.8)" },
           "0%": { transform: "translateY(0%) scaleY(1)" },
         },
-        scaleUp: {
-          "0%": { transform: "scale(1)" },
-          "100%": { transform: "scale(1.1)" },
-        },
       },
       animation: {
         openModal: "openModal 0.5s ease-in",
         closeModal: "ease-in-out 0.5s closeModal",
         openDrawer: "openDrawer 0.5s ease-in",
         closeDrawer: "ease-in-out 0.5s closeDrawer",
-        postScaleUp: "ease-in-out 0.2s scaleUp forwards",
       },
     },
   },
