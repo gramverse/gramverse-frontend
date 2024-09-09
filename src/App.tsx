@@ -1,5 +1,4 @@
-import { AppRoutes, AppRoutesMobile } from "./app-routes";
-// import useMediaQuery from "@mui/material/useMediaQuery";
+import { AppRoutes, AppRoutesMobile } from "./router/Router";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 import { queryClient } from "./common/query-client";

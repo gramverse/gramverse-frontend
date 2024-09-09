@@ -34,4 +34,7 @@
   .container-shadow {
     @apply shadow-md shadow-black;
   }
+  .post {
+    @apply shadow-black hover:scale-105 hover:rounded-b-2xl hover:border-2 hover:border-solid hover:shadow-xl hover:transition-all;
+  }
 }

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
 import "./assets/styles/index.css";
-import { Toaster } from "./reusable-components/toaster.tsx";
+import { Toaster } from "./components/toaster.tsx";
 import { createPortal } from "react-dom";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -12,5 +12,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <App />
       {createPortal(<Toaster />, document.body)}
     </BrowserRouter>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
