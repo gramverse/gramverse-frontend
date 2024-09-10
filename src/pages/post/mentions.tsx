@@ -4,8 +4,6 @@ import { InputField } from "../../components/input-field";
 import Close from "../../assets/svg/close.svg";
 import { useFindUser } from "../../services/post";
 import { Alert } from "../../components/alert";
-// import { Alert } from "../../reusable-components/alert";
-// import { useFindUser } from "../../api-hooks/post";
 
 interface mentionProps extends InputHTMLAttributes<HTMLInputElement> {
   mentions: Array<string>;

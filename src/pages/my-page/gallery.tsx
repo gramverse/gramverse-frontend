@@ -20,8 +20,6 @@ export const Gallery = () => {
     isFetching,
     isFetchingNextPage: isFetchingNextPostPage,
     fetchNextPage: fetchNextPosts,
-    isError: isPostError,
-    error: postError,
   } = useGetPosts(postLimit);
 
   useEffect(() => {
@@ -34,10 +32,6 @@ export const Gallery = () => {
       fetchNextPosts();
     }
   }, [isNearPostEnd, isFetchingNextPostPage, hasNextPage]);
-  if (isPostError) {
-    // user error handler
-    console.log("just for build err", postError);
-  }
 
   return (
     <div className="flex h-[430px] grow flex-row flex-wrap gap-5 overflow-y-scroll px-8 py-10">
@@ -101,10 +95,7 @@ export const GalleryMobile = () => {
     isFetching,
     isFetchingNextPage: isFetchingNextPostPage,
     fetchNextPage: fetchNextPosts,
-    isError: isPostError,
-    error: postError,
   } = useGetPosts(postLimit);
-  // const posts = postPages?.pages.flatMap((x) => x.posts) ?? [];
 
   useEffect(() => {
     if (
@@ -116,10 +107,6 @@ export const GalleryMobile = () => {
       fetchNextPosts();
     }
   }, [isNearPostEnd, isFetchingNextPostPage, hasNextPage]);
-  if (isPostError) {
-    // user error handler
-    console.log("just for build err", postError);
-  }
 
   return (
     <div className="absolute inset-x-0 mx-auto grid h-[500px] w-[19.4rem] grid-cols-2 gap-5 self-center overflow-y-scroll px-4 pt-3">

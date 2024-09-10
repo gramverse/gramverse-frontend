@@ -11,21 +11,12 @@ import { FollowerList } from "../followinger-list/follower-list";
 import { FollowingList } from "../followinger-list/following-list";
 
 const MyPageLayout = () => {
-  const {
-    data: profile,
-    error: profileError,
-    isError: isProfileError,
-  } = useGetProfile();
+  const { data: profile } = useGetProfile();
 
   const thereIsNoPost = !profile || (profile && profile.postCount == 0);
   const [isEditProfileOpen, openEditProfile] = useState(false);
   const [isOpenFollowerList, setOpenFollowerList] = useState(false);
   const [isOpenFollowingList, setOpenFollowingList] = useState(false);
-
-  if (isProfileError) {
-    // user error handler
-    console.log("just for build err", profileError);
-  }
 
   return (
     <div className="flex h-full w-[64rem] flex-col gap-3 pt-36">
@@ -115,17 +106,9 @@ export const MyPage = () => {
 };
 
 export const MyPageMobile = () => {
-  const {
-    data: profile,
-    error: profileError,
-    isError: isProfileError,
-  } = useGetProfile();
+  const { data: profile } = useGetProfile();
 
   const thereIsNoPost = !profile || (profile && profile.postCount == 0);
-  if (isProfileError) {
-    //use error handler
-    console.log("just for build err", profileError);
-  }
 
   const [isEditOpen, setIsEditOpen] = useState(false);
 

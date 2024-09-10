@@ -1,6 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import { Alert } from "../../reusable-components/alert.tsx";
 import { SignupFormValue, signupFormValueSchema } from "../../types/sign-up.ts";
 import { useSignup } from "../../services/sign-up.ts";
 import { InputField } from "../../components/input-field.tsx";
@@ -31,7 +30,6 @@ const SignUpLayout = () => {
       onSubmit={handleSubmit(onSubmit)}
       noValidate
     >
-      {/* <Alert status="error" message={error?.message} /> */}
       <p className="mb-7 text-right text-xs font-extralight leading-loose">
         به کالج‌گرام خوش آمدید. برای ثبت‌نام کافیه نام کاربری، ایمیل و یک رمز
         عبور وارد کنید :

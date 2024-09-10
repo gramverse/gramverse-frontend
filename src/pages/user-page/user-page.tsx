@@ -43,24 +43,8 @@ export const UserPageLayout = () => {
     isPrivatePage,
     followBtnText,
     followBtnColor,
-    error: profileError,
-    isError: isProfileError,
   } = useGetUserProfile(userName ?? "");
-  const {
-    isError: isFollowError,
-    error: followError,
-    mutate: followMutate,
-  } = useFollowUser(userName ?? "");
-
-  if (isProfileError) {
-    //use error handler
-    console.log("profile error", profileError);
-  }
-
-  if (isFollowError) {
-    //use error handler
-    console.log("error", followError);
-  }
+  const { mutate: followMutate } = useFollowUser(userName ?? "");
   const [menu, openMenu] = useState(false);
   const selectedUser: UserInfoSummary = {
     userName: userProfile?.userName ?? "",
@@ -225,14 +209,8 @@ export const UserPageMobile = () => {
     isPrivatePage,
     followBtnText,
     followBtnColor,
-    // error: profileError,
-    // isError: isProfileError,
   } = useGetUserProfile(userName ?? "");
-  const {
-    // isError: isFollowError,
-    // error: followError,
-    mutate: followMutate,
-  } = useFollowUser(userName ?? "");
+  const { mutate: followMutate } = useFollowUser(userName ?? "");
   const [menu, openMenu] = useState(false);
   const [modal, setModal] = useState<"block" | "close" | "unblock" | null>(
     null,

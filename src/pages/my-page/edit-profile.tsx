@@ -7,7 +7,6 @@ import {
   ProfileFormValue,
   editProfileFormValueSchema,
 } from "../../types/profile.ts";
-// import { Alert } from "../../reusable-components/alert.tsx";
 import { Button } from "../../components/button.tsx";
 import {
   ContainterMobile,
@@ -38,10 +37,7 @@ const EditProfileLayout = ({ close }: { close: () => void }) => {
     close();
   };
 
-  const { isError, mutate, isPending } = useEditProfile(handleProfileUpdated);
-  if (isError) {
-    //alert//console.log("error edit", error);
-  }
+  const { mutate, isPending } = useEditProfile(handleProfileUpdated);
 
   const onSubmit: SubmitHandler<ProfileFormValue> = (formData) => {
     mutate(formData);
@@ -66,7 +62,6 @@ const EditProfileLayout = ({ close }: { close: () => void }) => {
           })}
         />
         <p className="text-center font-medium">عکس پروفایل</p>
-        {/* <Alert status="error" message={error?.message} /> */}
       </div>
       <div className="flex flex-col gap-3">
         <div className="flex flex-col items-center">

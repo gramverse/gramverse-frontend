@@ -26,15 +26,8 @@ export const FollowerList = ({ userName, close }: FollowerListProps) => {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
-    fetchNextPage,
-    isError,
-    error,
+    fetchNextPage
   } = useGetFollowingerList(userName, false, limit);
-
-  if (isError) {
-    //for test
-    console.log(error);
-  }
 
   useEffect(() => {
     if (hasNextPage && isNearEnd && !isFetching && !isFetchingNextPage) {
@@ -101,14 +94,7 @@ export const FollowerListMobile = () => {
     isFetching,
     isFetchingNextPage,
     fetchNextPage,
-    isError,
-    error,
   } = useGetFollowingerList(myUserName ?? "", false, limit);
-
-  if (isError) {
-    //for test
-    console.log(error);
-  }
 
   useEffect(() => {
     if (hasNextPage && isNearEnd && !isFetching && !isFetchingNextPage) {

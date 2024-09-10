@@ -31,5 +31,8 @@ export const useResetPassword = () => {
     async onSuccess() {
       navigate(urls.login);
     },
+    onError: (error) => {
+      handleRequestError(error);
+    },
   });
 };

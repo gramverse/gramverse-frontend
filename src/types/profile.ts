@@ -36,9 +36,8 @@ export const editProfileFormValueSchema = profileCommonSchema
           .optional()
           .refine((file) => !file || file.size < 1_000_000, {
             message: "حجم عکس باید کمتر از یک مگابایت باشد.",
-          })
+          }),
       ),
-    // .transform((files) => files && blobToDataUrl(files[0])),
   })
   .partial()
   .refine((data) => data.password === data.confirmPassword || !data.password, {

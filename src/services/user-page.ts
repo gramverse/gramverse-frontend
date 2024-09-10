@@ -13,6 +13,7 @@ import {
   UserProfile,
   userProfileSchema,
 } from "../types/user-profile";
+import { handleRequestError } from "../common/utilities/http-error-handler";
 
 const calcUserStates = (userProfile: UserProfile) => {
   if (!userProfile) return;
@@ -103,6 +104,9 @@ export const useFollowUser = (userName: string) => {
       queryClient.invalidateQueries({
         queryKey: ["Followingers", userName, true],
       });
+    },
+    onError: (error) => {
+      handleRequestError(error);
     },
   });
 };

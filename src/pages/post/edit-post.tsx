@@ -7,7 +7,6 @@ import { z } from "zod";
 import { useEditPost } from "../../services/post";
 import { useGetPost } from "../../services/post-details";
 import { EditPostFormData, PostFormDataSchema } from "../../types/post";
-// import { Alert } from "../../reusable-components/alert";
 import { Button } from "../../components/button";
 import { ContainterWeb } from "../../components/container";
 import { Switch } from "../../components/switch";
@@ -84,7 +83,6 @@ const EditPostLayout = ({
       setPhotoError(errors.photos?.message);
     }
   }, [errors.photos?.message, photoFiles.length, photoURLs.length]);
-  console.log("test", photoError);
   return (
     <div
       className={clsx(

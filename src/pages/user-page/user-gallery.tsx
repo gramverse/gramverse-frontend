@@ -22,8 +22,6 @@ export const UserGallery = ({
     isFetching,
     isFetchingNextPage: isFetchingNextPostPage,
     fetchNextPage: fetchNextPosts,
-    isError: isPostError,
-    error: postError,
   } = useGetUserPosts(userName, isAllowedToViewPosts, postLimit);
 
   const userPosts = postPages?.pages.flatMap((x) => x.posts) ?? [];
@@ -38,10 +36,6 @@ export const UserGallery = ({
       fetchNextPosts();
     }
   }, [isNearPostEnd, isFetchingNextPostPage, hasNextPage]);
-  if (isPostError) {
-    // user error handler
-    console.log("just for build err", postError);
-  }
   const [isPostOpen, openPost] = useState(false);
   const [postId, setPostId] = useState<string>("");
 
@@ -91,8 +85,6 @@ export const UserGalleryMobile = ({
     isFetching,
     isFetchingNextPage: isFetchingNextPostPage,
     fetchNextPage: fetchNextPosts,
-    isError: isPostError,
-    error: postError,
   } = useGetUserPosts(userName, isAllowedToViewPosts, postLimit);
 
   useEffect(() => {
@@ -105,10 +97,6 @@ export const UserGalleryMobile = ({
       fetchNextPosts();
     }
   }, [isNearPostEnd, isFetchingNextPostPage, hasNextPage]);
-  if (isPostError) {
-    // user error handler
-    console.log("just for build err", postError);
-  }
 
   return (
     <div className="absolute inset-x-0 mx-auto grid h-[500px] w-[19.4rem] grid-cols-2 gap-5 self-center overflow-y-scroll">

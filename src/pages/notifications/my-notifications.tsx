@@ -88,10 +88,6 @@ export const MyNotificationsLayout = () => {
     threshold: 0.1,
   });
   useEffect(() => {
-    console.log(hasNextPage);
-    console.log(data?.pages);
-  }, [data?.pages, hasNextPage]);
-  useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage && !isFetching) {
       fetchNextPage();
     }

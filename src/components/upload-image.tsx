@@ -50,15 +50,6 @@ export const UploadImage = forwardRef<HTMLInputElement, UploadImageProps>(
         } else {
           if (event.target.files) {
             setSelectedPhotos(Array.from(event.target.files));
-            // const fileReaderPromises = Array.from(event.target.files).map(
-            //   blobToDataUrl,
-            // );
-            try {
-              // const urlResults = await Promise.all(fileReaderPromises);
-              // setSelectedPhotos(urlResults);
-            } catch (error) {
-              // console.log(error);
-            }
           }
         }
       },

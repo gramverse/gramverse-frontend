@@ -3,7 +3,6 @@ import { useHttpClient } from "../common/http-client";
 import {
   AddCommentData,
   CommentsResponse,
-  // CommentsResponseSchema,
 } from "../types/comment";
 import { LikeComment } from "../types/comment";
 import { queryClient } from "../common/query-client";
