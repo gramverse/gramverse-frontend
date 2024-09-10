@@ -65,7 +65,9 @@ export const Panel = ({ tab }: { tab: string }) => {
             icon={itemList["saved"].icon}
             selectedValue={tab}
             value={"saved"}
-            onClick={() => {}}
+            onClick={() => {
+              isSuccess && navigate("/bookmark-page");
+            }}
           />
           <Tab
             key={itemList["messages"].text}
@@ -99,7 +101,7 @@ export const Panel = ({ tab }: { tab: string }) => {
             selectedValue={tab}
             value={"mention"}
             onClick={() => {
-              isSuccess && navigate(`${data.userName}`);
+              isSuccess && navigate("/mention-page");
             }}
           />
           <div className="-ms-5 h-0.5 w-80 bg-gray-300" />
@@ -111,7 +113,7 @@ export const Panel = ({ tab }: { tab: string }) => {
             selectedValue={tab}
             value={"explore"}
             onClick={() => {
-              navigate(`/`);
+              isSuccess && navigate(`/`);
             }}
           />
           <Tab

@@ -11,4 +11,6 @@ export const urls = {
   forgetPasswordInfo: "/forget-password-info",
   notFound: "/not-found",
   viewPost: "/view-post",
+  mentionPage: "/mention-page",
+  bookmarkPage: "/bookmark-page",
 };
