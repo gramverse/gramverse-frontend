@@ -8,7 +8,6 @@ import { Button } from "../../components/button";
 import { useNavigate } from "react-router-dom";
 import { urls } from "../../router/routes";
 import { ContainterMobile, ContainterWeb } from "../../components/container";
-// import { errorMessages } from "../../common/error-messages";
 
 const ForgetPasswordLayout = () => {
   const { register, handleSubmit } = useForm<forgetPassFormValue>({});
@@ -27,8 +26,6 @@ const ForgetPasswordLayout = () => {
         className="flex flex-col items-center justify-center gap-8"
         onSubmit={handleSubmit(onSubmit)}
       >
-        {/* <Alert status="error" message={error?.message} /> */}
-
         <p className="w-80 text-right text-sm leading-6">
           لطفاً نام‌ کاربری یا ایمیل خودتون رو وارد کنید:
         </p>

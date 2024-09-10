@@ -14,28 +14,11 @@ export const Menu = ({
   follower: boolean;
   userName: string;
 }) => {
-  const {
-    isError: isFollowError,
-    error: followError,
-    mutate: unfollow,
-  } = useFollowUser(userName);
+  const { mutate: unfollow } = useFollowUser(userName);
 
-  const {
-    isError: isRemoveFollowerError,
-    error: removeFollowerError,
-    mutate: removeFollower,
-  } = useRemoveFollower(userName);
+  const { mutate: removeFollower } = useRemoveFollower(userName);
 
   const followingOperation = follower ? removeFollower : unfollow;
-  if (isFollowError) {
-    console.log(followError);
-    //use error handler
-  }
-  if (isRemoveFollowerError) {
-    console.log(removeFollowerError);
-
-    //use error handler
-  }
 
   return (
     <>
@@ -69,29 +52,12 @@ export const MenuMobile = ({
   userName: string;
   myUserName?: string;
 }) => {
-  const {
-    isError: isFollowError,
-    error: followError,
-    mutate: unfollow,
-  } = useFollowUser(userName);
+  const { mutate: unfollow } = useFollowUser(userName);
 
-  const {
-    isError: isRemoveFollowerError,
-    error: removeFollowerError,
-    mutate: removeFollower,
-  } = useRemoveFollower(userName);
+  const { mutate: removeFollower } = useRemoveFollower(userName);
 
   const followingOperation = follower ? removeFollower : unfollow;
   const navigate = useNavigate();
-  if (isFollowError) {
-    console.log(followError);
-    //use error handler
-  }
-  if (isRemoveFollowerError) {
-    console.log(removeFollowerError);
-
-    //use error handler
-  }
 
   return (
     <>

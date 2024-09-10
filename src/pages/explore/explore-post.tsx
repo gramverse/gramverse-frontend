@@ -59,20 +59,16 @@ export const ExplorePost = ({ post, closeModal }: ExplorePostProps) => {
             <span>{post.commentsCount}</span>
           </div>
           <div className="mr-4 flex items-center gap-1">
-            <Like isLiked={post.isLiked} onClick={() => {}} />
+            <Like isLiked={post.isLiked} />
             <span>{post.likesCount}</span>
           </div>
           <div className="mr-4 flex items-center gap-1">
-            <Bookmark
-              isBookmarked={post.isBookmarked}
-              onClick={() => {}} //make it optional
-            />
+            <Bookmark isBookmarked={post.isBookmarked} />
             <span>{post.bookmarksCount}</span>
           </div>
         </div>
         <div className="px-4 py-1">
           <FollowingersInfo
-            follower={true} //make it optional
             activityPermit={false}
             userName={post.userName}
             followerCount={post.followerCount}
@@ -115,20 +111,16 @@ export const ExplorePostMobile = ({ post }: ExplorePostProps) => {
             <span>{post.commentsCount}</span>
           </div>
           <div className="mr-4 flex items-center gap-1">
-            <Like isLiked={post.isLiked} onClick={() => {}} />
+            <Like isLiked={post.isLiked} />
             <span>{post.likesCount}</span>
           </div>
           <div className="mr-4 flex items-center gap-1">
-            <Bookmark
-              isBookmarked={post.isBookmarked}
-              onClick={() => {}} //make it optional
-            />
+            <Bookmark isBookmarked={post.isBookmarked} />
             <span>{post.bookmarksCount}</span>
           </div>
         </div>
         <div className="px-4 pb-2">
           <FollowingersInfo
-            follower={true} //make it optional
             activityPermit={false}
             userName={post.userName}
             followerCount={post.followerCount}

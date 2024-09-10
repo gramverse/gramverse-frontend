@@ -62,6 +62,9 @@ export const useBlockUser = (onSuccess: () => void) => {
         queryKey: [Keys.userProfile, variables.followingUserName],
       });
     },
+    onError: (error) => {
+      handleRequestError(error);
+    },
   });
 };
 

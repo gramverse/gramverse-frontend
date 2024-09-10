@@ -38,7 +38,6 @@ export const EditPhoto = (props: EditPhoto) => {
       width: Math.min(...dimensions),
       height: Math.min(...dimensions),
     });
-    console.log(rect);
   }, [dimensions, rect]);
   useEffect(() => {
     canvas.current
@@ -60,8 +59,6 @@ export const EditPhoto = (props: EditPhoto) => {
         onMouseMove={(e) => {
           e.stopPropagation();
           if (isMoving) {
-            console.log(canvasRect);
-            console.log(...dimensions);
             setCanvasRect((canvasRect) => ({
               ...canvasRect,
               x: Math.min(

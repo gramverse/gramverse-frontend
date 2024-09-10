@@ -3,7 +3,7 @@ import bookmark from "../../../assets/svg/bookmark.svg";
 import bookmarkFill from "../../../assets/svg/bookmark-fill.svg";
 type BookmarkProps = {
   isBookmarked: boolean | undefined;
-  onClick: MouseEventHandler<HTMLDivElement>;
+  onClick?: MouseEventHandler<HTMLDivElement>;
   count?: number | undefined;
 };
 export const Bookmark = ({ isBookmarked, onClick, count }: BookmarkProps) => {

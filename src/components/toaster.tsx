@@ -7,8 +7,7 @@ import { Toaster as Sonner } from "sonner";
 type ToasterProps = ComponentProps<typeof Sonner>;
 
 const Toaster = ({ ...props }: ToasterProps) => {
-  //   const { theme = "system" } = useTheme()
-
+  //   const { theme = "system" } = useTheme() //we can use next-themes for our toasts
   //   theme={theme as ToasterProps["theme"]}
   return (
     <Sonner

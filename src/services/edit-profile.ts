@@ -9,7 +9,6 @@ export const useEditProfile = (onSuccess: () => void) => {
   return useMutation<unknown, HTTPError, ProfileFormValue>({
     mutationFn: ({
       profileImage,
-      // confirmPassword,
       ...rest
     }: ProfileFormValue) => {
       const formData = new FormData();

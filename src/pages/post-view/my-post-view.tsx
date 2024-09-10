@@ -1,5 +1,4 @@
 import { useState } from "react";
-// import { Outlet } from "react-router-dom";
 import { AddComment } from "./post-shared-components/add-comment";
 import { ViewComments } from "./post-shared-components/view-comments";
 import back from "../../assets/svg/back.svg";

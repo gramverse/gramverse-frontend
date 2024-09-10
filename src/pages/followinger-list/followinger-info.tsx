@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
 interface FollowerInfoProps extends FollowingerInfo {
   close?: () => void;
-  follower: boolean;
+  follower?: boolean;
   selectedUser?: string;
   setUser?: (user: string) => void;
   activityPermit: boolean;
@@ -31,7 +31,6 @@ export const FollowingersInfo = ({
   const navigate = useNavigate();
   return (
     <div
-      // className="flex h-20 w-full flex-row items-center border border-x-0 border-t-0 border-solid border-form-border"
       className={clsx(
         "flex h-20 w-full flex-row items-center",
         noBorder
@@ -61,7 +60,7 @@ export const FollowingersInfo = ({
               closeMenu={() => {
                 openMenu(false);
               }}
-              follower={follower}
+              follower={follower ?? false}
               userName={userName}
             />
             <img
@@ -125,7 +124,7 @@ export const FollowingersInfoMobile = ({
               closeMenu={() => {
                 openMenu(false);
               }}
-              follower={follower}
+              follower={follower ?? false}
               userName={userName}
               myUserName={myUserName}
             />
@@ -136,8 +135,6 @@ export const FollowingersInfoMobile = ({
               onClick={(e) => {
                 e.stopPropagation();
                 if (userName === selectedUser && menu) {
-                  console.log(selectedUser);
-                  console.log(userName);
                   openMenu(false);
                 } else {
                   openMenu(true);

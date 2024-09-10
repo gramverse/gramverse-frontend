@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { ExplorePost, ExplorePostMobile } from "./explore-post";
 import { ExploreMessage } from "./explore-message";
 
-const ExploreLayout = () => {
+export const Explore = () => {
   const [nearEndPostRef, isNearPostEnd] = useInView();
   const postLimit = 6;
   const {
@@ -14,8 +14,6 @@ const ExploreLayout = () => {
     isFetching,
     isFetchingNextPage: isFetchingNextPostPage,
     fetchNextPage: fetchNextPosts,
-    isError: isPostError,
-    error: postError,
     refetch: refetchPosts,
   } = useGetExplorePosts(postLimit);
 
@@ -25,10 +23,6 @@ const ExploreLayout = () => {
     if (!hasNextPage || !isNearPostEnd || isFetching) return;
     fetchNextPosts();
   }, [isNearPostEnd, isFetchingNextPostPage, hasNextPage]);
-  if (isPostError) {
-    //use error handler
-    console.log(postError);
-  }
 
   return (
     <div className="mt-32 flex h-[830px] w-[64rem] flex-col gap-4">
@@ -56,14 +50,6 @@ const ExploreLayout = () => {
   );
 };
 
-export const Explore = () => {
-  return (
-    <>
-      <ExploreLayout />
-    </>
-  );
-};
-
 export const ExploreMobile = () => {
   const [nearEndPostRef, isNearPostEnd] = useInView();
   const postLimit = 3;
@@ -73,8 +59,6 @@ export const ExploreMobile = () => {
     isFetching,
     isFetchingNextPage: isFetchingNextPostPage,
     fetchNextPage: fetchNextPosts,
-    isError: isPostError,
-    error: postError,
   } = useGetExplorePosts(postLimit);
 
   const posts = postPages?.pages.flatMap((x) => x.postDtos) ?? [];
@@ -83,11 +67,6 @@ export const ExploreMobile = () => {
     if (!hasNextPage || !isNearPostEnd || isFetching) return;
     fetchNextPosts();
   }, [isNearPostEnd, isFetchingNextPostPage, hasNextPage]);
-
-  if (isPostError) {
-    //use error handler
-    console.log(postError);
-  }
 
   return (
     <div className="flex grow flex-col items-center justify-start gap-4">

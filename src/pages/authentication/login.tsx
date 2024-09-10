@@ -5,8 +5,6 @@ import { InputField } from "../../components/input-field.tsx";
 import { LoginFormData } from "../../types/login.ts";
 import { useLogin } from "../../services/login.ts";
 import { Button } from "../../components/button.tsx";
-// import { Alert } from "../../reusable-components/alert.tsx";
-// import { errorMessages } from "../../common/error-messages";
 
 const LoginLayout = () => {
   const { register, handleSubmit } = useForm<LoginFormData>({});
@@ -14,7 +12,6 @@ const LoginLayout = () => {
 
   return (
     <div className="mx-auto flex grow flex-col items-center justify-between gap-6 bg-primary text-right text-sm">
-      {/* <Alert status="error" message={error?.message} /> */}
       <p className="text-xs font-extralight leading-loose">
         به کالج‌گرام خوش آمدید. برای ورود کافیه نام کاربری/ایمیل و رمز عبور
         خودتون رو وارد کنید:

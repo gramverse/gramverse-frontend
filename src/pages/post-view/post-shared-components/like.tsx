@@ -3,7 +3,7 @@ import { MouseEventHandler } from "react";
 
 type LikeProps = {
   isLiked: boolean | undefined;
-  onClick: MouseEventHandler<SVGSVGElement>;
+  onClick?: MouseEventHandler<SVGSVGElement>;
   count?: number | undefined;
   display?: "row" | "col";
 };

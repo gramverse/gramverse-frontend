@@ -31,7 +31,7 @@ export const errorMessages: Record<string, string> = {
   COMMENT_INVALID_PARENT_ID:"خطا در ارسال اطلاعات، به پشتیبانی اطلاع دهید.",
   INVALID_POST_ID:"پست یافت نشد",
   YOU_ARE_BLOCKED:"شما به این محتوا دسترسی ندارید.",
-  CREATOR_IS_BLOCKED_BY_YOU:"شما به این مختوا دسترسی ندارید",
+  CREATOR_IS_BLOCKED_BY_YOU:"شما به این محتوا دسترسی ندارید",
   USER_IS_PRIVATE:"پیح کاربر خصوصی است",
   EDIT_POST_ACCESS_DENIED:"اجازه ویرایش پست را ندارید",
   USER_IS_NOT_FOLLOWED:"باید کاربر را فالو کنید",

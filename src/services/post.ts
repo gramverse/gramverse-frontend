@@ -52,6 +52,9 @@ export const useEditPost = (onSuccess: () => void) => {
       onSuccess();
       queryClient.invalidateQueries({ queryKey: ["getMyPosts"] });
     },
+    onError: (error) => {
+      handleRequestError(error);
+    },
   });
 };
 

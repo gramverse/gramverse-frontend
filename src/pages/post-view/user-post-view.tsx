@@ -1,5 +1,4 @@
 import { useState } from "react";
-// import { Outlet } from "react-router-dom";
 import { CommentFieldProps } from "../../types/comment";
 import { AddComment } from "./post-shared-components/add-comment";
 import { ViewComments } from "./post-shared-components/view-comments";

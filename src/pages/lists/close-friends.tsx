@@ -20,7 +20,6 @@ export const CloseFriendsLayout = () => {
     threshold: 0.1,
   });
   useEffect(() => {
-    console.log(data);
     if (inView && hasNextPage && !isFetching && !isFetchingNextPage) {
       fetchNextPage();
     }

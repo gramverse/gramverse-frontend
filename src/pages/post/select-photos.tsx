@@ -4,8 +4,6 @@ import { InputHTMLAttributes, forwardRef, useState, useEffect } from "react";
 import { UploadImage } from "../../components/upload-image";
 import Close from "../../assets/svg/close.svg";
 import Camera from "../../assets/svg/camera.svg";
-// import { Modal } from "../../reusable-components/modal";
-// import { EditPhoto } from "./edit-photo";
 
 interface photoProps extends InputHTMLAttributes<HTMLInputElement> {
   photoFiles: Array<File>;
