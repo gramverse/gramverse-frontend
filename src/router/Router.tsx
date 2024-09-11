@@ -54,6 +54,14 @@ import {
   FriendsNotification,
   FriendsNotificationMobile,
 } from "../pages/notifications/friends-notifications";
+import {
+  MentionPage,
+  MentionPageMobile,
+} from "../pages/mention-page/mention-page";
+import {
+  BookmarkPage,
+  BookmarkPageMobile,
+} from "../pages/bookmark-page/bookmark-page";
 
 export const AppRoutes = () => {
   const { data } = useGetProfile();
@@ -99,6 +107,8 @@ export const AppRoutes = () => {
         />
 
         <Route index element={<Explore />} />
+        <Route path={urls.mentionPage} element={<MentionPage />} />
+        <Route path={urls.bookmarkPage} element={<BookmarkPage />} />
       </Route>
       <Route path={urls.notFound} element={<UrlErrorPage></UrlErrorPage>} />
       <Route
@@ -150,6 +160,8 @@ export const AppRoutesMobile = () => {
             element={<FriendsNotificationMobile />}
           />
         </Route>
+        <Route path={urls.mentionPage} element={<MentionPageMobile />} />
+        <Route path={urls.bookmarkPage} element={<BookmarkPageMobile />} />
         <Route path="create-post" element={<CreatePostMobile />} />
         <Route
           path="/:userName/post/:postId/edit"

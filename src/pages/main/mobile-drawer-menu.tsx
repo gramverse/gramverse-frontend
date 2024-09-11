@@ -27,7 +27,10 @@ export const DrawerMenu = ({ close }: { close: () => void }) => {
         text={itemList["saved"].text}
         icon={itemList["saved"].icon}
         value={"saved"}
-        onClick={() => {}}
+        onClick={() => {
+          close();
+          isSuccess &&  navigate("/bookmark-page");
+        }}
       />
       <Tab
         key={itemList["messages"].text}
@@ -53,7 +56,7 @@ export const DrawerMenu = ({ close }: { close: () => void }) => {
         value={"mention"}
         onClick={() => {
           close();
-          isSuccess && navigate(`${data.userName}`);
+          isSuccess &&  navigate("/mention-page");
         }}
       />
       <Tab
