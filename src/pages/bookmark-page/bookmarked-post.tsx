@@ -2,11 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "../../components/modal";
 import { UserPostModal } from "../post-view/user-post-modal";
-import clsx from "clsx";
-import { ExplorePostInfo } from "../../types/explore";
+import { BookmarkPostInfo } from "../../types/bookmark-post";
 
 interface bookmarkedPostProps {
-  post: ExplorePostInfo; //change to bookmarkPost
+  post: BookmarkPostInfo;
   closeModal?: () => void;
 }
 
@@ -27,22 +26,15 @@ export const BookmarkedPost = ({ post, closeModal }: bookmarkedPostProps) => {
         />
       </Modal>
 
-      <div
-        className={clsx(
-          "flex h-[27.31rem] w-[18rem] flex-col items-start gap-4 rounded-3xl border-solid",
-          post.forCloseFriends
-            ? "border-4 border-green-500"
-            : "border border-form-border",
-        )}
-      >
+      <div className="flex h-[18rem] w-[18rem] flex-col items-start gap-4 rounded-3xl border-solid border-form-border">
         <div
-          className="h-[18rem] w-[18rem] overflow-hidden rounded-t-3xl bg-neutral-400"
+          className="h-full w-full overflow-hidden rounded-t-3xl bg-neutral-400"
           onClick={() => {
-            setPostId(post._id);
+            setPostId(post.postId);
             openPost(true);
           }}
         >
-          <img className="h-full w-full object-cover" src={post.photoUrls[0]} />
+          <img className="h-full w-full object-cover" src={post.photoUrl} />
         </div>
       </div>
     </>
@@ -53,21 +45,14 @@ export const BookmarkedPostMobile = ({ post }: bookmarkedPostProps) => {
   const navigate = useNavigate();
   return (
     <>
-      <div
-        className={clsx(
-          "mx-auto flex h-[27.75rem] w-[19.4rem] flex-col items-start gap-4 rounded-3xl border-solid",
-          post.forCloseFriends
-            ? "border-4 border-green-500"
-            : "border border-form-border",
-        )}
-      >
+      <div className="mx-auto flex h-[19.4rem] w-[19.4rem] flex-col items-start gap-4 rounded-3xl border-solid border-form-border">
         <div
-          className="h-[19.4rem] w-[19.4rem] overflow-hidden rounded-t-3xl bg-neutral-400"
+          className="h-full w-full overflow-hidden rounded-t-3xl bg-neutral-400"
           onClick={() => {
-            navigate(`/${post.userName}/post/${post._id}`);
+            navigate(`/${post.userName}/post/${post.postId}`);
           }}
         >
-          <img className="h-full w-full object-cover" src={post.photoUrls[0]} />
+          <img className="h-full w-full object-cover" src={post.photoUrl} />
         </div>
       </div>
     </>

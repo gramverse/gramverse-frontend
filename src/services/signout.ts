@@ -9,6 +9,7 @@ export const useSignOut = () => {
   const registerMutation = useMutation({
     mutationFn: () => client.post("users/signout/").json(),
     onSuccess() {
+      localStorage.removeItem('addAccount')
       navigate("/login");
     },
     onError: (error) => {

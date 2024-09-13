@@ -7,6 +7,8 @@ import { ContainterMobile, ContainterWeb } from "../../components/container";
 import { TwinTab } from "../../components/twin-tabs";
 
 const AuthenticationLayout = () => {
+  const addAccount = localStorage.getItem("addAccount");
+
   const [value, setValue] = useState(0);
   const location = useLocation();
   useEffect(() => {
@@ -29,12 +31,12 @@ const AuthenticationLayout = () => {
           tab={value}
         />
       </div>
-      <div className="flex grow flex-col items-start">
+      <div className="mb-6 flex grow flex-col items-start">
         <div className="flex items-center self-center">
           <Outlet />
         </div>
         {value == 0 && (
-          <div className="mb-6 flex grow flex-col items-start gap-3">
+          <div className="flex grow flex-col items-start gap-3">
             <div>
               <img src={arrow} className="ml-3 inline" alt="" />
               <Link
@@ -55,6 +57,14 @@ const AuthenticationLayout = () => {
                 ثبت نام در کالج‌گرام
               </span>
             </div>
+          </div>
+        )}
+        {addAccount && (
+          <div className="mt-3">
+            <img src={arrow} className="ml-3 inline" alt="" />
+            <Link className="text-md text-red-400 no-underline" to={urls.main}>
+              انصراف
+            </Link>
           </div>
         )}
       </div>
