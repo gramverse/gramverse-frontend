@@ -24,8 +24,14 @@ export const Main = () => {
       case location.pathname.includes("notifications"):
         setTab("notifs");
         break;
-        case location.pathname.includes("mention-page"):
+      case location.pathname.includes("mention-page"):
         setTab("mention");
+        break;
+      case location.pathname.includes("bookmark-page"):
+        setTab("saved");
+        break;
+      case location.pathname.includes("add-account"):
+        setTab("addAccount");
         break;
       case location.pathname.includes("close-friends") ||
         location.pathname.includes("black-list"):

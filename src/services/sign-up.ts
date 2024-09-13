@@ -16,6 +16,7 @@ export const useSignup = () => {
         })
         .json(),
     async onSuccess() {
+      localStorage.removeItem("addAccount");
       localStorage.setItem("authorize", "signup");
       navigate("/");
     },

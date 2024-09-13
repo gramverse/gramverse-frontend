@@ -15,6 +15,7 @@ export const useLogin = () => {
         })
         .json(),
     onSuccess() {
+      localStorage.removeItem('addAccount')
       localStorage.setItem("authorize", "login");
       navigate("/");
     },

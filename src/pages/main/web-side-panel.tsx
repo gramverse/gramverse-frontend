@@ -136,6 +136,18 @@ export const Panel = ({ tab }: { tab: string }) => {
                 singOut();
               }}
             />
+            <Tab
+              key={itemList["addAccount"].text}
+              text={itemList["addAccount"].text}
+              icon={itemList["addAccount"].icon}
+              selectedValue={tab}
+              value={"addAccount"}
+              onClick={() => {
+                if (!isSuccess) return;
+                localStorage.setItem('addAccount', data.userName)
+                navigate('/login');
+              }}
+            />
             <>
               {isMenuOpen && (
                 <Menu
