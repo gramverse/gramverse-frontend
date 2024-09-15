@@ -14,7 +14,6 @@ import {
   userProfileSchema,
 } from "../types/user-profile";
 import { handleRequestError } from "../common/utilities/http-error-handler";
-import { useGetProfile } from "./get-my-profile";
 
 const calcUserStates = (userProfile: UserProfile) => {
   if (!userProfile) return;

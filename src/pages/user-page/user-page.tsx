@@ -44,7 +44,7 @@ export const UserPageLayout = () => {
     followBtnText,
     followBtnColor,
   } = useGetUserProfile(userName ?? "");
-  const { mutate: followMutate } = useFollowUser(userName ?? "",);
+  const { mutate: followMutate } = useFollowUser(userName ?? "");
   const [menu, openMenu] = useState(false);
   const selectedUser: UserInfoSummary = {
     userName: userProfile?.userName ?? "",
@@ -130,7 +130,7 @@ export const UserPageLayout = () => {
             isUserDataVisible={isUserDataVisible ?? false}
             followBtnText={followBtnText ?? ""}
             followBtnColor={(followBtnColor as BtnStyles) ?? "transparent"}
-            openModal={() => setModal('unblock')}
+            openModal={() => setModal("unblock")}
           />
         )}
         <div className="relative justify-self-end">
@@ -173,6 +173,9 @@ export const UserPageLayout = () => {
           onFollowMethod={followMutate}
           followBtnText={followBtnText ?? ""}
           followBtnColor={(followBtnColor as BtnStyles) ?? "transparent"}
+          openModal={() => {
+            setModal("unblock");
+          }}
         />
       )}
       {userProfile && isEmptyGallery && (
@@ -292,10 +295,10 @@ export const UserPageMobile = () => {
             <UserAccountInfoMobile
               accountInfo={userProfile}
               isUserDataVisible={isUserDataVisible ?? false}
-              openModal={()=>{}} //make it optional
-            /> 
-         
-            
+              openModal={() => {
+                setModal("unblock");
+              }}
+            />
           )}
           <div className="relative justify-self-end">
             <Menu
@@ -353,6 +356,9 @@ export const UserPageMobile = () => {
             onFollowMethod={followMutate}
             followBtnText={followBtnText ?? ""}
             followBtnColor={(followBtnColor as BtnStyles) ?? "transparent"}
+            openModal={() => {
+              setModal("unblock");
+            }}
           />
         )}
         {isEmptyGallery && (

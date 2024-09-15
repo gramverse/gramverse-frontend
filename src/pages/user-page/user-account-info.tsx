@@ -28,8 +28,6 @@ export const UserAccountInfo = ({
 }: AppUserInfoProps) => {
   const existFollowing = accountInfo.followingCount > 0;
   const existFollower = accountInfo.followerCount > 0;
-  //const [modal, setModal] = useState<"unblock" | null>(null);
-  
   return (
     <div>
       <div className="flex gap-2">
@@ -48,17 +46,9 @@ export const UserAccountInfo = ({
             <div className="size-5 w-32 font-bold">{`${accountInfo.firstName} ${accountInfo.lastName}`}</div>
             <Button
               size="medium"
-              onClick={() => {
-                console.log('accountInfo.isBlocked',accountInfo.isBlocked)
-                accountInfo.isBlocked
-                  ? 
-                  openModal() //setModal("unblock")
-                  : onFollowMethod?.();
-                
-                //onFollowMethod?.()
-              }}
+              onClick={accountInfo.isBlocked ? openModal : onFollowMethod}
               btnColor={followBtnColor}
-              disabled={accountInfo.hasBlockedUs || accountInfo.isBlocked}
+              disabled={accountInfo.hasBlockedUs}
             >
               {followBtnText}
             </Button>
