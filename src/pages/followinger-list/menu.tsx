@@ -8,15 +8,17 @@ export const Menu = ({
   isOpen,
   follower,
   userName,
+  myUserName,
 }: {
   closeMenu: () => void;
   isOpen: boolean;
   follower: boolean;
   userName: string;
+  myUserName: string;
 }) => {
-  const { mutate: unfollow } = useFollowUser(userName);
+  const { mutate: unfollow } = useFollowUser(userName, myUserName);
 
-  const { mutate: removeFollower } = useRemoveFollower(userName);
+  const { mutate: removeFollower } = useRemoveFollower(userName, myUserName);
 
   const followingOperation = follower ? removeFollower : unfollow;
 
@@ -50,11 +52,11 @@ export const MenuMobile = ({
   isOpen: boolean;
   follower: boolean;
   userName: string;
-  myUserName?: string;
+  myUserName: string;
 }) => {
-  const { mutate: unfollow } = useFollowUser(userName);
+  const { mutate: unfollow } = useFollowUser(userName, myUserName);
 
-  const { mutate: removeFollower } = useRemoveFollower(userName);
+  const { mutate: removeFollower } = useRemoveFollower(userName, myUserName);
 
   const followingOperation = follower ? removeFollower : unfollow;
   const navigate = useNavigate();

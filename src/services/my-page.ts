@@ -38,7 +38,10 @@ export const useGetPosts = (limit: number) => {
   });
 };
 
-export const useRemoveFollower = (followerUserName: string) => {
+export const useRemoveFollower = (
+  followerUserName: string,
+  myUserName: string,
+) => {
   const httpClient = useHttpClient();
   return useMutation({
     async mutationFn() {
@@ -50,7 +53,7 @@ export const useRemoveFollower = (followerUserName: string) => {
         queryKey: ["getProfile"],
       });
       queryClient.invalidateQueries({
-        queryKey: ["Followingers", followerUserName, false],
+        queryKey: ["Followingers", myUserName, false],
       });
     },
     onError: (error) => {

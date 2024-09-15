@@ -13,6 +13,7 @@ type AppUserInfoProps = {
   isUserDataVisible: boolean;
   followBtnText?: string;
   followBtnColor?: BtnStyles;
+  openModal: () => void;
 };
 
 export const UserAccountInfo = ({
@@ -23,64 +24,75 @@ export const UserAccountInfo = ({
   isUserDataVisible,
   followBtnText,
   followBtnColor,
+  openModal,
 }: AppUserInfoProps) => {
   const existFollowing = accountInfo.followingCount > 0;
   const existFollower = accountInfo.followerCount > 0;
+  //const [modal, setModal] = useState<"unblock" | null>(null);
+  
   return (
-    <div className="flex gap-2">
-      <RoundPicture
-        size="xlarge"
-        picture={
-          accountInfo.profileImage && accountInfo.profileImage != ""
-            ? accountInfo.profileImage
-            : PersonIcon
-        }
-      />
-      <div className="mb-5 flex h-fit w-[23.5rem] flex-col justify-start gap-4">
-        <div className="w-full text-sm font-normal text-[#C19008]">{`${accountInfo.userName}@`}</div>
+    <div>
+      <div className="flex gap-2">
+        <RoundPicture
+          size="xlarge"
+          picture={
+            accountInfo.profileImage && accountInfo.profileImage != ""
+              ? accountInfo.profileImage
+              : PersonIcon
+          }
+        />
+        <div className="mb-5 flex h-fit w-[23.5rem] flex-col justify-start gap-4">
+          <div className="w-full text-sm font-normal text-[#C19008]">{`${accountInfo.userName}@`}</div>
 
-        <div className="flex w-96 flex-row gap-4">
-          <div className="size-5 w-32 font-bold">{`${accountInfo.firstName} ${accountInfo.lastName}`}</div>
-          <Button
-            size="medium"
-            onClick={() => {
-              onFollowMethod?.();
-            }}
-            btnColor={followBtnColor}
-            disabled={accountInfo.hasBlockedUs || accountInfo.isBlocked}
-          >
-            {followBtnText}
-          </Button>
-        </div>
+          <div className="flex w-96 flex-row gap-4">
+            <div className="size-5 w-32 font-bold">{`${accountInfo.firstName} ${accountInfo.lastName}`}</div>
+            <Button
+              size="medium"
+              onClick={() => {
+                console.log('accountInfo.isBlocked',accountInfo.isBlocked)
+                accountInfo.isBlocked
+                  ? 
+                  openModal() //setModal("unblock")
+                  : onFollowMethod?.();
+                
+                //onFollowMethod?.()
+              }}
+              btnColor={followBtnColor}
+              disabled={accountInfo.hasBlockedUs || accountInfo.isBlocked}
+            >
+              {followBtnText}
+            </Button>
+          </div>
 
-        <div className="w-96 text-sm font-normal leading-6"></div>
-        <div className="w-96 text-sm font-normal leading-6">
-          <span
-            className={clsx(
-              "ml-3 w-24 text-amber-500",
-              existFollower && "cursor-pointer",
-            )}
-            {...(existFollower &&
-              isUserDataVisible && {
-                onClick: onShowFollowerList,
-              })}
-          >{`‍${accountInfo.followerCount} دنبال کننده  ‍`}</span>
-          <span>|</span>
-          <span
-            className={clsx(
-              "mx-3 w-24 text-amber-500",
-              existFollowing && "cursor-pointer",
-            )}
-            {...(existFollowing &&
-              isUserDataVisible && {
-                onClick: onShowFollowingList,
-              })}
-          >{`‍  ${accountInfo.followingCount} دنبال شونده`}</span>
-          <span>|</span>
-          <span className="mr-3 w-24">{`‍ ${accountInfo.postCount} پست ‍`}</span>
-        </div>
-        <div className="h-fit w-full text-sm font-normal text-[#A5A5A5]">
-          {accountInfo.bio}
+          <div className="w-96 text-sm font-normal leading-6"></div>
+          <div className="w-96 text-sm font-normal leading-6">
+            <span
+              className={clsx(
+                "ml-3 w-24 text-amber-500",
+                existFollower && "cursor-pointer",
+              )}
+              {...(existFollower &&
+                isUserDataVisible && {
+                  onClick: onShowFollowerList,
+                })}
+            >{`‍${accountInfo.followerCount} دنبال کننده  ‍`}</span>
+            <span>|</span>
+            <span
+              className={clsx(
+                "mx-3 w-24 text-amber-500",
+                existFollowing && "cursor-pointer",
+              )}
+              {...(existFollowing &&
+                isUserDataVisible && {
+                  onClick: onShowFollowingList,
+                })}
+            >{`‍  ${accountInfo.followingCount} دنبال شونده`}</span>
+            <span>|</span>
+            <span className="mr-3 w-24">{`‍ ${accountInfo.postCount} پست ‍`}</span>
+          </div>
+          <div className="h-fit w-full text-sm font-normal text-[#A5A5A5]">
+            {accountInfo.bio}
+          </div>
         </div>
       </div>
     </div>

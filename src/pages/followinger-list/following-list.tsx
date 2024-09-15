@@ -49,6 +49,7 @@ export const FollowingList = ({ userName, close }: FollowerListProps) => {
             activityPermit={activityPermit}
             key={following.userName}
             userName={following.userName}
+            myUserName={userName}
             followerCount={following.followerCount}
             profileImage={following.profileImage}
           />
@@ -76,6 +77,7 @@ export const FollowingList = ({ userName, close }: FollowerListProps) => {
 
 export const FollowingListMobile = () => {
   const { userName: myUserName } = useParams();
+  if (!myUserName) return;
   const queryClient = useQueryClient();
   const myProfile = ProfileSchema.parse(
     queryClient.getQueryData(["getProfile"]),

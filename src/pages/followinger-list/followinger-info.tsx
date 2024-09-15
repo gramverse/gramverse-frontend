@@ -24,6 +24,7 @@ export const FollowingersInfo = ({
   selectedUser,
   setUser,
   activityPermit,
+  myUserName,
   noBorder = false,
 }: FollowerInfoProps) => {
   const isSetProfileImage = profileImage && profileImage != "";
@@ -62,6 +63,7 @@ export const FollowingersInfo = ({
               }}
               follower={follower ?? false}
               userName={userName}
+              myUserName={myUserName??''}
             />
             <img
               src={more}
@@ -126,7 +128,7 @@ export const FollowingersInfoMobile = ({
               }}
               follower={follower ?? false}
               userName={userName}
-              myUserName={myUserName}
+              myUserName={myUserName??''}
             />
             <img
               src={more}
