@@ -33,20 +33,22 @@ const calcUserStates = (userProfile: UserProfile) => {
     !isBlockedUs &&
     userProfile.isPrivate &&
     userProfile.followRequestState !== RequestStatus.accepted;
-  const followBtnText = isBlockedUs
-    ? "+ دنبال کردن"
-    : userProfile.followRequestState == RequestStatus.pending
-      ? "لغو درخواست"
-      : userProfile.followRequestState == RequestStatus.accepted
-        ? "دنبال نکردن"
-        : "+ دنبال کردن";
-  const followBtnColor =
-    userProfile.hasBlockedUs || userProfile.isBlocked
-      ? "disabled"
-      : userProfile.followRequestState == RequestStatus.pending ||
-          userProfile.followRequestState == RequestStatus.accepted
-        ? "outline"
-        : "secondary";
+  const followBtnText = userProfile.isBlocked
+    ? "آنبلاک کردن"
+    : isBlockedUs
+      ? "+ دنبال کردن"
+      : userProfile.followRequestState == RequestStatus.pending
+        ? "لغو درخواست"
+        : userProfile.followRequestState == RequestStatus.accepted
+          ? "دنبال نکردن"
+          : "+ دنبال کردن";
+  const followBtnColor = userProfile.hasBlockedUs
+    ? "disabled"
+    : userProfile.isBlocked ||
+        userProfile.followRequestState == RequestStatus.pending ||
+        userProfile.followRequestState == RequestStatus.accepted
+      ? "outline"
+      : "secondary";
   return {
     isBlockedUs,
     isUserDataVisible,
@@ -83,10 +85,10 @@ const calcIsFollowing = (current: RequestStatus) => {
   );
 };
 
-export const useFollowUser = (userName: string) => {
+export const useFollowUser = (userName: string, myUsrerName?:string) => {
   const { userProfile } = useGetUserProfile(userName);
+  //const { data: myProfile } = useGetProfile();
   const httpClient = useHttpClient();
-
   return useMutation({
     async mutationFn() {
       if (!userProfile) return;
@@ -102,7 +104,7 @@ export const useFollowUser = (userName: string) => {
         queryKey: ["getProfile"],
       });
       queryClient.invalidateQueries({
-        queryKey: ["Followingers", userName, true],
+        queryKey: ["Followingers", myUsrerName, true],
       });
     },
     onError: (error) => {

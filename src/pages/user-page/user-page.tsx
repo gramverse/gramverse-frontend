@@ -130,6 +130,7 @@ export const UserPageLayout = () => {
             isUserDataVisible={isUserDataVisible ?? false}
             followBtnText={followBtnText ?? ""}
             followBtnColor={(followBtnColor as BtnStyles) ?? "transparent"}
+            openModal={() => setModal("unblock")}
           />
         )}
         <div className="relative justify-self-end">
@@ -172,6 +173,9 @@ export const UserPageLayout = () => {
           onFollowMethod={followMutate}
           followBtnText={followBtnText ?? ""}
           followBtnColor={(followBtnColor as BtnStyles) ?? "transparent"}
+          openModal={() => {
+            setModal("unblock");
+          }}
         />
       )}
       {userProfile && isEmptyGallery && (
@@ -291,6 +295,9 @@ export const UserPageMobile = () => {
             <UserAccountInfoMobile
               accountInfo={userProfile}
               isUserDataVisible={isUserDataVisible ?? false}
+              openModal={() => {
+                setModal("unblock");
+              }}
             />
           )}
           <div className="relative justify-self-end">
@@ -349,6 +356,9 @@ export const UserPageMobile = () => {
             onFollowMethod={followMutate}
             followBtnText={followBtnText ?? ""}
             followBtnColor={(followBtnColor as BtnStyles) ?? "transparent"}
+            openModal={() => {
+              setModal("unblock");
+            }}
           />
         )}
         {isEmptyGallery && (

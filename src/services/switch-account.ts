@@ -20,6 +20,7 @@ export const useSwitchAccount = (userName: string) => {
       queryClient.invalidateQueries({
         queryKey: ["getProfile"],
       });
+      queryClient.invalidateQueries({ queryKey: ["notificationCount"] });
       navigate(`/${userName}`);
     },
     onError: (error) => {

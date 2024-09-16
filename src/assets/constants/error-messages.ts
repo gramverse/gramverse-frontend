@@ -40,43 +40,66 @@ export const errorMessages: Record<string, string> = {
   ALREADY_ACCEPTED:"این درخواست از قبل پذبرفته شده است",
   MISSING_FOLLOWER_USERNAME:"خطا در ارسال اطلاعات، به پشتیبانی اطلاع دهید.",
   INVALID_FOLLOW_REQUEST:"خطا در ارسال اطلاعات، به پشتیبانی اطلاع دهید.",
+  MISSING_COMMENTID:"خطا در ارسال اطلاعات، به پشتیبانی اطلاع دهید.",
+  MISSING_POSTID:"خطا در ارسال اطلاعات، به پشتیبانی اطلاع دهید.",
+  SWITCH_ACCOUNT_ERROR:"خطا در تغییر اکانت",
+  PAGE_NOT_FOUND:"آدرس مورد نظر یافت نشد",
+  TOO_MANY_ACCOUNTS:"سقف حساب کاربری شما پر شده است، لطفا از یکی از حساب های خود خارج شوید",
  };
 
 export enum ErrorCode {
-  UNAUTHORIZED = 1001,
+  // Missing field:
+  MISSING_FOLLOWING_USERNAME =0,
+  MISSING_FOLLOWER_USERNAME,
+  MISSING_COMMENTID,
+  MISSING_POSTID,
+
+  // Invalid field value:
   INVALID_USERNAME,
   INVALID_PASSWORD,
   INVALID_EMAIL,
+  INVALID_FOLLOWING_USERNAME,
+  INVALID_POST_ID,
+  INVALID_ACCEPTED_ARGUMENT,
+  COMMENT_INVALID_PARENT_ID,
+
+  // Logic validation errors:
   EMAIL_EXISTS,
   USERNAME_EXISTS,
-  UNSUCCESSFUL_SIGNUP,
-  UNKNOWN_ERROR,
-  USER_NOT_FOUND,
-  INVALID_USERNAME_OR_PASSWORD,
   INVALID_OR_EXPIRED_TOKEN,
-  MISSING_FOLLOWING_USERNAME,
-  INVALID_FOLLOWING_USERNAME,
   MISSING_PHOTO_FOR_POST,
-  FILE_TOO_LARGE,
-  FILE_UPLOAD_ERROR,
   PHOTO_COUNT_EXCEDED,
-  POST_NOT_FOUND,
-  COMMENT_NOT_FOUND,
-  MISSING_LIKE_POSTID,
-  MISSING_LIKE_COMMENTID,
-  MISSING_BOOKMARK_POSTID,
-  COMMENT_INVALID_PARENT_ID,
-  INVALID_POST_ID,
-  YOU_ARE_BLOCKED,
-  CREATOR_IS_BLOCKED_BY_YOU,
-  USER_IS_PRIVATE,
-  EDIT_POST_ACCESS_DENIED,
-  USER_IS_NOT_FOLLOWED,
-  INVALID_ACCEPTED_ARGUMENT,
   NO_SUCH_REQUEST,
   ALREADY_ACCEPTED,
-  MISSING_FOLLOWER_USERNAME,
   INVALID_FOLLOW_REQUEST,
+
+  // File errors:
+  FILE_TOO_LARGE,
+  FILE_UPLOAD_ERROR,
+
+  // Authorization/authentication errors:
+  UNAUTHORIZED,
+  INVALID_USERNAME_OR_PASSWORD,
+  SWITCH_ACCOUNT_ERROR,
+
+  // forbidden errors:
+  USER_IS_NOT_FOLLOWED,
+  YOU_ARE_BLOCKED,
+  EDIT_POST_ACCESS_DENIED,
+  CREATOR_IS_BLOCKED_BY_YOU,
+  USER_IS_PRIVATE,
+
+  // Not found errors:
+  COMMENT_NOT_FOUND,
+  PAGE_NOT_FOUND,
+  POST_NOT_FOUND,
+  USER_NOT_FOUND,
+
+  // Unknown error:
+  UNKNOWN_ERROR,
+
+  // New errors:
+  TOO_MANY_ACCOUNTS,
 }
 
 

@@ -20,6 +20,9 @@ export const useHttpClient = () => {
               if (res.status === 401) {
                 navigate(urls.login);
               }
+              else  if (res.status === 404) {
+                navigate(urls.notFound);
+              }
               return res;
             },
           ],

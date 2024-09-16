@@ -21,13 +21,8 @@ export const FollowerList = ({ userName, close }: FollowerListProps) => {
   const activityPermit = myProfile?.userName === userName;
   const [nearEndRef, isNearEnd] = useInView();
   const limit = 6;
-  const {
-    data,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-    fetchNextPage
-  } = useGetFollowingerList(userName, false, limit);
+  const { data, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } =
+    useGetFollowingerList(userName, false, limit);
 
   useEffect(() => {
     if (hasNextPage && isNearEnd && !isFetching && !isFetchingNextPage) {
@@ -54,6 +49,7 @@ export const FollowerList = ({ userName, close }: FollowerListProps) => {
             }}
             key={follower.userName}
             userName={follower.userName}
+            myUserName={userName}
             followerCount={follower.followerCount}
             profileImage={follower.profileImage}
           />
@@ -81,6 +77,7 @@ export const FollowerList = ({ userName, close }: FollowerListProps) => {
 
 export const FollowerListMobile = () => {
   const { userName: myUserName } = useParams();
+  if (!myUserName) return;
   const queryClient = useQueryClient();
   const myProfile = ProfileSchema.parse(
     queryClient.getQueryData(["getProfile"]),
@@ -88,13 +85,8 @@ export const FollowerListMobile = () => {
   const activityPermit = myProfile?.userName === myUserName;
   const [nearEndRef, isNearEnd] = useInView();
   const limit = 6;
-  const {
-    data,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-    fetchNextPage,
-  } = useGetFollowingerList(myUserName ?? "", false, limit);
+  const { data, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } =
+    useGetFollowingerList(myUserName ?? "", false, limit);
 
   useEffect(() => {
     if (hasNextPage && isNearEnd && !isFetching && !isFetchingNextPage) {

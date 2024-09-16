@@ -26,7 +26,7 @@ export const MentionedPost = ({ post, closeModal }: MentionedPostProps) => {
         />
       </Modal>
 
-      <div className="flex h-[18rem] w-[18rem] flex-col items-start gap-4 rounded-3xl border-solid border-form-border">
+      <div className="post flex h-[18rem] w-[18rem] flex-col items-start gap-4 rounded-3xl border-solid border-form-border">
         <div
           className="h-full w-full overflow-hidden rounded-t-3xl bg-neutral-400"
           onClick={() => {
@@ -45,7 +45,7 @@ export const MentionedPostMobile = ({ post }: MentionedPostProps) => {
   const navigate = useNavigate();
   return (
     <>
-      <div className="mx-auto flex h-[19.4rem] w-[19.4rem] flex-col items-start gap-4 rounded-3xl border-solid border-form-border">
+      <div className="post mx-auto flex h-[19.4rem] w-[19.4rem] flex-col items-start gap-4 rounded-3xl border-solid border-form-border">
         <div
           className="h-full w-full overflow-hidden rounded-t-3xl bg-neutral-400"
           onClick={() => {
