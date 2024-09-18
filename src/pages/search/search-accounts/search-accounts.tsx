@@ -50,7 +50,7 @@ export const SearchAccounts = (props: SearchAccountProps) => {
           {selectedKeyword}
         </Button>
       )}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid h-[535px] grid-cols-3 gap-3 overflow-scroll">
         {data?.pages
           .flatMap((page) => page.users)
           .map((account) => (
@@ -62,8 +62,12 @@ export const SearchAccounts = (props: SearchAccountProps) => {
               fullName={account.fullName}
             />
           ))}
+        <Loading
+          isLoading={isFetching || isFetchingNextPage}
+          ref={ref}
+          className="my-3"
+        />
       </div>
-      <Loading isLoading={isFetching || isFetchingNextPage} ref={ref} />
     </div>
   );
 };
@@ -93,7 +97,7 @@ export const SearchAccountsMobile = (props: SearchAccountProps) => {
   ]);
   const navigate = useNavigate();
   return (
-    <div className="flex w-full grow flex-col gap-2 text-right text-xs">
+    <div className="flex h-[400px] w-full grow flex-col gap-2 overflow-scroll text-right text-xs">
       {selectedKeyword !== "" && (
         <Button
           size="medium"
@@ -122,7 +126,11 @@ export const SearchAccountsMobile = (props: SearchAccountProps) => {
             />
           ))}
       </div>
-      <Loading isLoading={isFetching || isFetchingNextPage} ref={ref} />
+      <Loading
+        isLoading={isFetching || isFetchingNextPage}
+        ref={ref}
+        className="my-3"
+      />
     </div>
   );
 };

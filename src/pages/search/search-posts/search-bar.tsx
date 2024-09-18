@@ -36,6 +36,7 @@ export const SearchBar = ({
       <InputField
         fieldsize={fieldSize ? fieldSize : "medium"}
         svg={search}
+        usesError={false}
         svgLocation="end"
         value={keyword}
         onChange={(e) => {

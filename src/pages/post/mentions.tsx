@@ -17,7 +17,7 @@ export const Mention = forwardRef<HTMLInputElement, mentionProps>(
     const { data, refetch, isFetching, isSuccess, isRefetching } =
       useFindUser(userName);
     useEffect(() => {
-      refetch();
+      userName !== "" ? refetch() : () => {};
     }, [refetch, userName]);
 
     return (
@@ -25,12 +25,22 @@ export const Mention = forwardRef<HTMLInputElement, mentionProps>(
         <p>اینجا می‌تونی دوستانت رو منشن کنی:</p>
         <Alert
           status={
-            data && data.exists && !isFetching && isSuccess && !isRefetching
+            userName !== "" &&
+            data !== undefined &&
+            data.exists &&
+            !isFetching &&
+            isSuccess &&
+            !isRefetching
               ? "success"
               : "error"
           }
           message={
-            data && data.exists && !isFetching && isSuccess && !isRefetching
+            userName !== "" &&
+            data !== undefined &&
+            data.exists &&
+            !isFetching &&
+            isSuccess &&
+            !isRefetching
               ? ` ${userName} وجود دارد`
               : data && !data.exists
                 ? ` ${userName} وجود ندارد`

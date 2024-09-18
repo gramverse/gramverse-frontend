@@ -15,7 +15,15 @@ type AppUserInfoProps = {
   followBtnColor?: BtnStyles;
   openModal: () => void;
 };
-
+const calculateCount = (count: number) => {
+  if (count >= 1000) {
+    if (Math.floor((count % 1000) / 100) >= 1)
+      return `${Math.floor(count / 1000)}.${Math.floor((count % 1000) / 100)}k`;
+    else return ` ${Math.floor(count / 1000)}k`;
+  } else {
+    return `${count}`;
+  }
+};
 export const UserAccountInfo = ({
   accountInfo: accountInfo,
   onFollowMethod,
@@ -65,7 +73,7 @@ export const UserAccountInfo = ({
                 isUserDataVisible && {
                   onClick: onShowFollowerList,
                 })}
-            >{`‍${accountInfo.followerCount} دنبال کننده  ‍`}</span>
+            >{`‍${calculateCount(accountInfo.followerCount)} دنبال کننده  ‍`}</span>
             <span>|</span>
             <span
               className={clsx(
@@ -76,9 +84,9 @@ export const UserAccountInfo = ({
                 isUserDataVisible && {
                   onClick: onShowFollowingList,
                 })}
-            >{`‍  ${accountInfo.followingCount} دنبال شونده`}</span>
+            >{`‍  ${calculateCount(accountInfo.followingCount)} دنبال شونده`}</span>
             <span>|</span>
-            <span className="mr-3 w-24">{`‍ ${accountInfo.postCount} پست ‍`}</span>
+            <span className="mr-3 w-24">{`‍ ${calculateCount(accountInfo.postCount)} پست ‍`}</span>
           </div>
           <div className="h-fit w-full text-sm font-normal text-[#A5A5A5]">
             {accountInfo.bio}

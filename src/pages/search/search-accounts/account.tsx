@@ -73,7 +73,7 @@ export const SearchedAccount = (props: Account) => {
   return (
     <div
       className={clsx(
-        "flex w-72 flex-col items-start gap-5 rounded-3xl border border-solid border-gray-300 bg-white px-4 py-2",
+        "flex h-fit w-72 flex-col items-start gap-5 rounded-3xl border border-solid border-gray-300 bg-white px-4 py-2",
       )}
     >
       <UserProfileSummary

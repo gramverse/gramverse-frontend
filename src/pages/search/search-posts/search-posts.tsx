@@ -70,7 +70,7 @@ export const SearchPosts = ({
           {selectedKeyword}
         </Button>
       )}
-      <div className="flex flex-row flex-wrap gap-3 px-5">
+      <div className="flex h-[535px] flex-row flex-wrap gap-3 overflow-y-scroll px-5">
         {data?.pages
           .flatMap((page) => page.posts)
           .slice(0, 3)
@@ -117,8 +117,12 @@ export const SearchPosts = ({
               userName={post.userName}
             />
           ))}
+        <Loading
+          isLoading={isFetching || isFetchingNextPage}
+          ref={ref}
+          className="my-3"
+        />
       </div>
-      <Loading isLoading={isFetching || isFetchingNextPage} ref={ref} />
     </div>
   );
 };
@@ -211,7 +215,11 @@ export const SearchPostsMobile = ({
             />
           ))}
       </div>
-      <Loading isLoading={isFetching || isFetchingNextPage} ref={ref} />
+      <Loading
+        isLoading={isFetching || isFetchingNextPage}
+        ref={ref}
+        className="my-3"
+      />
     </div>
   );
 };

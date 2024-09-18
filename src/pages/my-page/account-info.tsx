@@ -9,7 +9,15 @@ type AccountInfoInfoProps = {
   onShowFollowerList: () => void;
   onShowFollowingList: () => void;
 };
-
+const calculateCount = (count: number) => {
+  if (count >= 1000) {
+    if (Math.floor((count % 1000) / 100) >= 1)
+      return `${Math.floor(count / 1000)}.${Math.floor((count % 1000) / 100)}k`;
+    else return ` ${Math.floor(count / 1000)}k`;
+  } else {
+    return `${count}`;
+  }
+};
 export const AccountInfo = ({
   accountInfo,
   onShowFollowerList,
@@ -38,7 +46,7 @@ export const AccountInfo = ({
             )}
             {...(existFollower && { onClick: onShowFollowerList })}
           >
-            {`‍${accountInfo.followerCount} دنبال کننده  ‍`}{" "}
+            {`‍${calculateCount(accountInfo.followerCount)} دنبال کننده  ‍`}{" "}
           </span>
           <span>|</span>
           <span
@@ -47,9 +55,9 @@ export const AccountInfo = ({
               existFollowing && "cursor-pointer",
             )}
             {...(existFollowing && { onClick: onShowFollowingList })}
-          >{`‍  ${accountInfo.followingCount} دنبال شونده`}</span>
+          >{`‍  ${calculateCount(accountInfo.followingCount)} دنبال شونده`}</span>
           <span>|</span>
-          <span className="mr-3 w-24">{`‍ ${accountInfo.postCount} پست ‍`}</span>
+          <span className="mr-3 w-24">{`‍ ${calculateCount(accountInfo.postCount)} پست ‍`}</span>
         </div>
         <div className="h-fit w-full text-sm font-normal text-[#A5A5A5]">
           {accountInfo.bio}
