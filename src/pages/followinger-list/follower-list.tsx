@@ -19,7 +19,8 @@ export const FollowerList = ({ userName, close }: FollowerListProps) => {
     queryClient.getQueryData(["getProfile"]),
   );
   const activityPermit = myProfile?.userName === userName;
-  const [nearEndRef, isNearEnd] = useInView();
+  const { ref: nearEndRef, inView: isNearEnd } = useInView();
+  // const [nearEndRef, isNearEnd] = useInView();
   const limit = 6;
   const { data, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } =
     useGetFollowingerList(userName, false, limit);
@@ -56,7 +57,7 @@ export const FollowerList = ({ userName, close }: FollowerListProps) => {
         ))}
         <Loading
           isLoading={isFetching || isFetchingNextPage}
-          className="mt-4 self-center"
+          className="my-4 self-center"
           ref={nearEndRef}
         />
       </div>
@@ -118,7 +119,7 @@ export const FollowerListMobile = () => {
         ))}
         <Loading
           isLoading={isFetching || isFetchingNextPage}
-          className="mt-4 self-center"
+          className="my-4 self-center"
           ref={nearEndRef}
         />
       </div>

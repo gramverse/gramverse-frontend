@@ -38,6 +38,7 @@ export const SearchBar = ({
         id={"search-bar"}
         svgLocation="end"
         value={keyword}
+        usesError={false}
         onChange={(e) => {
           setKeyword(e.target.value);
         }}

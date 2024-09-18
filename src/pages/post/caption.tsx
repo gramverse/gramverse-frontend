@@ -29,6 +29,7 @@ export const Caption = forwardRef<HTMLTextAreaElement, captionProps>(
         <div className="relative h-52 w-80 self-center">
           <EmojiKeyboard
             visibility={isKeyBoardVisible}
+            className="-left-2"
             setEmoji={(emoji) => {
               setCaption((caption) => caption.concat(emoji));
               setKeyboardVisibility(false);

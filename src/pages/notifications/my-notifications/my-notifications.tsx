@@ -76,7 +76,11 @@ export const MyNotificationsLayout = () => {
       {data?.pages
         .flatMap((chunck) => chunck.notifications)
         .map((notificiation) => NotifComponent(notificiation))}
-      <Loading isLoading={isFetching || isFetchingNextPage} ref={ref} />
+      <Loading
+        isLoading={isFetching || isFetchingNextPage}
+        className="my-3"
+        ref={ref}
+      />
     </div>
   );
 };

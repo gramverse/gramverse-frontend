@@ -89,14 +89,7 @@ export const SelectPhotos = forwardRef<HTMLInputElement, photoProps>(
           })}
           {photoURLs.map((photo, index) => {
             return (
-              <div
-                className="relative h-24"
-                key={nanoid()}
-                onClick={() => {
-                  // setSelectedPhoto(photoFiles[index]);
-                  // openEdit(true);
-                }}
-              >
+              <div className="relative h-24" key={nanoid()}>
                 <img
                   src={Close}
                   className="absolute -right-1 -top-1 z-10 cursor-pointer"

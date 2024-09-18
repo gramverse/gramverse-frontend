@@ -3,11 +3,12 @@ import Error from "../assets/svg/error.svg";
 import clsx from "clsx";
 
 const fieldSizes: Record<Sizes, string> = {
-  mobile: "w-60 h-5 px-1 gap-1 rounded-3xl",
+  mobile: "w-56 h-5 px-1 gap-1 rounded-3xl",
   xsmall: "w-80 h-5 px-1 gap-1 rounded-3xl",
   small: "w-80 h-7 px-2  gap-2 rounded-2xl ",
   medium: "w-80 h-10 gap-4 rounded-full ",
   large: "w-96 h-10 px-5  gap-4 rounded-full ",
+  long: "w-96 h-5 px-1 gap-1 rounded-3xl",
 };
 const status: Record<Status, string> = {
   error: "border-solid border-2 border-red-600	",
@@ -27,7 +28,7 @@ interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   direction?: Directions;
   usesError?: boolean;
 }
-type Sizes = "xsmall" | "small" | "medium" | "large" | "mobile";
+type Sizes = "xsmall" | "small" | "medium" | "large" | "mobile" | "long";
 type Status = "error" | "normal";
 type Directions = "left" | "right";
 export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(

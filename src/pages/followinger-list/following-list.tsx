@@ -56,7 +56,7 @@ export const FollowingList = ({ userName, close }: FollowerListProps) => {
         ))}
         <Loading
           isLoading={isFetching || isFetchingNextPage}
-          className="mt-4 self-center"
+          className="my-4 self-center"
           ref={nearEndRef}
         />
       </div>
@@ -117,7 +117,7 @@ export const FollowingListMobile = () => {
         ))}
         <Loading
           isLoading={isFetching || isFetchingNextPage}
-          className="mt-4 self-center"
+          className="my-4 self-center"
           ref={nearEndRef}
         />
       </div>

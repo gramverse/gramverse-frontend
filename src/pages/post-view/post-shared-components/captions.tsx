@@ -30,20 +30,20 @@ export const PostCaptions = (props: Captions) => {
       <small>{getTimeDifference(now, date)}</small>
       {caption && <p className="m-0 min-h-0 p-0 text-sm">{caption}</p>}
       {!!hashtags?.length && (
-        <div lang="fa" dir="rtl">
+        <div className="flex flex-wrap gap-1">
           {hashtags?.map((hashtag) => (
-            <span key={hashtag} className="m-2 rounded-lg bg-red-100 p-2">
+            <span key={hashtag} className="rounded-lg bg-red-100 p-1 text-xs">
               {hashtag}
             </span>
           ))}
         </div>
       )}
       {!!mentions?.length && (
-        <div className="flex flex-wrap overflow-x-clip text-xs">
+        <div className="flex flex-wrap gap-1">
           {mentions?.map((mention) => (
             <span
               key={mention}
-              className="m-2 rounded-lg bg-emerald-200 p-2 text-xs"
+              className="rounded-lg bg-emerald-200 p-1 text-xs"
               onClick={() => {
                 close?.();
                 navigate(`/${mention}`);

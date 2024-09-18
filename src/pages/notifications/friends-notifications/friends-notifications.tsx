@@ -69,7 +69,11 @@ export const FriendsNotificationsLayout = () => {
       {data?.pages
         .flatMap((chunck) => chunck.notifications)
         .map((notificiation) => NotifComponent(notificiation))}
-      <Loading isLoading={isFetching || isFetchingNextPage} ref={ref} />
+      <Loading
+        className="my-3"
+        isLoading={isFetching || isFetchingNextPage}
+        ref={ref}
+      />
     </div>
   );
 };

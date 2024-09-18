@@ -87,7 +87,7 @@ export const BlackListLayout = () => {
         ))}
       <Loading
         isLoading={isFetching || isFetchingNextPage}
-        className="self-center"
+        className="my-3 self-center"
         ref={ref}
       />
     </div>
