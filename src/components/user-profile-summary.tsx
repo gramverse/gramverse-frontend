@@ -11,15 +11,17 @@ interface UserProfile extends HTMLAttributes<HTMLDivElement> {
   followerCount?: number;
 }
 export const UserProfileSummary = (props: UserProfile) => {
-  const { className, userName, profilePicture, followerCount } = props;
+  const { className, userName, profilePicture, followerCount, onClick } = props;
   const { userProfile: profileSummary, isSuccess } =
     useGetUserProfile(userName);
   const navigate = useNavigate();
   return (
     <div
       className={clsx("flex items-center gap-5", className)}
-      onClick={() => {
-        isSuccess && navigate(`/${profileSummary?.userName}`);
+      onClick={(e) => {
+        onClick
+          ? onClick(e)
+          : isSuccess && navigate(`/${profileSummary?.userName}`);
       }}
     >
       <RoundPicture
@@ -30,13 +32,15 @@ export const UserProfileSummary = (props: UserProfile) => {
               ? profileSummary.profileImage
               : profile
         }
-        size={followerCount ? "large" : "medium"}
+        size={followerCount !== undefined ? "large" : "medium"}
       />
-      <div className="flex flex-col">
-        <span>{userName}</span>
-        <small className="text-xs font-thin text-gray-600">
-          {followerCount ?? ""} {"دنبال کننده"}
-        </small>
+      <div className="flex flex-col gap-2">
+        <span className="text-base font-bold">{userName}</span>
+        {followerCount !== undefined && (
+          <small className="text-xs font-thin text-gray-600">
+            {followerCount} {"دنبال کننده"}
+          </small>
+        )}
       </div>
     </div>
   );

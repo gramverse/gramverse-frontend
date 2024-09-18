@@ -27,14 +27,19 @@ const EditPostLayout = ({
 }) => {
   const navigate = useNavigate();
   const params = useParams();
-  const { data: post } = useGetPost(postId ?? params.postId);
+  const { data: post, isSuccess } = useGetPost(postId ?? params.postId);
   const [stage, setStage] = useState(1);
-  const [mentions, setMentions] = useState<Array<string>>(post?.mentions ?? []);
-  const [caption, setCaption] = useState(post?.caption ?? "");
+  const [mentions, setMentions] = useState<Array<string>>([]);
+  const [caption, setCaption] = useState("");
   const [photoFiles, setPhotoFiles] = useState<Array<File>>([]);
-  const [photoURLs, setPhotoURLs] = useState<Array<string>>(
-    post?.photoUrls ?? [],
-  );
+  const [photoURLs, setPhotoURLs] = useState<Array<string>>([]);
+  useEffect(() => {
+    if (isSuccess) {
+      setMentions(post.mentions);
+      setCaption(post.caption);
+      setPhotoURLs(post.photoUrls);
+    }
+  }, [isSuccess]);
   const handleSuccess = useCallback(() => {
     if (close) {
       close();
@@ -63,7 +68,7 @@ const EditPostLayout = ({
       photoURLs,
       photoFiles,
       forCloseFriends: data.forCloseFriends,
-      _id: post?._id ?? "",
+      _id: isSuccess ? post._id : "",
     };
     mutate(postData);
   };

@@ -17,7 +17,7 @@ export const Mention = (props: mention) => {
       )}
     >
       <RoundPicture
-        size="medium"
+        size="large"
         picture={postImage}
         onClick={() => {
           navigate(`/${performerUserName}/post/${postId}`);

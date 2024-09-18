@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
-import { followRequest } from "../../../types/notifications";
+import { follow } from "../../../types/notifications";
 import { getTimeDifference } from "../../../common/utilities/time-difference";
 import { RoundPicture } from "../../../components/round-picture";
 import profile from "../../../assets/svg/profile.svg";
@@ -9,11 +9,11 @@ import { useFollowUser, useGetUserProfile } from "../../../services/user-page";
 import { useCallback } from "react";
 import { useAcceptRequest } from "../../../services/notifications";
 
-export const FollowRequest = (props: followRequest) => {
-  const { performerUserName, creationDate, seen } = props;
+export const AcceptRequest = (props: follow) => {
+  const { performerUserName, followingUserName, creationDate, seen } = props;
   const navigate = useNavigate();
-  const { userProfile } = useGetUserProfile(performerUserName);
-  const { mutate: follow, isPending } = useFollowUser(performerUserName);
+  const { userProfile } = useGetUserProfile(followingUserName);
+  const { mutate: follow, isPending } = useFollowUser(followingUserName);
   const { mutate: accept } = useAcceptRequest();
   const CreateButton = useCallback(() => {
     if (userProfile?.requestState === "accepted") {
@@ -25,6 +25,7 @@ export const FollowRequest = (props: followRequest) => {
               onClick={() => {
                 follow();
               }}
+              classes="text-xs text-nowrap text-right"
               isPending={isPending}
             >
               {"دنبال نکردن"}
@@ -38,6 +39,7 @@ export const FollowRequest = (props: followRequest) => {
                 follow();
               }}
               isPending={isPending}
+              classes="text-xs text-nowrap text-right"
             >
               {"لغو درخواست"}
             </Button>
@@ -50,6 +52,7 @@ export const FollowRequest = (props: followRequest) => {
                 follow();
               }}
               isPending={isPending}
+              classes="text-xs text-nowrap text-right"
             >
               {"دنبال کردن +"}
             </Button>
@@ -60,16 +63,18 @@ export const FollowRequest = (props: followRequest) => {
         <div className="flex gap-2">
           <Button
             onClick={() => {
-              accept({ followerUserName: performerUserName, accepted: true });
+              accept({ followerUserName: followingUserName, accepted: true });
             }}
+            classes="text-xs text-nowrap text-right"
           >
             قبوله
           </Button>
           <Button
             btnColor="outline"
             onClick={() => {
-              accept({ followerUserName: performerUserName, accepted: false });
+              accept({ followerUserName: followingUserName, accepted: false });
             }}
+            classes="text-xs text-nowrap text-right"
           >
             خوشم نمیاد ازش
           </Button>
@@ -82,7 +87,7 @@ export const FollowRequest = (props: followRequest) => {
     isPending,
     follow,
     accept,
-    performerUserName,
+    followingUserName,
   ]);
   return (
     <div
@@ -104,7 +109,7 @@ export const FollowRequest = (props: followRequest) => {
         }}
       />
       <div className="flex flex-col items-start gap-1">
-        <p className="m-0 p-0">{`${performerUserName} بهت درخواست دوستی داده`}</p>
+        <p className="m-0 p-0">{`${followingUserName} درخواست دوستیت رو قبول کرد `}</p>
 
         <small className="text-xs text-gray-500">
           {getTimeDifference(new Date(), new Date(creationDate))}

@@ -45,13 +45,8 @@ export const SelectPhotos = forwardRef<HTMLInputElement, photoProps>(
         ),
       );
     }, [selctedPhotos, setPhotoFiles]);
-    // const [isEditOpen, openEdit] = useState(false);
-    // const [selectedPhoto, setSelectedPhoto] = useState<File>(new File([], ""));
     return (
       <div className="flex w-full flex-col items-center">
-        {/* <Modal isOpen={isEditOpen} close={() => openEdit(false)}>
-          <EditPhoto photo={selectedPhoto} />
-        </Modal> */}
         <p>عکس های مورد نظرت رو آپلود کن</p>
         <div
           className={clsx(
@@ -72,14 +67,7 @@ export const SelectPhotos = forwardRef<HTMLInputElement, photoProps>(
           />
           {photoThumbnails.map((photo, index) => {
             return (
-              <div
-                className="relative h-24"
-                key={nanoid()}
-                onClick={() => {
-                  // setSelectedPhoto(photoFiles[index]);
-                  // openEdit(true);
-                }}
-              >
+              <div className="relative h-24" key={nanoid()} onClick={() => {}}>
                 <img
                   src={Close}
                   className="absolute -right-1 -top-1 z-10 cursor-pointer"

@@ -22,7 +22,7 @@ import KeyIcon from "../../assets/svg/key.svg";
 import PersonIcon from "../../assets/svg/profile.svg";
 
 const EditProfileLayout = ({ close }: { close: () => void }) => {
-  const { data: profile, refetch } = useGetProfile();
+  const { data: profile, refetch, isSuccess } = useGetProfile();
   const {
     register,
     handleSubmit,
@@ -43,7 +43,6 @@ const EditProfileLayout = ({ close }: { close: () => void }) => {
     mutate(formData);
   };
 
-  const isSetProfileImage = profile?.profileImage && profile.profileImage != "";
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -53,7 +52,11 @@ const EditProfileLayout = ({ close }: { close: () => void }) => {
         <p className="my-1 w-fit text-center text-xl font-bold">ویرایش حساب</p>
         <UploadImage
           placeholderImage={
-            isSetProfileImage ? profile.profileImage : cameraIcon
+            isSuccess
+              ? profile.profileImage != ""
+                ? profile.profileImage
+                : cameraIcon
+              : cameraIcon
           }
           error={errors.profileImage?.message}
           className="block h-20 w-20 rounded-full"

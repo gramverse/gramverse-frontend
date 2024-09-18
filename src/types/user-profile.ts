@@ -10,13 +10,13 @@ export const RequestStatus = Object.freeze({
 export type RequestStatus = (typeof RequestStatus)[keyof typeof RequestStatus];
 
 export const userProfileSchema = z.object({
-  _id: z.string().optional(),
+  // _id: z.string().optional(),
   userName: z.string(),
-  firstName: z.string().optional(),
-  lastName: z.string().optional(),
+  firstName: z.string(),
+  lastName: z.string(),
   isPrivate: z.boolean(),
-  profileImage: z.string().optional(),
-  bio: z.string().optional(),
+  profileImage: z.string(),
+  bio: z.string(),
   followerCount: z.number(),
   followingCount: z.number(),
   postCount: z.number(),

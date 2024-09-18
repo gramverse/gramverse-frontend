@@ -23,9 +23,7 @@ export const AccountInfo = ({
       <RoundPicture
         size="xlarge"
         picture={
-          accountInfo.profileImage && accountInfo.profileImage != ""
-            ? accountInfo.profileImage
-            : PersonIcon
+          accountInfo.profileImage != "" ? accountInfo.profileImage : PersonIcon
         }
       />
       <div className="mb-5 flex h-fit w-[23.5rem] flex-col justify-start gap-4">
@@ -75,7 +73,7 @@ export const AccountInfoMobile = ({ accountInfo }: AccountInfoMobileProps) => {
         <RoundPicture
           size="medium"
           picture={
-            accountInfo.profileImage && accountInfo.profileImage != ""
+            accountInfo.profileImage != ""
               ? accountInfo.profileImage
               : PersonIcon
           }

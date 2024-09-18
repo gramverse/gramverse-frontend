@@ -20,7 +20,7 @@ export const Comment = (props: comment) => {
       )}
     >
       <RoundPicture
-        size="medium"
+        size="large"
         picture={postImage}
         onClick={() => {
           navigate(`/${data?.userName}/post/${postId}`);

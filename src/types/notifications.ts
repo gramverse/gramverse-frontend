@@ -79,5 +79,4 @@ export type userFollow = {
 export type FollowingNotifications = {
   notifications: Array<userComment | userLike | userFollow>;
   totalCount: number;
-  followingUserName: string;
 };

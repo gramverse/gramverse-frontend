@@ -1,6 +1,6 @@
-import { Tab } from "../../components/tab";
-import block from "../../assets/svg/blocked.svg";
-import removeCloseFriend from "../../assets/svg/close-friend-remove.svg";
+import { Tab } from "../../../components/tab";
+import block from "../../../assets/svg/blocked.svg";
+import removeCloseFriend from "../../../assets/svg/close-friend-remove.svg";
 export const MenuCloseFriends = ({
   closeMenu,
   openModal,

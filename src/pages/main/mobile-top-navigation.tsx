@@ -9,8 +9,8 @@ export default function MobileTopNavigation({
   userName,
   profileImage,
 }: {
-  userName: string | undefined;
-  profileImage: string | undefined;
+  userName: string;
+  profileImage: string;
 }) {
   const navigate = useNavigate();
   const [isMenuOpen, openMenu] = useState(false);
@@ -32,8 +32,8 @@ export default function MobileTopNavigation({
 
       <div className="mb-3 mt-2 flex h-10 w-full justify-between">
         <RoundPicture
-          picture={profileImage && profileImage !== "" ? profileImage : profile}
-          onClick={() => navigate(userName ? `${userName}` : "/")}
+          picture={profileImage !== "" && profileImage ? profileImage : profile}
+          onClick={() => navigate(`/${userName}`)}
         />
         <img
           src={menu}

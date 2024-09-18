@@ -24,7 +24,7 @@ export const Like = (props: userLike) => {
       )}
     >
       <RoundPicture
-        size="medium"
+        size="large"
         picture={postImage}
         onClick={() => {
           navigate(`/${postCreator}/post/${postId}`);

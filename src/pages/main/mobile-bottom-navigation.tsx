@@ -20,7 +20,9 @@ export default function MobileBottomNavigation() {
           src={search}
           alt=""
           className="w-6"
-          onClick={() => navigate("/")}
+          onClick={() => {
+            navigate("/search");
+          }}
         />
         <img
           src={explore}

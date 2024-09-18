@@ -26,6 +26,7 @@ export const Follow = (props: FollowProps) => {
               follow();
             }}
             isPending={isPending}
+            classes="text-xs text-nowrap text-right"
           >
             {"دنبال نکردن"}
           </Button>
@@ -34,6 +35,7 @@ export const Follow = (props: FollowProps) => {
         return (
           <Button
             btnColor="outline"
+            classes="text-xs text-nowrap text-right"
             onClick={() => {
               follow();
             }}
@@ -49,6 +51,7 @@ export const Follow = (props: FollowProps) => {
             onClick={() => {
               follow();
             }}
+            classes="text-xs text-nowrap text-right"
           >
             {"دنبال کردن +"}
           </Button>
@@ -64,7 +67,7 @@ export const Follow = (props: FollowProps) => {
       )}
     >
       <RoundPicture
-        size="medium"
+        size="large"
         picture={
           userProfile?.profileImage && userProfile?.profileImage !== ""
             ? userProfile?.profileImage

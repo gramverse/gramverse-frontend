@@ -32,16 +32,18 @@ export const Button = (props: ButtonProps) => {
     type,
     children,
     onClick,
+    className,
     ...attrs
   } = props;
   return (
     <button
       type={type}
       className={clsx(
-        `flex w-fit cursor-pointer items-center text-center hover:brightness-90 active:scale-90`,
+        `flex w-fit cursor-pointer items-center justify-center text-center hover:brightness-90 active:scale-90`,
         sizes[size],
         btnStyles[btnColor],
         classes,
+        className,
       )}
       onClick={(e) => {
         if (isPending) {

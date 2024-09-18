@@ -32,9 +32,15 @@ import { CreatePostMobile } from "../pages/post/create-post";
 import { CollegeBackground } from "../components/rahnema-background";
 import { Signup, SignupMoblie } from "../pages/authentication/sign-up";
 import { Login, LoginMobile } from "../pages/authentication/login";
-import { CloseFriends, CloseFriendsMobile } from "../pages/lists/close-friends";
-import { BlackList, BlackListMobile } from "../pages/lists/black-list";
-import { List, ListMobile } from "../pages/lists/list";
+import {
+  CloseFriends,
+  CloseFriendsMobile,
+} from "../pages/user-lists/close-friends-list/close-friends";
+import {
+  BlackList,
+  BlackListMobile,
+} from "../pages/user-lists//black-list/black-list";
+import { List, ListMobile } from "../pages/user-lists/twin-list";
 import {
   UserPostViewMobile,
   UserPostViewWeb,
@@ -49,11 +55,12 @@ import {
 import {
   MyNotifications,
   MyNotificationsMobile,
-} from "../pages/notifications/my-notifications";
+} from "../pages/notifications/my-notifications/my-notifications";
 import {
   FriendsNotification,
   FriendsNotificationMobile,
-} from "../pages/notifications/friends-notifications";
+} from "../pages/notifications/friends-notifications/friends-notifications";
+import { Search, SearchMobile } from "../pages/search/twin-search";
 import {
   MentionPage,
   MentionPageMobile,
@@ -98,6 +105,7 @@ export const AppRoutes = () => {
             element={<FriendsNotification />}
           />
         </Route>
+        <Route path="/search" element={<Search />} />
         {data?.userName && (
           <Route path={`/${data?.userName}`} element={<MyPage />} />
         )}
@@ -160,6 +168,8 @@ export const AppRoutesMobile = () => {
             element={<FriendsNotificationMobile />}
           />
         </Route>
+        <Route path="/search" element={<SearchMobile />} />
+
         <Route path={urls.mentionPage} element={<MentionPageMobile />} />
         <Route path={urls.bookmarkPage} element={<BookmarkPageMobile />} />
         <Route path="create-post" element={<CreatePostMobile />} />

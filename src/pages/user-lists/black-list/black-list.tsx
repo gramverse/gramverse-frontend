@@ -1,26 +1,24 @@
-import { UserProfileSummary } from "../../components/user-profile-summary";
-import more from "../../assets/svg/menu-dots.svg";
+import { UserProfileSummary } from "../../../components/user-profile-summary";
+import more from "../../../assets/svg/menu-dots.svg";
 import { useEffect, useState } from "react";
-import { Modal } from "../../components/modal";
-import { MenuCloseFriends } from "./menu-close-friends";
-import { UserInfoSummary } from "../../types/user";
-import { Block } from "../user-relationship-modals/block-modal";
-import { Unclose } from "../user-relationship-modals/unclose-modal";
+import { MenuBlock } from "./menu-block";
+import { Modal } from "../../../components/modal";
+import { Unblock } from "../../user-relationship-modals/unblock-modal";
+import { UserInfoSummary } from "../../../types/user";
+import { useGetBlackList } from "../../../services/users";
 import { useInView } from "react-intersection-observer";
-import { useGetCloseFriends } from "../../services/users";
-import { Loading } from "../../components/loading";
-
-export const CloseFriendsLayout = () => {
+import { Loading } from "../../../components/loading";
+export const BlackListLayout = () => {
   const [menu, openMenu] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserInfoSummary>();
-  const [modal, setModal] = useState<"block" | "unclose" | null>(null);
+  const [modal, setModal] = useState(false);
   const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } =
-    useGetCloseFriends({ limit: 1 });
+    useGetBlackList({ limit: 1 });
   const { ref, inView } = useInView({
     threshold: 0.1,
   });
   useEffect(() => {
-    if (inView && hasNextPage && !isFetching && !isFetchingNextPage) {
+    if (inView && hasNextPage && !isFetching && isFetchingNextPage) {
       fetchNextPage();
     }
   }, [
@@ -39,25 +37,12 @@ export const CloseFriendsLayout = () => {
       }}
     >
       <Modal
-        isOpen={modal === "block"}
+        isOpen={modal}
         close={() => {
-          setModal(null);
+          setModal(false);
         }}
       >
-        <Block user={selectedUser} close={() => setModal(null)} />
-      </Modal>
-      <Modal
-        isOpen={modal === "unclose"}
-        close={() => {
-          setModal(null);
-        }}
-      >
-        <Unclose
-          user={selectedUser}
-          close={() => {
-            setModal(null);
-          }}
-        />
+        <Unblock user={selectedUser} close={() => setModal(false)} />
       </Modal>
       {data?.pages
         .flatMap((page) => page.followingers)
@@ -69,12 +54,14 @@ export const CloseFriendsLayout = () => {
               followerCount={user.followerCount}
             />
             <div className="relative">
-              <MenuCloseFriends
+              <MenuBlock
                 isOpen={menu && selectedUser?.userName === user.userName}
                 closeMenu={() => {
                   openMenu(false);
                 }}
-                openModal={(arg: "block" | "unclose") => setModal(arg)}
+                openModal={() => {
+                  setModal(true);
+                }}
               />
 
               <img
@@ -107,10 +94,9 @@ export const CloseFriendsLayout = () => {
   );
 };
 
-export const CloseFriends = () => {
-  return <CloseFriendsLayout />;
+export const BlackList = () => {
+  return <BlackListLayout />;
 };
-
-export const CloseFriendsMobile = () => {
-  return <CloseFriendsLayout />;
+export const BlackListMobile = () => {
+  return <BlackListLayout />;
 };

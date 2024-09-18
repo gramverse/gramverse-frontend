@@ -1,5 +1,5 @@
-import { Tab } from "../../components/tab";
-import blocked from "../../assets/svg/blocked.svg";
+import { Tab } from "../../../components/tab";
+import blocked from "../../../assets/svg/blocked.svg";
 export const MenuBlock = ({
   closeMenu,
   openModal,
