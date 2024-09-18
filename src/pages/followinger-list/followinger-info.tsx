@@ -27,7 +27,6 @@ export const FollowingersInfo = ({
   myUserName,
   noBorder = false,
 }: FollowerInfoProps) => {
-  const isSetProfileImage = profileImage && profileImage != "";
   const [menu, openMenu] = useState(false);
   const navigate = useNavigate();
   return (
@@ -46,7 +45,7 @@ export const FollowingersInfo = ({
       <label className="ml-4 block h-14 w-14 overflow-hidden rounded-full">
         <img
           className="h-full w-full object-cover"
-          src={isSetProfileImage ? profileImage : PersonIcon}
+          src={profileImage != "" ? profileImage : PersonIcon}
         />
       </label>
       <div className="flex h-12 w-48 flex-col">
@@ -97,7 +96,6 @@ export const FollowingersInfoMobile = ({
   activityPermit,
   myUserName,
 }: FollowerInfoProps) => {
-  const isSetProfileImage = profileImage && profileImage != "";
   const [menu, openMenu] = useState(false);
   const navigate = useNavigate();
   return (
@@ -111,7 +109,7 @@ export const FollowingersInfoMobile = ({
       <label className="ml-4 block h-14 w-14 overflow-hidden rounded-full">
         <img
           className="h-full w-full object-cover"
-          src={isSetProfileImage ? profileImage : PersonIcon}
+          src={profileImage != "" ? profileImage : PersonIcon}
         />
       </label>
       <div className="flex h-12 w-48 flex-col">

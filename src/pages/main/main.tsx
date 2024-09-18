@@ -6,7 +6,7 @@ import { Panel } from "./web-side-panel";
 import { ContainterMobile } from "../../components/container";
 import MobileTopNavigation from "./mobile-top-navigation";
 import { useGetProfile } from "../../services/get-my-profile";
-
+import profile from "../../assets/svg/profile.svg";
 export const Main = () => {
   const location = useLocation();
   const [tab, setTab] = useState("explore");
@@ -36,10 +36,10 @@ export const Main = () => {
       case location.pathname.includes("close-friends") ||
         location.pathname.includes("black-list"):
         setTab("more");
+
         break;
-      default:
+      case location.pathname.includes("search"):
         setTab("search");
-        break;
     }
   }, [location.pathname, myProfile?.userName, navigate]);
 
@@ -58,18 +58,9 @@ export const Main = () => {
 
 export const MainMobile = () => {
   const location = useLocation();
-  const [, setTab] = useState("");
-  const { data: profileSummary, isFetched } = useGetProfile();
-  const navigate = useNavigate();
+  const { data: profileSummary, isSuccess } = useGetProfile();
   const [buttomNavigation, showBottomNavigation] = useState(true);
   const [topNavigation, showTopNavigation] = useState(true);
-  useEffect(() => {
-    if (isFetched) {
-      if (!profileSummary) {
-        navigate("/login");
-      }
-    }
-  }, [profileSummary, isFetched, navigate]);
   useEffect(() => {
     if (
       location.pathname.endsWith("/edit") ||
@@ -81,28 +72,27 @@ export const MainMobile = () => {
     }
   }, [location.pathname]);
   useEffect(() => {
-    if (location.pathname.includes("/post")) {
+    if (
+      location.pathname.includes("/post") ||
+      location.pathname.includes("search")
+    ) {
       showTopNavigation(false);
     } else {
       showTopNavigation(true);
     }
   }, [location.pathname]);
-  useEffect(() => {
-    switch (true) {
-      case location.pathname.startsWith("/profile"):
-        setTab("myPage");
-        break;
-      case location.pathname == "/" || location.pathname == "":
-        setTab("explore");
-        break;
-    }
-  }, [location.pathname, navigate]);
   return (
     <ContainterMobile className="overflow-y-scroll">
       {topNavigation && (
         <MobileTopNavigation
-          userName={profileSummary?.userName}
-          profileImage={profileSummary?.profileImage}
+          userName={isSuccess ? profileSummary.userName : ""}
+          profileImage={
+            isSuccess
+              ? profileSummary.profileImage != ""
+                ? profileSummary.profileImage
+                : profile
+              : profile
+          }
         />
       )}
       <Outlet />

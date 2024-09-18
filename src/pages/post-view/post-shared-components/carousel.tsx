@@ -27,14 +27,19 @@ export const Carousel = (props: Carousel) => {
             }}
           />
         )}
-        <img
-          src={photoUrls[index]}
-          alt=""
+        <div
           className={clsx(
-            "absolute h-[500px] w-[500px] rounded-3xl bg-slate-200 object-contain",
+            "absolute h-[500px] min-w-[500px] max-w-[700px] rounded-3xl bg-slate-200",
             photoUrls.length === 0 && "animate-pulse",
           )}
-        />
+        >
+          <img
+            src={photoUrls[index]}
+            alt=""
+            className="h-full w-full object-cover"
+          />
+        </div>
+
         {photoUrls.length > 1 && (
           <img
             src={leftArrow}

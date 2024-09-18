@@ -1,9 +1,6 @@
 import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
-import {
-  AddCommentData,
-  CommentsResponse,
-} from "../types/comment";
+import { AddCommentData, CommentsResponse } from "../types/comment";
 import { LikeComment } from "../types/comment";
 import { queryClient } from "../common/query-client";
 import { HTTPError } from "ky";
@@ -60,7 +57,6 @@ export const useGetComments = ({
       httpClient
         .get(`posts/comments?postId=${postId}&page=${pageParam}&limit=${limit}`)
         .json(),
-    // .then(CommentsResponseSchema.parse),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       const remaining = lastPage.totalCount - allPages.length * limit;

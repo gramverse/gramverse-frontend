@@ -23,7 +23,7 @@ export const NotificationLayout = ({ mobile }: { mobile: boolean }) => {
       )}
     >
       <TwinTab
-        className={clsx(!mobile && "self-start")}
+        className={clsx(!mobile && "self-start", mobile && "self-center")}
         tab1={{ text: " اعلانات من", url: "/my-notifications" }}
         tab2={{ text: " اعلانات دوستان من", url: "/friends-notifications" }}
         tab={value}

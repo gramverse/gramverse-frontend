@@ -1,6 +1,6 @@
 import { HTTPError } from "ky";
 import { useHttpClient } from "../common/http-client";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { skipToken, useMutation, useQuery } from "@tanstack/react-query";
 import { PostDetail } from "../types/post-detail";
 import { queryClient } from "../common/query-client";
 import { handleRequestError } from "../common/utilities/http-error-handler";
@@ -9,7 +9,10 @@ export const useGetPost = (id: string | undefined) => {
   const httpClient = useHttpClient();
   return useQuery<PostDetail, HTTPError>({
     queryKey: ["getPost", id],
-    queryFn: () => httpClient.get(`posts/post/${id}`).json(),
+    queryFn:
+      id && id !== ""
+        ? () => httpClient.get(`posts/post/${id}`).json()
+        : skipToken,
     enabled: id !== undefined,
   });
 };

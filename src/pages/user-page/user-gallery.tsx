@@ -57,6 +57,7 @@ export const UserGallery = ({
         return (
           <Post
             forCloseFriends={post.forCloseFriends ?? false}
+            key={post._id}
             image={post.photoUrls[0]}
             onClick={() => {
               setPostId(post._id);
@@ -67,6 +68,8 @@ export const UserGallery = ({
       })}
       <Loading
         isLoading={isFetching || isFetchingNextPostPage}
+        className="mx-auto place-self-center"
+        size="large"
         ref={nearEndPostRef}
       />
     </div>
@@ -99,23 +102,26 @@ export const UserGalleryMobile = ({
   }, [isNearPostEnd, isFetchingNextPostPage, hasNextPage]);
 
   return (
-    <div className="absolute inset-x-0 mx-auto grid h-[500px] w-[19.4rem] grid-cols-2 gap-5 self-center overflow-y-scroll">
+    <div className="absolute inset-x-0 mx-auto grid h-[500px] w-[19.4rem] grid-cols-2 gap-5 self-center overflow-y-scroll px-4 pt-3">
       {postPages?.pages
         .flatMap((x) => x.posts)
         .map((post) => {
           return (
             <PostMobile
+              key={post._id}
               image={post.photoUrls[0]}
               forCloseFriends={post.forCloseFriends ?? false}
               id={post._id}
             />
           );
         })}
-      <p className="mb-64" />
+
       <Loading
         isLoading={isFetching || isFetchingNextPostPage}
+        className="place-self-center"
         ref={nearEndPostRef}
       />
+      <p className="mb-20" />
     </div>
   );
 };

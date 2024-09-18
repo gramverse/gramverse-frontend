@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useGetExplorePosts } from "../../services/explore";
 import { useInView } from "react-intersection-observer";
-import clsx from "clsx";
 import { ExplorePost, ExplorePostMobile } from "./explore-post";
 import { ExploreMessage } from "./explore-message";
+import { Loading } from "../../components/loading";
 
 export const Explore = () => {
   const [nearEndPostRef, isNearPostEnd] = useInView();
@@ -20,8 +20,14 @@ export const Explore = () => {
   const posts = postPages?.pages.flatMap((x) => x.postDtos) ?? [];
 
   useEffect(() => {
-    if (!hasNextPage || !isNearPostEnd || isFetching) return;
-    fetchNextPosts();
+    if (
+      hasNextPage &&
+      isNearPostEnd &&
+      !isFetching &&
+      !isFetchingNextPostPage
+    ) {
+      fetchNextPosts();
+    }
   }, [isNearPostEnd, isFetchingNextPostPage, hasNextPage]);
 
   return (
@@ -36,15 +42,12 @@ export const Explore = () => {
             <ExplorePost key={post._id} post={post} closeModal={refetchPosts} />
           );
         })}
-        <div
+        <Loading
+          isLoading={isFetching || isFetchingNextPostPage}
+          className="mx-auto place-self-center"
+          size="large"
           ref={nearEndPostRef}
-          className={clsx(
-            "flex w-full items-center justify-center text-2xl",
-            hasNextPage ? "h-[calc(11rem/3)]" : "",
-          )}
-        >
-          {hasNextPage && isFetchingNextPostPage && <div>Loading...</div>}
-        </div>
+        />
       </div>
     </div>
   );
@@ -64,8 +67,14 @@ export const ExploreMobile = () => {
   const posts = postPages?.pages.flatMap((x) => x.postDtos) ?? [];
 
   useEffect(() => {
-    if (!hasNextPage || !isNearPostEnd || isFetching) return;
-    fetchNextPosts();
+    if (
+      hasNextPage &&
+      isNearPostEnd &&
+      !isFetching &&
+      !isFetchingNextPostPage
+    ) {
+      fetchNextPosts();
+    }
   }, [isNearPostEnd, isFetchingNextPostPage, hasNextPage]);
 
   return (
@@ -74,15 +83,11 @@ export const ExploreMobile = () => {
         {posts.map((post) => {
           return <ExplorePostMobile key={post._id} post={post} />;
         })}
-        <div
+        <Loading
+          isLoading={isFetching || isFetchingNextPostPage}
+          className="mx-auto place-self-center"
           ref={nearEndPostRef}
-          className={clsx(
-            "flex w-full items-center justify-center text-2xl",
-            hasNextPage ? "h-[calc(11rem/3)]" : "",
-          )}
-        >
-          {hasNextPage && isFetchingNextPostPage && <div>Loading...</div>}
-        </div>
+        />
       </div>
     </div>
   );

@@ -7,11 +7,13 @@ export const TwinTab = ({
   tab2,
   tab,
   className,
+  handleClick,
 }: {
   tab1: { text: string; url: string };
   tab2: { text: string; url: string };
   tab: number;
   className?: string;
+  handleClick?: (arg: number) => void;
 }) => {
   const navigate = useNavigate();
 
@@ -23,9 +25,7 @@ export const TwinTab = ({
         value="0"
         selectedValue={`${tab}`}
         selectedStyle="text"
-        onClick={() => {
-          navigate(tab1.url);
-        }}
+        onClick={() => (handleClick ? handleClick(0) : navigate(tab1.url))}
       ></Tab>
       <div className="h-10 w-0.5 bg-gray-400" />
 
@@ -35,9 +35,7 @@ export const TwinTab = ({
         value="1"
         selectedValue={`${tab}`}
         selectedStyle="text"
-        onClick={() => {
-          navigate(tab2.url);
-        }}
+        onClick={() => (handleClick ? handleClick(1) : navigate(tab2.url))}
       ></Tab>
     </div>
   );

@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const followingerInfoSchema = z.object({
   userName: z.string(),
-  profileImage: z.string().optional(),
+  profileImage: z.string(),
   followerCount: z.number(),
 });
 

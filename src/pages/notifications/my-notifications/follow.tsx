@@ -9,10 +9,7 @@ import { useFollowUser, useGetUserProfile } from "../../../services/user-page";
 import { useCallback } from "react";
 import { useAcceptRequest } from "../../../services/notifications";
 
-interface FollowProps extends follow {
-  refetch: () => void;
-}
-export const Follow = (props: FollowProps) => {
+export const Follow = (props: follow) => {
   const { performerUserName, creationDate, seen } = props;
   const navigate = useNavigate();
   const { userProfile } = useGetUserProfile(performerUserName);
@@ -28,6 +25,7 @@ export const Follow = (props: FollowProps) => {
               onClick={() => {
                 follow();
               }}
+              classes="text-xs text-nowrap text-right"
               isPending={isPending}
             >
               {"دنبال نکردن"}
@@ -41,6 +39,7 @@ export const Follow = (props: FollowProps) => {
                 follow();
               }}
               isPending={isPending}
+              classes="text-xs text-nowrap text-right"
             >
               {"لغو درخواست"}
             </Button>
@@ -53,6 +52,7 @@ export const Follow = (props: FollowProps) => {
                 follow();
               }}
               isPending={isPending}
+              classes="text-xs text-nowrap text-right"
             >
               {"دنبال کردن +"}
             </Button>
@@ -65,6 +65,7 @@ export const Follow = (props: FollowProps) => {
             onClick={() => {
               accept({ followerUserName: performerUserName, accepted: true });
             }}
+            classes="text-xs text-nowrap text-right"
           >
             قبوله
           </Button>
@@ -73,6 +74,7 @@ export const Follow = (props: FollowProps) => {
             onClick={() => {
               accept({ followerUserName: performerUserName, accepted: false });
             }}
+            classes="text-xs text-nowrap text-right"
           >
             خوشم نمیاد ازش
           </Button>
@@ -96,7 +98,7 @@ export const Follow = (props: FollowProps) => {
       )}
     >
       <RoundPicture
-        size="medium"
+        size="large"
         picture={
           userProfile?.profileImage && userProfile?.profileImage !== ""
             ? userProfile?.profileImage
@@ -107,12 +109,7 @@ export const Follow = (props: FollowProps) => {
         }}
       />
       <div className="flex flex-col items-start gap-1">
-        {userProfile?.requestState === "pending" && (
-          <p className="m-0 p-0">{`${performerUserName} بهت درخواست دوستی داده`}</p>
-        )}
-        {userProfile?.requestState === "accepted" && (
-          <p className="m-0 p-0">{`${performerUserName} دنبالت کرد`}</p>
-        )}
+        <p className="m-0 p-0">{`${performerUserName} دنبالت کرد`}</p>
 
         <small className="text-xs text-gray-500">
           {getTimeDifference(new Date(), new Date(creationDate))}

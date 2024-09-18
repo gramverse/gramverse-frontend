@@ -1,3 +1,4 @@
+import profile from "./../assets/svg/profile.svg";
 const sizes = {
   small: "w-8 h-8",
   medium: "w-12 h-12",
@@ -14,6 +15,12 @@ interface ImageProps {
 
 export const RoundPicture = (props: ImageProps) => {
   const { size = "medium", picture, classes = "", onClick } = props;
-  const customClasses = `border-none rounded-full object-cove bg-gray-300 ${classes} ${sizes[size]}`;
-  return <img onClick={onClick} src={picture} className={customClasses}></img>;
+  const customClasses = `border-none rounded-full object-cover bg-gray-300 object-cover ${classes} ${sizes[size]}`;
+  return (
+    <img
+      onClick={onClick}
+      src={picture && picture !== "" ? picture : profile}
+      className={customClasses}
+    ></img>
+  );
 };

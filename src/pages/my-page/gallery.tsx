@@ -80,6 +80,8 @@ export const Gallery = () => {
 
       <Loading
         isLoading={isFetching || isFetchingNextPostPage}
+        className="mx-auto place-self-center"
+        size="large"
         ref={nearEndPostRef}
       />
     </div>
@@ -121,11 +123,12 @@ export const GalleryMobile = () => {
             />
           );
         })}
-      <p className="mb-64" />
       <Loading
         isLoading={isFetching || isFetchingNextPostPage}
+        className="place-self-center"
         ref={nearEndPostRef}
       />
+      <p className="mb-20" />
     </div>
   );
 };

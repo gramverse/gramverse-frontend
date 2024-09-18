@@ -15,7 +15,7 @@ import { UserProfileSummary } from "../../components/user-profile-summary";
 
 export const UserPostViewWeb = () => {
   const params = useParams();
-  const { data: post } = useGetPost(params.postId);
+  const { data: post, isSuccess: isPostSuccess } = useGetPost(params.postId);
   const [commentProps, setCommentProps] = useState<CommentFieldProps>({
     parentCommentId: "",
     parentCommentUserName: "",
@@ -29,19 +29,22 @@ export const UserPostViewWeb = () => {
             <UserProfileSummary userName={params.userName ?? ""} />
           </div>
           <PostCaptions
-            caption={post?.caption ?? ""}
-            mentions={post?.mentions ?? []}
-            tags={post?.tags ?? []}
-            creationDate={post?.creationDate ?? ""}
+            caption={isPostSuccess ? post.caption : ""}
+            mentions={isPostSuccess ? post.mentions : []}
+            tags={isPostSuccess ? post.tags : []}
+            creationDate={isPostSuccess ? post.creationDate : ""}
           />
           <PostDetailSummary post={post} />
-          <AddComment postId={post?._id ?? ""} {...commentProps} />
+          <AddComment
+            postId={isPostSuccess ? post._id : ""}
+            {...commentProps}
+          />
         </div>
       </div>
       <ViewComments
         className="mt-5 h-96 w-1/2 self-end"
         setCommentProps={(props: CommentFieldProps) => setCommentProps(props)}
-        postId={post?._id ?? ""}
+        postId={isPostSuccess ? post._id : ""}
       />
     </div>
   );
@@ -50,7 +53,9 @@ export const UserPostViewWeb = () => {
 export const UserPostViewMobile = () => {
   const navigate = useNavigate();
   const params = useParams();
-  const { data: post } = useGetPost(params.postId ?? "");
+  const { data: post, isSuccess: isPostSuccess } = useGetPost(
+    params.postId ?? "",
+  );
   const [commentProps, setCommentProps] = useState<CommentFieldProps>({
     parentCommentId: "",
     parentCommentUserName: "",
@@ -87,18 +92,18 @@ export const UserPostViewMobile = () => {
         <CarouselMobile photoUrls={post?.photoUrls ?? []} />
         <PostDetailSummary post={post} />
         <PostCaptions
-          caption={post?.caption ?? ""}
-          mentions={post?.mentions ?? []}
-          tags={post?.tags ?? []}
-          creationDate={post?.creationDate ?? ""}
+          caption={isPostSuccess ? post.caption : ""}
+          mentions={isPostSuccess ? post.mentions : []}
+          tags={isPostSuccess ? post.tags : []}
+          creationDate={isPostSuccess ? post.creationDate : ""}
         />
-        <AddComment postId={post?._id ?? ""} {...commentProps} />
+        <AddComment postId={isPostSuccess ? post._id : ""} {...commentProps} />{" "}
       </div>
       <div className="px-3">
         <ViewComments
           className="mt-10 h-[300px] grow self-end"
           setCommentProps={(props: CommentFieldProps) => setCommentProps(props)}
-          postId={post?._id ?? ""}
+          postId={isPostSuccess ? post._id : ""}
         />
       </div>
     </div>

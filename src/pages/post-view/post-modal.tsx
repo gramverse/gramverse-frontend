@@ -19,18 +19,20 @@ export const PostModal = ({
   close: () => void;
 }) => {
   const navigate = useNavigate();
-  const { data } = useGetProfile();
-  const { data: post } = useGetPost(postId);
+  const { data, isSuccess } = useGetProfile();
+  const { data: post, isSuccess: isPostSuccess } = useGetPost(postId);
   return (
     <ContainterWeb className="relative flex grow justify-between gap-3 pt-16">
       <img
         src={expand}
         className="absolute inset-5 h-8 cursor-pointer"
         onClick={() => {
-          navigate(`/${data?.userName}/post/${post?._id}`);
+          if (isSuccess && isPostSuccess) {
+            navigate(`/${data.userName}/post/${post._id}`);
+          }
         }}
       />
-      <Carousel photoUrls={post?.photoUrls ?? []} />
+      <Carousel photoUrls={isPostSuccess ? post.photoUrls : []} />
       <div className="flex h-[375px] grow flex-col justify-between gap-3 p-5">
         <div className="flex flex-row justify-between gap-5">
           <ProfileSummary />
@@ -44,10 +46,10 @@ export const PostModal = ({
         </div>
         <PostCaptions
           close={close}
-          caption={post?.caption ?? ""}
-          mentions={post?.mentions ?? []}
-          tags={post?.tags ?? []}
-          creationDate={post?.creationDate ?? ""}
+          caption={isPostSuccess ? post.caption : ""}
+          mentions={isPostSuccess ? post.mentions : []}
+          tags={isPostSuccess ? post.tags : []}
+          creationDate={isPostSuccess ? post.creationDate : ""}
         />
         <PostDetailSummary post={post} />
       </div>

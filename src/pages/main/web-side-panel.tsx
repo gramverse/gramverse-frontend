@@ -122,7 +122,9 @@ export const Panel = ({ tab }: { tab: string }) => {
             icon={itemList["search"].icon}
             selectedValue={tab}
             value={"search"}
-            onClick={() => {}}
+            onClick={() => {
+              navigate("/search");
+            }}
           />
 
           <div className="absolute bottom-4">

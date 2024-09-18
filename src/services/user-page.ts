@@ -65,12 +65,14 @@ export const useGetUserProfile = (userName: string) => {
   const httpClient = useHttpClient();
   const { data, ...rest } = useQuery<UserProfile, HTTPError>({
     queryKey: ["getUserProfile", userName],
-    enabled: !!userName,
-    queryFn: () =>
-      httpClient
-        .get(`users/profile/${userName}`)
-        .json()
-        .then(userProfileSchema.parse),
+    queryFn:
+      userName && userName !== ""
+        ? () =>
+            httpClient
+              .get(`users/profile/${userName}`)
+              .json()
+              .then(userProfileSchema.parse)
+        : skipToken,
   });
 
   const userStates = calcUserStates(data as UserProfile);

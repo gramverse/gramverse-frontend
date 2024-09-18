@@ -1,12 +1,17 @@
 import { useCallback, useEffect } from "react";
-import { useGetFollowingNotifications } from "../../services/notifications";
-import { Comment } from "./friends-notifications/comment";
-import { Follow } from "./friends-notifications/follow";
-import { Like } from "./friends-notifications/like";
-import { userComment, userFollow, userLike } from "../../types/notifications";
+import { useGetFollowingNotifications } from "../../../services/notifications";
+import { Comment } from "../friends-notifications/comment";
+import { Follow } from "../friends-notifications/follow";
+import { Like } from "../friends-notifications/like";
+import {
+  userComment,
+  userFollow,
+  userLike,
+} from "../../../types/notifications";
 import { useInView } from "react-intersection-observer";
-import { Loading } from "../../components/loading";
-import { queryClient } from "../../common/query-client";
+import { Loading } from "../../../components/loading";
+import { queryClient } from "../../../common/query-client";
+import { nanoid } from "nanoid";
 
 export const FriendsNotificationsLayout = () => {
   const {
@@ -25,12 +30,7 @@ export const FriendsNotificationsLayout = () => {
     (notification: userComment | userLike | userFollow) => {
       switch (notification.type) {
         case "like":
-          return (
-            <Like
-              {...notification}
-              key={notification.postId + notification.performerUserName}
-            />
-          );
+          return <Like {...notification} key={nanoid()} />;
 
         case "follow":
           return (
@@ -39,23 +39,12 @@ export const FriendsNotificationsLayout = () => {
                 refetch();
               }}
               {...notification}
-              key={
-                notification.followingUserName + notification.performerUserName
-              }
+              key={nanoid()}
             />
           );
 
         case "comment":
-          return (
-            <Comment
-              {...notification}
-              key={
-                notification.postId +
-                notification.performerUserName +
-                notification.creationDate
-              }
-            />
-          );
+          return <Comment {...notification} key={nanoid()} />;
       }
     },
     [refetch],
@@ -76,7 +65,7 @@ export const FriendsNotificationsLayout = () => {
     isFetchingNextPage,
   ]);
   return (
-    <div className="flex w-full flex-col gap-2">
+    <div className="flex w-full flex-col gap-2 text-right text-xs">
       {data?.pages
         .flatMap((chunck) => chunck.notifications)
         .map((notificiation) => NotifComponent(notificiation))}

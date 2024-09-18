@@ -47,10 +47,10 @@ export const useGetFollowingNotifications = ({ limit }: { limit: number }) => {
 };
 export const useGetNotificationCount = () => {
   const httpClient = useHttpClient();
-  return useQuery<{ unreadCount: number }>({
+  return useQuery<{ unreadCount: number }, HTTPError>({
     queryKey: ["notificationCount"],
     queryFn: () => httpClient.get(`notifications/unreadCount`).json(),
-    refetchInterval: 10000,
+    refetchInterval: 120000,
   });
 };
 type AcceptRequest = {

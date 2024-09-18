@@ -17,7 +17,7 @@ import { CommentFieldProps } from "../../types/comment";
 
 export const PostViewWeb = () => {
   const params = useParams();
-  const { data: post } = useGetPost(params.postId);
+  const { data: post, isSuccess } = useGetPost(params.postId);
   const [isEditOpen, OpenEdit] = useState(false);
   const [commentProps, setCommentProps] = useState<CommentFieldProps>({
     parentCommentId: "",
@@ -33,14 +33,12 @@ export const PostViewWeb = () => {
             OpenEdit(false);
           }}
         >
-          {post?._id && (
-            <EditPost
-              postId={post?._id}
-              close={() => {
-                OpenEdit(false);
-              }}
-            />
-          )}
+          <EditPost
+            postId={isSuccess ? post._id : ""}
+            close={() => {
+              OpenEdit(false);
+            }}
+          />
         </Modal>
         <Carousel photoUrls={post?.photoUrls ?? []} />
         <div className="flex grow flex-col justify-between gap-3 p-5">
@@ -54,19 +52,19 @@ export const PostViewWeb = () => {
             />
           </div>
           <PostCaptions
-            caption={post?.caption ?? ""}
-            mentions={post?.mentions ?? []}
-            tags={post?.tags ?? []}
-            creationDate={post?.creationDate ?? ""}
+            caption={isSuccess ? post.caption : ""}
+            mentions={isSuccess ? post.mentions : []}
+            tags={isSuccess ? post.tags : []}
+            creationDate={isSuccess ? post.creationDate : ""}
           />
           <PostDetailSummary post={post} />
-          <AddComment postId={post?._id ?? ""} {...commentProps} />
+          <AddComment postId={isSuccess ? post._id : ""} {...commentProps} />
         </div>
       </div>
       <ViewComments
         className="mt-5 h-96 w-1/2 self-end"
         setCommentProps={(props: CommentFieldProps) => setCommentProps(props)}
-        postId={post?._id ?? ""}
+        postId={isSuccess ? post._id : ""}
       />
     </div>
   );
@@ -75,7 +73,7 @@ export const PostViewWeb = () => {
 export const PostViewMobile = () => {
   const navigate = useNavigate();
   const params = useParams();
-  const { data: post } = useGetPost(params.postId ?? "");
+  const { data: post, isSuccess } = useGetPost(params.postId ?? "");
   const [commentProps, setCommentProps] = useState<CommentFieldProps>({
     parentCommentId: "",
     parentCommentUserName: "",
@@ -106,21 +104,21 @@ export const PostViewMobile = () => {
       </div>
 
       <div className="flex flex-col justify-start self-start">
-        <CarouselMobile photoUrls={post?.photoUrls ?? []} />
+        <CarouselMobile photoUrls={isSuccess ? post.photoUrls : []} />
         <PostDetailSummary post={post} />
         <PostCaptions
-          caption={post?.caption ?? ""}
-          mentions={post?.mentions ?? []}
-          tags={post?.tags ?? []}
-          creationDate={post?.creationDate ?? ""}
+          caption={isSuccess ? post.caption : ""}
+          mentions={isSuccess ? post.mentions : []}
+          tags={isSuccess ? post.tags : []}
+          creationDate={isSuccess ? post.creationDate : ""}
         />
-        <AddComment postId={post?._id ?? ""} {...commentProps} />
+        <AddComment postId={isSuccess ? post._id : ""} {...commentProps} />
       </div>
       <div className="px-3">
         <ViewComments
           className="mt-10 h-[300px] grow self-end"
           setCommentProps={(props: CommentFieldProps) => setCommentProps(props)}
-          postId={post?._id ?? ""}
+          postId={isSuccess ? post._id : ""}
         />
       </div>
     </div>

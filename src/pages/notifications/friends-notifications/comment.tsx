@@ -25,7 +25,7 @@ export const Comment = (props: userComment) => {
       )}
     >
       <RoundPicture
-        size="medium"
+        size="large"
         picture={postImage}
         onClick={() => {
           navigate(`/${postCreator}/post/${postId}`);
