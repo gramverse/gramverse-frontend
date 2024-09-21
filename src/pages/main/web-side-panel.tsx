@@ -1,11 +1,10 @@
 import { itemList } from "./menu-data";
 import { Tab } from "../../components/tab";
 import { ProfileSummary } from "../../components/profile-summary";
-import { useGetProfile } from "../../services/get-my-profile";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/button";
 import PlusIcon from "@asset/svg/plus-round.svg";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { Modal } from "../../components/modal";
 import { CreatePost } from "../post/create-post";
 import { Menu } from "./menu";
@@ -15,6 +14,7 @@ import { useGetAccounts } from "../../services/switch-account";
 import { AccountsLimit } from "./accounts-limit";
 import { ChooseAccount } from "./choose-account";
 import { useGetMessageCount } from "../../services/chat";
+import { UserNameContext } from "../../router/Router";
 
 export const Panel = ({ tab }: { tab: string }) => {
   const [modal, setModal] = useState<
@@ -22,16 +22,11 @@ export const Panel = ({ tab }: { tab: string }) => {
   >(null);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const { data: count } = useGetNotificationCount();
   const { data: messageCount } = useGetMessageCount();
-
   const [countView, setCountView] = useState(count && count.unreadCount > 0);
-
   const navigate = useNavigate();
-
-  const { data, isSuccess } = useGetProfile();
-
+  const myUserName = useContext(UserNameContext);
   const { isMultiple } = useGetAccounts();
   const handleSuccess = useCallback(() => {
     isMultiple ? setModal("choose-account") : () => {};
@@ -90,7 +85,7 @@ export const Panel = ({ tab }: { tab: string }) => {
             selectedValue={tab}
             value={"myPage"}
             onClick={() => {
-              isSuccess && navigate(`${data.userName}`);
+              navigate(`${myUserName}`);
             }}
           />
           <Tab
@@ -100,7 +95,7 @@ export const Panel = ({ tab }: { tab: string }) => {
             selectedValue={tab}
             value={"saved"}
             onClick={() => {
-              isSuccess && navigate("/bookmark-page");
+              navigate("/bookmark-page");
             }}
           />
           <div className="relative flex">
@@ -144,7 +139,7 @@ export const Panel = ({ tab }: { tab: string }) => {
             selectedValue={tab}
             value={"mention"}
             onClick={() => {
-              isSuccess && navigate("/mention-page");
+              navigate("/mention-page");
             }}
           />
           <div className="-ms-5 h-0.5 w-80 bg-gray-300" />
@@ -156,7 +151,7 @@ export const Panel = ({ tab }: { tab: string }) => {
             selectedValue={tab}
             value={"explore"}
             onClick={() => {
-              isSuccess && navigate(`/`);
+              navigate(`/`);
             }}
           />
           <Tab
@@ -188,11 +183,10 @@ export const Panel = ({ tab }: { tab: string }) => {
               selectedValue={tab}
               value={"addAccount"}
               onClick={() => {
-                if (!isSuccess) return;
                 if (accounts?.length && accounts.length >= 3) {
                   setModal("account-limit");
                 } else {
-                  localStorage.setItem("addAccount", data.userName);
+                  localStorage.setItem("addAccount", myUserName);
                   navigate("/login");
                 }
               }}

@@ -1,16 +1,29 @@
-import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
+import {
+  skipToken,
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
 import { getPostResponseSchema } from "../types/post";
 import { ProfileSchema } from "../types/profile-data";
 import { queryClient } from "../common/query-client";
 import { handleRequestError } from "../common/utilities/http-error-handler";
+import { useLocation } from "react-router-dom";
 
 export const useGetProfile = () => {
+  const location = useLocation();
   const httpClient = useHttpClient();
+  const getProfile =
+    !location.pathname.includes("login") &&
+    !location.pathname.includes("signup") &&
+    !location.pathname.includes("forget-password") &&
+    !location.pathname.includes("reset-password");
   return useQuery({
     queryKey: ["getProfile"],
-    queryFn: () =>
-      httpClient.get(`users/myProfile`).json().then(ProfileSchema.parse),
+    queryFn: getProfile
+      ? () => httpClient.get(`users/myProfile`).json().then(ProfileSchema.parse)
+      : skipToken,
   });
 };
 

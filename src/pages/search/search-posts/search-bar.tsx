@@ -1,15 +1,19 @@
 import { InputField } from "../../../components/input-field";
 import search from "@asset/svg/search.svg";
 import { useGetHashtagHints } from "../../../services/search";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import clsx from "clsx";
-const setHistory = (history: string) => {
-  const hist = localStorage.getItem("search-hashtags");
+import { UserNameContext } from "../../../router/Router";
+const setHistory = (history: string, userName: string) => {
+  const hist = localStorage.getItem(`search-hashtags ${userName}`);
   if (hist) {
-    localStorage.setItem("search-hashtags", hist.concat(" ").concat(history));
+    localStorage.setItem(
+      `search-hashtags ${userName}`,
+      hist.concat(" ").concat(history),
+    );
   } else {
-    localStorage.setItem("search-hashtags", history);
+    localStorage.setItem(`search-hashtags ${userName}`, history);
   }
 };
 export const SearchBar = ({
@@ -24,6 +28,7 @@ export const SearchBar = ({
   const [keyword, setKeyword] = useState("");
   const { data: hint } = useGetHashtagHints(keyword);
   const [isSuggestBoxVisible, viewSuggestBox] = useState(false);
+  const myUserName = useContext(UserNameContext);
   useEffect(() => {
     if (hint && hint.pages.flatMap((data) => data.tags).length > 0) {
       viewSuggestBox(true);
@@ -44,7 +49,7 @@ export const SearchBar = ({
         }}
         onKeyDown={(e) => {
           if (e.key == "Enter") {
-            setHistory(keyword);
+            setHistory(keyword, myUserName);
             setSpecFlag(false);
             setSelectedKeyword(keyword);
             setKeyword("");
@@ -78,7 +83,7 @@ export const SearchBar = ({
                   fieldSize !== "mobile" && "px-20",
                 )}
                 onClick={() => {
-                  setHistory(hashtag._id);
+                  setHistory(hashtag._id, myUserName);
                   setSpecFlag(true);
                   setSelectedKeyword(hashtag._id);
                   setKeyword("");
@@ -88,11 +93,12 @@ export const SearchBar = ({
                 {hashtag._id}
               </div>
             ))}
-          {localStorage.getItem("search-hashtags")?.split(" ").length && (
+          {localStorage.getItem(`search-hashtags ${myUserName}`)?.split(" ")
+            .length && (
             <div className="h-[0.5px] w-full border border-solid border-gray-300" />
           )}
           {localStorage
-            .getItem("search-hashtags")
+            .getItem(`search-hashtags ${myUserName}`)
             ?.split(" ")
             .slice(-3)
             .map((item) => (

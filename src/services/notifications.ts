@@ -76,6 +76,9 @@ export const useAcceptRequest = () => {
       queryClient.invalidateQueries({
         queryKey: ["getUserProfile", variables.followerUserName],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["my-notifications"],
+      });
     },
     onError: (error) => {
       handleRequestError(error);

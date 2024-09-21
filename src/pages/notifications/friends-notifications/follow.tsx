@@ -3,61 +3,115 @@ import { useNavigate } from "react-router-dom";
 import { UserFollow } from "../../../types/notifications";
 import { getTimeDifference } from "../../../common/utilities/time-difference";
 import { RoundPicture } from "../../../components/round-picture";
-import profile from "@asset/svg/profile.svg";
 import { Button } from "../../../components/button";
-import { useFollowUser, useGetUserProfile } from "../../../services/user-page";
-import { useCallback } from "react";
+import { useFollowUser } from "../../../services/user-page";
+import { useCallback, useContext, useEffect } from "react";
+import { UserNameContext } from "../../../router/Router";
+import { useBlockUser } from "../../../services/users";
 
 interface FollowProps extends UserFollow {
   refetch: () => void;
+  isRefetching: boolean;
 }
 export const Follow = (props: FollowProps) => {
-  const { followingUserName, creationDate, seen, performerUserName } = props;
+  const {
+    followingUserName,
+    creationDate,
+    seen,
+    performerUserName,
+    profileImage,
+    isBlocked,
+    followRequestState,
+    refetch,
+    isRefetching,
+  } = props;
   const navigate = useNavigate();
-  const { userProfile } = useGetUserProfile(followingUserName);
-  const { mutate: follow, isPending } = useFollowUser(followingUserName);
-  const CreateButton = useCallback(() => {
-    switch (userProfile?.followRequestState) {
-      case "accepted":
-        return (
-          <Button
-            btnColor="outline"
-            onClick={() => {
-              follow();
-            }}
-            isPending={isPending}
-            classes="text-xs text-nowrap text-right"
-          >
-            {"دنبال نکردن"}
-          </Button>
-        );
-      case "pending":
-        return (
-          <Button
-            btnColor="outline"
-            classes="text-xs text-nowrap text-right"
-            onClick={() => {
-              follow();
-            }}
-            isPending={isPending}
-          >
-            {"لغو درخواست"}
-          </Button>
-        );
-
-      case "none" || "declined":
-        return (
-          <Button
-            onClick={() => {
-              follow();
-            }}
-            classes="text-xs text-nowrap text-right"
-          >
-            {"دنبال کردن +"}
-          </Button>
-        );
+  const myUserName = useContext(UserNameContext);
+  const {
+    mutate: follow,
+    isPending,
+    isSuccess: isFollowSucess,
+  } = useFollowUser(followingUserName, myUserName, followRequestState);
+  const {
+    mutate: block,
+    isPending: isBlockPending,
+    isSuccess: isBlockSuccess,
+  } = useBlockUser();
+  useEffect(() => {
+    if (isFollowSucess) {
+      refetch();
     }
-  }, [follow, isPending, userProfile?.followRequestState]);
+    if (isBlockSuccess) {
+      refetch();
+    }
+  }, [isBlockSuccess, isFollowSucess, refetch]);
+  const CreateButton = useCallback(() => {
+    if (!isBlocked) {
+      switch (followRequestState) {
+        case "accepted":
+          return (
+            <Button
+              btnColor="outline"
+              onClick={() => {
+                follow();
+              }}
+              isPending={isPending || isRefetching}
+              classes="text-xs text-nowrap text-right"
+            >
+              {"دنبال نکردن"}
+            </Button>
+          );
+        case "pending":
+          return (
+            <Button
+              btnColor="outline"
+              classes="text-xs text-nowrap text-right"
+              onClick={() => {
+                follow();
+              }}
+              isPending={isPending || isRefetching}
+            >
+              {"لغو درخواست"}
+            </Button>
+          );
+
+        case "none" || "declined":
+          return (
+            <Button
+              isPending={isPending || isRefetching}
+              onClick={() => {
+                follow();
+              }}
+              classes="text-xs text-nowrap text-right"
+            >
+              {"دنبال کردن +"}
+            </Button>
+          );
+      }
+    } else {
+      return (
+        <Button
+          btnColor="outline"
+          onClick={() => {
+            block({ followingUserName, isBlock: !isBlocked });
+          }}
+          isPending={isBlockPending}
+          classes="text-xs text-nowrap text-right"
+        >
+          {"آنبلاک کردن"}
+        </Button>
+      );
+    }
+  }, [
+    block,
+    follow,
+    followRequestState,
+    followingUserName,
+    isBlockPending,
+    isBlocked,
+    isPending,
+    isRefetching,
+  ]);
   return (
     <div
       className={clsx(
@@ -68,11 +122,7 @@ export const Follow = (props: FollowProps) => {
     >
       <RoundPicture
         size="large"
-        picture={
-          userProfile?.profileImage && userProfile?.profileImage !== ""
-            ? userProfile?.profileImage
-            : profile
-        }
+        picture={profileImage}
         onClick={() => {
           navigate(`/${followingUserName}`);
         }}

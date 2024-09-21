@@ -23,8 +23,18 @@ export const userProfileSchema = z.object({
   isBlocked: z.boolean(),
   hasBlockedUs: z.boolean(),
   isCloseFriend: z.boolean(),
-  followRequestState: z.nativeEnum(RequestStatus),
-  requestState: z.nativeEnum(RequestStatus),
+  followRequestState: z.union([
+    z.literal("none"),
+    z.literal("pending"),
+    z.literal("accepted"),
+    z.literal("declined"),
+  ]),
+  requestState: z.union([
+    z.literal("none"),
+    z.literal("pending"),
+    z.literal("accepted"),
+    z.literal("declined"),
+  ]),
 });
 
 export type UserProfile = z.infer<typeof userProfileSchema>;

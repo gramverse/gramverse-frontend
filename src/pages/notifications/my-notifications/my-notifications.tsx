@@ -5,7 +5,7 @@ import { Follow } from "../my-notifications/follow";
 import { FollowRequest } from "../my-notifications/follow-request";
 import { useGetMyNotifications } from "../../../services/notifications";
 import { useInView } from "react-intersection-observer";
-import { useCallback, useEffect } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import {
   Comment as CommentType,
   Follow as FollowType,
@@ -16,8 +16,8 @@ import {
 import { Loading } from "../../../components/loading";
 import { queryClient } from "../../../common/query-client";
 import { nanoid } from "nanoid";
-import { useGetProfile } from "../../../services/get-my-profile";
 import { AcceptRequest } from "./accept-request";
+import { UserNameContext } from "../../../router/Router";
 
 export const MyNotificationsLayout = () => {
   const {
@@ -28,10 +28,14 @@ export const MyNotificationsLayout = () => {
     isFetchingNextPage,
     isSuccess,
   } = useGetMyNotifications({ limit: 1 });
-  if (isSuccess) {
-    queryClient.invalidateQueries({ queryKey: ["notificationCount"] });
-  }
-  const { data: myProfile, isSuccess: profileSuccess } = useGetProfile();
+  useEffect(() => {
+    if (isSuccess) {
+      if (isSuccess) {
+        queryClient.invalidateQueries({ queryKey: ["notificationCount"] });
+      }
+    }
+  }, [isSuccess]);
+  const myUserName = useContext(UserNameContext);
   const NotifComponent = useCallback(
     (
       notification:
@@ -41,27 +45,25 @@ export const MyNotificationsLayout = () => {
         | CommentType
         | FollowRequestType,
     ) => {
-      if (profileSuccess) {
-        switch (notification.type) {
-          case "mention":
-            return <Mention {...notification} key={nanoid()} />;
-          case "like":
-            return <Like {...notification} key={nanoid()} />;
+      switch (notification.type) {
+        case "mention":
+          return <Mention {...notification} key={nanoid()} />;
+        case "like":
+          return <Like {...notification} key={nanoid()} />;
 
-          case "follow":
-            if (notification.performerUserName !== myProfile.userName) {
-              return <Follow {...notification} key={nanoid()} />;
-            } else {
-              return <AcceptRequest key={nanoid()} {...notification} />;
-            }
-          case "followRequest":
-            return <FollowRequest {...notification} key={nanoid()} />;
-          case "comment":
-            return <Comment {...notification} key={nanoid()} />;
-        }
+        case "follow":
+          if (notification.performerUserName !== myUserName) {
+            return <Follow {...notification} key={nanoid()} />;
+          } else {
+            return <AcceptRequest key={nanoid()} {...notification} />;
+          }
+        case "followRequest":
+          return <FollowRequest {...notification} key={nanoid()} />;
+        case "comment":
+          return <Comment {...notification} key={nanoid()} />;
       }
     },
-    [myProfile?.userName, profileSuccess],
+    [myUserName],
   );
   const { ref, inView } = useInView({
     threshold: 0.1,

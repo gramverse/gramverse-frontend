@@ -1,18 +1,9 @@
-import { useNavigate } from "react-router-dom";
 import menu from "@asset/svg/menu.svg";
-import profile from "@asset/svg/profile.svg";
-import { RoundPicture } from "../../components/round-picture";
 import { useState } from "react";
 import { ModalMobile } from "../../components/modal";
 import { DrawerMenu } from "./mobile-drawer-menu";
-export default function MobileTopNavigation({
-  userName,
-  profileImage,
-}: {
-  userName: string;
-  profileImage: string;
-}) {
-  const navigate = useNavigate();
+import { ProfileSummary } from "../../components/profile-summary";
+export default function MobileTopNavigation() {
   const [isMenuOpen, openMenu] = useState(false);
 
   return (
@@ -31,10 +22,7 @@ export default function MobileTopNavigation({
       </ModalMobile>
 
       <div className="mb-3 mt-2 flex h-10 w-full justify-between">
-        <RoundPicture
-          picture={profileImage !== "" && profileImage ? profileImage : profile}
-          onClick={() => navigate(`/${userName}`)}
-        />
+        <ProfileSummary hasUserName={false} size={"medium"} />
         <img
           src={menu}
           alt=""

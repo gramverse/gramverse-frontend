@@ -1,21 +1,19 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import rahnema from "@asset/svg/rahnema.svg";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import MobileBottomNavigation from "./mobile-bottom-navigation";
 import { Panel } from "./web-side-panel";
 import { ContainterMobile } from "../../components/container";
 import MobileTopNavigation from "./mobile-top-navigation";
-import { useGetProfile } from "../../services/get-my-profile";
-import profile from "@asset/svg/profile.svg";
+import { UserNameContext } from "../../router/Router";
 export const Main = () => {
   const location = useLocation();
   const [tab, setTab] = useState("explore");
   const navigate = useNavigate();
-  const { data: myProfile } = useGetProfile();
+  const myUserName = useContext(UserNameContext);
   useEffect(() => {
     switch (true) {
-      case myProfile?.userName &&
-        location.pathname.includes(myProfile?.userName):
+      case location.pathname.includes(myUserName):
         setTab("myPage");
         break;
       case location.pathname == "/" || location.pathname == "":
@@ -41,7 +39,7 @@ export const Main = () => {
       case location.pathname.includes("search"):
         setTab("search");
     }
-  }, [location.pathname, myProfile?.userName, navigate]);
+  }, [location.pathname, myUserName, navigate]);
 
   return (
     <div className="box-border flex h-full grow flex-row items-start bg-primary px-5 pt-16">
@@ -58,7 +56,6 @@ export const Main = () => {
 
 export const MainMobile = () => {
   const location = useLocation();
-  const { data: profileSummary, isSuccess } = useGetProfile();
   const [buttomNavigation, showBottomNavigation] = useState(true);
   const [topNavigation, showTopNavigation] = useState(true);
   useEffect(() => {
@@ -83,18 +80,7 @@ export const MainMobile = () => {
   }, [location.pathname]);
   return (
     <ContainterMobile className="overflow-y-scroll">
-      {topNavigation && (
-        <MobileTopNavigation
-          userName={isSuccess ? profileSummary.userName : ""}
-          profileImage={
-            isSuccess
-              ? profileSummary.profileImage != ""
-                ? profileSummary.profileImage
-                : profile
-              : profile
-          }
-        />
-      )}
+      {topNavigation && <MobileTopNavigation />}
       <Outlet />
       {buttomNavigation && <MobileBottomNavigation />}
     </ContainterMobile>

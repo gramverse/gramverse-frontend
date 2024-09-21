@@ -3,91 +3,81 @@ import { useNavigate } from "react-router-dom";
 import { Follow as FollowType } from "../../../types/notifications";
 import { getTimeDifference } from "../../../common/utilities/time-difference";
 import { RoundPicture } from "../../../components/round-picture";
-import profile from "@asset/svg/profile.svg";
 import { Button } from "../../../components/button";
 import { useFollowUser, useGetUserProfile } from "../../../services/user-page";
-import { useCallback } from "react";
-import { useAcceptRequest } from "../../../services/notifications";
+import { useCallback, useContext, useState } from "react";
+import { UserNameContext } from "../../../router/Router";
 
 export const Follow = (props: FollowType) => {
-  const { performerUserName, creationDate, seen } = props;
+  const {
+    performerUserName,
+    creationDate,
+    seen,
+    profileImage,
+    followRequestState,
+  } = props;
+  const [selectedUserName, setSelectedUserName] = useState("");
   const navigate = useNavigate();
-  const { userProfile } = useGetUserProfile(performerUserName);
-  const { mutate: follow, isPending } = useFollowUser(performerUserName);
-  const { mutate: accept } = useAcceptRequest();
-  const CreateButton = useCallback(() => {
-    if (userProfile?.requestState === "accepted") {
-      switch (userProfile?.followRequestState) {
-        case "accepted":
-          return (
-            <Button
-              btnColor="outline"
-              onClick={() => {
-                follow();
-              }}
-              classes="text-xs text-nowrap text-right"
-              isPending={isPending}
-            >
-              {"دنبال نکردن"}
-            </Button>
-          );
-        case "pending":
-          return (
-            <Button
-              btnColor="outline"
-              onClick={() => {
-                follow();
-              }}
-              isPending={isPending}
-              classes="text-xs text-nowrap text-right"
-            >
-              {"لغو درخواست"}
-            </Button>
-          );
+  const myUserName = useContext(UserNameContext);
 
-        case "none" || "declined":
-          return (
-            <Button
-              onClick={() => {
-                follow();
-              }}
-              isPending={isPending}
-              classes="text-xs text-nowrap text-right"
-            >
-              {"دنبال کردن +"}
-            </Button>
-          );
-      }
-    } else if (userProfile?.requestState === "pending") {
-      return (
-        <div className="flex gap-2">
-          <Button
-            onClick={() => {
-              accept({ followerUserName: performerUserName, accepted: true });
-            }}
-            classes="text-xs text-nowrap text-right"
-          >
-            قبوله
-          </Button>
+  const { userProfile, isRefetching } = useGetUserProfile(selectedUserName);
+  const { mutate: follow, isPending } = useFollowUser(
+    performerUserName,
+    myUserName,
+    userProfile?.followRequestState ?? followRequestState,
+  );
+  const CreateButton = useCallback(() => {
+    switch (userProfile?.followRequestState ?? followRequestState) {
+      case "accepted":
+        return (
           <Button
             btnColor="outline"
             onClick={() => {
-              accept({ followerUserName: performerUserName, accepted: false });
+              setSelectedUserName(performerUserName);
+              follow();
             }}
             classes="text-xs text-nowrap text-right"
+            isPending={isPending || isRefetching}
           >
-            خوشم نمیاد ازش
+            {"دنبال نکردن"}
           </Button>
-        </div>
-      );
+        );
+      case "pending":
+        return (
+          <Button
+            btnColor="outline"
+            onClick={() => {
+              setSelectedUserName(performerUserName);
+              follow();
+            }}
+            isPending={isPending || isRefetching}
+            classes="text-xs text-nowrap text-right"
+          >
+            {"لغو درخواست"}
+          </Button>
+        );
+
+      case "none" || "declined":
+        return (
+          <Button
+            onClick={() => {
+              setSelectedUserName(performerUserName);
+              follow();
+            }}
+            isPending={isPending || isRefetching}
+            classes="text-xs text-nowrap text-right"
+          >
+            {"دنبال کردن +"}
+          </Button>
+        );
     }
   }, [
-    userProfile?.requestState,
     userProfile?.followRequestState,
+    followRequestState,
     isPending,
-    follow,
-    accept,
+    isRefetching,
     performerUserName,
+    follow,
   ]);
   return (
     <div
@@ -99,11 +89,7 @@ export const Follow = (props: FollowType) => {
     >
       <RoundPicture
         size="large"
-        picture={
-          userProfile?.profileImage && userProfile?.profileImage !== ""
-            ? userProfile?.profileImage
-            : profile
-        }
+        picture={profileImage}
         onClick={() => {
           navigate(`/${performerUserName}`);
         }}

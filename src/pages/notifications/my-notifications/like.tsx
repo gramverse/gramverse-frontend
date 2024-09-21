@@ -1,13 +1,18 @@
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
-import { useGetProfile } from "../../../services/get-my-profile";
 import { Like as LikeType } from "../../../types/notifications";
 import { getTimeDifference } from "../../../common/utilities/time-difference";
 import { RoundPicture } from "../../../components/round-picture";
 
 export const Like = (props: LikeType) => {
-  const { postImage, performerUserName, creationDate, postId, seen } = props;
-  const { data } = useGetProfile();
+  const {
+    postImage,
+    performerUserName,
+    creationDate,
+    postId,
+    seen,
+    postCreator,
+  } = props;
   const navigate = useNavigate();
 
   return (
@@ -22,7 +27,7 @@ export const Like = (props: LikeType) => {
         size="large"
         picture={postImage}
         onClick={() => {
-          navigate(`/${data?.userName}/post/${postId}`);
+          navigate(`/${postCreator}/post/${postId}`);
         }}
       />
       <div className="flex flex-col items-start gap-1">

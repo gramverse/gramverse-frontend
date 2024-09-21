@@ -5,6 +5,7 @@ import { useState } from "react";
 import more from "@asset/svg/menu-dots.svg";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
+import { useGetUserProfile } from "../../services/user-page";
 interface FollowerInfoProps extends FollowingerInfo {
   close?: () => void;
   follower?: boolean;
@@ -25,12 +26,13 @@ export const FollowingersInfo = ({
   selectedUser,
   setUser,
   activityPermit,
-  pageUserName,
   openChat,
   noBorder = false,
 }: FollowerInfoProps) => {
   const [menu, openMenu] = useState(false);
   const navigate = useNavigate();
+  const { userProfile } = useGetUserProfile(userName);
+
   return (
     <div
       className={clsx(
@@ -57,16 +59,18 @@ export const FollowingersInfo = ({
       <div className="relative justify-self-end">
         {activityPermit && (
           <>
-            <Menu
-              isOpen={menu && selectedUser === userName}
-              closeMenu={() => {
-                openMenu(false);
-              }}
-              openChat={openChat}
-              follower={follower ?? false}
-              userName={userName}
-              pageUserName={pageUserName ?? ""}
-            />
+            {userProfile && (
+              <Menu
+                followRequestState={userProfile.followRequestState}
+                isOpen={menu && selectedUser === userName}
+                closeMenu={() => {
+                  openMenu(false);
+                }}
+                openChat={openChat}
+                follower={follower ?? false}
+                userName={userName}
+              />
+            )}
             <img
               src={more}
               alt=""
@@ -97,10 +101,11 @@ export const FollowingersInfoMobile = ({
   selectedUser,
   setUser,
   activityPermit,
-  pageUserName,
 }: FollowerInfoProps) => {
   const [menu, openMenu] = useState(false);
   const navigate = useNavigate();
+  const { userProfile } = useGetUserProfile(userName);
+
   return (
     <div
       className="flex h-20 w-full cursor-pointer flex-row items-center border border-x-0 border-t-0 border-solid border-form-border"
@@ -122,15 +127,17 @@ export const FollowingersInfoMobile = ({
       <div className="relative justify-self-end">
         {activityPermit && (
           <>
-            <MenuMobile
-              isOpen={menu && selectedUser === userName}
-              closeMenu={() => {
-                openMenu(false);
-              }}
-              follower={follower ?? false}
-              userName={userName}
-              pageUserName={pageUserName ?? ""}
-            />
+            {userProfile && (
+              <MenuMobile
+                followRequestState={userProfile.followRequestState}
+                isOpen={menu && selectedUser === userName}
+                closeMenu={() => {
+                  openMenu(false);
+                }}
+                follower={follower ?? false}
+                userName={userName}
+              />
+            )}
             <img
               src={more}
               alt=""

@@ -1,16 +1,20 @@
 import { InputField } from "../../../components/input-field";
 import search from "@asset/svg/search.svg";
 import { useGetAccountHints } from "../../../services/search";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserProfileSummary } from "../../../components/user-profile-summary";
 import clsx from "clsx";
 import { nanoid } from "nanoid";
-const setHistory = (history: string) => {
-  const hist = localStorage.getItem("search-accounts");
+import { UserNameContext } from "../../../router/Router";
+const setHistory = (history: string, userName: string) => {
+  const hist = localStorage.getItem(`search-accounts ${userName}`);
   if (hist) {
-    localStorage.setItem("search-accounts", hist.concat(" ").concat(history));
+    localStorage.setItem(
+      `search-accounts ${userName}`,
+      hist.concat(" ").concat(history),
+    );
   } else {
-    localStorage.setItem("search-accounts", history);
+    localStorage.setItem(`search-accounts ${userName}`, history);
   }
 };
 export const SearchBar = ({
@@ -23,7 +27,7 @@ export const SearchBar = ({
   const [keyword, setKeyword] = useState("");
   const { data: hint } = useGetAccountHints({ keyword });
   const [isSuggestBoxVisible, viewSuggestBox] = useState(false);
-
+  const myUserName = useContext(UserNameContext);
   useEffect(() => {
     if (hint && hint.pages.flatMap((data) => data.users).length > 0) {
       viewSuggestBox(true);
@@ -45,7 +49,7 @@ export const SearchBar = ({
         }}
         onKeyDown={(e) => {
           if (e.key == "Enter") {
-            setHistory(keyword);
+            setHistory(keyword, myUserName);
             setKeyword("");
             viewSuggestBox(false);
             setSelectedKeyword(keyword);
@@ -78,17 +82,18 @@ export const SearchBar = ({
                 userName={account.userName}
                 onClick={() => {
                   viewSuggestBox(false);
-                  setHistory(account.userName);
+                  setHistory(account.userName, myUserName);
                   setKeyword("");
                   setSelectedKeyword(account.userName);
                 }}
               />
             ))}
-          {localStorage.getItem("search-accounts")?.split(" ").length && (
+          {localStorage.getItem(`search-accounts ${myUserName}`)?.split(" ")
+            .length && (
             <div className="h-[0.5px] w-full border border-solid border-gray-300" />
           )}
           {localStorage
-            .getItem("search-accounts")
+            .getItem(`search-accounts ${myUserName}`)
             ?.split(" ")
             .slice(-3)
             .map((item) => (

@@ -1,12 +1,16 @@
-import { useGetProfile } from "../services/get-my-profile";
 import { RoundPicture } from "./round-picture";
 import profile from "@asset/svg/profile.svg";
 import clsx from "clsx";
-import { HTMLAttributes } from "react";
 import { useNavigate } from "react-router-dom";
+import { useGetProfile } from "../services/my-page";
 
-export const ProfileSummary = (props: HTMLAttributes<HTMLDivElement>) => {
-  const { className } = props;
+type ProfileSummaryProops = {
+  className?: string;
+  hasUserName?: boolean;
+  size?: "small" | "medium" | "large" | "xlarge";
+};
+export const ProfileSummary = (props: ProfileSummaryProops) => {
+  const { className, hasUserName, size = "medium" } = props;
   const { data: profileSummary, isSuccess } = useGetProfile();
   const navigate = useNavigate();
   return (
@@ -17,13 +21,16 @@ export const ProfileSummary = (props: HTMLAttributes<HTMLDivElement>) => {
       }}
     >
       <RoundPicture
+        size={size}
         picture={
-          profileSummary?.profileImage && profileSummary.profileImage !== ""
-            ? profileSummary.profileImage
+          isSuccess
+            ? profileSummary.profileImage !== ""
+              ? profileSummary.profileImage
+              : profile
             : profile
         }
       />
-      <span>{profileSummary?.userName || ""}</span>
+      {hasUserName && <span>{isSuccess ? profileSummary.userName : ""}</span>}
     </div>
   );
 };

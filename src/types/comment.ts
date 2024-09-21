@@ -24,7 +24,7 @@ export const SingleCommentResponseSchema: z.ZodType<CommentDto> = z.lazy(() =>
     comment: z.string(),
     likesCount: z.number(),
     isLiked: z.boolean(),
-    creationDate: z.date(),
+    creationDate: z.string(),
     parentCommentId: z.string(),
     parentCommentUserName: z.string(),
     childDtos: z.array(SingleCommentResponseSchema),
@@ -35,7 +35,7 @@ export const CommentsArraySchema = SingleCommentResponseSchema.array();
 export type CommentsArray = z.infer<typeof CommentsArraySchema>;
 
 export const CommentsResponseSchema = z.object({
-  comments: CommentsArraySchema,
+  comments: SingleCommentResponseSchema.array(),
   totalCount: z.number(),
 });
 
@@ -48,7 +48,7 @@ export type CommentDto = {
   comment: string;
   parentCommentId: string;
   parentCommentUserName: string;
-  creationDate: Date;
+  creationDate: string;
   likesCount: number;
   isLiked: boolean;
   childDtos: CommentDto[];

@@ -35,7 +35,13 @@ export const UserGallery = ({
     ) {
       fetchNextPosts();
     }
-  }, [isNearPostEnd, isFetchingNextPostPage, hasNextPage]);
+  }, [
+    isNearPostEnd,
+    isFetchingNextPostPage,
+    hasNextPage,
+    isFetching,
+    fetchNextPosts,
+  ]);
   const [isPostOpen, openPost] = useState(false);
   const [postId, setPostId] = useState<string>("");
 
@@ -99,7 +105,13 @@ export const UserGalleryMobile = ({
     ) {
       fetchNextPosts();
     }
-  }, [isNearPostEnd, isFetchingNextPostPage, hasNextPage]);
+  }, [
+    isNearPostEnd,
+    isFetchingNextPostPage,
+    hasNextPage,
+    isFetching,
+    fetchNextPosts,
+  ]);
 
   return (
     <div className="absolute inset-x-0 mx-auto grid h-[500px] w-[19.4rem] grid-cols-2 gap-5 self-center overflow-y-scroll px-4 pt-3">

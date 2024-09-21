@@ -13,6 +13,7 @@ export const PostDetailSchema = z.object({
   bookmarksCount: z.number(),
   commentsCount: z.number(),
   forCloseFriends: z.boolean(),
+  userName: z.string(),
 });
 
 export interface PostDetail extends z.infer<typeof PostDetailSchema> {}

@@ -5,7 +5,6 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
-import { HTTPError } from "ky";
 import { queryClient } from "../common/query-client";
 import { getPostResponseSchema } from "../types/post";
 import {
@@ -15,7 +14,7 @@ import {
 } from "../types/user-profile";
 import { handleRequestError } from "../common/utilities/http-error-handler";
 
-const calcUserStates = (userProfile: UserProfile) => {
+export const calcUserStates = (userProfile: UserProfile) => {
   if (!userProfile) return;
   const isBlockedUs = userProfile.hasBlockedUs;
   const isUserDataVisible =
@@ -63,10 +62,10 @@ const calcUserStates = (userProfile: UserProfile) => {
 
 export const useGetUserProfile = (userName: string) => {
   const httpClient = useHttpClient();
-  const { data, ...rest } = useQuery<UserProfile, HTTPError>({
+  const { data, ...rest } = useQuery({
     queryKey: ["getUserProfile", userName],
     queryFn:
-      userName && userName !== ""
+      userName !== ""
         ? () =>
             httpClient
               .get(`users/profile/${userName}`)
@@ -87,26 +86,25 @@ const calcIsFollowing = (current: RequestStatus) => {
   );
 };
 
-export const useFollowUser = (userName: string, myUsrerName?: string) => {
-  const { userProfile } = useGetUserProfile(userName);
-  //const { data: myProfile } = useGetProfile();
+export const useFollowUser = (
+  userName: string,
+  myUserName: string,
+  followRequestState: "accepted" | "pending" | "none" | "declined",
+) => {
   const httpClient = useHttpClient();
+  const isFollow = calcIsFollowing(followRequestState);
+  const json = { followingUserName: userName, isFollow };
   return useMutation({
-    async mutationFn() {
-      if (!userProfile) return;
-      const isFollow = calcIsFollowing(userProfile.followRequestState);
-      const json = { followingUserName: userName, isFollow };
+    mutationFn() {
       return httpClient.post("users/follow", { json }).json();
     },
     onSuccess() {
       queryClient.invalidateQueries({
         queryKey: ["getUserProfile", userName],
       });
+
       queryClient.invalidateQueries({
-        queryKey: ["getProfile"],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["Followingers", myUsrerName, true],
+        queryKey: ["Followingers", myUserName, true],
       });
     },
     onError: (error) => {

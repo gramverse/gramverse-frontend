@@ -58,11 +58,18 @@ export const Comment = (props: CommentProps) => {
               }}
             >
               <span className="text-xs">پاسخ</span>
-              <img src={reply} className="w-4" alt="" />
+              <img src={reply} className="w-4 cursor-pointer" alt="" />
             </div>
           </div>
         </div>
-        <span>{comment.comment}</span>
+        <div className="flex w-full items-center gap-2">
+          {comment.parentCommentUserName !== "" && (
+            <span className="rounded-lg border border-solid border-red-500 bg-red-300 p-1">
+              {comment.parentCommentUserName}
+            </span>
+          )}
+          <span>{comment.comment}</span>
+        </div>
       </div>
     </div>
   );

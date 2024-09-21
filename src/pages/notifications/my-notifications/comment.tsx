@@ -1,14 +1,19 @@
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
-import { useGetProfile } from "../../../services/get-my-profile";
 import { Comment as CommentType } from "../../../types/notifications";
 import { getTimeDifference } from "../../../common/utilities/time-difference";
 import { RoundPicture } from "../../../components/round-picture";
 
 export const Comment = (props: CommentType) => {
-  const { postImage, performerUserName, creationDate, postId, seen, comment } =
-    props;
-  const { data } = useGetProfile();
+  const {
+    postImage,
+    performerUserName,
+    creationDate,
+    postId,
+    seen,
+    comment,
+    postCreator,
+  } = props;
   const navigate = useNavigate();
 
   return (
@@ -23,7 +28,7 @@ export const Comment = (props: CommentType) => {
         size="large"
         picture={postImage}
         onClick={() => {
-          navigate(`/${data?.userName}/post/${postId}`);
+          navigate(`/${postCreator}/post/${postId}`);
         }}
       />
       <div className="flex flex-col items-start gap-1">

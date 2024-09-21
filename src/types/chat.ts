@@ -1,13 +1,4 @@
 import { z } from "zod";
-export type Chat = {
-  profileImage: string;
-  userName: string;
-  lastMessageTime: string;
-  lastMessage: string;
-  chatId: string;
-  lastMessageType: "text" | "picture";
-  unreadCount: number;
-};
 
 export const chat = z.object({
   profileImage: z.string(),
@@ -19,6 +10,7 @@ export const chat = z.object({
   unreadCount: z.number(),
 });
 
+export type Chat = z.infer<typeof chat>;
 export const chatsResponseSchema = z.object({
   chats: chat.array(),
   totalCount: z.number(),
