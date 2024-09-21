@@ -1,9 +1,6 @@
 {
   "files": [],
   "compilerOptions": {
-    // "types": ["node"],
-    // "moduleResolution": "Bundler",
-    // "module": "ESNext",
     "baseUrl": "./",
     "paths": {
       "@asset/*": ["src/assets/*"],

@@ -22,10 +22,15 @@ export const FriendsNotificationsLayout = () => {
     isFetching,
     isFetchingNextPage,
     isSuccess,
+    isRefetching,
   } = useGetFollowingNotifications({ limit: 10 });
-  if (isSuccess) {
-    queryClient.invalidateQueries({ queryKey: ["notificationCount"] });
-  }
+  useEffect(() => {
+    if (isSuccess) {
+      if (isSuccess) {
+        queryClient.invalidateQueries({ queryKey: ["notificationCount"] });
+      }
+    }
+  }, [isSuccess]);
   const NotifComponent = useCallback(
     (notification: UserComment | UserLike | UserFollow) => {
       switch (notification.type) {
@@ -35,6 +40,7 @@ export const FriendsNotificationsLayout = () => {
         case "follow":
           return (
             <Follow
+              isRefetching={isRefetching}
               refetch={() => {
                 refetch();
               }}
@@ -47,7 +53,7 @@ export const FriendsNotificationsLayout = () => {
           return <Comment {...notification} key={nanoid()} />;
       }
     },
-    [refetch],
+    [isRefetching, refetch],
   );
   const { ref, inView } = useInView({
     threshold: 0.1,

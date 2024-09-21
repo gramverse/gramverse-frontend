@@ -1,12 +1,12 @@
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
-import clsx from "clsx";
 import {
   BookmarkEmptyGallery,
   BookmarkEmptyGalleryMobile,
 } from "./bookmark-empty-gallery";
 import { BookmarkedPost, BookmarkedPostMobile } from "./bookmarked-post";
 import { useGetBookmarkedPosts } from "../../services/bookmark-page";
+import { Loading } from "../../components/loading";
 
 export const BookmarkPage = () => {
   const [nearEndPostRef, isNearPostEnd] = useInView();
@@ -23,9 +23,10 @@ export const BookmarkPage = () => {
   const posts = postPages?.pages.flatMap((x) => x.posts) ?? [];
 
   useEffect(() => {
-    if (!hasNextPage || !isNearPostEnd || isFetching) return;
-    fetchNextPosts();
-  }, [isNearPostEnd, isFetchingNextPostPage, hasNextPage]);
+    if (hasNextPage && isNearPostEnd && !isFetching) {
+      fetchNextPosts();
+    }
+  }, [isNearPostEnd, hasNextPage, isFetching, fetchNextPosts]);
 
   return (
     <div className="mt-32 flex h-[830px] w-[64rem] flex-col gap-4">
@@ -43,15 +44,12 @@ export const BookmarkPage = () => {
                 />
               );
             })}
-            <div
+
+            <Loading
+              isLoading={hasNextPage && isFetchingNextPostPage}
               ref={nearEndPostRef}
-              className={clsx(
-                "flex w-full items-center justify-center text-2xl",
-                hasNextPage ? "h-[calc(11rem/3)]" : "",
-              )}
-            >
-              {hasNextPage && isFetchingNextPostPage && <div>Loading...</div>}
-            </div>
+              className="w-full self-center text-center"
+            />
           </div>
         </>
       )}
@@ -72,9 +70,10 @@ export const BookmarkPageMobile = () => {
 
   const posts = postPages?.pages.flatMap((x) => x.posts) ?? [];
   useEffect(() => {
-    if (!hasNextPage || !isNearPostEnd || isFetching) return;
-    fetchNextPosts();
-  }, [isNearPostEnd, isFetchingNextPostPage, hasNextPage]);
+    if (hasNextPage && isNearPostEnd && !isFetching) {
+      fetchNextPosts();
+    }
+  }, [isNearPostEnd, hasNextPage, isFetching, fetchNextPosts]);
 
   return (
     <div className="flex grow flex-col items-center justify-start gap-4">
@@ -84,15 +83,12 @@ export const BookmarkPageMobile = () => {
           {posts.map((post) => {
             return <BookmarkedPostMobile key={post.postId} post={post} />;
           })}
-          <div
+
+          <Loading
+            isLoading={hasNextPage && isFetchingNextPostPage}
             ref={nearEndPostRef}
-            className={clsx(
-              "flex w-full items-center justify-center text-2xl",
-              hasNextPage ? "h-[calc(11rem/3)]" : "",
-            )}
-          >
-            {hasNextPage && isFetchingNextPostPage && <div>Loading...</div>}
-          </div>
+            className="w-full self-center text-center"
+          />
         </div>
       )}
     </div>

@@ -14,6 +14,7 @@ type AppUserInfoProps = {
   followBtnText?: string;
   followBtnColor?: BtnStyles;
   openModal: () => void;
+  isPending?: boolean;
 };
 const calculateCount = (count: number) => {
   if (count >= 1000) {
@@ -33,6 +34,7 @@ export const UserAccountInfo = ({
   followBtnText,
   followBtnColor,
   openModal,
+  isPending,
 }: AppUserInfoProps) => {
   const existFollowing = accountInfo.followingCount > 0;
   const existFollower = accountInfo.followerCount > 0;
@@ -57,6 +59,7 @@ export const UserAccountInfo = ({
               onClick={accountInfo.isBlocked ? openModal : onFollowMethod}
               btnColor={followBtnColor}
               disabled={accountInfo.hasBlockedUs}
+              isPending={isPending}
             >
               {followBtnText}
             </Button>

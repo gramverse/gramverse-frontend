@@ -32,7 +32,7 @@ export const Comment = (props: UserComment) => {
         }}
       />
       <div className="flex flex-col items-start gap-1">
-        <p className="m-0 p-0">{`${performerUserName} روی این پست کامت گذاشته`}</p>
+        <p className="m-0 p-0">{`${performerUserName} روی این پست کامنت گذاشته`}</p>
         <small className="text-xs text-gray-500">
           {getTimeDifference(new Date(), new Date(creationDate))}
         </small>

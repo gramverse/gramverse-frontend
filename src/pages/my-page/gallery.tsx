@@ -31,7 +31,13 @@ export const Gallery = () => {
     ) {
       fetchNextPosts();
     }
-  }, [isNearPostEnd, isFetchingNextPostPage, hasNextPage]);
+  }, [
+    isNearPostEnd,
+    isFetchingNextPostPage,
+    hasNextPage,
+    isFetching,
+    fetchNextPosts,
+  ]);
 
   return (
     <div className="flex h-[430px] grow flex-row flex-wrap gap-5 overflow-y-scroll px-8 py-10">
@@ -108,7 +114,13 @@ export const GalleryMobile = () => {
     ) {
       fetchNextPosts();
     }
-  }, [isNearPostEnd, isFetchingNextPostPage, hasNextPage]);
+  }, [
+    isNearPostEnd,
+    isFetchingNextPostPage,
+    hasNextPage,
+    isFetching,
+    fetchNextPosts,
+  ]);
 
   return (
     <div className="absolute inset-x-0 mx-auto grid h-[500px] w-[19.4rem] grid-cols-2 gap-5 self-center overflow-y-scroll px-4 pt-3">

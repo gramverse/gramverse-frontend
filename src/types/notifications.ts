@@ -20,14 +20,22 @@ export const like = z.object({
 
 export const follow = z.object({
   type: z.literal("follow"),
+  profileImage: z.string(),
   performerUserName: z.string(),
   followingUserName: z.string(),
+  followRequestState: z.union([
+    z.literal("accepted"),
+    z.literal("pending"),
+    z.literal("declined"),
+    z.literal("none"),
+  ]),
   seen: z.boolean(),
   creationDate: z.string(),
 });
 
 export const followRequest = z.object({
   type: z.literal("followRequest"),
+  profileImage: z.string(),
   performerUserName: z.string(),
   followingUserName: z.string(),
   seen: z.boolean(),
@@ -86,9 +94,17 @@ export const userLike = z.object({
 
 export const userFollow = z.object({
   type: z.literal("follow"),
+  followRequestState: z.union([
+    z.literal("accepted"),
+    z.literal("pending"),
+    z.literal("declined"),
+    z.literal("none"),
+  ]),
   performerUserName: z.string(),
   followingUserName: z.string(),
+  profileImage: z.string(),
   seen: z.boolean(),
+  isBlocked: z.boolean(),
   creationDate: z.string(),
 });
 

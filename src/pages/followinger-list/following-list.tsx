@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useGetFollowingerList } from "../../services/get-followinger-info";
 import { useInView } from "react-intersection-observer";
 import { FollowingersInfo, FollowingersInfoMobile } from "./followinger-info";
 import { Button } from "../../components/button";
 import { useParams } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
-import { ProfileSchema } from "../../types/profile-data";
 import { Loading } from "../../components/loading";
+import { UserNameContext } from "../../router/Router";
 
 type FollowerListProps = {
   close: () => void;
@@ -19,11 +18,8 @@ export const FollowingList = ({
   close,
   openChat,
 }: FollowerListProps) => {
-  const queryClient = useQueryClient();
-  const myProfile = ProfileSchema.parse(
-    queryClient.getQueryData(["getProfile"]),
-  );
-  const activityPermit = myProfile?.userName === userName;
+  const myUserName = useContext(UserNameContext);
+  const activityPermit = myUserName === userName;
   const [nearEndRef, isNearEnd] = useInView();
   const limit = 6;
   const { data, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } =
@@ -33,7 +29,7 @@ export const FollowingList = ({
     if (hasNextPage && isNearEnd && !isFetching && !isFetchingNextPage) {
       fetchNextPage();
     }
-  }, [isNearEnd, isFetchingNextPage, hasNextPage]);
+  }, [isNearEnd, isFetchingNextPage, hasNextPage, isFetching, fetchNextPage]);
   const [selectedUser, setSelectedUser] = useState("");
 
   const followings = data?.pages.flatMap((x) => x.followingers) ?? [];
@@ -83,11 +79,8 @@ export const FollowingList = ({
 
 export const FollowingListMobile = () => {
   const { userName } = useParams();
-  const queryClient = useQueryClient();
-  const myProfile = ProfileSchema.parse(
-    queryClient.getQueryData(["getProfile"]),
-  );
-  const activityPermit = myProfile?.userName === userName;
+  const myUserName = useContext(UserNameContext);
+  const activityPermit = myUserName === userName;
   const [nearEndRef, isNearEnd] = useInView();
   const limit = 6;
   const { data, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } =
@@ -97,7 +90,7 @@ export const FollowingListMobile = () => {
     if (hasNextPage && isNearEnd && !isFetching && !isFetchingNextPage) {
       fetchNextPage();
     }
-  }, [isNearEnd, isFetchingNextPage, hasNextPage]);
+  }, [isNearEnd, isFetchingNextPage, hasNextPage, isFetching, fetchNextPage]);
   const [selectedUser, setSelectedUser] = useState("");
 
   const followings = data?.pages.flatMap((x) => x.followingers) ?? [];

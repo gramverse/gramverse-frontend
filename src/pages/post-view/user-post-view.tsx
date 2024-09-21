@@ -26,7 +26,7 @@ export const UserPostViewWeb = () => {
         <Carousel photoUrls={post?.photoUrls ?? []} />
         <div className="flex grow flex-col justify-between gap-3 p-5">
           <div className="flex flex-row justify-between gap-5">
-            <UserProfileSummary userName={params.userName ?? ""} />
+            <UserProfileSummary userName={isPostSuccess ? post.userName : ""} />
           </div>
           <PostCaptions
             caption={isPostSuccess ? post.caption : ""}
@@ -75,8 +75,9 @@ export const UserPostViewMobile = () => {
         <div className="mt-2 flex justify-between">
           <UserProfileSummary
             className="my-1"
-            userName={params.userName ?? ""}
+            userName={isPostSuccess ? post.userName : ""}
           />
+
           <Button
             btnColor="transparent"
             onClick={() => {

@@ -45,7 +45,6 @@ import {
   UserPostViewMobile,
   UserPostViewWeb,
 } from "../pages/post-view/user-post-view";
-import { useGetProfile } from "../services/get-my-profile";
 import { FollowerListMobile } from "../pages/followinger-list/follower-list";
 import { FollowingListMobile } from "../pages/followinger-list/following-list";
 import {
@@ -70,63 +69,71 @@ import {
   BookmarkPageMobile,
 } from "../pages/bookmark-page/bookmark-page";
 import { ChatList, ChatListMobile } from "../pages/chat/chat-list";
+import { createContext } from "react";
+import { useGetProfile } from "../services/my-page";
 
+export const UserNameContext = createContext<string>("");
 export const AppRoutes = () => {
-  const { data } = useGetProfile();
+  const { data, isSuccess } = useGetProfile();
 
   return (
-    <Routes>
-      <Route element={<CollegeBackground />}>
-        <Route element={<Authroize />}>
-          <Route path={urls.login} element={<Login />} />
-          <Route path={urls.signup} element={<Signup />} />
-        </Route>
-        <Route path={urls.forgetPassword} element={<ForgetPassword />} />
-        <Route
-          path={`${urls.resetPassword}/:token`}
-          element={<ResetPassWord></ResetPassWord>}
-        />
-        <Route
-          path={urls.forgetPasswordInfo}
-          element={<ForgetPasswordInfo />}
-        />
-      </Route>
-
-      <Route path="/" element={<Main></Main>}>
-        <Route element={<List />}>
-          <Route path={"close-friends"} element={<CloseFriends />} />
-          <Route path={"black-list"} element={<BlackList />} />
-        </Route>
-        <Route path="/chat" element={<ChatList />} />
-        <Route path={"/:userName"} element={<UserPage />} />
-        <Route path={`/:userName/post/:postId`} element={<UserPostViewWeb />} />
-        <Route element={<Notification />}>
-          <Route path={"/my-notifications"} element={<MyNotifications />} />
+    <UserNameContext.Provider value={isSuccess ? data.userName : ""}>
+      <Routes>
+        <Route element={<CollegeBackground />}>
+          <Route element={<Authroize />}>
+            <Route path={urls.login} element={<Login />} />
+            <Route path={urls.signup} element={<Signup />} />
+          </Route>
+          <Route path={urls.forgetPassword} element={<ForgetPassword />} />
           <Route
-            path={"/friends-notifications"}
-            element={<FriendsNotification />}
+            path={`${urls.resetPassword}/:token`}
+            element={<ResetPassWord></ResetPassWord>}
+          />
+          <Route
+            path={urls.forgetPasswordInfo}
+            element={<ForgetPasswordInfo />}
           />
         </Route>
-        <Route path="/search" element={<Search />} />
-        {data?.userName && (
-          <Route path={`/${data?.userName}`} element={<MyPage />} />
-        )}
-        <Route
-          path={`/${data?.userName}/post/:postId`}
-          element={<PostViewWeb />}
-        />
 
-        <Route index element={<Explore />} />
-        <Route path={urls.mentionPage} element={<MentionPage />} />
-        <Route path={urls.bookmarkPage} element={<BookmarkPage />} />
-      </Route>
-      <Route path={urls.notFound} element={<UrlErrorPage></UrlErrorPage>} />
-      <Route
-        path={urls.serverError}
-        element={<ServerErrorPage></ServerErrorPage>}
-      />
-      <Route path="*" element={<UrlErrorPage></UrlErrorPage>} />
-    </Routes>
+        <Route path="/" element={<Main></Main>}>
+          <Route element={<List />}>
+            <Route path={"close-friends"} element={<CloseFriends />} />
+            <Route path={"black-list"} element={<BlackList />} />
+          </Route>
+          <Route path="/chat" element={<ChatList />} />
+          <Route path={"/:userName"} element={<UserPage />} />
+          <Route
+            path={`/:userName/post/:postId`}
+            element={<UserPostViewWeb />}
+          />
+          <Route element={<Notification />}>
+            <Route path={"/my-notifications"} element={<MyNotifications />} />
+            <Route
+              path={"/friends-notifications"}
+              element={<FriendsNotification />}
+            />
+          </Route>
+          <Route path="/search" element={<Search />} />
+          {data?.userName && (
+            <Route path={`/${data?.userName}`} element={<MyPage />} />
+          )}
+          <Route
+            path={`/${data?.userName}/post/:postId`}
+            element={<PostViewWeb />}
+          />
+
+          <Route index element={<Explore />} />
+          <Route path={urls.mentionPage} element={<MentionPage />} />
+          <Route path={urls.bookmarkPage} element={<BookmarkPage />} />
+        </Route>
+        <Route path={urls.notFound} element={<UrlErrorPage></UrlErrorPage>} />
+        <Route
+          path={urls.serverError}
+          element={<ServerErrorPage></ServerErrorPage>}
+        />
+        <Route path="*" element={<UrlErrorPage></UrlErrorPage>} />
+      </Routes>
+    </UserNameContext.Provider>
   );
 };
 

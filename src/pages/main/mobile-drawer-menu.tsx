@@ -4,18 +4,18 @@ import { useNavigate } from "react-router-dom";
 import friend from "@asset/svg/close-friend.svg";
 import blocked from "@asset/svg/blocked.svg";
 import { useSignOut } from "../../services/signout";
-import { useGetProfile } from "../../services/get-my-profile";
 import { useGetAccounts } from "../../services/switch-account";
 import { AccountInfo } from "./account-info";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useGetNotificationCount } from "../../services/notifications";
 import { ModalMobile } from "../../components/modal";
 import { AccountsLimitMobile } from "./accounts-limit";
 import { ChooseAccountMobile } from "./choose-account";
 import { useGetMessageCount } from "../../services/chat";
+import { UserNameContext } from "../../router/Router";
 export const DrawerMenu = ({ close }: { close: () => void }) => {
   const navigate = useNavigate();
-  const { data, isSuccess } = useGetProfile();
+  const myUserName = useContext(UserNameContext);
   const { accounts, isMultiple } = useGetAccounts();
   const [modal, setModal] = useState<"account-limit" | "choose-account" | null>(
     null,
@@ -85,7 +85,7 @@ export const DrawerMenu = ({ close }: { close: () => void }) => {
           value={"myPage"}
           onClick={() => {
             close();
-            isSuccess && navigate(`${data.userName}`);
+            navigate(`${myUserName}`);
           }}
         />
         <Tab
@@ -95,7 +95,7 @@ export const DrawerMenu = ({ close }: { close: () => void }) => {
           value={"saved"}
           onClick={() => {
             close();
-            isSuccess && navigate("/bookmark-page");
+            navigate("/bookmark-page");
           }}
         />
         <div className="relative flex">
@@ -137,7 +137,7 @@ export const DrawerMenu = ({ close }: { close: () => void }) => {
           value={"mention"}
           onClick={() => {
             close();
-            isSuccess && navigate("/mention-page");
+            navigate("/mention-page");
           }}
         />
         <Tab
@@ -155,11 +155,10 @@ export const DrawerMenu = ({ close }: { close: () => void }) => {
           icon={itemList["addAccount"].icon}
           value={"addAccount"}
           onClick={() => {
-            if (!isSuccess) return;
             if (accounts?.length && accounts.length >= 3) {
               setModal("account-limit");
             } else {
-              localStorage.setItem("addAccount", data.userName);
+              localStorage.setItem("addAccount", myUserName);
               navigate("/login");
             }
           }}

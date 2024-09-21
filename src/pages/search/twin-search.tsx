@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { TwinTab } from "../../components/twin-tabs";
 import { SearchBar as AccountsSearchBar } from "./search-accounts/search-bar";
 import { SearchBar as PostsSearchBar } from "./search-posts/search-bar";
@@ -8,9 +8,8 @@ import {
   SearchAccounts,
   SearchAccountsMobile,
 } from "./search-accounts/search-accounts";
-import { RoundPicture } from "../../components/round-picture";
-import { useGetProfile } from "../../services/get-my-profile";
 import { SearchPosts, SearchPostsMobile } from "./search-posts/search-posts";
+import { ProfileSummary } from "../../components/profile-summary";
 
 export const SearchLayout = ({ mobile }: { mobile: boolean }) => {
   const [value, setValue] = useState(0);
@@ -127,7 +126,6 @@ export const Search = () => {
 export const SearchMobile = () => {
   const [value, setValue] = useState(0);
   const location = useLocation();
-  const { data: profile, isSuccess } = useGetProfile();
   useEffect(() => {
     switch (true) {
       case location.pathname.includes("search-accounts"):
@@ -140,7 +138,6 @@ export const SearchMobile = () => {
   const [accountKeyword, setAccountKeyword] = useState("");
   const [tagKeyword, setTagKeyword] = useState("");
   const [specFlag, setSpecFlag] = useState(false);
-  const navigate = useNavigate();
   return (
     <div
       className={clsx(
@@ -149,13 +146,7 @@ export const SearchMobile = () => {
     >
       <div className="w-full flex-col bg-primary">
         <div className="flex h-fit w-full items-center justify-between">
-          <RoundPicture
-            classes="mb-4"
-            picture={isSuccess ? profile.profileImage : ""}
-            onClick={
-              isSuccess ? () => navigate(`/${profile.userName}`) : () => {}
-            }
-          />
+          <ProfileSummary hasUserName={false} size={"small"} className="mb-4" />
           {value == 0 && (
             <AccountsSearchBar
               fieldSize="mobile"

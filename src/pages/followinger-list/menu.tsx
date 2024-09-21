@@ -4,28 +4,39 @@ import { useRemoveFollower } from "../../services/my-page";
 import { Tab } from "../../components/tab";
 import { useNavigate } from "react-router-dom";
 import message from "@asset/svg/message.svg";
+import { useContext, useEffect } from "react";
+import { UserNameContext } from "../../router/Router";
+import { queryClient } from "../../common/query-client";
 
 export const Menu = ({
   closeMenu,
   isOpen,
   follower,
   userName,
-  pageUserName,
   openChat,
+  followRequestState,
 }: {
   closeMenu: () => void;
   isOpen: boolean;
   follower: boolean;
   userName: string;
-  pageUserName: string;
   openChat?: () => void;
+  followRequestState: "declined" | "pending" | "accepted" | "none";
 }) => {
-  const { mutate: unfollow } = useFollowUser(userName, pageUserName);
-
-  const { mutate: removeFollower } = useRemoveFollower(userName, pageUserName);
-
+  const myUserName = useContext(UserNameContext);
+  const { mutate: unfollow, isSuccess } = useFollowUser(
+    userName,
+    myUserName,
+    followRequestState,
+  );
+  const { mutate: removeFollower } = useRemoveFollower(userName, myUserName);
   const followingOperation = follower ? removeFollower : unfollow;
   const navigate = useNavigate();
+  useEffect(() => {
+    if (isSuccess) {
+      queryClient.invalidateQueries({ queryKey: ["getProfile"] });
+    }
+  }, [isSuccess]);
   return (
     <>
       {isOpen && (
@@ -59,17 +70,27 @@ export const MenuMobile = ({
   isOpen,
   follower,
   userName,
-  pageUserName,
+  followRequestState,
 }: {
   closeMenu: () => void;
   isOpen: boolean;
   follower: boolean;
   userName: string;
-  pageUserName: string;
+  followRequestState: "declined" | "pending" | "accepted" | "none";
 }) => {
-  const { mutate: unfollow } = useFollowUser(userName, pageUserName);
+  const myUserName = useContext(UserNameContext);
 
-  const { mutate: removeFollower } = useRemoveFollower(userName, pageUserName);
+  const { mutate: unfollow, isSuccess } = useFollowUser(
+    userName,
+    myUserName,
+    followRequestState,
+  );
+  useEffect(() => {
+    if (isSuccess) {
+      queryClient.invalidateQueries({ queryKey: ["getProfile"] });
+    }
+  }, [isSuccess]);
+  const { mutate: removeFollower } = useRemoveFollower(userName, myUserName);
 
   const followingOperation = follower ? removeFollower : unfollow;
   const navigate = useNavigate();
@@ -94,7 +115,6 @@ export const MenuMobile = ({
               e.stopPropagation();
               followingOperation();
               closeMenu();
-              navigate(`/${pageUserName}`);
             }}
           />
         </div>

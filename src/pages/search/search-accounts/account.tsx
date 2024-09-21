@@ -2,9 +2,10 @@ import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../../components/button";
 import { useFollowUser, useGetUserProfile } from "../../../services/user-page";
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { Account } from "../../../types/search";
 import { UserProfileSummary } from "../../../components/user-profile-summary";
+import { UserNameContext } from "../../../router/Router";
 
 export const SearchedAccount = (
   props: Pick<
@@ -19,9 +20,14 @@ export const SearchedAccount = (
     followState: followRequestState,
   } = props;
   const [selectedUserName, setSelectedUserName] = useState("");
+  const myUserName = useContext(UserNameContext);
   const navigate = useNavigate();
   const { userProfile, isRefetching } = useGetUserProfile(selectedUserName);
-  const { mutate: follow, isPending } = useFollowUser(selectedUserName);
+  const { mutate: follow, isPending } = useFollowUser(
+    userName,
+    myUserName,
+    userProfile?.followRequestState ?? followRequestState,
+  );
 
   const CreateButton = useCallback(() => {
     switch (userProfile?.followRequestState ?? followRequestState) {
@@ -105,7 +111,12 @@ export const SearchedAccountMobile = (props: Account) => {
   const [selectedUserName, setSelectedUserName] = useState("");
   const navigate = useNavigate();
   const { userProfile } = useGetUserProfile(selectedUserName);
-  const { mutate: follow, isPending } = useFollowUser(userName);
+  const myUserName = useContext(UserNameContext);
+  const { mutate: follow, isPending } = useFollowUser(
+    userName,
+    myUserName,
+    userProfile?.followRequestState ?? followRequestState,
+  );
   const CreateButton = useCallback(() => {
     switch (userProfile?.followRequestState ?? followRequestState) {
       case "accepted":

@@ -5,7 +5,7 @@ import { UserGallery, UserGalleryMobile } from "./user-gallery";
 import { useNavigate, useParams } from "react-router-dom";
 import { UserAccountInfo, UserAccountInfoMobile } from "./user-account-info";
 import { UserBlockedGallery } from "./user-blocked-gallery";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Modal } from "../../components/modal";
 import { FollowerList } from "../followinger-list/follower-list";
 import { FollowingList } from "../followinger-list/following-list";
@@ -16,6 +16,7 @@ import { UserInfoSummary } from "../../types/user";
 import more from "@asset/svg/menu-dots.svg";
 import { BtnStyles, Button } from "../../components/button";
 import { Unblock } from "../user-relationship-modals/unblock-modal";
+import { UserNameContext } from "../../router/Router";
 
 const useModals = () => {
   const [isFollowerListOpen, openFollowerList] = useState(false);
@@ -43,8 +44,14 @@ export const UserPage = () => {
     isPrivatePage,
     followBtnText,
     followBtnColor,
+    isRefetching,
   } = useGetUserProfile(userName ?? "");
-  const { mutate: followMutate } = useFollowUser(userName ?? "");
+  const myUserName = useContext(UserNameContext);
+  const { mutate: followMutate, isPending } = useFollowUser(
+    userName ?? "",
+    myUserName,
+    userProfile?.followRequestState ?? "none",
+  );
   const [menu, openMenu] = useState(false);
   const selectedUser: UserInfoSummary = {
     userName: userProfile?.userName ?? "",
@@ -133,6 +140,7 @@ export const UserPage = () => {
       <div className="flex h-40 w-[64rem] flex-row items-center justify-between gap-8 border border-x-0 border-t-0 border-solid border-form-border pb-6">
         {userProfile && (
           <UserAccountInfo
+            isPending={isPending || isRefetching}
             accountInfo={userProfile}
             onFollowMethod={followMutate}
             onShowFollowingList={() => setOpenFollowingList(true)}
@@ -226,8 +234,15 @@ export const UserPageMobile = () => {
     isPrivatePage,
     followBtnText,
     followBtnColor,
+    isRefetching,
   } = useGetUserProfile(userName ?? "");
-  const { mutate: followMutate } = useFollowUser(userName ?? "");
+  const myUserName = useContext(UserNameContext);
+
+  const { mutate: followMutate, isPending } = useFollowUser(
+    userName ?? "",
+    myUserName,
+    userProfile?.followRequestState ?? "none",
+  );
   const [menu, openMenu] = useState(false);
   const [modal, setModal] = useState<
     "block" | "close" | "unblock" | "message" | null
@@ -357,17 +372,20 @@ export const UserPageMobile = () => {
             />
           </div>
         </div>
-        <Button
-          classes="my-2 w-full text-center justify-center"
-          btnColor={(followBtnColor as BtnStyles) ?? "transparent"}
-          disabled={userProfile?.hasBlockedUs || userProfile?.isBlocked}
-          type="button"
-          onClick={() => {
-            followMutate();
-          }}
-        >
-          {followBtnText}
-        </Button>
+        {userProfile && (
+          <Button
+            classes="my-2 w-full text-center justify-center"
+            btnColor={(followBtnColor as BtnStyles) ?? "transparent"}
+            disabled={userProfile?.hasBlockedUs || userProfile?.isBlocked}
+            isPending={isPending || isRefetching}
+            type="button"
+            onClick={() => {
+              followMutate();
+            }}
+          >
+            {followBtnText}
+          </Button>
+        )}
       </div>
 
       <div>

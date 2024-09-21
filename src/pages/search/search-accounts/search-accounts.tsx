@@ -50,7 +50,7 @@ export const SearchAccounts = (props: SearchAccountProps) => {
           {selectedKeyword}
         </Button>
       )}
-      <div className="grid h-[535px] grid-cols-3 gap-3 overflow-scroll">
+      <div className="grid h-[535px] max-h-fit grid-cols-3 justify-start gap-3">
         {data?.pages
           .flatMap((page) => page.users)
           .map((account) => (

@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { useEditProfile } from "../../services/edit-profile.ts";
-import { useGetProfile } from "../../services/get-my-profile.ts";
+import { useGetProfile } from "../../services/my-page.ts";
 import {
   ProfileFormValue,
   editProfileFormValueSchema,
@@ -76,7 +76,7 @@ const EditProfileLayout = ({ close }: { close: () => void }) => {
           <InputField
             fieldsize="xsmall"
             placeholder="نام"
-            defaultValue={profile?.firstName}
+            defaultValue={isSuccess ? profile.firstName : ""}
             error={errors.firstName?.message}
             svg={PersonIcon}
             {...register("firstName")}
@@ -84,7 +84,7 @@ const EditProfileLayout = ({ close }: { close: () => void }) => {
           <InputField
             fieldsize="xsmall"
             placeholder="نام خانوادگی"
-            defaultValue={profile?.lastName}
+            defaultValue={isSuccess ? profile.lastName : ""}
             error={errors.lastName?.message}
             svg={PersonIcon}
             {...register("lastName")}
@@ -93,7 +93,7 @@ const EditProfileLayout = ({ close }: { close: () => void }) => {
             fieldsize="xsmall"
             type="email"
             placeholder="ایمیل"
-            defaultValue={profile?.email}
+            defaultValue={isSuccess ? profile.email : ""}
             error={errors.email?.message}
             svg={EnvelopeIcon}
             {...register("email")}
@@ -116,7 +116,7 @@ const EditProfileLayout = ({ close }: { close: () => void }) => {
           />
         </div>
         <Switch
-          defaultChecked={profile?.isPrivate}
+          defaultChecked={isSuccess ? profile.isPrivate : false}
           label="پیچ خصوصی باشه"
           {...register("isPrivate")}
         />

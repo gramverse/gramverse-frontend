@@ -6,8 +6,9 @@ import { ContainterWeb } from "../../components/container";
 import { useGetPost } from "../../services/post-details";
 import { Carousel } from "./post-shared-components/carousel";
 import { PostCaptions } from "./post-shared-components/captions";
-import { useGetProfile } from "../../services/get-my-profile";
 import { PostDetailSummary } from "./post-shared-components/summary-bar";
+import { useContext } from "react";
+import { UserNameContext } from "../../router/Router";
 
 export const PostModal = ({
   postId,
@@ -19,7 +20,7 @@ export const PostModal = ({
   close: () => void;
 }) => {
   const navigate = useNavigate();
-  const { data, isSuccess } = useGetProfile();
+  const myUserName = useContext(UserNameContext);
   const { data: post, isSuccess: isPostSuccess } = useGetPost(postId);
   return (
     <ContainterWeb className="relative flex grow justify-between gap-3 pt-16">
@@ -27,8 +28,8 @@ export const PostModal = ({
         src={expand}
         className="absolute inset-5 h-8 cursor-pointer"
         onClick={() => {
-          if (isSuccess && isPostSuccess) {
-            navigate(`/${data.userName}/post/${post._id}`);
+          if (isPostSuccess) {
+            navigate(`/${myUserName}/post/${post._id}`);
           }
         }}
       />

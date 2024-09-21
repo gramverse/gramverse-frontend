@@ -28,7 +28,13 @@ export const Explore = () => {
     ) {
       fetchNextPosts();
     }
-  }, [isNearPostEnd, isFetchingNextPostPage, hasNextPage]);
+  }, [
+    isNearPostEnd,
+    isFetchingNextPostPage,
+    hasNextPage,
+    isFetching,
+    fetchNextPosts,
+  ]);
 
   return (
     <div className="mt-32 flex h-[830px] w-[64rem] flex-col gap-4">
@@ -43,7 +49,7 @@ export const Explore = () => {
           );
         })}
         <Loading
-          isLoading={isFetching || isFetchingNextPostPage}
+          isLoading={hasNextPage && isFetchingNextPostPage}
           className="mx-auto place-self-center"
           size="large"
           ref={nearEndPostRef}
@@ -75,7 +81,13 @@ export const ExploreMobile = () => {
     ) {
       fetchNextPosts();
     }
-  }, [isNearPostEnd, isFetchingNextPostPage, hasNextPage]);
+  }, [
+    isNearPostEnd,
+    isFetchingNextPostPage,
+    hasNextPage,
+    isFetching,
+    fetchNextPosts,
+  ]);
 
   return (
     <div className="flex grow flex-col items-center justify-start gap-4">
@@ -84,7 +96,7 @@ export const ExploreMobile = () => {
           return <ExplorePostMobile key={post._id} post={post} />;
         })}
         <Loading
-          isLoading={isFetching || isFetchingNextPostPage}
+          isLoading={hasNextPage && isFetchingNextPostPage}
           className="mx-auto place-self-center"
           ref={nearEndPostRef}
         />
