@@ -1,14 +1,13 @@
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
-import { HTTPError } from "ky";
 import { getPostResponseSchema } from "../types/post";
-import { Profile, ProfileSchema } from "../types/profile-data";
+import { ProfileSchema } from "../types/profile-data";
 import { queryClient } from "../common/query-client";
 import { handleRequestError } from "../common/utilities/http-error-handler";
 
 export const useGetProfile = () => {
   const httpClient = useHttpClient();
-  return useQuery<Profile, HTTPError>({
+  return useQuery({
     queryKey: ["getProfile"],
     queryFn: () =>
       httpClient.get(`users/myProfile`).json().then(ProfileSchema.parse),

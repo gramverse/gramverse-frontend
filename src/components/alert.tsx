@@ -1,6 +1,6 @@
 import { HTMLAttributes, ReactNode, useEffect, useState } from "react";
-import CheckMark from "../assets/svg/check-mark-green.svg";
-import Error from "../assets/svg/error.svg";
+import CheckMark from "@asset/svg/check-mark-green.svg";
+import Error from "@asset/svg/error.svg";
 import clsx from "clsx";
 
 const fieldSizes: Record<fieldSizeTypes, string> = {
@@ -34,6 +34,7 @@ export const Alert = (props: AlertProps) => {
     time = 5,
   } = props;
   const [visible, setVisibility] = useState(false);
+  const [id, setId] = useState<number>();
   useEffect(() => {
     if (message) {
       setVisibility(true);
@@ -42,12 +43,15 @@ export const Alert = (props: AlertProps) => {
     }
   }, [message]);
   useEffect(() => {
+    clearInterval(id);
     if (visible) {
-      setTimeout(() => {
-        setVisibility(false);
-      }, time * 1000);
+      setId(
+        window.setTimeout(() => {
+          setVisibility(false);
+        }, time * 1000),
+      );
     }
-  }, [time, visible]);
+  }, [time, visible, message]);
   return (
     <div className="m-2 h-12 overflow-hidden">
       <div

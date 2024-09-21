@@ -1,11 +1,11 @@
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
 import { useGetProfile } from "../../../services/get-my-profile";
-import { like } from "../../../types/notifications";
+import { Like as LikeType } from "../../../types/notifications";
 import { getTimeDifference } from "../../../common/utilities/time-difference";
 import { RoundPicture } from "../../../components/round-picture";
 
-export const Like = (props: like) => {
+export const Like = (props: LikeType) => {
   const { postImage, performerUserName, creationDate, postId, seen } = props;
   const { data } = useGetProfile();
   const navigate = useNavigate();

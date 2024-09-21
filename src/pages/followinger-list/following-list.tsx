@@ -11,9 +11,14 @@ import { Loading } from "../../components/loading";
 type FollowerListProps = {
   close: () => void;
   userName: string;
+  openChat?: () => void;
 };
 
-export const FollowingList = ({ userName, close }: FollowerListProps) => {
+export const FollowingList = ({
+  userName,
+  close,
+  openChat,
+}: FollowerListProps) => {
   const queryClient = useQueryClient();
   const myProfile = ProfileSchema.parse(
     queryClient.getQueryData(["getProfile"]),
@@ -46,10 +51,11 @@ export const FollowingList = ({ userName, close }: FollowerListProps) => {
               close();
             }}
             follower={false}
+            openChat={openChat}
             activityPermit={activityPermit}
             key={following.userName}
             userName={following.userName}
-            myUserName={userName}
+            pageUserName={userName}
             followerCount={following.followerCount}
             profileImage={following.profileImage}
           />
@@ -76,17 +82,16 @@ export const FollowingList = ({ userName, close }: FollowerListProps) => {
 };
 
 export const FollowingListMobile = () => {
-  const { userName: myUserName } = useParams();
-  if (!myUserName) return;
+  const { userName } = useParams();
   const queryClient = useQueryClient();
   const myProfile = ProfileSchema.parse(
     queryClient.getQueryData(["getProfile"]),
   );
-  const activityPermit = myProfile?.userName === myUserName;
+  const activityPermit = myProfile?.userName === userName;
   const [nearEndRef, isNearEnd] = useInView();
   const limit = 6;
   const { data, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } =
-    useGetFollowingerList(myUserName ?? "", true, limit);
+    useGetFollowingerList(userName ?? "", true, limit);
 
   useEffect(() => {
     if (hasNextPage && isNearEnd && !isFetching && !isFetchingNextPage) {
@@ -110,7 +115,7 @@ export const FollowingListMobile = () => {
             activityPermit={activityPermit}
             key={following.userName}
             userName={following.userName}
-            myUserName={myUserName}
+            pageUserName={userName}
             followerCount={following.followerCount}
             profileImage={following.profileImage}
           />

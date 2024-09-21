@@ -25,7 +25,7 @@ export const EmojiKeyboard = ({
       {topEmojis.map((emoji, index) => (
         <p
           key={index}
-          className="m-1"
+          className="m-1 cursor-pointer"
           onClick={() => {
             setEmoji(String.fromCodePoint(emoji));
             (document.querySelector("#caption") as HTMLElement).focus();

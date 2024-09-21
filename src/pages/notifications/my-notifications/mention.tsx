@@ -1,10 +1,10 @@
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
-import { mention } from "../../../types/notifications";
+import { Mention as MentionType } from "../../../types/notifications";
 import { getTimeDifference } from "../../../common/utilities/time-difference";
 import { RoundPicture } from "../../../components/round-picture";
 
-export const Mention = (props: mention) => {
+export const Mention = (props: MentionType) => {
   const { postImage, performerUserName, creationDate, postId, seen } = props;
   const navigate = useNavigate();
 

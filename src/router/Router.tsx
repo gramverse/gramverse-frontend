@@ -69,6 +69,7 @@ import {
   BookmarkPage,
   BookmarkPageMobile,
 } from "../pages/bookmark-page/bookmark-page";
+import { ChatList, ChatListMobile } from "../pages/chat/chat-list";
 
 export const AppRoutes = () => {
   const { data } = useGetProfile();
@@ -96,6 +97,7 @@ export const AppRoutes = () => {
           <Route path={"close-friends"} element={<CloseFriends />} />
           <Route path={"black-list"} element={<BlackList />} />
         </Route>
+        <Route path="/chat" element={<ChatList />} />
         <Route path={"/:userName"} element={<UserPage />} />
         <Route path={`/:userName/post/:postId`} element={<UserPostViewWeb />} />
         <Route element={<Notification />}>
@@ -169,7 +171,10 @@ export const AppRoutesMobile = () => {
           />
         </Route>
         <Route path="/search" element={<SearchMobile />} />
-
+        <Route path="/chat" element={<ChatListMobile />} />
+        {
+          //add chatbox view mobile
+        }
         <Route path={urls.mentionPage} element={<MentionPageMobile />} />
         <Route path={urls.bookmarkPage} element={<BookmarkPageMobile />} />
         <Route path="create-post" element={<CreatePostMobile />} />

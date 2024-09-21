@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import menu from "../../assets/svg/menu.svg";
-import profile from "../../assets/svg/profile.svg";
+import menu from "@asset/svg/menu.svg";
+import profile from "@asset/svg/profile.svg";
 import { RoundPicture } from "../../components/round-picture";
 import { useState } from "react";
 import { ModalMobile } from "../../components/modal";

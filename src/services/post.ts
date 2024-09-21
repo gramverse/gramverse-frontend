@@ -1,14 +1,16 @@
 import { skipToken, useMutation, useQuery } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
-import { HTTPError } from "ky";
-import { CreatePostFormData, EditPostFormData } from "../types/post";
-import { z } from "zod";
+import {
+  CreatePostFormData,
+  EditPostFormData,
+  UserExists,
+} from "../types/post";
 import { queryClient } from "../common/query-client";
 import { handleRequestError } from "../common/utilities/http-error-handler";
 
 export const useCreatePost = (onSuccess: () => void) => {
   const httpClient = useHttpClient();
-  return useMutation<unknown, HTTPError, CreatePostFormData>({
+  return useMutation({
     mutationFn: ({ photoFiles, ...rest }: CreatePostFormData) => {
       const formData = new FormData();
       const { caption, mentions, forCloseFriends } = rest;
@@ -31,7 +33,7 @@ export const useCreatePost = (onSuccess: () => void) => {
 
 export const useEditPost = (onSuccess: () => void) => {
   const httpClient = useHttpClient();
-  return useMutation<unknown, HTTPError, EditPostFormData>({
+  return useMutation({
     mutationFn: ({ photoFiles, ...rest }: EditPostFormData) => {
       const formData = new FormData();
       const { caption, mentions, photoURLs, _id, forCloseFriends } = rest;
@@ -58,15 +60,12 @@ export const useEditPost = (onSuccess: () => void) => {
   });
 };
 
-const UserExists = z.object({
-  exists: z.boolean(),
-});
 export const useFindUser = (userName: string) => {
   const httpClient = useHttpClient();
   return useQuery({
     queryKey: ["findUser", userName],
     queryFn:
-      userName !== "" && userName !== undefined
+      userName !== ""
         ? () =>
             httpClient
               .get(`users/check-username/${userName}`)

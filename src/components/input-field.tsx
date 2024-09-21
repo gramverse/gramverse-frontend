@@ -1,5 +1,5 @@
 import { forwardRef, InputHTMLAttributes } from "react";
-import Error from "../assets/svg/error.svg";
+import Error from "@asset/svg/error.svg";
 import clsx from "clsx";
 
 const fieldSizes: Record<Sizes, string> = {

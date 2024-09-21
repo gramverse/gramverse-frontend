@@ -43,7 +43,7 @@ export const PostCaptions = (props: Captions) => {
           {mentions?.map((mention) => (
             <span
               key={mention}
-              className="rounded-lg bg-emerald-200 p-1 text-xs"
+              className="cursor-pointer rounded-lg bg-emerald-200 p-1 text-xs"
               onClick={() => {
                 close?.();
                 navigate(`/${mention}`);

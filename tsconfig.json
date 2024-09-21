@@ -1,5 +1,15 @@
 {
   "files": [],
+  "compilerOptions": {
+    // "types": ["node"],
+    // "moduleResolution": "Bundler",
+    // "module": "ESNext",
+    "baseUrl": "./",
+    "paths": {
+      "@asset/*": ["src/assets/*"],
+      "@component/*": ["src/components/*"]
+    }
+  },
   "references": [
     {
       "path": "./tsconfig.app.json"

@@ -11,9 +11,14 @@ import { Loading } from "../../components/loading";
 type FollowerListProps = {
   close: () => void;
   userName: string;
+  openChat?: () => void;
 };
 
-export const FollowerList = ({ userName, close }: FollowerListProps) => {
+export const FollowerList = ({
+  userName,
+  close,
+  openChat,
+}: FollowerListProps) => {
   const queryClient = useQueryClient();
   const myProfile = ProfileSchema.parse(
     queryClient.getQueryData(["getProfile"]),
@@ -50,9 +55,10 @@ export const FollowerList = ({ userName, close }: FollowerListProps) => {
             }}
             key={follower.userName}
             userName={follower.userName}
-            myUserName={userName}
+            pageUserName={userName}
             followerCount={follower.followerCount}
             profileImage={follower.profileImage}
+            openChat={openChat}
           />
         ))}
         <Loading
@@ -77,17 +83,16 @@ export const FollowerList = ({ userName, close }: FollowerListProps) => {
 };
 
 export const FollowerListMobile = () => {
-  const { userName: myUserName } = useParams();
-  if (!myUserName) return;
+  const { userName } = useParams();
   const queryClient = useQueryClient();
   const myProfile = ProfileSchema.parse(
     queryClient.getQueryData(["getProfile"]),
   );
-  const activityPermit = myProfile?.userName === myUserName;
+  const activityPermit = myProfile?.userName === userName;
   const [nearEndRef, isNearEnd] = useInView();
   const limit = 6;
   const { data, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } =
-    useGetFollowingerList(myUserName ?? "", false, limit);
+    useGetFollowingerList(userName ?? "", false, limit);
 
   useEffect(() => {
     if (hasNextPage && isNearEnd && !isFetching && !isFetchingNextPage) {
@@ -112,7 +117,7 @@ export const FollowerListMobile = () => {
             activityPermit={activityPermit}
             key={follower.userName}
             userName={follower.userName}
-            myUserName={myUserName}
+            pageUserName={userName}
             followerCount={follower.followerCount}
             profileImage={follower.profileImage}
           />

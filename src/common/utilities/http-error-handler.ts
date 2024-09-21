@@ -4,7 +4,7 @@ import {
   ErrorCode,
   errorMessages,
   errorResponseSchema,
-} from "../../assets/constants/error-messages";
+} from "../../constants/error-messages";
 
 export const handleRequestError = async (error: Error) => {
   if (error instanceof TimeoutError) {

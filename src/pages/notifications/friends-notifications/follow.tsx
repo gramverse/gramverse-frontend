@@ -1,14 +1,14 @@
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
-import { userFollow } from "../../../types/notifications";
+import { UserFollow } from "../../../types/notifications";
 import { getTimeDifference } from "../../../common/utilities/time-difference";
 import { RoundPicture } from "../../../components/round-picture";
-import profile from "../../../assets/svg/profile.svg";
+import profile from "@asset/svg/profile.svg";
 import { Button } from "../../../components/button";
 import { useFollowUser, useGetUserProfile } from "../../../services/user-page";
 import { useCallback } from "react";
 
-interface FollowProps extends userFollow {
+interface FollowProps extends UserFollow {
   refetch: () => void;
 }
 export const Follow = (props: FollowProps) => {

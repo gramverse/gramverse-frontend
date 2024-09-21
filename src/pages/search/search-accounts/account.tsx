@@ -6,7 +6,12 @@ import { useCallback, useState } from "react";
 import { Account } from "../../../types/search";
 import { UserProfileSummary } from "../../../components/user-profile-summary";
 
-export const SearchedAccount = (props: Account) => {
+export const SearchedAccount = (
+  props: Pick<
+    Account,
+    "profileImage" | "userName" | "followState" | "followerCount"
+  >,
+) => {
   const {
     userName,
     followerCount,
@@ -15,8 +20,8 @@ export const SearchedAccount = (props: Account) => {
   } = props;
   const [selectedUserName, setSelectedUserName] = useState("");
   const navigate = useNavigate();
-  const { userProfile } = useGetUserProfile(selectedUserName);
-  const { mutate: follow, isPending } = useFollowUser(userName);
+  const { userProfile, isRefetching } = useGetUserProfile(selectedUserName);
+  const { mutate: follow, isPending } = useFollowUser(selectedUserName);
 
   const CreateButton = useCallback(() => {
     switch (userProfile?.followRequestState ?? followRequestState) {
@@ -28,7 +33,7 @@ export const SearchedAccount = (props: Account) => {
               setSelectedUserName(userName);
               follow();
             }}
-            isPending={isPending}
+            isPending={isPending || isRefetching}
             className="w-full"
           >
             {"دنبال نکردن"}
@@ -42,7 +47,7 @@ export const SearchedAccount = (props: Account) => {
               setSelectedUserName(userName);
               follow();
             }}
-            isPending={isPending}
+            isPending={isPending || isRefetching}
             className="w-full"
           >
             {"لغو درخواست"}
@@ -56,7 +61,7 @@ export const SearchedAccount = (props: Account) => {
               setSelectedUserName(userName);
               follow();
             }}
-            isPending={isPending}
+            isPending={isPending || isRefetching}
             className="w-full"
           >
             {"دنبال کردن +"}
@@ -67,6 +72,7 @@ export const SearchedAccount = (props: Account) => {
     userProfile?.followRequestState,
     followRequestState,
     isPending,
+    isRefetching,
     userName,
     follow,
   ]);

@@ -26,7 +26,7 @@ export const MentionedPost = ({ post, closeModal }: MentionedPostProps) => {
         />
       </Modal>
 
-      <div className="post flex h-[18rem] w-[18rem] flex-col items-start gap-4 rounded-3xl border-solid border-form-border">
+      <div className="post flex h-[18rem] w-[18rem] cursor-pointer flex-col items-start gap-4 rounded-3xl border-solid border-form-border">
         <div
           className="h-full w-full overflow-hidden rounded-t-3xl bg-neutral-400"
           onClick={() => {

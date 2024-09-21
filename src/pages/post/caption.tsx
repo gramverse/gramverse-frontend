@@ -7,7 +7,7 @@ interface captionProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   setCaption: React.Dispatch<React.SetStateAction<string>>;
   hashtags: Array<string>;
 }
-import Emoji from "../../assets/svg/emoji.svg";
+import Emoji from "@asset/svg/emoji.svg";
 
 export const Caption = forwardRef<HTMLTextAreaElement, captionProps>(
   (props, ref) => {
@@ -16,15 +16,26 @@ export const Caption = forwardRef<HTMLTextAreaElement, captionProps>(
     const [isKeyBoardVisible, setKeyboardVisibility] = useState(false);
     return (
       <div className="flex flex-col items-center">
-        <span className="flex w-full flex-row justify-around">
+        <span className="flex w-full flex-row items-center justify-between">
           <p>کپشن مورد نظرت رو بنویس:</p>
-          <img
-            src={Emoji}
-            alt=""
-            onClick={() =>
-              setKeyboardVisibility((isKeyBoardVisible) => !isKeyBoardVisible)
-            }
-          />
+          <div className="flex gap-2">
+            <span
+              className="flex h-5 w-5 items-baseline justify-center rounded-full border border-solid border-gray-600 text-base text-gray-700 shadow-sm shadow-black"
+              onClick={() => {
+                (document.querySelector("#caption") as HTMLElement).focus();
+                setCaption((caption) => caption.concat("#"));
+              }}
+            >
+              {"#"}
+            </span>
+            <img
+              src={Emoji}
+              alt=""
+              onClick={() =>
+                setKeyboardVisibility((isKeyBoardVisible) => !isKeyBoardVisible)
+              }
+            />
+          </div>
         </span>
         <div className="relative h-52 w-80 self-center">
           <EmojiKeyboard

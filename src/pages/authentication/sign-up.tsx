@@ -4,9 +4,9 @@ import { SignupFormValue, signupFormValueSchema } from "../../types/sign-up.ts";
 import { useSignup } from "../../services/sign-up.ts";
 import { InputField } from "../../components/input-field.tsx";
 import { Button } from "../../components/button.tsx";
-import PersonIcon from "../../assets/svg/profile.svg";
-import Key from "../../assets/svg/key.svg";
-import Envelope from "../../assets/svg/envelope.svg";
+import PersonIcon from "@asset/svg/profile.svg";
+import Key from "@asset/svg/key.svg";
+import Envelope from "@asset/svg/envelope.svg";
 
 const SignUpLayout = () => {
   const {

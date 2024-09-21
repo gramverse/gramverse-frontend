@@ -1,6 +1,6 @@
 import { HTMLAttributes, useState } from "react";
 import { PostDetail } from "../../../types/post-detail";
-import leftArrow from "../../../assets/svg/arrow.svg";
+import leftArrow from "@asset/svg/arrow.svg";
 import clsx from "clsx";
 
 interface Carousel
@@ -29,14 +29,14 @@ export const Carousel = (props: Carousel) => {
         )}
         <div
           className={clsx(
-            "absolute h-[500px] min-w-[500px] max-w-[700px] rounded-3xl bg-slate-200",
+            "absolute h-[500px] w-[500px] rounded-3xl bg-slate-200",
             photoUrls.length === 0 && "animate-pulse",
           )}
         >
           <img
             src={photoUrls[index]}
             alt=""
-            className="h-full w-full object-cover"
+            className="h-full w-full rounded-3xl object-cover"
           />
         </div>
 

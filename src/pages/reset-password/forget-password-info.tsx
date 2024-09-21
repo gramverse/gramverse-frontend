@@ -1,4 +1,4 @@
-import rahnemaLogo from "../../assets/svg/rahnema-logo.svg";
+import rahnemaLogo from "@asset/svg/rahnema-logo.svg";
 
 export const ForgetPasswordInfo = () => {
   return (

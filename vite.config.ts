@@ -1,6 +1,6 @@
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
-
+import { resolve } from "path";
 declare let process: { env: Record<string, string>; cwd: () => string };
 const env = loadEnv("all", process.cwd());
 
@@ -10,6 +10,12 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": env.VITE_API_HOST || "http://5.34.193.100",
+    },
+  },
+  resolve: {
+    alias: {
+      "@asset": resolve(__dirname, "src/assets"),
+      "@component": resolve(__dirname, "src/components"),
     },
   },
 });

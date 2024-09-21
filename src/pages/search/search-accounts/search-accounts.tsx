@@ -55,11 +55,11 @@ export const SearchAccounts = (props: SearchAccountProps) => {
           .flatMap((page) => page.users)
           .map((account) => (
             <SearchedAccount
+              key={account._id}
               profileImage={account.profileImage}
               followerCount={account.followerCount}
               userName={account.userName}
               followState={account.followState}
-              fullName={account.fullName}
             />
           ))}
         <Loading
@@ -116,6 +116,7 @@ export const SearchAccountsMobile = (props: SearchAccountProps) => {
           .flatMap((page) => page.users)
           .map((account) => (
             <UserProfileSummary
+              key={account._id}
               className="w-full"
               followerCount={account.followerCount}
               userName={account.userName}

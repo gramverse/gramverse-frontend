@@ -1,5 +1,5 @@
 import { UserProfileSummary } from "../../../components/user-profile-summary";
-import more from "../../../assets/svg/menu-dots.svg";
+import more from "@asset/svg/menu-dots.svg";
 import { useEffect, useState } from "react";
 import { Modal } from "../../../components/modal";
 import { MenuCloseFriends } from "./menu-close-friends";
@@ -9,11 +9,15 @@ import { Unclose } from "../../user-relationship-modals/unclose-modal";
 import { useInView } from "react-intersection-observer";
 import { useGetCloseFriends } from "../../../services/users";
 import { Loading } from "../../../components/loading";
+import { useNavigate } from "react-router-dom";
 
-export const CloseFriendsLayout = () => {
+export const CloseFriendsLayout = ({ mobile }: { mobile: boolean }) => {
   const [menu, openMenu] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserInfoSummary>();
-  const [modal, setModal] = useState<"block" | "unclose" | null>(null);
+  const [modal, setModal] = useState<"block" | "unclose" | "message" | null>(
+    null,
+  );
+  const navigate = useNavigate();
   const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } =
     useGetCloseFriends({ limit: 1 });
   const { ref, inView } = useInView({
@@ -31,6 +35,13 @@ export const CloseFriendsLayout = () => {
     isFetching,
     isFetchingNextPage,
   ]);
+
+  //navigate to chat
+  useEffect(() => {
+    if (modal === "message" && mobile) {
+      navigate(`/chat/${selectedUser?.userName}`);
+    }
+  });
   return (
     <div
       className="flex w-full grow flex-col gap-4 overflow-y-scroll"
@@ -46,6 +57,18 @@ export const CloseFriendsLayout = () => {
       >
         <Block user={selectedUser} close={() => setModal(null)} />
       </Modal>
+      {!mobile && (
+        <Modal
+          isOpen={modal === "message"}
+          close={() => {
+            setModal(null);
+          }}
+        >
+          {
+            //message-modal
+          }
+        </Modal>
+      )}
       <Modal
         isOpen={modal === "unclose"}
         close={() => {
@@ -74,7 +97,9 @@ export const CloseFriendsLayout = () => {
                 closeMenu={() => {
                   openMenu(false);
                 }}
-                openModal={(arg: "block" | "unclose") => setModal(arg)}
+                openModal={(arg: "block" | "unclose" | "message") =>
+                  setModal(arg)
+                }
               />
 
               <img
@@ -108,9 +133,9 @@ export const CloseFriendsLayout = () => {
 };
 
 export const CloseFriends = () => {
-  return <CloseFriendsLayout />;
+  return <CloseFriendsLayout mobile={false} />;
 };
 
 export const CloseFriendsMobile = () => {
-  return <CloseFriendsLayout />;
+  return <CloseFriendsLayout mobile={true} />;
 };

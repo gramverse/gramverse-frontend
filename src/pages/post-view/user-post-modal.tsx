@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import expand from "../../assets/svg/expand.svg";
+import expand from "@asset/svg/expand.svg";
 import { ContainterWeb } from "../../components/container";
 import { Carousel } from "./post-shared-components/carousel";
 import { PostCaptions } from "./post-shared-components/captions";

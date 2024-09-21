@@ -1,13 +1,13 @@
-import pin from "../../assets/svg/pin.svg";
-import saved from "../../assets/svg/save.svg";
-import messages from "../../assets/svg/message.svg";
-import notification from "../../assets/svg/notification.svg";
-import tags from "../../assets/svg/tag.svg";
-import explore from "../../assets/svg/explore.svg";
-import search from "../../assets/svg/search.svg";
-import menu from "../../assets/svg/menu.svg";
-import signOut from "../../assets/svg/signout.svg";
-import addAccount from "../../assets/svg/add-account.svg";
+import pin from "@asset/svg/pin.svg";
+import saved from "@asset/svg/save.svg";
+import messages from "@asset/svg/message.svg";
+import notification from "@asset/svg/notification.svg";
+import tags from "@asset/svg/tag.svg";
+import explore from "@asset/svg/explore.svg";
+import search from "@asset/svg/search.svg";
+import menu from "@asset/svg/menu.svg";
+import signOut from "@asset/svg/signout.svg";
+import addAccount from "@asset/svg/add-account.svg";
 
 export const itemList = {
   myPage: { text: "صفحه من", icon: pin },

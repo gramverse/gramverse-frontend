@@ -87,7 +87,7 @@ const calcIsFollowing = (current: RequestStatus) => {
   );
 };
 
-export const useFollowUser = (userName: string, myUsrerName?:string) => {
+export const useFollowUser = (userName: string, myUsrerName?: string) => {
   const { userProfile } = useGetUserProfile(userName);
   //const { data: myProfile } = useGetProfile();
   const httpClient = useHttpClient();

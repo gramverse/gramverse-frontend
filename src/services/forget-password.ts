@@ -1,6 +1,4 @@
 import { useMutation } from "@tanstack/react-query";
-
-import { HTTPError } from "ky";
 import { useHttpClient } from "../common/http-client";
 import { urls } from "../router/routes";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +8,7 @@ import { handleRequestError } from "../common/utilities/http-error-handler";
 export const useForgetPassword = () => {
   const navigate = useNavigate();
   const httpClient = useHttpClient();
-  return useMutation<unknown, HTTPError, forgetPassFormValue>({
+  return useMutation({
     mutationFn: (formValue: forgetPassFormValue) =>
       httpClient
         .post(`reset/request-reset-password`, { json: formValue })

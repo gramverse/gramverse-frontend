@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
-import "./assets/styles/index.css";
+import "@asset/styles/index.css";
 import { Toaster } from "./components/toaster.tsx";
 import { createPortal } from "react-dom";
 

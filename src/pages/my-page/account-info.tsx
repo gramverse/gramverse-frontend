@@ -1,5 +1,5 @@
 import { Profile } from "../../types/profile-data";
-import PersonIcon from "../../assets/svg/profile.svg";
+import PersonIcon from "@asset/svg/profile.svg";
 import clsx from "clsx";
 import { RoundPicture } from "../../components/round-picture";
 import { useNavigate } from "react-router-dom";

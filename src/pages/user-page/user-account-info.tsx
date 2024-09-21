@@ -1,5 +1,5 @@
 import { BtnStyles, Button } from "../../components/button";
-import PersonIcon from "../../assets/svg/profile.svg";
+import PersonIcon from "@asset/svg/profile.svg";
 import { UserProfile } from "../../types/user-profile";
 import clsx from "clsx";
 import { RoundPicture } from "../../components/round-picture";

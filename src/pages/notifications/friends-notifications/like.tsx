@@ -1,10 +1,10 @@
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
-import { userLike } from "../../../types/notifications";
+import { UserLike } from "../../../types/notifications";
 import { getTimeDifference } from "../../../common/utilities/time-difference";
 import { RoundPicture } from "../../../components/round-picture";
 
-export const Like = (props: userLike) => {
+export const Like = (props: UserLike) => {
   const {
     postImage,
     performerUserName,

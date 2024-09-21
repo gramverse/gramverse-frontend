@@ -1,9 +1,8 @@
 import { RoundPicture } from "./round-picture";
-import profile from "../assets/svg/profile.svg";
+import profile from "@asset/svg/profile.svg";
 import clsx from "clsx";
 import { HTMLAttributes } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGetUserProfile } from "../services/user-page";
 
 interface UserProfile extends HTMLAttributes<HTMLDivElement> {
   userName: string;
@@ -12,25 +11,17 @@ interface UserProfile extends HTMLAttributes<HTMLDivElement> {
 }
 export const UserProfileSummary = (props: UserProfile) => {
   const { className, userName, profilePicture, followerCount, onClick } = props;
-  const { userProfile: profileSummary, isSuccess } =
-    useGetUserProfile(userName);
   const navigate = useNavigate();
   return (
     <div
       className={clsx("flex items-center gap-5", className)}
       onClick={(e) => {
-        onClick
-          ? onClick(e)
-          : isSuccess && navigate(`/${profileSummary?.userName}`);
+        onClick ? onClick(e) : navigate(`/${userName}`);
       }}
     >
       <RoundPicture
         picture={
-          profilePicture && profilePicture !== ""
-            ? profilePicture
-            : profileSummary?.profileImage && profileSummary.profileImage !== ""
-              ? profileSummary.profileImage
-              : profile
+          profilePicture && profilePicture !== "" ? profilePicture : profile
         }
         size={followerCount !== undefined ? "large" : "medium"}
       />

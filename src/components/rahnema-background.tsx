@@ -1,4 +1,4 @@
-import background from "../assets/svg/background.svg";
+import background from "@asset/svg/background.svg";
 import { Outlet } from "react-router-dom";
 
 export const CollegeBackground = () => {
