@@ -2,8 +2,8 @@ import clsx from "clsx";
 import { nanoid } from "nanoid";
 import { InputHTMLAttributes, forwardRef, useState, useEffect } from "react";
 import { UploadImage } from "../../components/upload-image";
-import Close from "../../assets/svg/close.svg";
-import Camera from "../../assets/svg/camera.svg";
+import Close from "@asset/svg/close.svg";
+import Camera from "@asset/svg/camera.svg";
 
 interface photoProps extends InputHTMLAttributes<HTMLInputElement> {
   photoFiles: Array<File>;

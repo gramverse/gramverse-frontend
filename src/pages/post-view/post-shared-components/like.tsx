@@ -17,15 +17,15 @@ export const Like = ({
   return (
     <div
       className={clsx(
-        "flex items-center gap-2",
+        "flex cursor-pointer items-center gap-2",
         display === "row" && "flex-row",
         display === "col" && "flex-col",
       )}
     >
       <svg
         width="25"
-        height="20"
-        viewBox="0 -2 25 25"
+        height="23"
+        viewBox="-1 -4 25 25"
         className={clsx(
           "stroke-secondary stroke-2",
           isLiked ? "fill-secondary" : "fill-none",

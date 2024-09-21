@@ -3,9 +3,9 @@ import {
   resetPasswordSchema,
 } from "../../types/reset-password";
 import { SubmitHandler, useForm } from "react-hook-form";
-import rahnemaLogo from "../../assets/svg/rahnema-logo.svg";
+import rahnemaLogo from "@asset/svg/rahnema-logo.svg";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Key from "../../assets/svg/key.svg";
+import Key from "@asset/svg/key.svg";
 import {
   useResetPassword,
   useValidateResetToken,

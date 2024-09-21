@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { AddComment } from "./post-shared-components/add-comment";
 import { ViewComments } from "./post-shared-components/view-comments";
-import back from "../../assets/svg/back.svg";
-import pen from "../../assets/svg/pen.svg";
+import back from "@asset/svg/back.svg";
+import pen from "@asset/svg/pen.svg";
 import { CarouselMobile } from "./post-shared-components/carousel";
 import { ProfileSummary } from "../../components/profile-summary";
 import { useNavigate, useParams } from "react-router-dom";
@@ -25,7 +25,7 @@ export const PostViewWeb = () => {
   });
 
   return (
-    <div className="flex flex-col items-end">
+    <div className="mt-40 flex flex-col items-end">
       <div className="flex h-fit justify-between gap-3 self-center">
         <Modal
           isOpen={isEditOpen}

@@ -1,12 +1,12 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import rahnema from "../../assets/svg/rahnema.svg";
+import rahnema from "@asset/svg/rahnema.svg";
 import { useEffect, useState } from "react";
 import MobileBottomNavigation from "./mobile-bottom-navigation";
 import { Panel } from "./web-side-panel";
 import { ContainterMobile } from "../../components/container";
 import MobileTopNavigation from "./mobile-top-navigation";
 import { useGetProfile } from "../../services/get-my-profile";
-import profile from "../../assets/svg/profile.svg";
+import profile from "@asset/svg/profile.svg";
 export const Main = () => {
   const location = useLocation();
   const [tab, setTab] = useState("explore");

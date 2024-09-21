@@ -12,64 +12,78 @@ import { FollowingList } from "../followinger-list/following-list";
 
 const MyPageLayout = () => {
   const { data: profile, isSuccess } = useGetProfile();
-
-  const [isEditProfileOpen, openEditProfile] = useState(false);
-  const [isOpenFollowerList, setOpenFollowerList] = useState(false);
-  const [isOpenFollowingList, setOpenFollowingList] = useState(false);
+  const [modal, setModal] = useState<
+    "edit" | "following" | "follower" | "message" | null
+  >(null);
 
   return (
     <div className="flex h-full w-[64rem] flex-col gap-3 pt-36">
       <Modal
-        isOpen={isEditProfileOpen}
+        isOpen={modal === "edit"}
         close={() => {
-          openEditProfile(false);
+          setModal(null);
         }}
       >
         <EditProfile
           close={() => {
-            openEditProfile(false);
+            setModal(null);
           }}
         />
       </Modal>
       {profile && (
         <Modal
-          isOpen={isOpenFollowerList}
+          isOpen={modal === "follower"}
           close={() => {
-            setOpenFollowerList(false);
+            setModal(null);
           }}
         >
           <FollowerList
             userName={profile.userName}
             close={() => {
-              setOpenFollowerList(false);
+              setModal(null);
+            }}
+            openChat={() => {
+              setModal("message");
             }}
           />
         </Modal>
       )}
       {profile && (
         <Modal
-          isOpen={isOpenFollowingList}
+          isOpen={modal === "following"}
           close={() => {
-            setOpenFollowingList(false);
+            setModal(null);
           }}
         >
           <FollowingList
             userName={profile.userName}
             close={() => {
-              setOpenFollowingList(false);
+              setModal(null);
+            }}
+            openChat={() => {
+              setModal("message");
             }}
           />
         </Modal>
       )}
-
+      <Modal
+        isOpen={modal === "message"}
+        close={() => {
+          setModal(null);
+        }}
+      >
+        {
+          //message-modal
+        }
+      </Modal>
       <p className="text-right text-xl font-extrabold leading-8">{"صفحه من"}</p>
       <div className="flex h-44 flex-col gap-3 border border-x-0 border-t-0 border-solid border-form-border pb-8">
         <div className="flex h-40 flex-row items-center gap-8">
           {profile && (
             <AccountInfo
               accountInfo={profile}
-              onShowFollowingList={() => setOpenFollowingList(true)}
-              onShowFollowerList={() => setOpenFollowerList(true)}
+              onShowFollowingList={() => setModal("following")}
+              onShowFollowerList={() => setModal("follower")}
             />
           )}
           {!profile && (
@@ -83,7 +97,7 @@ const MyPageLayout = () => {
               classes="w-48"
               type="button"
               onClick={() => {
-                openEditProfile(true);
+                setModal("edit");
               }}
             >
               ویرایش پروفایل

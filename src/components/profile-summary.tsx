@@ -1,6 +1,6 @@
 import { useGetProfile } from "../services/get-my-profile";
 import { RoundPicture } from "./round-picture";
-import profile from "../assets/svg/profile.svg";
+import profile from "@asset/svg/profile.svg";
 import clsx from "clsx";
 import { HTMLAttributes } from "react";
 import { useNavigate } from "react-router-dom";

@@ -1,8 +1,8 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
-import rahnema from "../../assets/svg/rahnema.svg";
+import rahnema from "@asset/svg/rahnema.svg";
 import { useEffect, useState } from "react";
 import { urls } from "../../router/routes";
-import arrow from "../../assets/svg/arrow.svg";
+import arrow from "@asset/svg/arrow.svg";
 import { ContainterMobile, ContainterWeb } from "../../components/container";
 import { TwinTab } from "../../components/twin-tabs";
 

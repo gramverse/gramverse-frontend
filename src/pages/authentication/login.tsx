@@ -1,5 +1,5 @@
-import Key from "../../assets/svg/key.svg";
-import Envelope from "../../assets/svg/envelope.svg";
+import Key from "@asset/svg/key.svg";
+import Envelope from "@asset/svg/envelope.svg";
 import { useForm } from "react-hook-form";
 import { InputField } from "../../components/input-field.tsx";
 import { LoginFormData } from "../../types/login.ts";
@@ -9,7 +9,6 @@ import { Button } from "../../components/button.tsx";
 const LoginLayout = () => {
   const { register, handleSubmit } = useForm<LoginFormData>({});
   const { mutate, isPending } = useLogin();
-
   return (
     <div className="mx-auto flex grow flex-col items-center justify-between gap-6 bg-primary text-right text-sm">
       <p className="text-xs font-extralight leading-loose">

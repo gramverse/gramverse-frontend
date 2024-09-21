@@ -7,7 +7,7 @@ import {
 } from "react";
 import { blobToDataUrl } from "../common/utilities/blob-to-data-url.ts";
 import clsx from "clsx";
-import Error from "../assets/svg/error.svg";
+import Error from "@asset/svg/error.svg";
 
 export type UploadImageProps = Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -18,6 +18,7 @@ export type UploadImageProps = Omit<
   defaultValue?: string;
   placeholderImage?: string;
   setSelectedPhotos?: React.Dispatch<React.SetStateAction<File[]>>;
+  setSelectedPhoto?: (arg: File) => void;
 };
 
 export const UploadImage = forwardRef<HTMLInputElement, UploadImageProps>(
@@ -31,6 +32,7 @@ export const UploadImage = forwardRef<HTMLInputElement, UploadImageProps>(
       error,
       multiple = false,
       setSelectedPhotos = () => {},
+      setSelectedPhoto,
       ...attrs
     },
     ref,
@@ -46,6 +48,7 @@ export const UploadImage = forwardRef<HTMLInputElement, UploadImageProps>(
           if (!file) {
             return;
           }
+          setSelectedPhoto?.(file);
           blobToDataUrl(file).then(setImagePreview);
         } else {
           if (event.target.files) {
@@ -53,7 +56,7 @@ export const UploadImage = forwardRef<HTMLInputElement, UploadImageProps>(
           }
         }
       },
-      [multiple, onChange, setSelectedPhotos],
+      [multiple, onChange, setSelectedPhoto, setSelectedPhotos],
     );
     return (
       <>
@@ -67,7 +70,10 @@ export const UploadImage = forwardRef<HTMLInputElement, UploadImageProps>(
             className="hidden"
             multiple
             ref={ref}
-            onChange={handleFileChange}
+            onChange={(e) => {
+              handleFileChange(e);
+              e.currentTarget.value = "";
+            }}
             name={name}
             {...attrs}
           />

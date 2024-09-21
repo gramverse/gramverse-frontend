@@ -1,5 +1,5 @@
 import { UserProfileSummary } from "../../../components/user-profile-summary";
-import more from "../../../assets/svg/menu-dots.svg";
+import more from "@asset/svg/menu-dots.svg";
 import { useEffect, useState } from "react";
 import { MenuBlock } from "./menu-block";
 import { Modal } from "../../../components/modal";

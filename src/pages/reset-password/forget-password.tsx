@@ -1,7 +1,7 @@
 import { forgetPassFormValue } from "../../types/forget-password";
 import { SubmitHandler, useForm } from "react-hook-form";
-import rahnemaLogo from "../../assets/svg/rahnema-logo.svg";
-import PersonIcon from "../../assets/svg/profile.svg";
+import rahnemaLogo from "@asset/svg/rahnema-logo.svg";
+import PersonIcon from "@asset/svg/profile.svg";
 import { useForgetPassword } from "../../services/forget-password";
 import { InputField } from "../../components/input-field";
 import { Button } from "../../components/button";

@@ -1,15 +1,15 @@
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
-import { followRequest } from "../../../types/notifications";
+import { FollowRequest as FollowRequestType } from "../../../types/notifications";
 import { getTimeDifference } from "../../../common/utilities/time-difference";
 import { RoundPicture } from "../../../components/round-picture";
-import profile from "../../../assets/svg/profile.svg";
+import profile from "@asset/svg/profile.svg";
 import { Button } from "../../../components/button";
 import { useFollowUser, useGetUserProfile } from "../../../services/user-page";
 import { useCallback } from "react";
 import { useAcceptRequest } from "../../../services/notifications";
 
-export const FollowRequest = (props: followRequest) => {
+export const FollowRequest = (props: FollowRequestType) => {
   const { performerUserName, creationDate, seen } = props;
   const navigate = useNavigate();
   const { userProfile } = useGetUserProfile(performerUserName);

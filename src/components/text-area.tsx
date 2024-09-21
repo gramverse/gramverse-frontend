@@ -1,5 +1,5 @@
 import { forwardRef, TextareaHTMLAttributes } from "react";
-import Error from "../assets/svg/error.svg";
+import Error from "@asset/svg/error.svg";
 import clsx from "clsx";
 
 const fieldSizes = {

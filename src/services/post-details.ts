@@ -1,17 +1,20 @@
-import { HTTPError } from "ky";
 import { useHttpClient } from "../common/http-client";
 import { skipToken, useMutation, useQuery } from "@tanstack/react-query";
-import { PostDetail } from "../types/post-detail";
+import { PostDetailSchema } from "../types/post-detail";
 import { queryClient } from "../common/query-client";
 import { handleRequestError } from "../common/utilities/http-error-handler";
 
 export const useGetPost = (id: string | undefined) => {
   const httpClient = useHttpClient();
-  return useQuery<PostDetail, HTTPError>({
+  return useQuery({
     queryKey: ["getPost", id],
     queryFn:
       id && id !== ""
-        ? () => httpClient.get(`posts/post/${id}`).json()
+        ? () =>
+            httpClient
+              .get(`posts/post/${id}`)
+              .json()
+              .then(PostDetailSchema.parse)
         : skipToken,
     enabled: id !== undefined,
   });
@@ -30,10 +33,12 @@ export const useLikePost = () => {
     onError: (error) => {
       handleRequestError(error);
     },
-    onSettled: (_data, _error, { postId }) =>
+    onSettled: (_data, _error, { postId }) => {
       queryClient.invalidateQueries({
         queryKey: ["getPost", postId],
-      }),
+      });
+      queryClient.invalidateQueries({ queryKey: ["getExplorePosts"] });
+    },
   });
 };
 
@@ -50,9 +55,11 @@ export const useBookmarkPost = () => {
     onError: (error) => {
       handleRequestError(error);
     },
-    onSettled: (_data, _error, { postId }) =>
+    onSettled: (_data, _error, { postId }) => {
       queryClient.invalidateQueries({
         queryKey: ["getPost", postId],
-      }),
+      });
+      queryClient.invalidateQueries({ queryKey: ["getExplorePosts"] });
+    },
   });
 };

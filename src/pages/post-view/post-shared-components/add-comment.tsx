@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useSendComment } from "../../../services/comment";
 import { useGetProfile } from "../../../services/get-my-profile";
-import send from "../../../assets/svg/letter.svg";
-import person from "../../../assets/svg/profile.svg";
+import send from "@asset/svg/letter.svg";
+import person from "@asset/svg/profile.svg";
 
 import { InputField } from "../../../components/input-field";
 import { RoundPicture } from "../../../components/round-picture";

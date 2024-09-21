@@ -1,8 +1,8 @@
 import { FollowingerInfo } from "../../types/followinger-info";
-import PersonIcon from "../../assets/svg/profile.svg";
+import PersonIcon from "@asset/svg/profile.svg";
 import { Menu, MenuMobile } from "./menu";
 import { useState } from "react";
-import more from "../../assets/svg/menu-dots.svg";
+import more from "@asset/svg/menu-dots.svg";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
 interface FollowerInfoProps extends FollowingerInfo {
@@ -11,8 +11,9 @@ interface FollowerInfoProps extends FollowingerInfo {
   selectedUser?: string;
   setUser?: (user: string) => void;
   activityPermit: boolean;
-  myUserName?: string;
+  pageUserName?: string;
   noBorder?: boolean;
+  openChat?: () => void;
 }
 
 export const FollowingersInfo = ({
@@ -24,7 +25,8 @@ export const FollowingersInfo = ({
   selectedUser,
   setUser,
   activityPermit,
-  myUserName,
+  pageUserName,
+  openChat,
   noBorder = false,
 }: FollowerInfoProps) => {
   const [menu, openMenu] = useState(false);
@@ -32,7 +34,7 @@ export const FollowingersInfo = ({
   return (
     <div
       className={clsx(
-        "flex h-20 w-full flex-row items-center",
+        "flex h-20 w-full cursor-pointer flex-row items-center",
         noBorder
           ? ""
           : "border border-x-0 border-t-0 border-solid border-form-border",
@@ -60,9 +62,10 @@ export const FollowingersInfo = ({
               closeMenu={() => {
                 openMenu(false);
               }}
+              openChat={openChat}
               follower={follower ?? false}
               userName={userName}
-              myUserName={myUserName??''}
+              pageUserName={pageUserName ?? ""}
             />
             <img
               src={more}
@@ -94,13 +97,13 @@ export const FollowingersInfoMobile = ({
   selectedUser,
   setUser,
   activityPermit,
-  myUserName,
+  pageUserName,
 }: FollowerInfoProps) => {
   const [menu, openMenu] = useState(false);
   const navigate = useNavigate();
   return (
     <div
-      className="flex h-20 w-full flex-row items-center border border-x-0 border-t-0 border-solid border-form-border"
+      className="flex h-20 w-full cursor-pointer flex-row items-center border border-x-0 border-t-0 border-solid border-form-border"
       onClick={() => {
         close?.();
         navigate(`/${userName}`);
@@ -126,7 +129,7 @@ export const FollowingersInfoMobile = ({
               }}
               follower={follower ?? false}
               userName={userName}
-              myUserName={myUserName??''}
+              pageUserName={pageUserName ?? ""}
             />
             <img
               src={more}

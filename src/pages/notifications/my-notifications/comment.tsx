@@ -1,11 +1,11 @@
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
 import { useGetProfile } from "../../../services/get-my-profile";
-import { comment } from "../../../types/notifications";
+import { Comment as CommentType } from "../../../types/notifications";
 import { getTimeDifference } from "../../../common/utilities/time-difference";
 import { RoundPicture } from "../../../components/round-picture";
 
-export const Comment = (props: comment) => {
+export const Comment = (props: CommentType) => {
   const { postImage, performerUserName, creationDate, postId, seen, comment } =
     props;
   const { data } = useGetProfile();

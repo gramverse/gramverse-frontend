@@ -1,7 +1,7 @@
 import { ProfileSummary } from "../../components/profile-summary";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/button";
-import expand from "../../assets/svg/expand.svg";
+import expand from "@asset/svg/expand.svg";
 import { ContainterWeb } from "../../components/container";
 import { useGetPost } from "../../services/post-details";
 import { Carousel } from "./post-shared-components/carousel";

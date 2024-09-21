@@ -3,7 +3,7 @@ import { ProgressIndicator } from "./progress-indicator";
 
 export const ProgressBar = ({ stage }: { stage: number }) => {
   return (
-    <div className="m-0 flex flex-row-reverse items-center p-0">
+    <div className="m-0 flex flex-row items-center p-0">
       <ProgressIndicator
         text={"عکس"}
         state={stage === 1 ? "current" : "done"}

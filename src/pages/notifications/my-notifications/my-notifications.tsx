@@ -2,18 +2,18 @@ import { Like } from "../my-notifications/like";
 import { Mention } from "../my-notifications/mention";
 import { Comment } from "../my-notifications/comment";
 import { Follow } from "../my-notifications/follow";
+import { FollowRequest } from "../my-notifications/follow-request";
 import { useGetMyNotifications } from "../../../services/notifications";
 import { useInView } from "react-intersection-observer";
 import { useCallback, useEffect } from "react";
 import {
-  comment,
-  follow,
-  followRequest,
-  like,
-  mention,
+  Comment as CommentType,
+  Follow as FollowType,
+  FollowRequest as FollowRequestType,
+  Like as LikeType,
+  Mention as MentionType,
 } from "../../../types/notifications";
 import { Loading } from "../../../components/loading";
-import { FollowRequest } from "../my-notifications/follow-request";
 import { queryClient } from "../../../common/query-client";
 import { nanoid } from "nanoid";
 import { useGetProfile } from "../../../services/get-my-profile";
@@ -33,7 +33,14 @@ export const MyNotificationsLayout = () => {
   }
   const { data: myProfile, isSuccess: profileSuccess } = useGetProfile();
   const NotifComponent = useCallback(
-    (notification: mention | like | follow | comment | followRequest) => {
+    (
+      notification:
+        | MentionType
+        | LikeType
+        | FollowType
+        | CommentType
+        | FollowRequestType,
+    ) => {
       if (profileSuccess) {
         switch (notification.type) {
           case "mention":

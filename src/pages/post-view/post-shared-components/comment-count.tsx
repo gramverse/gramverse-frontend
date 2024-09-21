@@ -6,7 +6,7 @@ type CommentProps = {
 };
 export const Comment = ({ count, onClick }: CommentProps) => {
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex cursor-pointer flex-col items-center gap-2">
       <svg
         onClick={onClick}
         width="22"

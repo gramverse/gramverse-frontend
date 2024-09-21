@@ -4,9 +4,9 @@ import { Comment } from "../friends-notifications/comment";
 import { Follow } from "../friends-notifications/follow";
 import { Like } from "../friends-notifications/like";
 import {
-  userComment,
-  userFollow,
-  userLike,
+  UserComment,
+  UserFollow,
+  UserLike,
 } from "../../../types/notifications";
 import { useInView } from "react-intersection-observer";
 import { Loading } from "../../../components/loading";
@@ -27,7 +27,7 @@ export const FriendsNotificationsLayout = () => {
     queryClient.invalidateQueries({ queryKey: ["notificationCount"] });
   }
   const NotifComponent = useCallback(
-    (notification: userComment | userLike | userFollow) => {
+    (notification: UserComment | UserLike | UserFollow) => {
       switch (notification.type) {
         case "like":
           return <Like {...notification} key={nanoid()} />;

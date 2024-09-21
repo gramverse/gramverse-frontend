@@ -1,20 +1,15 @@
-import { useEffect, useState } from "react";
-import Emoji from "../../assets/svg/emoji.svg";
+import { useState } from "react";
+import Emoji from "@asset/svg/emoji.svg";
 import { EmojiKeyboard } from "../../components/emoji/emoji-keyboard";
 import { InputField } from "../../components/input-field";
-import send from "../../assets/svg/letter.svg";
+import send from "@asset/svg/letter.svg";
 import { UploadPhoto } from "./upload-photo";
-import Close from "../../assets/svg/close.svg";
+import Close from "@asset/svg/close.svg";
 import clsx from "clsx";
 export const SendMessageLayout = ({ mobile }: { mobile: boolean }) => {
   const [message, setMessage] = useState("");
   const [isKeyBoardVisible, setKeyboardVisibility] = useState(false);
   const [photo, setPhoto] = useState<File>();
-  useEffect(() => {
-    if (photo) {
-      setMessage("");
-    }
-  }, [photo]);
   return (
     <div
       className="relative flex h-10 w-fit items-center justify-center gap-2"
@@ -30,7 +25,7 @@ export const SendMessageLayout = ({ mobile }: { mobile: boolean }) => {
           setKeyboardVisibility(false);
         }}
       />
-      {photo && (
+      {photo !== undefined && (
         <div
           className={clsx(
             "absolute bottom-10 right-9 items-center justify-center overflow-hidden rounded-t-2xl rounded-bl-2xl border-2 border-solid border-gray-400 bg-primary p-5 brightness-105 transition-all",
@@ -40,6 +35,7 @@ export const SendMessageLayout = ({ mobile }: { mobile: boolean }) => {
           <img
             src={Close}
             className="absolute right-1 top-1 z-10 h-10 cursor-pointer"
+            alt="remove selected photo"
             onClick={() => setPhoto(undefined)}
           />
           <img
@@ -50,7 +46,8 @@ export const SendMessageLayout = ({ mobile }: { mobile: boolean }) => {
       )}
       <img
         src={Emoji}
-        alt=""
+        alt="open emoji keyboard"
+        className="cursor-pointer"
         onClick={(e) => {
           e.stopPropagation();
           setKeyboardVisibility((isKeyBoardVisible) => !isKeyBoardVisible);
@@ -73,7 +70,13 @@ export const SendMessageLayout = ({ mobile }: { mobile: boolean }) => {
         onKeyDown={(e) => {
           if (e.key == "Enter") {
             //add onclick handler
+            if (photo) {
+              //send photo
+            } else if (message !== "") {
+              //send message
+            }
             setPhoto(undefined);
+            setMessage("");
           }
         }}
       />
@@ -83,7 +86,13 @@ export const SendMessageLayout = ({ mobile }: { mobile: boolean }) => {
         className="cursor-pointer"
         onClick={() => {
           //add onclick handler
+          if (photo) {
+            //send photo
+          } else if (message !== "") {
+            //send message
+          }
           setPhoto(undefined);
+          setMessage("");
         }}
       />
     </div>

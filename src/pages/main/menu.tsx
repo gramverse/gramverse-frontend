@@ -1,6 +1,6 @@
 import { Tab } from "../../components/tab";
-import friend from "../../assets/svg/close-friend.svg";
-import blocked from "../../assets/svg/blocked.svg";
+import friend from "@asset/svg/close-friend.svg";
+import blocked from "@asset/svg/blocked.svg";
 import { useNavigate } from "react-router-dom";
 import { useGetAccounts } from "../../services/switch-account";
 import { AccountInfo } from "./account-info";

@@ -40,7 +40,7 @@ export const Modal = ({
             className={clsx(
               "flex h-fit w-fit justify-center overflow-clip rounded-3xl bg-transparent",
               isOpen && "animate-openModal",
-              !isOpen && "animate-closeModal h-0 w-0",
+              !isOpen && "h-0 w-0 animate-closeModal",
             )}
             onClick={(e) => {
               e.stopPropagation();
@@ -62,10 +62,12 @@ export const ModalMobile = ({
   children = null,
   isOpen,
   close,
+  className,
 }: {
   children?: ReactNode;
   isOpen: boolean;
   close: () => void;
+  className?: string;
 }) => {
   const [isRendered, render] = useState(false);
   const [element, setElement] = useState<ReactNode | null>(null);
@@ -88,6 +90,7 @@ export const ModalMobile = ({
         <div
           className={clsx(
             "absolute inset-0 z-20 flex h-screen w-screen flex-col items-center justify-end backdrop-blur-sm backdrop-brightness-50",
+            className,
           )}
           onClick={() => {
             closeModal();
@@ -111,6 +114,6 @@ export const ModalMobile = ({
     } else {
       setElement(null);
     }
-  }, [isRendered, isOpen, children, close, closeModal]);
+  }, [isRendered, isOpen, children, close, closeModal, className]);
   return element;
 };

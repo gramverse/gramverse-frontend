@@ -4,43 +4,77 @@ import { ProfileSummary } from "../../components/profile-summary";
 import { useGetProfile } from "../../services/get-my-profile";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/button";
-import PlusIcon from "../../assets/svg/plus-round.svg";
-import { useEffect, useState } from "react";
+import PlusIcon from "@asset/svg/plus-round.svg";
+import { useCallback, useEffect, useState } from "react";
 import { Modal } from "../../components/modal";
 import { CreatePost } from "../post/create-post";
 import { Menu } from "./menu";
 import { useSignOut } from "../../services/signout";
 import { useGetNotificationCount } from "../../services/notifications";
+import { useGetAccounts } from "../../services/switch-account";
+import { AccountsLimit } from "./accounts-limit";
+import { ChooseAccount } from "./choose-account";
+import { useGetMessageCount } from "../../services/chat";
 
 export const Panel = ({ tab }: { tab: string }) => {
-  const navigate = useNavigate();
-  const { data, isSuccess } = useGetProfile();
-  const [createPost, setCreatePost] = useState(false);
+  const [modal, setModal] = useState<
+    "create-post" | "account-limit" | "choose-account" | null
+  >(null);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { mutate: singOut } = useSignOut();
+
   const { data: count } = useGetNotificationCount();
+  const { data: messageCount } = useGetMessageCount();
+
   const [countView, setCountView] = useState(count && count.unreadCount > 0);
+
+  const navigate = useNavigate();
+
+  const { data, isSuccess } = useGetProfile();
+
+  const { isMultiple } = useGetAccounts();
+  const handleSuccess = useCallback(() => {
+    isMultiple ? setModal("choose-account") : () => {};
+  }, [isMultiple]);
+  const { mutate: singOut } = useSignOut(handleSuccess);
   useEffect(() => {
     setCountView(count && count.unreadCount > 0);
   }, [count]);
+  const { accounts } = useGetAccounts();
   return (
     <>
       <Modal
-        isOpen={createPost}
+        isOpen={modal === "create-post"}
         close={() => {
-          setCreatePost(false);
+          setModal(null);
         }}
       >
         <CreatePost
           close={() => {
-            setCreatePost(false);
+            setModal(null);
           }}
         />
+      </Modal>
+      <Modal
+        isOpen={modal === "account-limit"}
+        close={() => {
+          setModal(null);
+        }}
+      >
+        <AccountsLimit close={() => setModal(null)} />
+      </Modal>
+      <Modal
+        isOpen={modal === "choose-account"}
+        close={() => {
+          setModal(null);
+        }}
+      >
+        <ChooseAccount close={() => setModal(null)} />
       </Modal>
       <Button
         classes="flex items-center justify-center"
         onClick={() => {
-          setCreatePost(true);
+          setModal("create-post");
         }}
       >
         <img src={PlusIcon} alt="" />
@@ -69,14 +103,23 @@ export const Panel = ({ tab }: { tab: string }) => {
               isSuccess && navigate("/bookmark-page");
             }}
           />
-          <Tab
-            key={itemList["messages"].text}
-            text={itemList["messages"].text}
-            icon={itemList["messages"].icon}
-            selectedValue={tab}
-            value={"messages"}
-            onClick={() => {}}
-          />
+          <div className="relative flex">
+            <Tab
+              key={itemList["messages"].text}
+              text={itemList["messages"].text}
+              icon={itemList["messages"].icon}
+              selectedValue={tab}
+              value={"messages"}
+              onClick={() => {
+                navigate("/chat");
+              }}
+            />
+            {messageCount && messageCount.unreadCount > 0 && (
+              <div className="absolute left-5 top-4 my-auto flex h-8 w-8 items-center justify-center rounded-full bg-secondary text-white">
+                {messageCount?.unreadCount}
+              </div>
+            )}
+          </div>
           <div className="relative flex">
             <Tab
               key={itemList["notifs"].text}
@@ -146,8 +189,12 @@ export const Panel = ({ tab }: { tab: string }) => {
               value={"addAccount"}
               onClick={() => {
                 if (!isSuccess) return;
-                localStorage.setItem('addAccount', data.userName)
-                navigate('/login');
+                if (accounts?.length && accounts.length >= 3) {
+                  setModal("account-limit");
+                } else {
+                  localStorage.setItem("addAccount", data.userName);
+                  navigate("/login");
+                }
               }}
             />
             <>

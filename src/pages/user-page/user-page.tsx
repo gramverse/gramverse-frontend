@@ -2,10 +2,10 @@ import { useFollowUser, useGetUserProfile } from "../../services/user-page";
 import { PrivateGallery, PrivateGalleryMobile } from "./user-private-gallery";
 import { UserEmptyGallery, UserEmptyGalleryMobile } from "./user-empty-gallery";
 import { UserGallery, UserGalleryMobile } from "./user-gallery";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { UserAccountInfo, UserAccountInfoMobile } from "./user-account-info";
 import { UserBlockedGallery } from "./user-blocked-gallery";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal } from "../../components/modal";
 import { FollowerList } from "../followinger-list/follower-list";
 import { FollowingList } from "../followinger-list/following-list";
@@ -13,7 +13,7 @@ import { Block } from "../user-relationship-modals/block-modal";
 import { Close } from "../user-relationship-modals/close-modal";
 import { Menu } from "./menu";
 import { UserInfoSummary } from "../../types/user";
-import more from "../../assets/svg/menu-dots.svg";
+import more from "@asset/svg/menu-dots.svg";
 import { BtnStyles, Button } from "../../components/button";
 import { Unblock } from "../user-relationship-modals/unblock-modal";
 
@@ -28,7 +28,7 @@ const useModals = () => {
   };
 };
 
-export const UserPageLayout = () => {
+export const UserPage = () => {
   const { userName } = useParams();
   const [isOpenFollowerList, setOpenFollowerList] = useState(false);
   const [isOpenFollowingList, setOpenFollowingList] = useState(false);
@@ -51,9 +51,9 @@ export const UserPageLayout = () => {
     profileImage: userProfile?.profileImage,
     followerCount: userProfile?.followerCount ?? 0,
   };
-  const [modal, setModal] = useState<"block" | "close" | "unblock" | null>(
-    null,
-  );
+  const [modal, setModal] = useState<
+    "block" | "close" | "unblock" | "message" | null
+  >(null);
   return (
     <div
       className="flex h-full w-[64rem] flex-col gap-3 pt-36"
@@ -89,6 +89,16 @@ export const UserPageLayout = () => {
             setModal(null);
           }}
         />
+      </Modal>
+      <Modal
+        isOpen={modal === "message"}
+        close={() => {
+          setModal(null);
+        }}
+      >
+        {
+          //message-modal
+        }
       </Modal>
       {userProfile && isUserDataVisible && (
         <Modal
@@ -145,10 +155,17 @@ export const UserPageLayout = () => {
                 ? userProfile?.isBlocked
                 : false
             }
+            canMessage={
+              userProfile?.isBlocked !== undefined &&
+              !userProfile.isBlocked &&
+              !userProfile.hasBlockedUs
+            }
             closeMenu={() => {
               openMenu(false);
             }}
-            openModal={(arg: "block" | "close" | "unblock") => setModal(arg)}
+            openModal={(arg: "block" | "close" | "unblock" | "message") =>
+              setModal(arg)
+            }
           />
 
           <img
@@ -191,10 +208,6 @@ export const UserPageLayout = () => {
   );
 };
 
-export const UserPage = () => {
-  return <UserPageLayout />;
-};
-
 export const UserPageMobile = () => {
   const { userName } = useParams();
   const {
@@ -216,16 +229,21 @@ export const UserPageMobile = () => {
   } = useGetUserProfile(userName ?? "");
   const { mutate: followMutate } = useFollowUser(userName ?? "");
   const [menu, openMenu] = useState(false);
-  const [modal, setModal] = useState<"block" | "close" | "unblock" | null>(
-    null,
-  );
-
+  const [modal, setModal] = useState<
+    "block" | "close" | "unblock" | "message" | null
+  >(null);
+  const navigate = useNavigate();
   const selectedUser: UserInfoSummary = {
     userName: userProfile?.userName ?? "",
     profileImage: userProfile?.profileImage,
     followerCount: userProfile?.followerCount ?? 0,
   };
-
+  //navigate to chat
+  useEffect(() => {
+    if (modal === "message") {
+      navigate(`/chat/${selectedUser?.userName}`);
+    }
+  });
   return (
     <div
       className="flex grow flex-col items-center justify-start gap-4"
@@ -314,11 +332,18 @@ export const UserPageMobile = () => {
                   !userProfile?.isBlocked) ??
                 false
               }
+              canMessage={
+                userProfile?.isBlocked !== undefined &&
+                !userProfile.isBlocked &&
+                !userProfile.hasBlockedUs
+              }
               canBlock={!userProfile?.isBlocked}
               closeMenu={() => {
                 openMenu(false);
               }}
-              openModal={(arg: "block" | "close" | "unblock") => setModal(arg)}
+              openModal={(arg: "block" | "close" | "unblock" | "message") =>
+                setModal(arg)
+              }
             />
 
             <img

@@ -1,24 +1,34 @@
-export type Account = {
-  profileImage: string;
-  followerCount: number;
-  userName: string;
-  followState: "accepted" | "pending" | "none" | "declined";
-  firstName?: string;
-  lastName?: string;
-  fullName: string;
-  accountId?: string;
-};
+import { z } from "zod";
+export const account = z.object({
+  profileImage: z.string(),
+  followerCount: z.number(),
+  userName: z.string(),
+  followState: z.union([
+    z.literal("accepted"),
+    z.literal("pending"),
+    z.literal("declined"),
+    z.literal("none"),
+  ]),
+  firstName: z.string(),
+  lastName: z.string(),
+  fullName: z.string(),
+  _id: z.string(),
+});
 
-export type SearchAccounts = {
-  users: Array<Account>;
-  totalCount: number;
-};
-export type Post = {
-  postId: string;
-  postImage: string;
-  userName: string;
-};
-export type SearchPosts = {
-  posts: Array<Post>;
-  totalCount: number;
-};
+export const post = z.object({
+  postId: z.string(),
+  postImage: z.string(),
+  userName: z.string(),
+});
+
+export type Account = z.infer<typeof account>;
+export type Post = z.infer<typeof post>;
+
+export const searchAccountSchema = z.object({
+  users: account.array(),
+  totalCount: z.number(),
+});
+export const searchPostSchema = z.object({
+  posts: post.array(),
+  totalCount: z.number(),
+});

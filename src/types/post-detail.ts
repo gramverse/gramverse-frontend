@@ -1,18 +1,5 @@
 import { z } from "zod";
 
-export type CommentDto = {
-  _id: string;
-  userName: string;
-  comment: string;
-  postId: string;
-  parentCommentId: string;
-  creationDate: string;
-  updateDate: string;
-  isLiked: boolean;
-  likesCount: number;
-  childComments: CommentDto[];
-};
-
 export const PostDetailSchema = z.object({
   _id: z.string(),
   photoUrls: z.string().array(),

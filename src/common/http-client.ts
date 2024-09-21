@@ -1,7 +1,7 @@
 import ky from "ky";
 import { useNavigate } from "react-router-dom";
 import { urls } from "../router/routes";
-import { API_BASE_URL as baseUrl } from "../assets/constants/base-url";
+import { API_BASE_URL as baseUrl } from "../constants/base-url";
 import { useMemo } from "react";
 
 export const useHttpClient = () => {
@@ -19,8 +19,7 @@ export const useHttpClient = () => {
               // }
               if (res.status === 401) {
                 navigate(urls.login);
-              }
-              else  if (res.status === 404) {
+              } else if (res.status === 404) {
                 navigate(urls.notFound);
               }
               return res;

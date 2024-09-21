@@ -3,7 +3,7 @@ import { CommentDto, CommentFieldProps } from "../../../types/comment";
 import { getTimeDifference } from "../../../common/utilities/time-difference";
 import { Like } from "./like";
 import { useLikeComment } from "../../../services/comment";
-import reply from "../../../assets/svg/reply.svg";
+import reply from "@asset/svg/reply.svg";
 import { HTMLAttributes, useEffect, useState } from "react";
 interface CommentProps extends HTMLAttributes<HTMLDivElement> {
   comment: Omit<CommentDto, "childDtos">;

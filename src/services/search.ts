@@ -1,7 +1,7 @@
 import { skipToken, useInfiniteQuery } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
 import { HTTPError } from "ky";
-import { SearchAccounts, SearchPosts } from "../types/search";
+import { searchAccountSchema, searchPostSchema } from "../types/search";
 
 export const useGetAccounts = ({
   limit,
@@ -11,7 +11,7 @@ export const useGetAccounts = ({
   keyword: string;
 }) => {
   const httpClient = useHttpClient();
-  return useInfiniteQuery<SearchAccounts, HTTPError>({
+  return useInfiniteQuery({
     queryKey: ["search-accounts", keyword],
     queryFn:
       keyword !== ""
@@ -21,6 +21,7 @@ export const useGetAccounts = ({
                 `search/accounts?page=${pageParam}&limit=${limit}&userName=${keyword}`,
               )
               .json()
+              .then(searchAccountSchema.parse)
         : skipToken,
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
@@ -35,7 +36,7 @@ export const useGetAccounts = ({
 
 export const useGetAccountHints = ({ keyword }: { keyword: string }) => {
   const httpClient = useHttpClient();
-  return useInfiniteQuery<SearchAccounts, HTTPError>({
+  return useInfiniteQuery({
     queryKey: ["search-account-hints", keyword],
     queryFn:
       keyword !== ""
@@ -45,6 +46,7 @@ export const useGetAccountHints = ({ keyword }: { keyword: string }) => {
                 `search/accounts?page=${pageParam}&limit=${3}&userName=${keyword}`,
               )
               .json()
+              .then(searchAccountSchema.parse)
         : skipToken,
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
@@ -68,7 +70,7 @@ export const useGetPosts = ({
 }) => {
   const httpClient = useHttpClient();
   const endpoint = spec ? "specTag" : "tag";
-  return useInfiniteQuery<SearchPosts, HTTPError>({
+  return useInfiniteQuery({
     queryKey: ["search-posts", keyword],
     queryFn:
       keyword !== ""
@@ -78,6 +80,7 @@ export const useGetPosts = ({
                 `search/${endpoint}?page=${pageParam}&limit=3&tag=${keyword}`,
               )
               .json()
+              .then(searchPostSchema.parse)
         : skipToken,
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
@@ -98,7 +101,7 @@ export const useGetSpecPosts = ({
   keyword: string;
 }) => {
   const httpClient = useHttpClient();
-  return useInfiniteQuery<SearchPosts, HTTPError>({
+  return useInfiniteQuery({
     queryKey: ["search-spec-posts", keyword],
     queryFn:
       keyword !== ""
@@ -106,6 +109,7 @@ export const useGetSpecPosts = ({
             httpClient
               .get(`search/specTag?page=${pageParam}&limit=3&tag=${keyword}`)
               .json()
+              .then(searchPostSchema.parse)
         : skipToken,
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {

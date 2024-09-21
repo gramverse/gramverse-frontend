@@ -8,6 +8,7 @@ import clsx from "clsx";
 import { useState } from "react";
 import { Modal } from "../../components/modal";
 import { UserPostModal } from "../post-view/user-post-modal";
+import { useBookmarkPost, useLikePost } from "../../services/post-details";
 
 interface ExplorePostProps {
   post: ExplorePostInfo;
@@ -22,6 +23,22 @@ export const ExplorePost = ({ post, closeModal }: ExplorePostProps) => {
     openPost(false);
     closeModal?.();
   };
+  const { mutate: likeMutate } = useLikePost();
+  const { mutate: bookmarkMutate } = useBookmarkPost();
+  const [isLiked, setIsLiked] = useState(post.isLiked);
+  const [isBookmarked, setIsBookmarked] = useState(post.isBookmarked);
+
+  const changeInLikes =
+    post.isLiked && !isLiked ? -1 : !post.isLiked && isLiked ? 1 : 0;
+  const likesCount = post.likesCount + changeInLikes;
+
+  const changeInBookmark =
+    post.isBookmarked && !isBookmarked
+      ? -1
+      : !post.isBookmarked && isBookmarked
+        ? 1
+        : 0;
+  const BookmarkCount = post.bookmarksCount + changeInBookmark;
   return (
     <>
       <Modal isOpen={isPostOpen} close={closePostModal}>
@@ -41,7 +58,7 @@ export const ExplorePost = ({ post, closeModal }: ExplorePostProps) => {
         )}
       >
         <div
-          className="h-[18rem] w-[18rem] overflow-hidden rounded-t-3xl bg-neutral-400"
+          className="h-[18rem] w-[18rem] cursor-pointer overflow-hidden rounded-t-3xl bg-neutral-400"
           onClick={() => {
             setPostId(post._id);
             openPost(true);
@@ -49,7 +66,7 @@ export const ExplorePost = ({ post, closeModal }: ExplorePostProps) => {
         >
           <img className="h-full w-full object-cover" src={post.photoUrls[0]} />
         </div>
-        <div className="flex w-full items-start px-6 py-1">
+        <div className="flex w-full items-baseline gap-3 px-6 py-1">
           <div className="flex items-center gap-1">
             <Comment
               onClick={() => {
@@ -58,13 +75,31 @@ export const ExplorePost = ({ post, closeModal }: ExplorePostProps) => {
             />
             <span>{post.commentsCount}</span>
           </div>
-          <div className="mr-4 flex items-center gap-1">
-            <Like isLiked={post.isLiked} />
-            <span>{post.likesCount}</span>
+          <div className="flex items-center gap-1">
+            <Like
+              isLiked={isLiked}
+              onClick={() => {
+                setIsLiked(!isLiked);
+                likeMutate({
+                  postId: post._id,
+                  isLike: !post.isLiked,
+                });
+              }}
+            />
+            <span>{likesCount}</span>
           </div>
-          <div className="mr-4 flex items-center gap-1">
-            <Bookmark isBookmarked={post.isBookmarked} />
-            <span>{post.bookmarksCount}</span>
+          <div className="flex items-center gap-1">
+            <Bookmark
+              isBookmarked={isBookmarked}
+              onClick={() => {
+                setIsBookmarked(!isBookmarked);
+                bookmarkMutate({
+                  postId: post._id,
+                  isBookmark: !post.isBookmarked,
+                });
+              }}
+            />
+            <span>{BookmarkCount}</span>
           </div>
         </div>
         <div className="px-4 py-1">
@@ -83,6 +118,22 @@ export const ExplorePost = ({ post, closeModal }: ExplorePostProps) => {
 
 export const ExplorePostMobile = ({ post }: ExplorePostProps) => {
   const navigate = useNavigate();
+  const {
+    mutate: likeMutate,
+    isPending: isLikePending,
+    variables: likeVars,
+  } = useLikePost();
+  const {
+    mutate: bookmarkMutate,
+    isPending: isBookmarkPending,
+    variables: bookmarkVars,
+  } = useBookmarkPost();
+  const changeInLikes = post.isLiked ? -1 : 1;
+  const likesCount = post.likesCount + (isLikePending ? changeInLikes : 0);
+
+  const changeInBookmark = post.isBookmarked ? -1 : 1;
+  const BookmarkCount =
+    post.bookmarksCount + (isBookmarkPending ? changeInBookmark : 0);
   return (
     <>
       <div
@@ -94,7 +145,7 @@ export const ExplorePostMobile = ({ post }: ExplorePostProps) => {
         )}
       >
         <div
-          className="h-[19.4rem] w-[19.4rem] overflow-hidden rounded-t-3xl bg-neutral-400"
+          className="h-[19.4rem] w-[19.4rem] cursor-pointer overflow-hidden rounded-t-3xl bg-neutral-400"
           onClick={() => {
             navigate(`/${post.userName}/post/${post._id}`);
           }}
@@ -111,12 +162,30 @@ export const ExplorePostMobile = ({ post }: ExplorePostProps) => {
             <span>{post.commentsCount}</span>
           </div>
           <div className="mr-4 flex items-center gap-1">
-            <Like isLiked={post.isLiked} />
-            <span>{post.likesCount}</span>
+            <Like
+              isLiked={isLikePending ? likeVars.isLike : post.isLiked}
+              onClick={() => {
+                likeMutate({
+                  postId: post._id,
+                  isLike: !post.isLiked,
+                });
+              }}
+            />
+            <span>{likesCount}</span>
           </div>
           <div className="mr-4 flex items-center gap-1">
-            <Bookmark isBookmarked={post.isBookmarked} />
-            <span>{post.bookmarksCount}</span>
+            <Bookmark
+              isBookmarked={
+                isBookmarkPending ? bookmarkVars.isBookmark : post.isBookmarked
+              }
+              onClick={() => {
+                bookmarkMutate({
+                  postId: post._id,
+                  isBookmark: !post.isBookmarked,
+                });
+              }}
+            />
+            <span>{BookmarkCount}</span>
           </div>
         </div>
         <div className="px-4 pb-2">

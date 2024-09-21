@@ -3,7 +3,7 @@ import { UserInfoSummary } from "../../types/user";
 import { Button } from "../../components/button";
 import { ContainterWeb } from "../../components/container";
 import { UserProfileSummary } from "../../components/user-profile-summary";
-import profile from "../../assets/svg/profile.svg";
+import profile from "@asset/svg/profile.svg";
 
 export const Unclose = ({
   user,

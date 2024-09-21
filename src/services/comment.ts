@@ -1,9 +1,8 @@
 import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
-import { AddCommentData, CommentsResponse } from "../types/comment";
+import { AddCommentData, CommentsResponseSchema } from "../types/comment";
 import { LikeComment } from "../types/comment";
 import { queryClient } from "../common/query-client";
-import { HTTPError } from "ky";
 import { handleRequestError } from "../common/utilities/http-error-handler";
 export const useSendComment = (postId: string) => {
   const client = useHttpClient();
@@ -51,12 +50,13 @@ export const useGetComments = ({
   limit: number;
 }) => {
   const httpClient = useHttpClient();
-  return useInfiniteQuery<CommentsResponse, HTTPError>({
+  return useInfiniteQuery({
     queryKey: ["getComments", postId],
     queryFn: ({ pageParam = 1 }) =>
       httpClient
         .get(`posts/comments?postId=${postId}&page=${pageParam}&limit=${limit}`)
-        .json(),
+        .json()
+        .then(CommentsResponseSchema.parse),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       const remaining = lastPage.totalCount - allPages.length * limit;
@@ -65,5 +65,6 @@ export const useGetComments = ({
       }
       return allPages.length + 1;
     },
+    retry: 3,
   });
 };

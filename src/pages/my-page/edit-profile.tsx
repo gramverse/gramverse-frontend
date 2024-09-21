@@ -16,10 +16,11 @@ import { InputField } from "../../components/input-field.tsx";
 import { Switch } from "../../components/switch.tsx";
 import { TextArea } from "../../components/text-area.tsx";
 import { UploadImage } from "../../components/upload-image.tsx";
-import cameraIcon from "../../assets/svg/camera-icon.svg";
-import EnvelopeIcon from "../../assets/svg/envelope.svg";
-import KeyIcon from "../../assets/svg/key.svg";
-import PersonIcon from "../../assets/svg/profile.svg";
+import cameraIcon from "@asset/svg/camera-icon.svg";
+import EnvelopeIcon from "@asset/svg/envelope.svg";
+import KeyIcon from "@asset/svg/key.svg";
+import PersonIcon from "@asset/svg/profile.svg";
+import { useState } from "react";
 
 const EditProfileLayout = ({ close }: { close: () => void }) => {
   const { data: profile, refetch, isSuccess } = useGetProfile();
@@ -38,9 +39,12 @@ const EditProfileLayout = ({ close }: { close: () => void }) => {
   };
 
   const { mutate, isPending } = useEditProfile(handleProfileUpdated);
-
+  const [photo, setPhoto] = useState<File>();
   const onSubmit: SubmitHandler<ProfileFormValue> = (formData) => {
-    mutate(formData);
+    mutate({
+      ...formData,
+      profileImage: photo,
+    });
   };
 
   return (
@@ -51,6 +55,7 @@ const EditProfileLayout = ({ close }: { close: () => void }) => {
       <div className="flex flex-col items-center">
         <p className="my-1 w-fit text-center text-xl font-bold">ویرایش حساب</p>
         <UploadImage
+          setSelectedPhoto={(arg: File) => setPhoto(arg)}
           placeholderImage={
             isSuccess
               ? profile.profileImage != ""

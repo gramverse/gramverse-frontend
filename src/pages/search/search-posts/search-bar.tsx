@@ -1,5 +1,5 @@
 import { InputField } from "../../../components/input-field";
-import search from "../../../assets/svg/search.svg";
+import search from "@asset/svg/search.svg";
 import { useGetHashtagHints } from "../../../services/search";
 import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
@@ -32,7 +32,7 @@ export const SearchBar = ({
     }
   }, [hint]);
   return (
-    <div>
+    <div className="relative overflow-x-clip">
       <InputField
         fieldsize={fieldSize ? fieldSize : "medium"}
         svg={search}
@@ -63,7 +63,7 @@ export const SearchBar = ({
         <div
           className={clsx(
             fieldSize === "mobile" &&
-              "absolute flex h-fit w-60 flex-col gap-5 rounded-b-2xl rounded-tr-2xl border border-solid border-gray-300 bg-white py-4 text-sm",
+              "absolute left-2 flex h-fit w-56 flex-col gap-5 rounded-b-2xl rounded-tr-2xl border border-solid border-gray-300 bg-white py-4 text-sm",
             fieldSize !== "mobile" &&
               "absolute flex h-fit w-fit flex-col gap-5 rounded-b-3xl rounded-tl-3xl border border-solid border-gray-300 bg-white py-4 text-lg",
           )}
@@ -97,7 +97,12 @@ export const SearchBar = ({
             .slice(-3)
             .map((item) => (
               <div
-                className="flex w-full cursor-pointer flex-row justify-start gap-5 px-20"
+                key={nanoid()}
+                className={clsx(
+                  "flex w-full cursor-pointer flex-row justify-start gap-5",
+                  fieldSize === "mobile" && "px-2",
+                  fieldSize !== "mobile" && "px-20",
+                )}
                 onClick={() => {
                   viewSuggestBox(false);
                   setKeyword("");

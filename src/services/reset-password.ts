@@ -1,6 +1,4 @@
 import { useMutation } from "@tanstack/react-query";
-
-import { HTTPError } from "ky";
 import { useHttpClient } from "../common/http-client";
 import { urls } from "../router/routes";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +9,7 @@ export const useValidateResetToken = () => {
   const navigate = useNavigate();
 
   const httpClient = useHttpClient();
-  return useMutation<unknown, HTTPError, string>({
+  return useMutation({
     mutationFn: (token: string) =>
       httpClient.post(`reset/validate-reset-token`, { json: { token } }).json(),
     onError(error) {
@@ -25,7 +23,7 @@ export const useResetPassword = () => {
   const navigate = useNavigate();
   const httpClient = useHttpClient();
 
-  return useMutation<unknown, HTTPError, ConfirmResetPasswordData>({
+  return useMutation({
     mutationFn: (data: ConfirmResetPasswordData) =>
       httpClient.post(`reset/reset-password`, { json: data }).json(),
     async onSuccess() {

@@ -1,10 +1,10 @@
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
-import { userComment } from "../../../types/notifications";
+import { UserComment } from "../../../types/notifications";
 import { getTimeDifference } from "../../../common/utilities/time-difference";
 import { RoundPicture } from "../../../components/round-picture";
 
-export const Comment = (props: userComment) => {
+export const Comment = (props: UserComment) => {
   const {
     postImage,
     performerUserName,

@@ -13,7 +13,7 @@ export const Post = ({
   return (
     <div
       className={clsx(
-        "post h-[304px] w-[295px] overflow-hidden rounded-t-3xl bg-neutral-400",
+        "post h-[304px] w-[295px] cursor-pointer overflow-hidden rounded-t-3xl bg-neutral-400",
         forCloseFriends && "border-4 border-solid border-green-500",
       )}
       onClick={onClick}
@@ -36,7 +36,7 @@ export const PostMobile = ({
   return (
     <div
       className={clsx(
-        "post h-36 w-36 overflow-hidden rounded-3xl bg-neutral-400",
+        "post h-36 w-36 cursor-pointer overflow-hidden rounded-3xl bg-neutral-400",
         forCloseFriends && "border-4 border-solid border-green-500",
       )}
       onClick={() => {

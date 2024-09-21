@@ -1,4 +1,4 @@
-import profile from "./../assets/svg/profile.svg";
+import profile from "@asset/svg/profile.svg";
 const sizes = {
   small: "w-8 h-8",
   medium: "w-12 h-12",

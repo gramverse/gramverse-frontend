@@ -92,6 +92,7 @@ export const SearchPosts = ({
           .slice(3, 7)
           .map((post) => (
             <SearchedPost
+              key={post.postId}
               setPost={(post?: { id: string; userName: string }) => {
                 setPost(post!);
                 openPost(true);
@@ -107,6 +108,7 @@ export const SearchPosts = ({
           .slice(7)
           .map((post) => (
             <SearchedPost
+              key={post.postId}
               setPost={(post?: { id: string; userName: string }) => {
                 setPost(post!);
                 openPost(true);
@@ -171,12 +173,13 @@ export const SearchPostsMobile = ({
           {selectedKeyword}
         </Button>
       )}
-      <div className="flex flex-row flex-wrap items-center justify-center gap-3">
+      <div className="flex h-[400px] flex-row flex-wrap items-center justify-center gap-3 overflow-y-scroll">
         {data?.pages
           .flatMap((page) => page.posts)
           .slice(0, 1)
           .map((post) => (
             <SearchedPost
+              key={post.postId}
               setPost={() => {
                 navigate(`/${post.userName}/${post.postId}`);
               }}
@@ -191,6 +194,7 @@ export const SearchPostsMobile = ({
           .slice(1, 3)
           .map((post) => (
             <SearchedPost
+              key={post.postId}
               setPost={() => {
                 navigate(`/${post.userName}/${post.postId}`);
               }}
@@ -205,6 +209,7 @@ export const SearchPostsMobile = ({
           .slice(3)
           .map((post) => (
             <SearchedPost
+              key={post.postId}
               setPost={() => {
                 navigate(`/${post.userName}/${post.postId}`);
               }}
@@ -214,12 +219,12 @@ export const SearchPostsMobile = ({
               userName={post.userName}
             />
           ))}
+        <Loading
+          isLoading={isFetching || isFetchingNextPage}
+          ref={ref}
+          className="my-3"
+        />
       </div>
-      <Loading
-        isLoading={isFetching || isFetchingNextPage}
-        ref={ref}
-        className="my-3"
-      />
     </div>
   );
 };

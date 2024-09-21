@@ -1,6 +1,6 @@
-import explore from "../../assets/svg/explore.svg";
-import search from "../../assets/svg/search.svg";
-import plus from "../../assets/svg/plus.svg";
+import explore from "@asset/svg/explore.svg";
+import search from "@asset/svg/search.svg";
+import plus from "@asset/svg/plus.svg";
 import { useNavigate } from "react-router-dom";
 
 export default function MobileBottomNavigation() {

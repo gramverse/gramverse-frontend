@@ -1,21 +1,22 @@
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
 import {
-  FollowingNotifications,
-  MyNotifications,
+  followingNotifications,
+  myNotifications,
 } from "../types/notifications";
-import { HTTPError } from "ky";
 import { queryClient } from "../common/query-client";
 import { handleRequestError } from "../common/utilities/http-error-handler";
+import { unreadCount } from "../types/notifications";
 
 export const useGetMyNotifications = ({ limit }: { limit: number }) => {
   const httpClient = useHttpClient();
-  return useInfiniteQuery<MyNotifications, HTTPError>({
+  return useInfiniteQuery({
     queryKey: ["my-notifications"],
     queryFn: ({ pageParam }) =>
       httpClient
         .get(`notifications/mine?page=${pageParam}&limit=${limit}`)
-        .json(),
+        .json()
+        .then(myNotifications.parse),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       const remaining = lastPage.totalCount - allPages.length * limit;
@@ -29,12 +30,13 @@ export const useGetMyNotifications = ({ limit }: { limit: number }) => {
 
 export const useGetFollowingNotifications = ({ limit }: { limit: number }) => {
   const httpClient = useHttpClient();
-  return useInfiniteQuery<FollowingNotifications, HTTPError>({
+  return useInfiniteQuery({
     queryKey: ["friends-notifications"],
     queryFn: ({ pageParam }) =>
       httpClient
         .get(`notifications/followings?page=${pageParam}&limit=${limit}`)
-        .json(),
+        .json()
+        .then(followingNotifications.parse),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       const remaining = lastPage.totalCount - allPages.length * limit;
@@ -47,9 +49,13 @@ export const useGetFollowingNotifications = ({ limit }: { limit: number }) => {
 };
 export const useGetNotificationCount = () => {
   const httpClient = useHttpClient();
-  return useQuery<{ unreadCount: number }, HTTPError>({
+  return useQuery({
     queryKey: ["notificationCount"],
-    queryFn: () => httpClient.get(`notifications/unreadCount`).json(),
+    queryFn: () =>
+      httpClient
+        .get(`notifications/unreadCount`)
+        .json()
+        .then(unreadCount.parse),
     refetchInterval: 120000,
   });
 };
@@ -59,7 +65,7 @@ type AcceptRequest = {
 };
 export const useAcceptRequest = () => {
   const httpClient = useHttpClient();
-  return useMutation<unknown, HTTPError, AcceptRequest>({
+  return useMutation({
     mutationFn: (data: AcceptRequest) =>
       httpClient
         .post("users/acceptRequest", {

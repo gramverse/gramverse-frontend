@@ -2,7 +2,7 @@ import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
 import { UserResponseSchema } from "../types/user";
 import { queryClient } from "../common/query-client";
-import { Keys } from "../assets/constants/query-keys";
+import { Keys } from "../constants/query-keys";
 import { handleRequestError } from "../common/utilities/http-error-handler";
 
 export const useGetCloseFriends = ({ limit }: { limit: number }) => {
