@@ -42,7 +42,9 @@ export const BlackListLayout = () => {
           setModal(false);
         }}
       >
-        <Unblock user={selectedUser} close={() => setModal(false)} />
+        {selectedUser && (
+          <Unblock user={selectedUser} close={() => setModal(false)} />
+        )}
       </Modal>
       {data?.pages
         .flatMap((page) => page.followingers)

@@ -12,11 +12,12 @@ import { FollowingList } from "../followinger-list/following-list";
 import { Block } from "../user-relationship-modals/block-modal";
 import { Close } from "../user-relationship-modals/close-modal";
 import { Menu } from "./menu";
-import { UserInfoSummary } from "../../types/user";
 import more from "@asset/svg/menu-dots.svg";
 import { BtnStyles, Button } from "../../components/button";
 import { Unblock } from "../user-relationship-modals/unblock-modal";
 import { UserNameContext } from "../../router/Router";
+import { ChatBox } from "../chat-box/chat-box";
+import { useGetChatId } from "../../services/chat";
 
 const useModals = () => {
   const [isFollowerListOpen, openFollowerList] = useState(false);
@@ -33,7 +34,8 @@ export const UserPage = () => {
   const { userName } = useParams();
   const [isOpenFollowerList, setOpenFollowerList] = useState(false);
   const [isOpenFollowingList, setOpenFollowingList] = useState(false);
-
+  const [selectedUserName, setSelectedUserName] = useState("");
+  const { data, isSuccess } = useGetChatId(selectedUserName);
   const {
     userProfile,
     isBlockedUs,
@@ -53,11 +55,6 @@ export const UserPage = () => {
     userProfile?.followRequestState ?? "none",
   );
   const [menu, openMenu] = useState(false);
-  const selectedUser: UserInfoSummary = {
-    userName: userProfile?.userName ?? "",
-    profileImage: userProfile?.profileImage,
-    followerCount: userProfile?.followerCount ?? 0,
-  };
   const [modal, setModal] = useState<
     "block" | "close" | "unblock" | "message" | null
   >(null);
@@ -82,7 +79,9 @@ export const UserPage = () => {
           setModal(null);
         }}
       >
-        <Unblock user={userProfile} close={() => setModal(null)} />
+        {userProfile && (
+          <Unblock user={userProfile} close={() => setModal(null)} />
+        )}
       </Modal>
       <Modal
         isOpen={modal === "close"}
@@ -90,12 +89,14 @@ export const UserPage = () => {
           setModal(null);
         }}
       >
-        <Close
-          user={selectedUser}
-          close={() => {
-            setModal(null);
-          }}
-        />
+        {userProfile && (
+          <Close
+            user={userProfile}
+            close={() => {
+              setModal(null);
+            }}
+          />
+        )}
       </Modal>
       <Modal
         isOpen={modal === "message"}
@@ -103,9 +104,13 @@ export const UserPage = () => {
           setModal(null);
         }}
       >
-        {
-          //message-modal
-        }
+        {isSuccess && (
+          <ChatBox
+            close={() => setModal(null)}
+            myUserName={myUserName}
+            chatId={data.chatId}
+          />
+        )}
       </Modal>
       {userProfile && isUserDataVisible && (
         <Modal
@@ -116,6 +121,9 @@ export const UserPage = () => {
         >
           <FollowerList
             userName={userProfile.userName}
+            openChat={() => {
+              setModal("message");
+            }}
             close={() => {
               setOpenFollowerList(false);
             }}
@@ -130,6 +138,9 @@ export const UserPage = () => {
           }}
         >
           <FollowingList
+            openChat={() => {
+              setModal("message");
+            }}
             userName={userProfile.userName}
             close={() => {
               setOpenFollowingList(false);
@@ -139,53 +150,59 @@ export const UserPage = () => {
       )}
       <div className="flex h-40 w-[64rem] flex-row items-center justify-between gap-8 border border-x-0 border-t-0 border-solid border-form-border pb-6">
         {userProfile && (
-          <UserAccountInfo
-            isPending={isPending || isRefetching}
-            accountInfo={userProfile}
-            onFollowMethod={followMutate}
-            onShowFollowingList={() => setOpenFollowingList(true)}
-            onShowFollowerList={() => setOpenFollowerList(true)}
-            isUserDataVisible={isUserDataVisible ?? false}
-            followBtnText={followBtnText ?? ""}
-            followBtnColor={(followBtnColor as BtnStyles) ?? "transparent"}
-            openModal={() => setModal("unblock")}
-          />
-        )}
-        <div className="relative justify-self-end">
-          <Menu
-            isOpen={menu}
-            canAddToCloseFriends={
-              (isFollowedUser && !userProfile?.isCloseFriend) ?? false
-            }
-            canBlock={!userProfile?.isBlocked}
-            canUnblock={
-              userProfile?.isBlocked !== undefined
-                ? userProfile?.isBlocked
-                : false
-            }
-            canMessage={
-              userProfile?.isBlocked !== undefined &&
-              !userProfile.isBlocked &&
-              !userProfile.hasBlockedUs
-            }
-            closeMenu={() => {
-              openMenu(false);
-            }}
-            openModal={(arg: "block" | "close" | "unblock" | "message") =>
-              setModal(arg)
-            }
-          />
+          <>
+            <UserAccountInfo
+              isPending={isPending || isRefetching}
+              accountInfo={userProfile}
+              onFollowMethod={followMutate}
+              onShowFollowingList={() => setOpenFollowingList(true)}
+              onShowFollowerList={() => setOpenFollowerList(true)}
+              isUserDataVisible={isUserDataVisible ?? false}
+              followBtnText={followBtnText ?? ""}
+              followBtnColor={(followBtnColor as BtnStyles) ?? "transparent"}
+              openModal={() => setModal("unblock")}
+            />
 
-          <img
-            src={more}
-            alt=""
-            className="me-5"
-            onClick={(e) => {
-              e.stopPropagation();
-              openMenu(!menu);
-            }}
-          />
-        </div>
+            <div className="relative justify-self-end">
+              <Menu
+                isOpen={menu}
+                canAddToCloseFriends={
+                  (isFollowedUser && !userProfile?.isCloseFriend) ?? false
+                }
+                canBlock={!userProfile?.isBlocked}
+                canUnblock={
+                  userProfile?.isBlocked !== undefined
+                    ? userProfile?.isBlocked
+                    : false
+                }
+                canMessage={
+                  userProfile?.isBlocked !== undefined &&
+                  !userProfile.isBlocked &&
+                  !userProfile.hasBlockedUs
+                }
+                closeMenu={() => {
+                  openMenu(false);
+                }}
+                openModal={(arg: "block" | "close" | "unblock" | "message") =>
+                  setModal(arg)
+                }
+                setSelectedUserName={() =>
+                  setSelectedUserName(userProfile.userName)
+                }
+              />
+
+              <img
+                src={more}
+                alt=""
+                className="me-5"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openMenu(!menu);
+                }}
+              />
+            </div>
+          </>
+        )}
       </div>
 
       {isBlockedUs && (
@@ -248,15 +265,11 @@ export const UserPageMobile = () => {
     "block" | "close" | "unblock" | "message" | null
   >(null);
   const navigate = useNavigate();
-  const selectedUser: UserInfoSummary = {
-    userName: userProfile?.userName ?? "",
-    profileImage: userProfile?.profileImage,
-    followerCount: userProfile?.followerCount ?? 0,
-  };
-  //navigate to chat
   useEffect(() => {
     if (modal === "message") {
-      navigate(`/chat/${selectedUser?.userName}`);
+      {
+        userProfile ? navigate(`/chat/${userProfile}`) : () => {};
+      }
     }
   });
   return (
@@ -280,7 +293,9 @@ export const UserPageMobile = () => {
           setModal(null);
         }}
       >
-        <Unblock user={userProfile} close={() => setModal(null)} />
+        {userProfile && (
+          <Unblock user={userProfile} close={() => setModal(null)} />
+        )}
       </Modal>
       <Modal
         isOpen={modal === "close"}
@@ -288,12 +303,14 @@ export const UserPageMobile = () => {
           setModal(null);
         }}
       >
-        <Close
-          user={selectedUser}
-          close={() => {
-            setModal(null);
-          }}
-        />
+        {userProfile && (
+          <Close
+            user={userProfile}
+            close={() => {
+              setModal(null);
+            }}
+          />
+        )}
       </Modal>
       <Modal
         isOpen={isFollowerListOpen && userProfile !== undefined}
@@ -303,6 +320,9 @@ export const UserPageMobile = () => {
       >
         <FollowerList
           userName={userProfile?.userName ?? ""}
+          openChat={() => {
+            navigate("/chat");
+          }}
           close={() => {
             openFollowerList(false);
           }}
@@ -315,6 +335,9 @@ export const UserPageMobile = () => {
         }}
       >
         <FollowingList
+          openChat={() => {
+            navigate("/chat");
+          }}
           userName={userProfile?.userName ?? ""}
           close={() => {
             openFollowingList(false);

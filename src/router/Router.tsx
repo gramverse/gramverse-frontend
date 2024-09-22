@@ -71,6 +71,7 @@ import {
 import { ChatList, ChatListMobile } from "../pages/chat-box/chat-list";
 import { createContext } from "react";
 import { useGetProfile } from "../services/my-page";
+import { ChatBoxMobile } from "../pages/chat-box/chat-box";
 
 export const UserNameContext = createContext<string>("");
 export const AppRoutes = () => {
@@ -183,9 +184,7 @@ export const AppRoutesMobile = () => {
           </Route>
           <Route path="/search" element={<SearchMobile />} />
           <Route path="/chat" element={<ChatListMobile />} />
-          {
-            //add chatbox view mobile
-          }
+          <Route path="/chat/:userName" element={<ChatBoxMobile />} />
           <Route path={urls.mentionPage} element={<MentionPageMobile />} />
           <Route path={urls.bookmarkPage} element={<BookmarkPageMobile />} />
           <Route path="create-post" element={<CreatePostMobile />} />

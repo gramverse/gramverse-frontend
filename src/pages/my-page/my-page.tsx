@@ -4,17 +4,23 @@ import { Gallery, GalleryMobile } from "./gallery";
 import { useGetProfile } from "../../services/my-page";
 import { AccountInfo, AccountInfoMobile } from "./account-info";
 import { Outlet } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Modal, ModalMobile } from "../../components/modal";
 import { EditProfile, EditProfileMoblie } from "./edit-profile";
-import { FollowerList } from "../followinger-list/follower-list";
-import { FollowingList } from "../followinger-list/following-list";
+import { useGetChatId } from "../../services/chat";
+import { ChatBox } from "../chat-box/chat-box";
+import { UserNameContext } from "../../router/Router";
+import { MyFollowerList } from "../followinger-list/my-follower-list";
+import { MyFollowingList } from "../followinger-list/my-following-list";
 
 const MyPageLayout = () => {
   const { data: profile, isSuccess } = useGetProfile();
   const [modal, setModal] = useState<
     "edit" | "following" | "follower" | "message" | null
   >(null);
+  const myUserName = useContext(UserNameContext);
+  const [selectedUserName, setSelectedUserName] = useState("");
+  const { data, isSuccess: isChatIdSuccess } = useGetChatId(selectedUserName);
 
   return (
     <div className="flex h-full w-[64rem] flex-col gap-3 pt-36">
@@ -37,7 +43,9 @@ const MyPageLayout = () => {
             setModal(null);
           }}
         >
-          <FollowerList
+          <MyFollowerList
+            selectedUser={selectedUserName}
+            setSelectedUser={setSelectedUserName}
             userName={profile.userName}
             close={() => {
               setModal(null);
@@ -55,7 +63,9 @@ const MyPageLayout = () => {
             setModal(null);
           }}
         >
-          <FollowingList
+          <MyFollowingList
+            selectedUser={selectedUserName}
+            setSelectedUser={setSelectedUserName}
             userName={profile.userName}
             close={() => {
               setModal(null);
@@ -72,9 +82,13 @@ const MyPageLayout = () => {
           setModal(null);
         }}
       >
-        {
-          //message-modal
-        }
+        {isChatIdSuccess && (
+          <ChatBox
+            close={() => setModal(null)}
+            myUserName={myUserName}
+            chatId={data.chatId}
+          />
+        )}
       </Modal>
       <p className="text-right text-xl font-extrabold leading-8">{"صفحه من"}</p>
       <div className="flex h-44 flex-col gap-3 border border-x-0 border-t-0 border-solid border-form-border pb-8">

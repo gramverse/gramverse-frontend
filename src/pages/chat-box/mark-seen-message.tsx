@@ -1,5 +1,11 @@
-export const MarkSeenMessage = ({ hasSeen, className }: { hasSeen: boolean, className:string; }) => {
-  const sendStateColor: string = hasSeen ? "#81E299" : "#D8D8D8";
+export const MarkSeenMessage = ({
+  hasSeen,
+  className,
+}: {
+  hasSeen: boolean;
+  className: string;
+}) => {
+  const sendStateColor: string = hasSeen ? "#42eb28" : "#D8D8D8";
   return (
     <svg
       width="18"

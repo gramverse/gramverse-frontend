@@ -32,7 +32,7 @@ export const TextMessage = forwardRef<HTMLDivElement, MessageBoxProps>(
           {!isMine && (
             <p className="text-sm font-medium leading-5">{message.userName}</p>
           )}
-          <p className="text-xs font-normal leading-5">
+          <p className="text-wrap break-words text-xs font-normal leading-5">
             {message.content.toString()}
           </p>
           <div className="flex">
@@ -78,25 +78,23 @@ export const TextMessageMobile = forwardRef<HTMLDivElement, MessageBoxProps>(
       >
         <div
           className={clsx(
-            "w-[10.31rem] rounded-b-[2rem] border bg-[#D8D8D8]",
+            "w-[10.31rem] rounded-b-[1.2rem] border bg-[#D8D8D8] p-3",
             isMine
-              ? "ml-auto rounded-l-[2rem] bg-[#F6881F] text-white"
-              : "mr-auto rounded-r-[2rem]",
+              ? "ml-auto rounded-l-[1.2rem] bg-[#F6881F] text-white"
+              : "mr-auto rounded-r-[1.2rem]",
           )}
         >
           {!isMine && (
             <p className="text-sm font-medium leading-5">{message.userName}</p>
           )}
-          <p className="text-xs font-normal leading-5">
+          <p className="text-wrap break-words text-xs font-normal leading-5">
             {message.content.toString()}
           </p>
-          <div className="flex">
-            {isMine && (
-              <MarkSeenMessage className="mr-auto" hasSeen={message.seen} />
-            )}
+          <div className="flex w-full items-baseline justify-end gap-1">
+            {isMine && <MarkSeenMessage className="" hasSeen={message.seen} />}
             <p
               className={clsx(
-                "w-20 text-left text-xs font-light text-[#666668]",
+                "w-fit text-left text-[0.5rem] font-light text-[#666668]",
                 //isMine ? "mr-auto" : "ml-auto",
                 isMine ? "" : "ml-auto",
               )}
