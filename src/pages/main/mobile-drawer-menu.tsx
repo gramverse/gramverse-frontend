@@ -43,7 +43,6 @@ export const DrawerMenu = ({ close }: { close: () => void }) => {
       >
         <AccountsLimitMobile
           close={() => {
-            close();
             setModal(null);
           }}
         />

@@ -10,7 +10,7 @@ type ProfileSummaryProops = {
   size?: "small" | "medium" | "large" | "xlarge";
 };
 export const ProfileSummary = (props: ProfileSummaryProops) => {
-  const { className, hasUserName, size = "medium" } = props;
+  const { className, hasUserName = true, size = "medium" } = props;
   const { data: profileSummary, isSuccess } = useGetProfile();
   const navigate = useNavigate();
   return (

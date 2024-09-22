@@ -36,7 +36,7 @@ export const SearchAccounts = (props: SearchAccountProps) => {
   ]);
 
   return (
-    <div className="flex w-full grow flex-col gap-2 text-right text-xs">
+    <div className="flex h-[535px] w-full grow flex-col justify-start gap-2 text-right text-xs">
       {selectedKeyword !== "" && (
         <Button
           size="medium"
@@ -50,7 +50,7 @@ export const SearchAccounts = (props: SearchAccountProps) => {
           {selectedKeyword}
         </Button>
       )}
-      <div className="grid h-[535px] max-h-fit grid-cols-3 justify-start gap-3">
+      <div className="grid grid-cols-3 content-start gap-3 overflow-y-scroll">
         {data?.pages
           .flatMap((page) => page.users)
           .map((account) => (

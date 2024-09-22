@@ -138,82 +138,90 @@ export const AppRoutes = () => {
 };
 
 export const AppRoutesMobile = () => {
-  const { data } = useGetProfile();
+  const { data, isSuccess } = useGetProfile();
 
   return (
-    <Routes>
-      <Route element={<AuthroizeMobile />}>
-        <Route path={urls.login} element={<LoginMobile />} />
-        <Route path={urls.signup} element={<SignupMoblie />} />
-      </Route>
-
-      <Route
-        path={`${urls.resetPassword}/:token`}
-        element={<ResetPassWordMobile></ResetPassWordMobile>}
-      />
-
-      <Route path={urls.forgetPassword} element={<ForgetPasswordMobile />} />
-      <Route path={urls.forgetPasswordInfo} element={<ForgetPasswordInfo />} />
-      <Route path={"/"} element={<MainMobile />}>
-        <Route
-          path={`/${data?.userName}/post/:postId`}
-          element={<PostViewMobile />}
-        />
-        <Route
-          path="/:userName/post/:postId"
-          element={<UserPostViewMobile />}
-        />
-        <Route element={<ListMobile />}>
-          <Route path={"close-friends"} element={<CloseFriendsMobile />} />
-          <Route path={"black-list"} element={<BlackListMobile />} />
+    <UserNameContext.Provider value={isSuccess ? data.userName : ""}>
+      <Routes>
+        <Route element={<AuthroizeMobile />}>
+          <Route path={urls.login} element={<LoginMobile />} />
+          <Route path={urls.signup} element={<SignupMoblie />} />
         </Route>
-        <Route element={<NotificationMobile />}>
+
+        <Route
+          path={`${urls.resetPassword}/:token`}
+          element={<ResetPassWordMobile></ResetPassWordMobile>}
+        />
+
+        <Route path={urls.forgetPassword} element={<ForgetPasswordMobile />} />
+        <Route
+          path={urls.forgetPasswordInfo}
+          element={<ForgetPasswordInfo />}
+        />
+        <Route path={"/"} element={<MainMobile />}>
           <Route
-            path={"/my-notifications"}
-            element={<MyNotificationsMobile />}
+            path={`/${data?.userName}/post/:postId`}
+            element={<PostViewMobile />}
           />
           <Route
-            path={"/friends-notifications"}
-            element={<FriendsNotificationMobile />}
+            path="/:userName/post/:postId"
+            element={<UserPostViewMobile />}
           />
+          <Route element={<ListMobile />}>
+            <Route path={"close-friends"} element={<CloseFriendsMobile />} />
+            <Route path={"black-list"} element={<BlackListMobile />} />
+          </Route>
+          <Route element={<NotificationMobile />}>
+            <Route
+              path={"/my-notifications"}
+              element={<MyNotificationsMobile />}
+            />
+            <Route
+              path={"/friends-notifications"}
+              element={<FriendsNotificationMobile />}
+            />
+          </Route>
+          <Route path="/search" element={<SearchMobile />} />
+          <Route path="/chat" element={<ChatListMobile />} />
+          {
+            //add chatbox view mobile
+          }
+          <Route path={urls.mentionPage} element={<MentionPageMobile />} />
+          <Route path={urls.bookmarkPage} element={<BookmarkPageMobile />} />
+          <Route path="create-post" element={<CreatePostMobile />} />
+          <Route
+            path="/:userName/post/:postId/edit"
+            element={<EditPostMobile />}
+          />
+          <Route path={"/:userName"} element={<UserPageMobile />} />
+          <Route
+            path={"/:userName/followers"}
+            element={<FollowerListMobile />}
+          />
+          <Route
+            path={"/:userName/followings"}
+            element={<FollowingListMobile />}
+          />
+
+          {data?.userName && (
+            <Route path={`/${data?.userName}`} element={<MyPageMobile />} />
+          )}
+          <Route index element={<ExploreMobile />} />
         </Route>
-        <Route path="/search" element={<SearchMobile />} />
-        <Route path="/chat" element={<ChatListMobile />} />
-        {
-          //add chatbox view mobile
-        }
-        <Route path={urls.mentionPage} element={<MentionPageMobile />} />
-        <Route path={urls.bookmarkPage} element={<BookmarkPageMobile />} />
-        <Route path="create-post" element={<CreatePostMobile />} />
-        <Route
-          path="/:userName/post/:postId/edit"
-          element={<EditPostMobile />}
-        />
-        <Route path={"/:userName"} element={<UserPageMobile />} />
-        <Route path={"/:userName/followers"} element={<FollowerListMobile />} />
-        <Route
-          path={"/:userName/followings"}
-          element={<FollowingListMobile />}
-        />
 
-        {data?.userName && (
-          <Route path={`/${data?.userName}`} element={<MyPageMobile />} />
-        )}
-        <Route index element={<ExploreMobile />} />
-      </Route>
-
-      <Route
-        path={urls.notFound}
-        element={<UrlErrorPageMobile></UrlErrorPageMobile>}
-      />
-      <Route
-        path={urls.serverError}
-        element={<ServerErrorPageMoblie></ServerErrorPageMoblie>}
-      />
-      <Route
-        path="*"
-        element={<UrlErrorPageMobile></UrlErrorPageMobile>}
-      ></Route>
-    </Routes>
+        <Route
+          path={urls.notFound}
+          element={<UrlErrorPageMobile></UrlErrorPageMobile>}
+        />
+        <Route
+          path={urls.serverError}
+          element={<ServerErrorPageMoblie></ServerErrorPageMoblie>}
+        />
+        <Route
+          path="*"
+          element={<UrlErrorPageMobile></UrlErrorPageMobile>}
+        ></Route>
+      </Routes>
+    </UserNameContext.Provider>
   );
 };
