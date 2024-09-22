@@ -17,7 +17,7 @@ import { CommentFieldProps } from "../../types/comment";
 
 export const PostViewWeb = () => {
   const params = useParams();
-  const { data: post, isSuccess } = useGetPost(params.postId);
+  const { data: post, isSuccess, isRefetching } = useGetPost(params.postId);
   const [isEditOpen, OpenEdit] = useState(false);
   const [commentProps, setCommentProps] = useState<CommentFieldProps>({
     parentCommentId: "",
@@ -57,7 +57,7 @@ export const PostViewWeb = () => {
             tags={isSuccess ? post.tags : []}
             creationDate={isSuccess ? post.creationDate : ""}
           />
-          <PostDetailSummary post={post} />
+          <PostDetailSummary post={post} isRefetching={isRefetching} />
           <AddComment postId={isSuccess ? post._id : ""} {...commentProps} />
         </div>
       </div>
@@ -73,7 +73,11 @@ export const PostViewWeb = () => {
 export const PostViewMobile = () => {
   const navigate = useNavigate();
   const params = useParams();
-  const { data: post, isSuccess } = useGetPost(params.postId ?? "");
+  const {
+    data: post,
+    isSuccess,
+    isRefetching,
+  } = useGetPost(params.postId ?? "");
   const [commentProps, setCommentProps] = useState<CommentFieldProps>({
     parentCommentId: "",
     parentCommentUserName: "",
@@ -105,7 +109,7 @@ export const PostViewMobile = () => {
 
       <div className="flex flex-col justify-start self-start">
         <CarouselMobile photoUrls={isSuccess ? post.photoUrls : []} />
-        <PostDetailSummary post={post} />
+        <PostDetailSummary post={post} isRefetching={isRefetching} />
         <PostCaptions
           caption={isSuccess ? post.caption : ""}
           mentions={isSuccess ? post.mentions : []}
