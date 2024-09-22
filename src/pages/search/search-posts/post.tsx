@@ -5,7 +5,7 @@ const sizes: Record<Size, string> = {
   small: "h-16 aspect-square",
   medium: "h-[140px] aspect-square",
   lg: "h-[220px] aspect-square",
-  xl: "h-[300px] aspect-square",
+  xl: "h-[290px] aspect-square",
 };
 interface SearchedPost extends Post {
   size: Size;
