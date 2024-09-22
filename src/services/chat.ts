@@ -1,6 +1,6 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { skipToken, useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useHttpClient } from "../common/http-client";
-import { chatsResponseSchema, unreadCount } from "../types/chat";
+import { chatId, chatsResponseSchema, unreadCount } from "../types/chat";
 
 export const useGetChatList = ({ limit }: { limit: number }) => {
   const httpClient = useHttpClient();
@@ -8,7 +8,7 @@ export const useGetChatList = ({ limit }: { limit: number }) => {
     queryKey: ["chat-list"],
     queryFn: ({ pageParam = 1 }) =>
       httpClient
-        .get(`posts/chatList?page=${pageParam}&limit=${limit}`)
+        .get(`chats/chatList?page=${pageParam}&limit=${limit}`)
         .json()
         .then(chatsResponseSchema.parse),
     initialPageParam: 1,
@@ -26,12 +26,25 @@ export const useGetChatList = ({ limit }: { limit: number }) => {
 export const useGetMessageCount = () => {
   const httpClient = useHttpClient();
   return useQuery({
-    queryKey: ["notificationCount"],
+    queryKey: ["chatCount"],
     queryFn: () =>
-      httpClient
-        .get(`notifications/unreadCount`)
-        .json()
-        .then(unreadCount.parse),
+      httpClient.get(`messages/unreadCount`).json().then(unreadCount.parse),
+    refetchInterval: 120000,
+  });
+};
+
+export const useGetChatId = (userName: string) => {
+  const httpClient = useHttpClient();
+  return useQuery({
+    queryKey: ["chatId", userName],
+    queryFn:
+      userName !== ""
+        ? () =>
+            httpClient
+              .get(`chats/getId?friendUserName=${userName}`)
+              .json()
+              .then(chatId.parse)
+        : skipToken,
     refetchInterval: 120000,
   });
 };

@@ -31,6 +31,9 @@ export const Main = () => {
       case location.pathname.includes("add-account"):
         setTab("addAccount");
         break;
+      case location.pathname.includes("chat"):
+        setTab("messages");
+        break;
       case location.pathname.includes("close-friends") ||
         location.pathname.includes("black-list"):
         setTab("more");
@@ -61,7 +64,8 @@ export const MainMobile = () => {
   useEffect(() => {
     if (
       location.pathname.endsWith("/edit") ||
-      location.pathname.endsWith("/create-post")
+      location.pathname.endsWith("/create-post") ||
+      location.pathname.includes("chat")
     ) {
       showBottomNavigation(false);
     } else {
@@ -71,7 +75,8 @@ export const MainMobile = () => {
   useEffect(() => {
     if (
       location.pathname.includes("/post") ||
-      location.pathname.includes("search")
+      location.pathname.includes("search") ||
+      location.pathname.includes("chat")
     ) {
       showTopNavigation(false);
     } else {

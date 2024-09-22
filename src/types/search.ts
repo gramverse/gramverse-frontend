@@ -29,6 +29,6 @@ export const searchAccountSchema = z.object({
   totalCount: z.number(),
 });
 export const searchPostSchema = z.object({
-  posts: post.array(),
+  filteredPosts: post.array(),
   totalCount: z.number(),
 });

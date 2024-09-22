@@ -72,7 +72,7 @@ export const SearchPosts = ({
       )}
       <div className="flex h-[535px] flex-row flex-wrap gap-3 overflow-y-scroll px-5">
         {data?.pages
-          .flatMap((page) => page.posts)
+          .flatMap((page) => page.filteredPosts)
           .slice(0, 3)
           .map((post) => (
             <SearchedPost
@@ -88,7 +88,7 @@ export const SearchPosts = ({
             />
           ))}
         {data?.pages
-          .flatMap((page) => page.posts)
+          .flatMap((page) => page.filteredPosts)
           .slice(3, 7)
           .map((post) => (
             <SearchedPost
@@ -104,7 +104,7 @@ export const SearchPosts = ({
             />
           ))}
         {data?.pages
-          .flatMap((page) => page.posts)
+          .flatMap((page) => page.filteredPosts)
           .slice(7)
           .map((post) => (
             <SearchedPost
@@ -175,7 +175,7 @@ export const SearchPostsMobile = ({
       )}
       <div className="flex h-[400px] flex-row flex-wrap items-center justify-center gap-3 overflow-y-scroll">
         {data?.pages
-          .flatMap((page) => page.posts)
+          .flatMap((page) => page.filteredPosts)
           .slice(0, 1)
           .map((post) => (
             <SearchedPost
@@ -190,7 +190,7 @@ export const SearchPostsMobile = ({
             />
           ))}
         {data?.pages
-          .flatMap((page) => page.posts)
+          .flatMap((page) => page.filteredPosts)
           .slice(1, 3)
           .map((post) => (
             <SearchedPost
@@ -205,7 +205,7 @@ export const SearchPostsMobile = ({
             />
           ))}
         {data?.pages
-          .flatMap((page) => page.posts)
+          .flatMap((page) => page.filteredPosts)
           .slice(3)
           .map((post) => (
             <SearchedPost

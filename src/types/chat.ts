@@ -5,8 +5,8 @@ export const chat = z.object({
   userName: z.string(),
   lastMessageTime: z.string(),
   lastMessage: z.string(),
-  chatId: z.string(),
-  lastMessageType: z.union([z.literal("text"), z.literal("picture")]),
+  _id: z.string(),
+  lastMessageType: z.union([z.literal("text"), z.literal("image")]),
   unreadCount: z.number(),
 });
 
@@ -18,4 +18,8 @@ export const chatsResponseSchema = z.object({
 
 export const unreadCount = z.object({
   unreadCount: z.number(),
+});
+
+export const chatId = z.object({
+  chatId: z.string(),
 });

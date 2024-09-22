@@ -17,14 +17,15 @@ export const ChatSummary = (props: ChatSummaryProps) => {
     unreadCount,
   } = props;
   return (
-    <div className={clsx("flex w-full items-center gap-5 rounded-2xl py-2")}>
-      <RoundPicture
-        size="large"
-        picture={profileImage}
-        onClick={() => {
-          clickHandler();
-        }}
-      />
+    <div
+      className={clsx(
+        "flex w-full cursor-pointer items-center gap-5 rounded-2xl py-2",
+      )}
+      onClick={() => {
+        clickHandler();
+      }}
+    >
+      <RoundPicture size="large" picture={profileImage} />
       <div className="flex flex-col items-start gap-1">
         <div className="flex items-center gap-2">
           <p className="m-0 p-0">{`${userName}`}</p>
@@ -40,9 +41,11 @@ export const ChatSummary = (props: ChatSummaryProps) => {
             : "یک عکس فرستاده است"}
         </small>
       </div>
-      <span className="flex h-7 w-7 items-center justify-center rounded-full bg-orange-400 text-white">
-        {unreadCount}
-      </span>
+      {unreadCount > 0 && (
+        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-orange-400 text-white">
+          {unreadCount}
+        </span>
+      )}
     </div>
   );
 };

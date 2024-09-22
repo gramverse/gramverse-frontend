@@ -21,6 +21,8 @@ export const useSwitchAccount = (userName: string) => {
         queryKey: ["getProfile"],
       });
       queryClient.invalidateQueries({ queryKey: ["notificationCount"] });
+      queryClient.invalidateQueries({ queryKey: ["chatCount"] });
+
       navigate(`/${userName}`);
     },
     onError: (error) => {

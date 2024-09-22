@@ -11,6 +11,7 @@ export const Menu = ({
   canBlock,
   canUnblock,
   canMessage,
+  setSelectedUserName,
 }: {
   closeMenu: () => void;
   openModal: (arg: "block" | "close" | "unblock" | "message") => void;
@@ -19,6 +20,7 @@ export const Menu = ({
   canMessage: boolean;
   canBlock: boolean;
   canUnblock: boolean;
+  setSelectedUserName?: () => void;
 }) => {
   return (
     <>
@@ -30,6 +32,7 @@ export const Menu = ({
               icon={message}
               onClick={() => {
                 closeMenu();
+                setSelectedUserName?.();
                 openModal("message");
               }}
             />

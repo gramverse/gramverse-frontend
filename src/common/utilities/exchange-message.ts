@@ -198,5 +198,6 @@ export const useExchangeMessage = (
     sendMessage,
     seenMessage,
     lastMessageRef,
+    socket,
   };
 };

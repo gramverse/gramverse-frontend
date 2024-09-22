@@ -12,21 +12,22 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      // "/api": "http://5.34.193.100",
+      // "/api": "http://localhost:3000",
       "/api": "https://diverse.dev1403.rahnemacollege.ir",
       "/socket.io": {
-        target: "ws://localhost:3000",
+        //   // target: "ws://localhost:3000",
+        //   // target: "ws://5.34.193.100",
+        //   target: "ws://diverse.dev1403.rahnemacollege.ir",
+        target: "/socket.io",
         ws: true,
         rewriteWsOrigin: true,
+      },
     },
-  },
-  
   },
   resolve: {
     alias: {
       "@asset": resolve(__dirname, "src/assets"),
       "@component": resolve(__dirname, "src/components"),
-     
-      },
     },
+  },
 });

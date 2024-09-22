@@ -9,7 +9,7 @@ export const Unblock = ({
   user,
   close,
 }: {
-  user: UserInfoSummary | undefined;
+  user: UserInfoSummary;
   close: () => void;
 }) => {
   const { mutate } = useBlockUser(close);
