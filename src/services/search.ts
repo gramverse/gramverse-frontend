@@ -93,35 +93,6 @@ export const useGetPosts = ({
   });
 };
 
-export const useGetSpecPosts = ({
-  limit,
-  keyword,
-}: {
-  limit: number;
-  keyword: string;
-}) => {
-  const httpClient = useHttpClient();
-  return useInfiniteQuery({
-    queryKey: ["search-spec-posts", keyword],
-    queryFn:
-      keyword !== ""
-        ? ({ pageParam }) =>
-            httpClient
-              .get(`search/specTag?page=${pageParam}&limit=3&tag=${keyword}`)
-              .json()
-              .then(searchPostSchema.parse)
-        : skipToken,
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages) => {
-      const remaining = lastPage.totalCount - allPages.length * limit;
-      if (remaining <= 0) {
-        return undefined;
-      }
-      return allPages.length + 1;
-    },
-  });
-};
-
 type HashtagHints = {
   tags: Array<{ _id: string; postCount: number }>;
   totalCount: number;
