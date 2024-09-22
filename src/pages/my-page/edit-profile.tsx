@@ -45,8 +45,11 @@ const EditProfileLayout = ({ close }: { close: () => void }) => {
       ...formData,
       profileImage: photo,
     });
+    console.log({
+      ...formData,
+      profileImage: photo,
+    });
   };
-
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}

@@ -8,7 +8,7 @@ import { TwinTab } from "../../components/twin-tabs";
 
 const AuthenticationLayout = () => {
   const addAccount = localStorage.getItem("addAccount");
-
+  console.log(addAccount);
   const [value, setValue] = useState(0);
   const location = useLocation();
   useEffect(() => {

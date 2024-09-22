@@ -33,7 +33,8 @@ export const AccountsLimitMobile = ({ close }: { close: () => void }) => {
       </p>
       <div className="flex self-end">
         <Button
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             close();
           }}
         >

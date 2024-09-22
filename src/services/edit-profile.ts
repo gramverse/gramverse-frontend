@@ -3,7 +3,7 @@ import { useHttpClient } from "../common/http-client";
 import { ProfileFormValue } from "../types/profile";
 import { handleRequestError } from "../common/utilities/http-error-handler";
 
-export const useEditProfile = (onSuccess: () => void) => {
+export const useEditProfile = (onSuccess?: () => void) => {
   const httpClient = useHttpClient();
   return useMutation({
     mutationFn: ({ profileImage, ...rest }: ProfileFormValue) => {

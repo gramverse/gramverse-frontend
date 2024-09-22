@@ -23,7 +23,6 @@ export const Follow = (props: FollowProps) => {
     isBlocked,
     followRequestState,
     refetch,
-    isRefetching,
   } = props;
   const navigate = useNavigate();
   const myUserName = useContext(UserNameContext);
@@ -55,7 +54,7 @@ export const Follow = (props: FollowProps) => {
               onClick={() => {
                 follow();
               }}
-              isPending={isPending || isRefetching}
+              isPending={isPending}
               classes="text-xs text-nowrap text-right"
             >
               {"دنبال نکردن"}
@@ -69,7 +68,7 @@ export const Follow = (props: FollowProps) => {
               onClick={() => {
                 follow();
               }}
-              isPending={isPending || isRefetching}
+              isPending={isPending}
             >
               {"لغو درخواست"}
             </Button>
@@ -78,7 +77,7 @@ export const Follow = (props: FollowProps) => {
         case "none" || "declined":
           return (
             <Button
-              isPending={isPending || isRefetching}
+              isPending={isPending}
               onClick={() => {
                 follow();
               }}
@@ -110,7 +109,6 @@ export const Follow = (props: FollowProps) => {
     isBlockPending,
     isBlocked,
     isPending,
-    isRefetching,
   ]);
   return (
     <div
