@@ -14,12 +14,19 @@ export default defineConfig({
     proxy: {
       // "/api": "http://5.34.193.100",
       "/api": "https://diverse.dev1403.rahnemacollege.ir",
+      "/socket.io": {
+        target: "ws://localhost:3000",
+        ws: true,
+        rewriteWsOrigin: true,
     },
+  },
+  
   },
   resolve: {
     alias: {
       "@asset": resolve(__dirname, "src/assets"),
       "@component": resolve(__dirname, "src/components"),
+     
+      },
     },
-  },
 });
