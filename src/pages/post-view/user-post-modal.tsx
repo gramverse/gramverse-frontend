@@ -17,7 +17,11 @@ export const UserPostModal = ({
   close: () => void;
 }) => {
   const navigate = useNavigate();
-  const { data: post, isSuccess: isPostSuccess } = useGetPost(postId);
+  const {
+    data: post,
+    isSuccess: isPostSuccess,
+    isRefetching,
+  } = useGetPost(postId);
 
   return (
     <ContainterWeb className="relative flex grow justify-between gap-3 pt-16">
@@ -42,7 +46,7 @@ export const UserPostModal = ({
           tags={isPostSuccess ? post.tags : []}
           creationDate={isPostSuccess ? post.creationDate : ""}
         />
-        <PostDetailSummary post={post} />
+        <PostDetailSummary post={post} isRefetching={isRefetching} />
       </div>
     </ContainterWeb>
   );

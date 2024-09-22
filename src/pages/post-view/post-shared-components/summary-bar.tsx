@@ -4,37 +4,38 @@ import { Like } from "./like";
 import { PostDetailSchema } from "../../../types/post-detail";
 import { Comment } from "./comment-count";
 import { z } from "zod";
+import { useState } from "react";
 
 export const PostDetailSummary = ({
   post,
+  isRefetching,
 }: {
   post: z.infer<typeof PostDetailSchema> | undefined;
+  isRefetching: boolean;
 }) => {
-  const {
-    mutate: likeMutate,
-    isPending: isLikePending,
-    variables: likeVars,
-  } = useLikePost();
-  const {
-    mutate: bookmarkMutate,
-    isPending: isBookmarkPending,
-    variables: bookmarkVars,
-  } = useBookmarkPost();
+  const { mutate: likeMutate, isPending: isLikePending } = useLikePost();
+  const { mutate: bookmarkMutate, isPending: isBookmarkPending } =
+    useBookmarkPost();
+
+  const [isLiked, setIsLiked] = useState(post?.isLiked ?? false);
+  const [isBookmarked, setIsBookmarked] = useState(post?.isBookmarked ?? false);
 
   if (!post) return <div className="m-3 h-[61px]" />;
-
   const changeInLikes = post.isLiked ? -1 : 1;
-  const likesCount = post.likesCount + (isLikePending ? changeInLikes : 0);
+  const likesCount =
+    post.likesCount + (isLikePending || isRefetching ? changeInLikes : 0);
 
   const changeInBookmark = post.isBookmarked ? -1 : 1;
   const BookmarkCount =
-    post.bookmarksCount + (isBookmarkPending ? changeInBookmark : 0);
+    post.bookmarksCount +
+    (isBookmarkPending || isRefetching ? changeInBookmark : 0);
   return (
     <div className="m-3 flex h-[61px] flex-row items-center justify-end gap-4">
       <Like
         count={likesCount}
-        isLiked={isLikePending ? likeVars.isLike : post.isLiked}
+        isLiked={isLikePending || isRefetching ? isLiked : post.isLiked}
         onClick={() => {
+          setIsLiked((isLiked) => !isLiked);
           likeMutate({
             postId: post._id,
             isLike: !post.isLiked,
@@ -44,9 +45,10 @@ export const PostDetailSummary = ({
       <Bookmark
         count={BookmarkCount}
         isBookmarked={
-          isBookmarkPending ? bookmarkVars.isBookmark : post.isBookmarked
+          isBookmarkPending || isRefetching ? isBookmarked : post.isBookmarked
         }
         onClick={() => {
+          setIsBookmarked((isBookmarked) => !isBookmarked);
           bookmarkMutate({
             postId: post._id,
             isBookmark: !post.isBookmarked,
