@@ -68,7 +68,7 @@ import {
   BookmarkPage,
   BookmarkPageMobile,
 } from "../pages/bookmark-page/bookmark-page";
-import { ChatList, ChatListMobile } from "../pages/chat/chat-list";
+import { ChatList, ChatListMobile } from "../pages/chat-box/chat-list";
 import { createContext } from "react";
 import { useGetProfile } from "../services/my-page";
 

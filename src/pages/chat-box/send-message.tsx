@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Emoji from "@asset/svg/emoji.svg";
 import { EmojiKeyboard } from "../../components/emoji/emoji-keyboard";
 import { InputField } from "../../components/input-field";
@@ -6,13 +6,35 @@ import send from "@asset/svg/letter.svg";
 import { UploadPhoto } from "./upload-photo";
 import Close from "@asset/svg/close.svg";
 import clsx from "clsx";
-export const SendMessageLayout = ({ mobile }: { mobile: boolean }) => {
+import { MessageType } from "../../types/chat-box";
+
+type SendMessageProps = {
+  mobile?: boolean;
+  myUsername: string;
+  friendUsername: string;
+  onSendMessage: (
+    content: string,
+    type: MessageType,
+    myUserName: string,
+  ) => void;
+};
+
+export const SendMessageLayout = ({
+  mobile,
+  myUsername,
+  onSendMessage,
+}: SendMessageProps) => {
   const [message, setMessage] = useState("");
   const [isKeyBoardVisible, setKeyboardVisibility] = useState(false);
-  const [photo, setPhoto] = useState<File>();
+  const [photo, setPhoto] = useState<string>();
+  useEffect(() => {
+    if (photo) {
+      setMessage("");
+    }
+  }, [photo]);
   return (
     <div
-      className="relative flex h-10 w-fit items-center justify-center gap-2"
+      className="relative m-auto flex h-10 w-fit items-center justify-center gap-2"
       onClick={() => {
         setKeyboardVisibility(false);
       }}
@@ -39,7 +61,7 @@ export const SendMessageLayout = ({ mobile }: { mobile: boolean }) => {
             onClick={() => setPhoto(undefined)}
           />
           <img
-            src={URL.createObjectURL(photo)}
+            src={typeof photo === "string" ? photo : URL.createObjectURL(photo)}
             className="h-full w-full rounded-2xl object-cover"
           />
         </div>
@@ -53,10 +75,7 @@ export const SendMessageLayout = ({ mobile }: { mobile: boolean }) => {
           setKeyboardVisibility((isKeyBoardVisible) => !isKeyBoardVisible);
         }}
       />
-      <UploadPhoto
-        setSelectedPhoto={(arg: File) => setPhoto(arg)}
-        className="h-5"
-      />
+      <UploadPhoto setSelectedPhoto={(arg) => setPhoto(arg)} className="h-5" />
       <InputField
         id="caption"
         fieldsize={mobile ? "mobile" : "long"}
@@ -69,12 +88,8 @@ export const SendMessageLayout = ({ mobile }: { mobile: boolean }) => {
         maxLength={100}
         onKeyDown={(e) => {
           if (e.key == "Enter") {
-            //add onclick handler
-            if (photo) {
-              //send photo
-            } else if (message !== "") {
-              //send message
-            }
+            const type = photo ? "image" : "text";
+            onSendMessage(photo ?? message, type, myUsername);
             setPhoto(undefined);
             setMessage("");
           }
@@ -85,22 +100,42 @@ export const SendMessageLayout = ({ mobile }: { mobile: boolean }) => {
         alt=""
         className="cursor-pointer"
         onClick={() => {
-          //add onclick handler
-          if (photo) {
-            //send photo
-          } else if (message !== "") {
-            //send message
-          }
+          const type = photo ? "image" : "text";
+          onSendMessage(photo ?? message, type, myUsername);
           setPhoto(undefined);
+          setMessage("");
           setMessage("");
         }}
       />
     </div>
   );
 };
-export const SendMessage = () => {
-  return <SendMessageLayout mobile={false} />;
+
+export const SendMessage = ({
+  myUsername,
+  friendUsername,
+  onSendMessage,
+}: SendMessageProps) => {
+  return (
+    <SendMessageLayout
+      mobile={false}
+      onSendMessage={onSendMessage}
+      myUsername={myUsername}
+      friendUsername={friendUsername}
+    />
+  );
 };
-export const SendMessageMobile = () => {
-  return <SendMessageLayout mobile={true} />;
+export const SendMessageMobile = ({
+  myUsername,
+  friendUsername,
+  onSendMessage,
+}: SendMessageProps) => {
+  return (
+    <SendMessageLayout
+      mobile={true}
+      onSendMessage={onSendMessage}
+      myUsername={myUsername}
+      friendUsername={friendUsername}
+    />
+  );
 };
