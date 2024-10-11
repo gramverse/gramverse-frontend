@@ -1,30 +1,88 @@
-# React + TypeScript + Vite
+<p align="center">
+  <img src="public/gramverse.png" alt="App Logo" style="display: inline-block; margin-right: 20px; width: 200px;" />
+  <img src="public/rahnema-icon.png" alt="Company Logo" style="display: inline-block; width: 200px;" />
+</p>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Repo Size](https://img.shields.io/github/repo-size/reyhaneh-k/Gramverse) ![GitHub Issues](https://img.shields.io/github/issues/reyhaneh-k/Gramverse) ![GitHub Forks](https://img.shields.io/github/forks/reyhaneh-k/Gramverse?style=social) ![GitHub Stars](https://img.shields.io/github/stars/reyhaneh-k/Gramverse?style=social)
 
-Currently, two official plugins are available:
+# 🚀 Gramverse Social Media Web Application
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📖 Table of Contents
+- [About](#about)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Getting Started](#getting-started)
+  - [Installation](#installation)
+  - [Usage](#usage)
+- [Contact](#contact)
+- [Collaborators](#collaborators)
 
-## Expanding the ESLint configuration
+## 🌟 About
+Gramverse is a unique Persian Social Media Web App designed specifically for Persian-speaking users. It provides a comfortable and culturally relevant space for users to connect, share, and interact in their native language. With a user-friendly interface and features tailored to the Persian community, our app bridges the gap in social networking for Persian speakers worldwide. Gramverse is fully responsive, offering both web and mobile versions to ensure a seamless experience across all devices.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 🎉 Features
+- User authentication and profiles
+- Post creation and sharing
+- Real-time messaging
+- Friend/follower system
+- Close friends list
+- Black list functionality
+- User blocking capabilities
+- Post saving feature
+- Multiple account switching
+- Explore page
+- Privacy settings
+- Hashtag and mention support
+- Photo sharing
+- Comment and like system
+- Responsive design (web and mobile versions)
 
-- Configure the top-level `parserOptions` property like this:
+## 💻 Technologies Used
+- Frontend: 
+  - React
+  - React Query
+  - React Router DOM
+  - Tailwind CSS
+- Backend: Node.js
+- Database: MongoDB
+- [Any other significant technologies or libraries used]
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## 🚀 Getting Started
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### Installation
+1. Clone the repo
+   ```
+   git clone https://github.com/reyhaneh_k/gramverse.git
+   ```
+2. Install NPM packages
+   ```
+   npm install
+   ```
+3. [Add any additional steps needed to set up the project]
+
+## 🖥 Usage
+[Provide instructions on how to use your app. Include screenshots if possible.]
+
+
+## 📞 Contact
+Project Link: [https://github.com/reyhaneh-k/gramverse](https://github.com/reyhaneh-k/gramverse)
+
+## 👥 Collaborators
+
+<p align="center">
+    <a href="https://github.com/reyhaneh-k" style="text-decoration: none; color: black;">
+      <img src="https://github.com/reyhaneh-k.png" width="100px;" alt="Reyhaneh Khoshghadam"/>
+    </a>
+    <a href="https://github.com/ghazalmoghadam" style="text-decoration: none; color: black;">
+      <img src="https://github.com/ghazalmoghadam.png" width="100px;" alt="Ghazaleh Moghaddam" />
+    </a>
+    <a href="https://github.com/hamidakhavan21" style="text-decoration: none; color: black;">
+      <img src="https://github.com/hamidakhavan21.png" width="100px;" alt="Hamid Akhavan"/>
+    </a>
+    <a href="https://github.com/AlirezaIzadi6" style="text-decoration: none; color: black;">
+      <img src="https://github.com/AlirezaIzadi6.png" width="100px;" height="100px" alt="Alireza Izadi"/>
+    </a>
+    <a href="https://github.com/alimhp021" style="text-decoration: none; color: black;">
+      <img src="https://github.com/alimhp021.png" width="100px;" alt="Ali Mahdipour"/>
+    </a>
+</p>
