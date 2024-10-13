@@ -61,11 +61,8 @@ Gramverse is a unique Persian Social Media Web App designed specifically for Per
 3. [Add any additional steps needed to set up the project]
 
 ## 🖥 Usage
-[Provide instructions on how to use your app. Include screenshots if possible.]
 
 
-## 📞 Contact
-Project Link: [https://github.com/reyhaneh-k/gramverse](https://github.com/reyhaneh-k/gramverse)
 
 ## 👥 Collaborators
 
