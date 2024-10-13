@@ -43,16 +43,17 @@ Gramverse is a unique Persian Social Media Web App designed specifically for Per
   - React Query
   - React Router DOM
   - Tailwind CSS
+  - Zod
+  - React Hook Form
 - Backend: Node.js
 - Database: MongoDB
-- [Any other significant technologies or libraries used]
 
 ## 🚀 Getting Started
 
 ### Installation
 1. Clone the repo
    ```
-   git clone https://github.com/reyhaneh_k/gramverse.git
+   git clone https://github.com/gramverse/gramverse-frontend.git
    ```
 2. Install NPM packages
    ```
