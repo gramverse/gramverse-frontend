@@ -59,8 +59,6 @@ Gramverse is a unique Persian Social Media Web App designed specifically for Per
    ```
    npm install
    ```
-3. [Add any additional steps needed to set up the project]
-
 ## 🖥 Usage
 
 
